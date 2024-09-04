@@ -1,0 +1,144 @@
+body {
+    margin: 0%;
+    padding: 0%;
+    overflow-x: hidden;
+}
+
+.flex {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0%;
+    padding: 0%;
+}
+
+.body2 {
+    justify-content: start;
+    align-items: start;
+    width: 100%;
+}
+
+.header {
+    background-color: #333333;
+    flex-direction: column;
+    width: 6%;
+    height: 98vh;
+    justify-content: start;
+    padding-top: 1vw;
+    
+}
+
+.navItem {
+    text-decoration: none;
+    color: #ffffff;
+    font-size: .8vw;
+    margin: 0vw;
+    height: 6%;
+    width: 95%;
+    padding-left: 5%;
+    cursor: pointer;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+
+}
+.navItem:hover{
+    background-color: #1A1A1A ;
+}
+
+.databaseBody {
+    background-color: #333333;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    overflow-y: scroll;
+}
+
+.databaseHeader {
+    flex-direction: column;
+    justify-content: start;
+    width: 7%;
+    padding-top: 1vw;
+    border-right: solid 1px #ffffff;
+    background-color: #333333;
+}
+
+.databaseItem {
+    color: #ffffff;
+    text-decoration: none;
+    height: 5%;
+    width: 95%;
+    font-size: .7vw;
+    font-weight: 100;
+    justify-content: start;
+    padding-left: 5%;
+}
+.databaseDiv{
+    width: 100%;
+}
+
+.tableHeader {
+    height: auto;
+    width: 98.7%;
+    justify-content: space-between;
+    padding-left: 1vw;
+    overflow-x: scroll;
+
+}
+.tableHeader::-webkit-scrollbar{
+    display: none;
+    width: 0%;
+    height: 0%;
+}
+
+.table {
+    padding: 1vw;
+    font-size: 1vw;
+    color: #66B2FF;
+}
+.BlueBlackBtn{
+    background-color: #66B2FF;
+    color: #333333;
+    padding: .7vw;
+    border-radius: 1vw;
+    font-size: .8vw;
+}
+.TableDisplay{
+    margin-top: 10%;
+    margin-left: 1%;
+    padding: 0%;
+}
+.tableDesc{
+    text-align: center;
+    font-size: 1vw;
+    color: #66B2FF;
+    margin: 0%;
+}
+.tableIDDesc{
+    width: 1.5vw;
+    text-align: center;
+    font-size: 1vw;
+    color: #66B2FF;
+    margin: 0%;
+}
+.tableRow{
+    margin: 0%;
+    padding: 0%;
+}
+.tableData{
+    padding-left: .5vw;
+    height: 2vw;
+    width: 10vw;
+    margin: 0%;
+    border: solid 1px #66B2FF;
+    color: #ffffff;
+    font-size: .7vw;
+}
+.tableID{
+    height: 2vw;
+    width: 1.5vw;
+    font-size: 1.2vw;
+    margin: 0%;
+    color: #ffffff;
+    text-align: center;
+}
