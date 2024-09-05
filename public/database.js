@@ -75,12 +75,22 @@ const loadData = async (database, table) => {
     })
     let columns = await response.json()
     let tableRow = document.createElement("tr")
+    document.getElementsByClassName("TableDisplay")[0].appendChild(tableRow)
     for (let i = 0; i < columns.length; i++) {
         let column = columns[i]
         let tableData = document.createElement("td")
         tableData.setAttribute("class", "tableDesc")
         tableData.innerHTML = column.Field
         tableRow.appendChild(tableData)
+    }
+    let itemResponse = await fetch(`/Select/data/${database}/${table}`, {
+        method: "GET"
+    })
+    let data = await itemResponse.json()
+    for (let i = 0; i < data.length; i++) {
+        let row = data[i]
+        console.log(row);
+        
     }
 }
 
