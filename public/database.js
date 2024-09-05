@@ -10,6 +10,7 @@ const blackListedDBs = [
 
 ]
 const fetchDatabases = async () => {
+    document.getElementsByClassName("databaseHeader")[0].innerHTML = ""
     const data = await fetch("/FetchDatabases", {
         method: "GET"
     });
@@ -130,8 +131,6 @@ document.getElementsByClassName("ModalBtn")[0].addEventListener("click", async (
         },
         body: JSON.stringify(data)
     })
-    let response = await success.json()
-    console.log(response);
     
     closeModal("NewDatabaseModal")
     fetchDatabases()
