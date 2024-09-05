@@ -52,6 +52,17 @@ app.get('/get/Tables/:a', (req, res) => {
         res.send(data);
     });
 });
+app.get('/get/columns/:a/:b', (req, res) => {
+    console.log("Recieved")
+    connection.query(`use ${req.params.a}`)
+    connection.query('DESCRIBE ' + req.params.b, function (err, result, fields) {
+        console.log(result)
+        let data = JSON.parse(JSON.stringify(result));
+        console.log(data)
+        res.send(data);
+    });
+});
+
 
 
 

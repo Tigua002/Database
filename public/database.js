@@ -58,10 +58,12 @@ const loadTables = async (database) => {
             loadData(database, table["Tables_in_" + database])
         })
         for (let i = 0; i < document.getElementsByClassName("table").length; i++) {
-            document.getElementsByClassName("table")[i].style.background = "66B2FF";
-            document.getElementsByClassName("table")[i].style.color = "#333333";
+            document.getElementsByClassName("table")[i].style.background = "#333333";
+            document.getElementsByClassName("table")[i].style.color = "#66B2FF";
 
         }
+        h1.style.background = "#66B2FF";
+        h1.style.color = "#333333";
     }
 }
 
