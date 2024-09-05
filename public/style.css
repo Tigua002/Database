@@ -112,6 +112,7 @@ body {
     padding: 1vw;
     font-size: 1vw;
     color: #66B2FF;
+    cursor: pointer;
 }
 .BlueBlackBtn{
     background-color: #66B2FF;
