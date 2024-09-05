@@ -54,6 +54,14 @@ const loadTables = async (database) => {
     })
     let tables = await response.json()
     console.log(tables);
+    for (let i = 0; i < tables.length; i++) {
+        let table = tables[i]
+        let h1 = document.createElement("h1")
+        h1.setAttribute("class", "table flex")
+        h1.innerHTML = table["Tables_in_" + database]
+        document.getElementsByClassName("tableHolder").appendChild(h1)
+        
+    }
     
 }
 
