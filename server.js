@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 const mysql = require('mysql2');
 
 // Define the port to use
-const PORT = 5000;
+const PORT = 33345;
 app.listen(PORT, () => console.log(`Server is running on port: ${PORT}`));
 
 // Middleware for parsing request bodies
@@ -42,9 +42,9 @@ app.get('/FetchDatabases', (req, res) => {
         res.send(data);
     });
 });
-app.get('/get/Tables', (req, res) => {
+app.get('/get/Tables/:a', (req, res) => {
     console.log("Recieved")
-    connection.query(`use ${req.body.db}`)
+    connection.query(`use ${req.params.a}`)
     connection.query('SHOW TABLES', function (err, result, fields) {
         console.log(result)
         let data = JSON.parse(JSON.stringify(result));

@@ -48,15 +48,8 @@ const loadTables = async (database) => {
     let data = {
         db: database
     }
-    const response = await fetch("/get/Tables", {
-        method: "GET",
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        
-        body: {
-            data
-        }
+    const response = await fetch("/get/Tables/" + database, {
+        method: "GET"
 
     })
     let tables = await response.json()
