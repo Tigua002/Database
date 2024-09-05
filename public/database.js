@@ -10,7 +10,8 @@ const blackListedDBs = [
 
 ]
 const fetchDatabases = async () => {
-    document.getElementsByClassName("databaseHeader")[0].innerHTML = ""
+    document.getElementsByClassName("databaseHeader")[0].innerHTML = '<h1 class="SmlBBBtn">New Database</h1>'
+    document.getElementsByClassName("SmlBBBtn")[0].addEventListener("click", () => { openModal("NewDatabaseModal") })
     const data = await fetch("/FetchDatabases", {
         method: "GET"
     });
@@ -112,7 +113,7 @@ const closeModal = (name) => {
     modal.close()
     modal.style.display = "none"
 }
-document.getElementsByClassName("SmlBBBtn")[0].addEventListener("click", () => { openModal("NewDatabaseModal") })
+
 document.getElementsByClassName("ModalClose")[0].addEventListener("click", () => { closeModal("NewDatabaseModal") })
 document.getElementsByClassName("BlueBlackBtn")[1].addEventListener("click", () => { openModal("NewTableModal") })
 
