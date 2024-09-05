@@ -118,6 +118,8 @@ document.getElementsByClassName("BlueBlackBtn")[1].addEventListener("click", () 
 //Create a database
 document.getElementsByClassName("ModalBtn")[0].addEventListener("click", async () => {
     let dbName = document.getElementsByClassName("ModalInp")[0].value
+    console.log(dbName);
+    
     const data = {
         db: dbName
     }

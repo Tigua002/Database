@@ -34,6 +34,8 @@ app.get('/', (req, res) => {
 });
 
 app.post("/create/database", function (req, res) {
+    console.log(req.body.db);
+    
     // Use parameterized query to insert user
     connection.execute('CREATE DATABASE ?', [req.body.db], function (err, result) {
         if (err) {
