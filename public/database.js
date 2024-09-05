@@ -89,8 +89,14 @@ const loadData = async (database, table) => {
     let data = await itemResponse.json()
     for (let i = 0; i < data.length; i++) {
         let row = data[i]
-        console.log(row);
-        
+        let tableDataRow = document.createElement("tr")
+        document.getElementsByClassName("TableDisplay")[0].appendChild(tableDataRow)
+        for (let i = 0; i < columns.length; i++) {
+            let column = columns[i]
+            let tableData = document.createElement("td")
+            tableData.setAttribute("class", "tableData")
+            tableData.innerHTML = row[column.Field]
+        }
     }
 }
 
