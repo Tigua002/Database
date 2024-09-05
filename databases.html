@@ -12,8 +12,21 @@
     <div class="body2 flex">
 
         <div class="header flex">
-            <a href="index.html" class="navItem">HOME</a>
-            <a href="databases.html" class="navItem">DATABASES</a>
+            <a href="index.html" class="navItem">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="#66B2FF" class="navImg">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
+                </svg>
+
+            </a>
+            <a href="databases.html" class="navItem">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1"
+                    stroke="#66B2FF" class="navImg">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125" />
+                </svg>
+            </a>
             <a href="" class="navItem">HOME</a>
             <a href="" class="navItem">HOME</a>
         </div>
@@ -97,11 +110,15 @@
     </div>
 </body>
 <script>
-    document.getElementsByClassName("navItem")[1].style.background = "#66B2FF"
-    document.getElementsByClassName("navItem")[1].style.color = "#333333"
+    //Header styling
+    document.getElementsByClassName("navItem")[1].style.background = "#66b2ff"
+    document.getElementsByClassName("navImg")[1].setAttribute("stroke", "#333333")
+    //Database Header styling
     document.getElementsByClassName("databaseItem")[1].style.background = "#ffffff"
     document.getElementsByClassName("databaseItem")[1].style.color = "#66B2FF"
-        document.getElementsByClassName("table")[2].style.background = "#66B2FF"
+    //Table list styling
+    document.getElementsByClassName("table")[2].style.background = "#66B2FF"
     document.getElementsByClassName("table")[2].style.color = "#333333"
 </script>
+
 </html>

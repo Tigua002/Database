@@ -2,6 +2,7 @@ body {
     margin: 0%;
     padding: 0%;
     overflow-x: hidden;
+    background-color: #444444;
 }
 
 .flex {
@@ -19,7 +20,7 @@ body {
 }
 
 .header {
-    background-color: #333333;
+    background-color: #444444;
     flex-direction: column;
     width: 6%;
     height: 98vh;
@@ -34,13 +35,18 @@ body {
     font-size: .8vw;
     margin: 0vw;
     height: 6%;
-    width: 95%;
-    padding-left: 5%;
+    width: 70%;
     cursor: pointer;
     display: flex;
-    justify-content: start;
+    justify-content: center;
     align-items: center;
-
+    border-radius: 1vw;
+    margin: .3vw;
+}
+.navImg{
+    width: 2.7vw;
+    height: 2.7vw;
+    
 }
 .navItem:hover{
     background-color: #1A1A1A ;
@@ -52,6 +58,8 @@ body {
     height: 100vh;
     display: flex;
     overflow-y: scroll;
+    border-top-left-radius: 1%;
+    border-bottom-left-radius: 1%;
 }
 
 .databaseHeader {
@@ -61,17 +69,18 @@ body {
     padding-top: 1vw;
     border-right: solid 1px #ffffff;
     background-color: #333333;
+    
 }
 
 .databaseItem {
     color: #ffffff;
     text-decoration: none;
     height: 5%;
-    width: 95%;
+    width: 90%;
     font-size: .7vw;
     font-weight: 100;
     justify-content: start;
-    padding-left: 5%;
+    padding-left: 10%;
 }
 .databaseDiv{
     width: 100%;
