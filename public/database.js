@@ -1,12 +1,6 @@
 //Header styling
 document.getElementsByClassName("navItem")[1].style.background = "#66b2ff"
 document.getElementsByClassName("navImg")[1].setAttribute("stroke", "#333333")
-//Database Header styling
-document.getElementsByClassName("databaseItem")[1].style.background = "#ffffff"
-document.getElementsByClassName("databaseItem")[1].style.color = "#66B2FF"
-//Table list styling
-document.getElementsByClassName("table")[2].style.background = "#66B2FF"
-document.getElementsByClassName("table")[2].style.color = "#333333"
 
 const blackListedDBs = [
     "information_schema",
@@ -33,7 +27,7 @@ const fetchDatabases = async () => {
             for (let i = 0; i < document.getElementsByClassName("databaseItem").length; i++) {
                 document.getElementsByClassName("databaseItem")[i].style.background = "none";
                 document.getElementsByClassName("databaseItem")[i].style.color = "#ffffff";
-                
+
             }
             h1.style.background = "#ffffff"
             h1.style.color = "#66B2FF"
@@ -59,10 +53,29 @@ const loadTables = async (database) => {
         let h1 = document.createElement("h1")
         h1.setAttribute("class", "table flex")
         h1.innerHTML = table["Tables_in_" + database]
-        document.getElementsByClassName("tableHolder").appendChild(h1)
+        document.getElementsByClassName("tableHolder")[0].appendChild(h1)
+        h1.addEventListener("click", () => {
+            loadData(database, table["Tables_in_" + database])
+        })
+        for (let i = 0; i < document.getElementsByClassName("table").length; i++) {
+            document.getElementsByClassName("table")[i].style.background = "66B2FF";
+            document.getElementsByClassName("table")[i].style.color = "#333333";
+
+        }
+    }
+}
+
+const loadData = async (database, table) => {
+    document.getElementsByClassName("TableDisplay")[0].innerHTML = ""
+    let response = await fetch(`/get/columns/${database}/${table}`, {
+        method: "GET"
+    })
+    let columns = await response.json()
+    for (let i = 0; i < columns.length; i++) {
+        console.log(columns);
+        
         
     }
-    
 }
 
 fetchDatabases()
