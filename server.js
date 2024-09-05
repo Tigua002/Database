@@ -30,7 +30,7 @@ connection.connect();
 
 // Serve the index.html file
 app.get('/', (req, res) => {
-    res.sendFile(__dirname + "/client/index.html");
+    res.sendFile(__dirname + "/public/index.html");
 });
 
 app.get('/FetchDatabases', (req, res) => {
@@ -42,4 +42,4 @@ app.get('/FetchDatabases', (req, res) => {
         res.send(data);
     });
 });
-app.use(express.static("client"));
+app.use(express.static("public"));

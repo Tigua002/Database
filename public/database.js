@@ -29,6 +29,17 @@ const fetchDatabases = async () => {
         h1.setAttribute("class", "databaseItem flex")
         h1.innerHTML = databases[i].Database
         document.getElementsByClassName("databaseHeader")[0].appendChild(h1)
+        h1.addEventListener("click", () => {
+            loadTables(databases[i].Database)
+        })
     }
 }
+
+
+const loadTables = async (database) => {
+    document.getElementsByClassName("tableHolder")[0].innerHTML = '<h1 class="BlueBlackBtn">Database Details</h1>'
+}
+
 fetchDatabases()
+
+
