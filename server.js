@@ -17,7 +17,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 // Test database connection
 const connection = mysql.createConnection({
-    host: '172.104.242.87',
+    host: 'localhost',
     user: "databaseManager",
     password: "Testing",
     database: "WebChat"
@@ -42,4 +42,17 @@ app.get('/FetchDatabases', (req, res) => {
         res.send(data);
     });
 });
+app.get('/get/Tables', (req, res) => {
+    console.log("Recieved")
+    connection.query(`use ${req.body.db}`)
+    connection.query('SHOW TABLES', function (err, result, fields) {
+        console.log(result)
+        let data = JSON.parse(JSON.stringify(result));
+        console.log(data)
+        res.send(data);
+    });
+});
+
+
+
 app.use(express.static("public"));
