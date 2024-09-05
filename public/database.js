@@ -55,15 +55,16 @@ const loadTables = async (database) => {
         h1.innerHTML = table["Tables_in_" + database]
         document.getElementsByClassName("tableHolder")[0].appendChild(h1)
         h1.addEventListener("click", () => {
+            for (let i = 0; i < document.getElementsByClassName("table").length; i++) {
+                document.getElementsByClassName("table")[i].style.background = "#333333";
+                document.getElementsByClassName("table")[i].style.color = "#66B2FF";
+    
+            }
+            h1.style.background = "#66B2FF";
+            h1.style.color = "#333333";
             loadData(database, table["Tables_in_" + database])
         })
-        for (let i = 0; i < document.getElementsByClassName("table").length; i++) {
-            document.getElementsByClassName("table")[i].style.background = "#333333";
-            document.getElementsByClassName("table")[i].style.color = "#66B2FF";
 
-        }
-        h1.style.background = "#66B2FF";
-        h1.style.color = "#333333";
     }
 }
 
@@ -73,10 +74,13 @@ const loadData = async (database, table) => {
         method: "GET"
     })
     let columns = await response.json()
+    let tableRow = document.createElement("tr")
     for (let i = 0; i < columns.length; i++) {
-        console.log(columns);
-        
-        
+        let column = columns[i]
+        let tableData = document.createElement("td")
+        tableData.setAttribute("class", "tableDesc")
+        tableData.innerHTML = column.Field
+        tableRow.appendChild(tableData)
     }
 }
 
