@@ -31,14 +31,14 @@ const fetchDatabases = async () => {
                 document.getElementsByClassName("databaseItem")[i].style.color = "#ffffff";
 
             }
+            h1.style.background = "#ffffff"
+            h1.style.color = "#66B2FF"
             loadTables(databases[i].Database)
         })
     }
 }
 
-const loadTables = async (database, e) => {
-    e.target.style.background = "#ffffff"
-    e.target.style.color = "#66B2FF"
+const loadTables = async (database) => {
     document.getElementsByClassName("tableHolder")[0].innerHTML = '<h1 class="BlueBlackBtn">Database Details</h1>'
     document.getElementsByClassName("TableDisplay")[0].innerHTML = ""
 
@@ -48,7 +48,6 @@ const loadTables = async (database, e) => {
     })
     let tables = await response.json()
     console.log(tables);
-    
     for (let i = 0; i < tables.length; i++) {
         let table = tables[i]
         let h1 = document.createElement("h1")
@@ -135,8 +134,6 @@ document.getElementsByClassName("ModalBtn")[0].addEventListener("click", async (
     })
 
     closeModal("NewDatabaseModal")
-    fetchDatabases()
-    loadTables(dbName)
 
 })
 fetchDatabases()
