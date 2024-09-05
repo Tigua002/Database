@@ -31,25 +31,24 @@ const fetchDatabases = async () => {
                 document.getElementsByClassName("databaseItem")[i].style.color = "#ffffff";
 
             }
-            h1.style.background = "#ffffff"
-            h1.style.color = "#66B2FF"
             loadTables(databases[i].Database)
         })
     }
 }
 
-const loadTables = async (database) => {
+const loadTables = async (database, e) => {
+    e.target.style.background = "#ffffff"
+    e.target.style.color = "#66B2FF"
     document.getElementsByClassName("tableHolder")[0].innerHTML = '<h1 class="BlueBlackBtn">Database Details</h1>'
     document.getElementsByClassName("TableDisplay")[0].innerHTML = ""
-    let data = {
-        db: database
-    }
+
     const response = await fetch("/get/Tables/" + database, {
         method: "GET"
 
     })
     let tables = await response.json()
     console.log(tables);
+    
     for (let i = 0; i < tables.length; i++) {
         let table = tables[i]
         let h1 = document.createElement("h1")
@@ -111,7 +110,7 @@ const openModal = (name) => {
 const closeModal = (name) => {
     let modal = document.getElementsByClassName(name)[0]
     console.log(modal);
-    
+
     modal.close()
     modal.style.display = "none"
 }
@@ -123,7 +122,7 @@ document.getElementsByClassName("BlueBlackBtn")[1].addEventListener("click", () 
 document.getElementsByClassName("ModalBtn")[0].addEventListener("click", async () => {
     let dbName = document.getElementsByClassName("ModalInp")[0].value
     console.log(dbName);
-    
+
     const data = {
         db: dbName
     }
@@ -134,7 +133,7 @@ document.getElementsByClassName("ModalBtn")[0].addEventListener("click", async (
         },
         body: JSON.stringify(data)
     })
-    
+
     closeModal("NewDatabaseModal")
     fetchDatabases()
     loadTables(dbName)
