@@ -62,6 +62,16 @@ app.get('/get/columns/:a/:b', (req, res) => {
         res.send(data);
     });
 });
+app.get('/Select/data/:a/:b', (req, res) => {
+    console.log("Recieved")
+    connection.query(`use ${req.params.a}`)
+    connection.query('SELECT * FROM ' + req.params.b, function (err, result, fields) {
+        console.log(result)
+        let data = JSON.parse(JSON.stringify(result));
+        console.log(data)
+        res.send(data);
+    });
+});
 
 
 
