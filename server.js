@@ -13,7 +13,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 // Serve static files from the 'client' directory
-app.use(express.static("client"));
+
 
 // Test database connection
 const connection = mysql.createConnection({
@@ -42,3 +42,4 @@ app.get('/FetchDatabases', (req, res) => {
         res.send(data);
     });
 });
+app.use(express.static("client"));
