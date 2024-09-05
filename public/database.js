@@ -131,6 +131,7 @@ document.getElementsByClassName("ModalBtn")[0].addEventListener("click", async (
         }
     })
     let response = await success.json()
+    closeModal(NewDatabaseModal)
     fetchDatabases()
     loadTables(dbName)
 
