@@ -33,6 +33,18 @@ app.get('/', (req, res) => {
     res.sendFile(__dirname + "/public/index.html");
 });
 
+app.post("/create/database", function (req, res) {
+    // Use parameterized query to insert user
+    connection.execute('CREATE DATABASE ?', [req.body.db], function (err, result) {
+        if (err) {
+            console.error("Error creating user:", err);
+            res.status(500).send("Error creating user");
+            return;
+        }
+        res.send("Successfully initiated a database");
+    });
+});
+
 app.get('/FetchDatabases', (req, res) => {
     console.log("Recieved")
     connection.query('SHOW DATABASES', function (err, result, fields) {

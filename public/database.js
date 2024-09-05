@@ -36,9 +36,9 @@ const fetchDatabases = async () => {
     }
 }
 
-
 const loadTables = async (database) => {
     document.getElementsByClassName("tableHolder")[0].innerHTML = '<h1 class="BlueBlackBtn">Database Details</h1>'
+    document.getElementsByClassName("TableDisplay")[0].innerHTML = ""
     let data = {
         db: database
     }
@@ -58,7 +58,7 @@ const loadTables = async (database) => {
             for (let i = 0; i < document.getElementsByClassName("table").length; i++) {
                 document.getElementsByClassName("table")[i].style.background = "#333333";
                 document.getElementsByClassName("table")[i].style.color = "#66B2FF";
-    
+
             }
             h1.style.background = "#66B2FF";
             h1.style.color = "#333333";
@@ -96,10 +96,45 @@ const loadData = async (database, table) => {
             let tableData = document.createElement("td")
             tableData.setAttribute("class", "tableData")
             tableData.innerHTML = row[column.Field]
+            tableDataRow.appendChild(tableData)
         }
     }
 }
 
+const openModal = (name) => {
+    let modal = document.getElementsByClassName(name)[0]
+    modal.showModal()
+    modal.style.display = "flex"
+}
+const closeModal = (name) => {
+    let modal = document.getElementsByClassName(name)[0]
+    modal.close()
+    modal.style.display = "none"
+}
+document.getElementsByClassName("SmlBBBtn")[0].addEventListener("click", () => { openModal("NewDatabaseModal") })
+document.getElementsByClassName("ModalClose")[0].addEventListener("click", () => { closeModal("NewDatabaseModal") })
+document.getElementsByClassName("BlueBlackBtn")[1].addEventListener("click", () => { openModal("NewTableModal") })
+
+//Create a database
+document.getElementsByClassName("ModalBtn")[0].addEventListener("click", async () => {
+    let dbName = document.getElementsByClassName("ModalInp")[0].value
+    const data = {
+        db: dbName
+    }
+    let success = await fetch("/create/database", {
+        method: "POST",
+        headers: {
+            'Content-Type': "'application/json"
+        },
+        body: {
+            data
+        }
+    })
+    let response = await success.json()
+    fetchDatabases()
+    loadTables(dbName)
+
+})
 fetchDatabases()
 
 
