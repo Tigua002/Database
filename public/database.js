@@ -133,7 +133,7 @@ document.getElementsByClassName("ModalBtn")[0].addEventListener("click", async (
     let response = await success.json()
     console.log(response);
     
-    closeModal(NewDatabaseModal)
+    closeModal("NewDatabaseModal")
     fetchDatabases()
     loadTables(dbName)
 

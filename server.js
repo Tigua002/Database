@@ -37,10 +37,10 @@ app.post("/create/database", function (req, res) {
     console.log(req.body.db);
     
     // Use parameterized query to insert user
-    connection.execute('CREATE DATABASE ?', [req.body.db], function (err, result) {
+    connection.query('CREATE DATABASE ' + req.body.db, function (err, result) {
         if (err) {
             console.error("Error creating user:", err);
-            res.status(500).send("Error creating user");
+            res.status(500).send(err);
             return;
         }
         res.send("Successfully initiated a database");
