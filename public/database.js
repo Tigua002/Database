@@ -126,13 +126,13 @@ document.getElementsByClassName("ModalBtn")[0].addEventListener("click", async (
     let success = await fetch("/create/database", {
         method: "POST",
         headers: {
-            'Content-Type': "'application/json"
+            'Content-Type': 'application/json'
         },
-        body: {
-            data
-        }
+        body: JSON.stringify(data)
     })
     let response = await success.json()
+    console.log(response);
+    
     closeModal(NewDatabaseModal)
     fetchDatabases()
     loadTables(dbName)
