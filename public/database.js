@@ -127,7 +127,7 @@ document.getElementsByClassName("ModalBtn")[0].addEventListener("click", async (
     const data = {
         db: dbName
     }
-    fetch("/create/database", {
+    await fetch("/create/database", {
         method: "POST",
         headers: {
             'Content-Type': 'application/json'

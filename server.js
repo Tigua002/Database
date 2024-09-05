@@ -43,6 +43,7 @@ app.post("/create/database", function (req, res) {
             res.status(500).send(err);
             return;
         }
+        res.send(result)
     });
 });
 
