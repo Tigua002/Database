@@ -82,6 +82,7 @@ body {
     font-weight: 100;
     justify-content: start;
     padding-left: 10%;
+    cursor: pointer;
 }
 .databaseDiv{
     width: 100%;

@@ -39,7 +39,7 @@ const fetchDatabases = async () => {
 }
 
 const loadTables = async (database) => {
-    document.getElementsByClassName("tableHolder")[0].innerHTML = '<h1 class="BlueBlackBtn">Database Details</h1>'
+    document.getElementsByClassName("tableHolder")[0].innerHTML = ''
     document.getElementsByClassName("TableDisplay")[0].innerHTML = ""
 
     const response = await fetch("/get/Tables/" + database, {
@@ -134,6 +134,7 @@ document.getElementsByClassName("ModalBtn")[0].addEventListener("click", async (
     })
 
     closeModal("NewDatabaseModal")
+    fetchDatabases()
 
 })
 fetchDatabases()
