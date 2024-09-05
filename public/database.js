@@ -110,6 +110,8 @@ const openModal = (name) => {
 }
 const closeModal = (name) => {
     let modal = document.getElementsByClassName(name)[0]
+    console.log(modal);
+    
     modal.close()
     modal.style.display = "none"
 }
@@ -125,7 +127,7 @@ document.getElementsByClassName("ModalBtn")[0].addEventListener("click", async (
     const data = {
         db: dbName
     }
-    let success = await fetch("/create/database", {
+    fetch("/create/database", {
         method: "POST",
         headers: {
             'Content-Type': 'application/json'
