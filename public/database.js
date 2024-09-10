@@ -217,7 +217,7 @@ document.getElementsByClassName("TableForm")[0].addEventListener("submit", async
         
         let name = document.getElementsByClassName("RowName")[i].value
         let type = document.getElementsByClassName("TableType")[i].value
-        tableArray.push({ Rowname: name, type: type });
+        tableArray.push({ name: name, type: type });
 
     }
     console.log(tableName);
@@ -245,9 +245,9 @@ document.getElementsByClassName("TableForm")[0].addEventListener("submit", async
 document.getElementById("InsertData").addEventListener("click", async () => {
     let dataArray = []
     for (let i = 0; i < document.getElementsByClassName("InsertDataInp").length; i++) {
-        let rowName = document.getElementsByClassName("InsertDataH1")[i].value
+        let rowName = document.getElementsByClassName("InsertDataH1")[i].innerHTML
         let rowValue = document.getElementsByClassName("InsertDataInp")[i].value
-        dataArray.push({name: rowName, value: rowValue})
+        dataArray.push({ name: rowName, value: rowValue })
         
     }
     const data = {

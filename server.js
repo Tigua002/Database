@@ -72,11 +72,11 @@ app.post("/insert/data", function (req, res) {
     for (let i = 0; i < req.body.array.length; i++) {
         let table = req.body.array[i]
         if (i == 0) {
-            rows += `${table.Rowname}`
-            values += `"${table.values}"`
+            rows += `${table.name}`
+            values += `"${table.value}"`
         } else {
-            rows += ` ,${table.Rowname}`
-            values += ` ,"${table.values}"`
+            rows += ` ,${table.name}`
+            values += ` ,"${table.value}"`
         }
     }
     connection.query(`use ${req.body.db}`)
