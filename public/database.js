@@ -137,7 +137,7 @@ document.getElementsByClassName("dataInsertBtn")[0].addEventListener("click", ()
         input.setAttribute("class", "InsertDataInp")
         input.setAttribute("placeholder", "...")
         input.setAttribute("type", "text")
-        h1.innerHTML = document.getElementsByClassName("tableDesc")[i].innerHTML + ":"
+        h1.innerHTML = document.getElementsByClassName("tableDesc")[i].innerHTML
 
         document.getElementsByClassName("dataInsertDiv")[0].appendChild(div)
         div.appendChild(h1)
@@ -245,8 +245,8 @@ document.getElementsByClassName("TableForm")[0].addEventListener("submit", async
 document.getElementById("InsertData").addEventListener("click", async () => {
     let dataArray = []
     for (let i = 0; i < document.getElementsByClassName("InsertDataInp").length; i++) {
-        let rowName = document.getElementsByClassName("InsertDataH1")[i]
-        let rowValue = document.getElementsByClassName("InsertDataInp")[i]
+        let rowName = document.getElementsByClassName("InsertDataH1")[i].value
+        let rowValue = document.getElementsByClassName("InsertDataInp")[i].value
         dataArray.push({name: rowName, value: rowValue})
         
     }

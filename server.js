@@ -84,7 +84,7 @@ app.post("/insert/data", function (req, res) {
     connection.query(`INSERT INTO ${req.body.table} (${rows} VALUES (${values}))`, function (err, result) {
         if (err) {
             console.error("Error creating user:", err);
-            res.status(500).send(err);
+            res.status(500).send(req.body);
             return;
         }
         res.send(result)
