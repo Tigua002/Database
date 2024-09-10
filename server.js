@@ -47,12 +47,18 @@ app.post("/create/database", function (req, res) {
 });
 app.post("/create/table", function (req, res) {
     
-    connection.query(`use ${req.body.db}`)
+    connection.query(`use ${req.body.db}`, function (err, result) {
+        if (err) {
+            console.error("Error creating user:", err);
+            res.status(500).send(req.body);
+            return;
+        }
+    })
     
     let string = ""
     for (let i = 0; i < req.body.tableArray.length; i++) {
         let table = req.body.tableArray[i]
-        if (i = 0) {
+        if (i == 0) {
             string += `${table.name} ${table.type}`
             
         } else {
