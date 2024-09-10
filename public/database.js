@@ -209,7 +209,7 @@ document.getElementsByClassName("TableForm")[0].addEventListener("submit", async
         body: JSON.stringify(data)
 
     })
-    loadTables()
+    loadTables(dbInUse)
 })
 fetchDatabases()
 

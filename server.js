@@ -52,7 +52,13 @@ app.post("/create/table", function (req, res) {
     let string = ""
     for (let i = 0; i < req.body.tableArray.length; i++) {
         let table = req.body.tableArray[i]
-        string += `${table.name} ${table.type},`
+        if (i = 0) {
+            string += `${table.name} ${table.type}`
+            
+        } else {
+            string += `${table.name} ${table.type},`
+            
+        }
         
     }
     console.log(string);
