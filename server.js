@@ -75,16 +75,16 @@ app.post("/insert/data", function (req, res) {
             rows += `${table.name}`
             values += `"${table.value}"`
         } else {
-            rows += ` ,${table.name}`
-            values += ` ,"${table.value}"`
+            rows += `, ${table.name}`
+            values += `, "${table.value}"`
         }
     }
     connection.query(`use ${req.body.db}`)
     // Use parameterized query to insert user
-    connection.query(`INSERT INTO ${req.body.table} (${rows} VALUES (${values}))`, function (err, result) {
+    connection.query(`INSERT INTO ${req.body.table} (${rows}) VALUES (${values})`, function (err, result) {
         if (err) {
             console.error("Error creating user:", err);
-            res.status(500).send(req.body);
+            res.status(500).send(err);
             return;
         }
         res.send(result)
