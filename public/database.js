@@ -217,7 +217,7 @@ document.getElementsByClassName("TableForm")[0].addEventListener("submit", async
         
         let name = document.getElementsByClassName("RowName")[i].value
         let type = document.getElementsByClassName("TableType")[i].value
-        tableArray.push({ name: name, type: type });
+        tableArray.push({ Rowname: name, type: type });
 
     }
     console.log(tableName);
