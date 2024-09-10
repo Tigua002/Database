@@ -46,31 +46,42 @@ app.post("/create/database", function (req, res) {
     });
 });
 app.post("/create/table", function (req, res) {
-    
-    connection.query(`use ${req.body.db}`, function (err, result) {
-        if (err) {
-            console.error("Error creating user:", err);
-            res.status(500).send(req.body);
-            return;
-        }
-    })
-    
     let string = ""
     for (let i = 0; i < req.body.tableArray.length; i++) {
         let table = req.body.tableArray[i]
         if (i == 0) {
             string += `${table.name} ${table.type}`
-            
         } else {
             string += ` ,${table.name} ${table.type}`
-            
         }
-        
     }
-    console.log(string);
-    
+    connection.query(`use ${req.body.db}`)
     // Use parameterized query to insert user
     connection.query(`CREATE TABLE ${req.body.name} (${string})`, function (err, result) {
+        if (err) {
+            console.error("Error creating user:", err);
+            res.status(500).send(err);
+            return;
+        }
+        res.send(result)
+    });
+});
+app.post("/insert/data", function (req, res) {
+    let rows = ""
+    let values = ""
+    for (let i = 0; i < req.body.array.length; i++) {
+        let table = req.body.array[i]
+        if (i == 0) {
+            rows += `${table.name}`
+            values += `"${table.values}"`
+        } else {
+            rows += ` ,${table.name}`
+            values += ` ,"${table.values}"`
+        }
+    }
+    connection.query(`use ${req.body.db}`)
+    // Use parameterized query to insert user
+    connection.query(`INSERT INTO ${req.body.table} (${rows} VALUES (${values}))`, function (err, result) {
         if (err) {
             console.error("Error creating user:", err);
             res.status(500).send(err);

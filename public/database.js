@@ -243,7 +243,27 @@ document.getElementsByClassName("TableForm")[0].addEventListener("submit", async
 
 //insert data
 document.getElementById("InsertData").addEventListener("click", async () => {
-
+    let dataArray = []
+    for (let i = 0; i < document.getElementsByClassName("InsertDataInp").length; i++) {
+        let rowName = document.getElementsByClassName("InsertDataH1")[i]
+        let rowValue = document.getElementsByClassName("InsertDataInp")[i]
+        dataArray.push({name: rowName, value: rowValue})
+        
+    }
+    const data = {
+        db: dbInUse,
+        table: tableInUse,
+        array: dataArray
+    }
+    console.log(dataArray);
+    await fetch("/insert/data", {
+        method: "POST",
+        headers: {
+            'Content-Type': "Application/json"
+        },
+        body: JSON.stringify(data)
+    })
+    
 })
 fetchDatabases()
 
