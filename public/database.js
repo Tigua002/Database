@@ -187,19 +187,20 @@ document.getElementsByClassName("TableForm")[0].addEventListener("submit", async
 
     ]
     for (let i = 0; i < document.getElementsByClassName("newRow").length; i++) {
-        console.log(document.getElementsByClassName("RowName")[i]);
         
         let name = document.getElementsByClassName("RowName")[i].value
         let type = document.getElementsByClassName("TableType")[i].value
         tableArray.push({ name: name, type: type });
 
     }
-    console.log(tableArray);
+    console.log(tableName);
     const data = {
         db: dbInUse,
         name: tableName,
         tableArray: tableArray
     }
+    console.log(data);
+    
     await fetch("/create/table", {
         method: "POST",
         headers: {
