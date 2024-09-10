@@ -34,7 +34,6 @@ app.get('/', (req, res) => {
 });
 
 app.post("/create/database", function (req, res) {
-    console.log(req.body.db);
     
     // Use parameterized query to insert user
     connection.query('CREATE DATABASE ' + req.body.db, function (err, result) {
@@ -46,6 +45,27 @@ app.post("/create/database", function (req, res) {
         res.send(result)
     });
 });
+app.post("/create/table", function (req, res) {
+
+    connection.query(`use ${req.body.db}`)
+
+    let string = ""
+    for (let i = 0; i < req.body.tableArray.length; i++) {
+        let table = req.body.tableArray[i]
+        string += `${table.name} ${table.type},`
+        
+    }
+    // Use parameterized query to insert user
+    connection.query(`CREATE TABLE ${req.body.name} (${string})`, function (err, result) {
+        if (err) {
+            console.error("Error creating user:", err);
+            res.status(500).send(err);
+            return;
+        }
+        res.send(result)
+    });
+});
+
 
 app.get('/FetchDatabases', (req, res) => {
     console.log("Recieved")
@@ -57,7 +77,6 @@ app.get('/FetchDatabases', (req, res) => {
     });
 });
 app.get('/get/Tables/:a', (req, res) => {
-    console.log("Recieved")
     connection.query(`use ${req.params.a}`)
     connection.query('SHOW TABLES', function (err, result, fields) {
         console.log(result)

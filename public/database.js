@@ -1,6 +1,7 @@
 //Header styling
 document.getElementsByClassName("navItem")[1].style.background = "#66b2ff"
 document.getElementsByClassName("navImg")[1].setAttribute("stroke", "#333333")
+var dbInUse;
 
 const blackListedDBs = [
     "information_schema",
@@ -33,6 +34,7 @@ const fetchDatabases = async () => {
             }
             h1.style.background = "#ffffff"
             h1.style.color = "#66B2FF"
+            dbInUse = databases[i].Database
             loadTables(databases[i].Database)
         })
     }
@@ -115,6 +117,7 @@ const closeModal = (name) => {
 }
 
 document.getElementsByClassName("ModalClose")[0].addEventListener("click", () => { closeModal("NewDatabaseModal") })
+document.getElementsByClassName("ModalClose")[1].addEventListener("click", () => { closeModal("NewTableModal") })
 document.getElementsByClassName("BlueBlackBtn")[1].addEventListener("click", () => { openModal("NewTableModal") })
 
 //Create a database
@@ -136,6 +139,76 @@ document.getElementsByClassName("ModalBtn")[0].addEventListener("click", async (
     closeModal("NewDatabaseModal")
     fetchDatabases()
 
+})
+
+// add a row to a new table
+document.getElementsByClassName("newTableRow")[0].addEventListener("click", (event) => {
+    let div = document.createElement("div")
+    let Nameinput = document.createElement("input")
+    let DropDown = document.createElement("select")
+    let varchar = document.createElement("option")
+    let longtext = document.createElement("option")
+    let int = document.createElement("option")
+    let Boolean = document.createElement("option")
+
+    div.appendChild(Nameinput)
+    div.appendChild(DropDown)
+    DropDown.appendChild(varchar)
+    DropDown.appendChild(longtext)
+    DropDown.appendChild(int)
+    // DropDown.appendChild(Boolean)
+
+    div.setAttribute("class", "newRow")
+    Nameinput.setAttribute("class", "RowName")
+    Nameinput.setAttribute("required", "true")
+    Nameinput.setAttribute("placeholder", "Column Name")
+    Nameinput.setAttribute("maxlength", "50")
+    Nameinput.setAttribute("type", "text")
+    DropDown.setAttribute("class", "TableType")
+    varchar.setAttribute("value", "varchar(255)")
+    longtext.setAttribute("value", "longtext")
+    int.setAttribute("value", "int")
+    Boolean.setAttribute("value", "Boolean")
+    varchar.innerHTML = "Short Text"
+    longtext.innerHTML = "Multiplie Lines of Text"
+    int.innerHTML = "Number"
+    Boolean.innerHTML = "True/False"
+
+
+    document.getElementsByClassName("tableRows")[0].appendChild(div)
+
+})
+
+
+document.getElementsByClassName("TableForm")[0].addEventListener("submit", async (event) => {
+    event.preventDefault()
+    let tableName = document.getElementsByClassName("TableName")[0].value
+    let tableArray = [
+
+    ]
+    for (let i = 0; i < document.getElementsByClassName("newRow").length; i++) {
+        console.log(document.getElementsByClassName("RowName")[i]);
+        
+        let name = document.getElementsByClassName("RowName")[i].value
+        let type = document.getElementsByClassName("TableType")[i].value
+        tableArray.push({ name: name, type: type });
+
+    }
+    console.log(tableArray);
+    const data = {
+        db: dbInUse,
+        name: tableName,
+        tableArray: tableArray
+    }
+    await fetch("/create/table", {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+
+    })
+    loadTables()
 })
 fetchDatabases()
 

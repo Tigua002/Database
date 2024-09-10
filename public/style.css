@@ -159,6 +159,7 @@ body {
 .tableRow{
     margin: 0%;
     padding: 0%;
+    margin: .2vw;
 }
 .tableData{
     padding-left: .5vw;
@@ -179,7 +180,6 @@ body {
 }
 .NewDatabaseModal{
     width: 20%;
-    height: 30%;
     border: solid 2px #1A1A1A;
     outline: none;
     background-color: #444444;
@@ -201,7 +201,6 @@ body {
 }
 .ModalH1{
     color: #1A1A1A;
-    margin-top: 1vw;
     font-size: 1vw;
     font-weight: 500;
     width: 80%;
@@ -209,10 +208,14 @@ body {
 }
 .ModalClose{
     color: #66B2FF;
+    padding: 0%;
+    height: 5vh;
     font-size: 3vw;
     font-weight: 100;
     cursor: pointer;
     justify-content: end;
+    width: 95%;
+    text-align: end;
 }
 .ModalInp{
     color: #66B2FF;
@@ -223,7 +226,7 @@ body {
     background-color: #333333;
     border: none;
     padding: .8vw;
-    border-radius: 2vw;
+    border-radius: 1.5vw;
 }
 
 .ModalInp:focus{
@@ -233,15 +236,93 @@ body {
     color: #66B2FF;
     font-size: 1vw;
     background-color: #333333;
-    padding: .7vw;
+    padding: .2vw .5vw;
     margin-top: 1.5vw;
+    margin-bottom: 1vw;
     border-radius: 1vw;
     cursor: pointer;
+    width: 60%;
+    border: none;
+    outline: none;
 }
 .ModalBtn:hover{
     border: #ffffff 1px solid;
 }
 .NewTableModal{
-    width: 100%;
-    height: 100%;
+    width: 30%;
+    min-height: 35%;
+    border: solid 2px #1A1A1A;
+    outline: none;
+    background-color: #444444;
+    border-radius: 1vw;
+    margin: auto;
+    align-items: center;
+    justify-content: start;
+    flex-direction: column;
+    display: none;
+}
+.NewTableModal::backdrop{
+    outline: none;
+    background-color: #1A1A1A;
+    opacity: .3;
+}
+.ModalSVG{
+    width: 1.5vw;
+    height: 1.5vw;
+}
+.ModalBtnText{
+    width: 80%;
+    font-size: 1vw;
+    text-align: center;
+}
+.newTableRow{
+    font-size: 1vw;
+    color: #66B2FF;
+    width: 35%;
+    justify-content: space-around;
+    text-decoration: underline;
+    cursor: pointer;
+    background: none;
+    outline: none;
+    border: none;
+}
+.TableForm{
+    flex-direction: column;
+}
+.tableRows{
+    flex-direction: column;
+    margin-bottom: 3vw;
+}
+.TableName{
+    background-color: #333333;
+    border: none;
+    outline: none;
+    font-size: 1vw;
+    padding: .4vw;
+    border-radius: .1vw;
+    color: #66B2FF;
+    margin: 0vw 0vw 2vw 0vw;
+}
+
+.TableType{
+    background-color: #66B2FF;
+    border: none;
+    outline: none;
+    font-size: 1vw;
+    padding: .4vw;
+    border-radius: .1vw;
+}
+.typeOptions{
+    background-color: #333333;
+    color: #66B2FF;
+    
+}
+.RowName{
+    background-color: #333333;
+    border: none;
+    outline: none;
+    font-size: 1vw;
+    padding: .4vw;
+    border-radius: .1vw;
+    color: #66B2FF;
 }

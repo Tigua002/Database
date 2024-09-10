@@ -110,16 +110,67 @@
         </div>
     </div>
     <dialog class="NewDatabaseModal flex">
+        <h1 class="ModalClose flex">&#x00D7;</h1>
         <div class="ModalDiv flex">
             <h1 class="ModalH1">CREATE DATABASE</h1>
-            <h1 class="ModalClose flex">&#x00D7;</h1>
         </div>
         <input type="text" class="ModalInp" name="" placeholder="Database name...">
-        <h1 class="ModalBtn">CREATE</h1>
+        <div class="ModalBtn flex">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="#66B2FF"
+                class="ModalSVG">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M12 10.5v6m3-3H9m4.06-7.19-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.379a1.5 1.5 0 0 1-1.06-.44Z" />
+            </svg>
+
+            <h1 class="ModalBtnText">
+                CREATE
+            </h1>
+        </div>
     </dialog>
 
     <dialog class="NewTableModal">
-        <h1>HELLO!</h1>
+        <h1 class="ModalClose flex">&#x00D7;</h1>
+        <form class="TableForm flex" >
+
+            <div class="ModalDiv flex">
+                <h1 class="ModalH1" >NEW TABLE</h1>
+            </div>
+            <div class="tableRows flex">
+                <input type="text" class="TableName" required placeholder="Table Name" maxlength="50">
+                <h1 class="ModalH1">ROWS:</h1>
+                <div class="newRow">
+
+                    <input type="text" class="RowName" required placeholder="Column Name" maxlength="50">
+                    <select class="TableType">
+                        <option class="typeOptions" value="varchar(255)">Short Text</option>
+                        <option class="typeOptions" value="LONGTEXT">Multiple Lines of Text</option>
+                        <option class="typeOptions" value="int">Number</option>
+                        <!-- <option class="typeOptions" value="Boolean">True/False</option> -->
+
+                    </select>
+                </div>
+
+            </div>
+            <div class="newTableRow flex" >
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="#66B2FF"
+                    class="ModalSVG">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                </svg>
+                NEW ROW
+            </div>
+            <button class="ModalBtn flex" type="submit">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="#66b2ff"
+                    class="ModalSVG">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m3.75 9v6m3-3H9m1.5-12H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
+                </svg>
+                <h1 class="ModalBtnText">
+                    CREATE
+                </h1>
+            </button>
+        </form>
+
     </dialog>
 </body>
 <script src="database.js"></script>
