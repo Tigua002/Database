@@ -41,6 +41,7 @@ const fetchDatabases = async () => {
 }
 
 const loadTables = async (database) => {
+    document.getElementsByClassName("BlueBlackBtn")[1].removeAttribute("disabled")
     document.getElementsByClassName("tableHolder")[0].innerHTML = ''
     document.getElementsByClassName("TableDisplay")[0].innerHTML = ""
 

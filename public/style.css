@@ -117,18 +117,16 @@ body {
 .BlueBlackBtn{
     background-color: #66B2FF;
     color: #333333;
-    padding: .7vw;
-    border-radius: 1vw;
-    font-size: .8vw;
-}
-.BlueBlackBtn{
-    background-color: #66B2FF;
-    color: #333333;
+    border: none;
     padding: .7vw;
     border-radius: 1vw;
     font-size: .8vw;
     margin: 0vw .5vw;
     cursor: pointer;
+    box-shadow: 2px 2px 8px 2px rgba(27, 27, 27, 1);
+}
+.BlueBlackBtn:hover{
+    transform: scale(102%);
 }
 .SmlBBBtn{
     background-color: #66B2FF;
@@ -138,8 +136,24 @@ body {
     font-size: .7vw;
     cursor: pointer;
 }
+.dataInsertBtn{
+    color: #333333;
+    background-color: #66B2FF;
+    padding: .6vw;
+    margin: 1vw;
+    border-radius: 1.5vw;
+    font-size: .7vw;
+    cursor: pointer;
+}
+.dataInsertBtn:hover{
+    opacity: .8;
+}
+.SVG{
+    width: 1.2vw;
+    height: 1.2vw;
+}
 .TableDisplay{
-    margin-top: 10%;
+    margin-top: 5%;
     margin-left: 1%;
     padding: 0%;
 }
@@ -266,6 +280,7 @@ body {
     background-color: #1A1A1A;
     opacity: .3;
 }
+
 .ModalSVG{
     width: 1.5vw;
     height: 1.5vw;

@@ -62,7 +62,7 @@ app.post("/create/table", function (req, res) {
             string += `${table.name} ${table.type}`
             
         } else {
-            string += `${table.name} ${table.type},`
+            string += ` ,${table.name} ${table.type}`
             
         }
         
