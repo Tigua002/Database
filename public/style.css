@@ -338,6 +338,48 @@ body {
     outline: none;
     font-size: 1vw;
     padding: .4vw;
+    margin: .5vw;
     border-radius: .1vw;
+    color: #66B2FF;
+}
+.InsertDataModal{
+    width: 20%;
+    border: solid 2px #1A1A1A;
+    outline: none;
+    background-color: #444444;
+    border-radius: 1vw;
+    margin: auto;
+    align-items: center;
+    justify-content: start;
+    flex-direction: column;
+    display: none;
+}
+.InsertDataModal::backdrop{
+    background: #1A1A1A;
+    opacity: .3;
+}
+.dataInsertDiv{
+    flex-direction: column;
+    width: 90%;
+}
+.dataInsertRow{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-around;
+    margin: .2vw;
+}
+.InsertDataH1{
+    color: #66B2FF;
+    width: 30%;
+}
+.InsertDataInp{
+    background: #333333;
+    border: none;
+    outline: none;
+    min-width: 50%;
+    border-radius: .5vw;
+    font-size: .8vw;
+    padding: 0vw .5vw;
     color: #66B2FF;
 }

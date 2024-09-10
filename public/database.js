@@ -2,6 +2,7 @@
 document.getElementsByClassName("navItem")[1].style.background = "#66b2ff"
 document.getElementsByClassName("navImg")[1].setAttribute("stroke", "#333333")
 var dbInUse;
+var tableInUse
 
 const blackListedDBs = [
     "information_schema",
@@ -72,6 +73,8 @@ const loadTables = async (database) => {
 }
 
 const loadData = async (database, table) => {
+    tableInUse = table
+    document.getElementsByClassName("dataInsertBtn")[0].removeAttribute("disabled")
     document.getElementsByClassName("TableDisplay")[0].innerHTML = ""
     let response = await fetch(`/get/columns/${database}/${table}`, {
         method: "GET"
@@ -118,8 +121,31 @@ const closeModal = (name) => {
 }
 
 document.getElementsByClassName("ModalClose")[0].addEventListener("click", () => { closeModal("NewDatabaseModal") })
-document.getElementsByClassName("ModalClose")[1].addEventListener("click", () => { closeModal("NewTableModal") })
+document.getElementsByClassName("ModalClose")[1].addEventListener("click", () => {   closeModal("InsertDataModal") })
+document.getElementsByClassName("ModalClose")[2].addEventListener("click", () => { closeModal("NewTableModal") })
 document.getElementsByClassName("BlueBlackBtn")[1].addEventListener("click", () => { openModal("NewTableModal") })
+document.getElementsByClassName("dataInsertBtn")[0].addEventListener("click", () => {
+    document.getElementsByClassName("dataInsertDiv")[0].innerHTML = ""
+    for (let i = 0; i < document.getElementsByClassName("tableDesc").length; i++) {
+
+        let div = document.createElement("div")
+        let h1 = document.createElement("h1")
+        let input = document.createElement("input")
+        
+        div.setAttribute("class", "dataInsertRow")
+        h1.setAttribute("class", "InsertDataH1")
+        input.setAttribute("class", "InsertDataInp")
+        input.setAttribute("placeholder", "...")
+        input.setAttribute("type", "text")
+        h1.innerHTML = document.getElementsByClassName("tableDesc")[i].innerHTML + ":"
+
+        document.getElementsByClassName("dataInsertDiv")[0].appendChild(div)
+        div.appendChild(h1)
+        div.appendChild(input)
+
+    }
+    openModal("InsertDataModal")
+})
 
 //Create a database
 document.getElementsByClassName("ModalBtn")[0].addEventListener("click", async () => {
@@ -142,7 +168,7 @@ document.getElementsByClassName("ModalBtn")[0].addEventListener("click", async (
 
 })
 
-// add a row to a new table
+// append a row to a new table
 document.getElementsByClassName("newTableRow")[0].addEventListener("click", (event) => {
     let div = document.createElement("div")
     let Nameinput = document.createElement("input")
@@ -180,7 +206,7 @@ document.getElementsByClassName("newTableRow")[0].addEventListener("click", (eve
 
 })
 
-
+//create a new table
 document.getElementsByClassName("TableForm")[0].addEventListener("submit", async (event) => {
     event.preventDefault()
     let tableName = document.getElementsByClassName("TableName")[0].value
@@ -212,6 +238,12 @@ document.getElementsByClassName("TableForm")[0].addEventListener("submit", async
     })
     closeModal("NewTableModal")
     loadTables(dbInUse)
+})
+
+
+//insert data
+document.getElementById("InsertData").addEventListener("click", async () => {
+
 })
 fetchDatabases()
 
