@@ -3,9 +3,9 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const mysql = require('mysql2');
-
+require("dotenv").config()
 // Define the port to use
-const PORT = 33345;
+const PORT = process.env.PORT;
 app.listen(PORT, () => console.log(`Server is running on port: ${PORT}`));
 
 // Middleware for parsing request bodies
@@ -17,10 +17,10 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 // Test database connection
 const connection = mysql.createConnection({
-    host: 'localhost',
-    user: "databaseManager",
-    password: "Testing",
-    database: "WebChat"
+    host: process.env.HOST,
+    user: process.env.DBUSER,
+    password: process.env.DBPASS,
+    database: process.env.DB
 });
 
 // Connect to the database with error handling
