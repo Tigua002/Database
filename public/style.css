@@ -219,11 +219,14 @@ body {
     font-weight: 500;
     width: 80%;
     text-align: center;
+    margin: 0%;
+    margin-bottom: 2vw;
+    padding: 0%;
 }
 .ModalClose{
     color: #66B2FF;
     padding: 0%;
-    height: 5vh;
+    height: 3.5vh;
     font-size: 3vw;
     font-weight: 100;
     cursor: pointer;

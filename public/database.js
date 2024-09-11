@@ -177,6 +177,7 @@ document.getElementsByClassName("ModalBtn")[0].addEventListener("click", async (
     }
 });
 
+
 document.getElementsByClassName("newTableRow")[0].addEventListener("click", () => {
     let div = document.createElement("div");
     let Nameinput = document.createElement("input");
