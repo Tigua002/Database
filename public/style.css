@@ -113,6 +113,10 @@ body {
     font-size: 1vw;
     color: #66B2FF;
     cursor: pointer;
+    opacity: .9;
+}
+.table:hover{
+    opacity: 1;
 }
 .BlueBlackBtn{
     background-color: #66B2FF;
@@ -385,4 +389,56 @@ body {
     font-size: .8vw;
     padding: 0vw .5vw;
     color: #66B2FF;
+}
+.DatabaseUserModal{
+    width: 25%;
+    border: solid 2px #1A1A1A;
+    outline: none;
+    background-color: #444444;
+    border-radius: 1vw;
+    margin: auto;
+    align-items: center;
+    justify-content: start;
+    flex-direction: column;
+    display: none;
+}
+.dbUserInfo{
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+}
+.divUserDiv{
+    width: 30%;
+    margin: 1vw;
+}
+.dbUserRow {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: #333333;
+    color: #66B2FF;
+    padding: 10px 5px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-size: .6vw;
+    cursor: pointer;
+    position: relative;
+}
+
+.dbUserValue{
+    margin-right: 10px;
+    font-size: 1.2em;
+}
+.dbUserLabel{
+    padding-left: .5vw;
+    color: #ffffff;
+    font-size: .7vw;
+}
+
+.indicatorSVG {
+    width: 1vw;
+    height: 1vw;
+}
+.indicator{
+    color: lightgreen;
 }

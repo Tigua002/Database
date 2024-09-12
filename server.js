@@ -34,7 +34,7 @@ app.get('/', (req, res) => {
 });
 
 app.post("/create/database", function (req, res) {
-    
+
     // Use parameterized query to insert user
     connection.query('CREATE DATABASE ' + req.body.db, function (err, result) {
         if (err) {
@@ -71,10 +71,14 @@ app.post("/insert/data", function (req, res) {
     let values = ""
     for (let i = 0; i < req.body.array.length; i++) {
         let table = req.body.array[i]
-        if (i == 0) {
+        if (table.value == "") {
+            continue
+        }
+        if (rows == "") {
             rows += `${table.name}`
             values += `"${table.value}"`
         } else {
+
             rows += `, ${table.name}`
             values += `, "${table.value}"`
         }
@@ -93,40 +97,29 @@ app.post("/insert/data", function (req, res) {
 
 
 app.get('/FetchDatabases', (req, res) => {
-    console.log("Recieved")
     connection.query('SHOW DATABASES', function (err, result, fields) {
-        console.log(result)
         let data = JSON.parse(JSON.stringify(result));
-        console.log(data)
         res.send(data);
     });
 });
 app.get('/get/Tables/:a', (req, res) => {
     connection.query(`use ${req.params.a}`)
     connection.query('SHOW TABLES', function (err, result, fields) {
-        console.log(result)
         let data = JSON.parse(JSON.stringify(result));
-        console.log(data)
         res.send(data);
     });
 });
 app.get('/get/columns/:a/:b', (req, res) => {
-    console.log("Recieved")
     connection.query(`use ${req.params.a}`)
     connection.query('DESCRIBE ' + req.params.b, function (err, result, fields) {
-        console.log(result)
         let data = JSON.parse(JSON.stringify(result));
-        console.log(data)
         res.send(data);
     });
 });
 app.get('/Select/data/:a/:b', (req, res) => {
-    console.log("Recieved")
     connection.query(`use ${req.params.a}`)
     connection.query('SELECT * FROM ' + req.params.b, function (err, result, fields) {
-        console.log(result)
         let data = JSON.parse(JSON.stringify(result));
-        console.log(data)
         res.send(data);
     });
 });
