@@ -124,7 +124,7 @@ app.get('/Select/data/:a/:b', (req, res) => {
     });
 });
 app.get('/get/users/:a', (req, res) => {
-    connection.query(`SELECT * FROM dataSpotUsers.users WHERE database= '${req.params.a}'` +  function (err, result, fields) {
+    connection.query(`SELECT * FROM dataSpotUsers.users WHERE database= '${req.params.a}'`,  function (err, result, fields) {
         let data = JSON.parse(JSON.stringify(result));
         res.send(data);
     });
