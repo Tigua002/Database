@@ -140,7 +140,7 @@ document.getElementsByClassName("ModalClose")[2].addEventListener("click", () =>
 document.getElementsByClassName("ModalClose")[3].addEventListener("click", () => closeModal("NewTableModal"));
 document.getElementsByClassName("BlueBlackBtn")[0].addEventListener("click", async () => {
     openModal("DatabaseUserModal")
-    let resopnse = await fetch("/get/database/users/" + state.dbInUse, {
+    let resopnse = await fetch("/get/users/" + state.dbInUse, {
         method: "GET"
     })
     let data = await resopnse.json()

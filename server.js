@@ -123,6 +123,13 @@ app.get('/Select/data/:a/:b', (req, res) => {
         res.send(data);
     });
 });
+app.get('/get/users/:a', (req, res) => {
+    connection.query(`SELECT * FROM dataSpotUsers.users WHERE database= '${req.params.a}'` +  function (err, result, fields) {
+        let data = JSON.parse(JSON.stringify(result));
+        res.send(data);
+    });
+});
+
 
 
 
