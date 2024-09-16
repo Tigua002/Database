@@ -480,3 +480,17 @@ body {
     opacity: .9 ;
     border: solid white 1px;
 }
+
+
+.AppendTableModal{
+    width: 30%;
+    border: solid 2px #1A1A1A;
+    outline: none;
+    background-color: #444444;
+    border-radius: 1vw;
+    margin: auto;
+    align-items: center;
+    justify-content: start;
+    flex-direction: column;
+    display: none;
+}

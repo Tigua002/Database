@@ -99,9 +99,12 @@ const loadData = async (database, table) => {
             tableRow.appendChild(tableData);
         });
         let addRowBtn = document.createElement("button")
-        addRowBtn.setAttribute("class", "bluBlackBtn")
+        addRowBtn.setAttribute("class", "BlueBlackBtn")
         addRowBtn.innerHTML = "New Row"
         tableRow.appendChild(addRowBtn)
+        addRowBtn.addEventListener("click", () => {
+            openModal("AppendTableModal")
+        })
         response = await fetch(`/Select/data/${database}/${table}`, { method: "GET" });
         if (!response.ok) throw new Error("Failed to fetch data");
 
@@ -145,6 +148,7 @@ document.getElementsByClassName("ModalClose")[0].addEventListener("click", () =>
 document.getElementsByClassName("ModalClose")[1].addEventListener("click", async () => { closeModal("DatabaseUserModal"); });
 document.getElementsByClassName("ModalClose")[2].addEventListener("click", () => closeModal("InsertDataModal"));
 document.getElementsByClassName("ModalClose")[3].addEventListener("click", () => closeModal("NewTableModal"));
+document.getElementsByClassName("ModalClose")[4].addEventListener("click", () => closeModal("AppendTableModal"));
 //open newUserModal
 document.getElementsByClassName("BlueBlackBtn")[0].addEventListener("click", async () => {
     openModal("DatabaseUserModal")
@@ -279,6 +283,26 @@ document.getElementsByClassName("TableForm")[0].addEventListener("submit", async
     }
 });
 
+// new column to a table
+document.getElementById("newColumn").addEventListener("click", async (event) => {
+    let tableName = event.target.parentElement.getElementsByClassName("RowName")[0].value
+    let option = event.target.parentElement.getElementsByClassName("TableType")[0].value
+    const data = {
+        db: state.dbInUse,
+        table: state.tableInUse,
+        type: option,
+        name: tableName
+    }
+    console.log(data);
+    
+    await fetch("/create/column", {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+})
 
 
 
@@ -338,9 +362,9 @@ document.getElementById("createUser").addEventListener("click", (event) => {
     console.log("hi");
     document.getElementsByClassName("DatabaseUserModal")[0].appendChild(div)
     ipInp.addEventListener("change", () => {
-        
+
         state.validIP = isValidIPv4(ipInp.value)
-        
+
     })
     // create user
     btn.addEventListener("click", async () => {
@@ -354,7 +378,7 @@ document.getElementById("createUser").addEventListener("click", (event) => {
             host: hostIP
         }
         console.log(data);
-        
+
         await fetch("/create/user", {
             method: "POST",
             headers: {

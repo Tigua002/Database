@@ -66,6 +66,21 @@ app.post("/create/table", function (req, res) {
         res.send(result)
     });
 });
+
+app.post("/create/column", function (req, res) {
+    let name = req.body.name
+    let tableType = req.body.type
+    connection.query(`use ${req.body.db}`)
+    // Use parameterized query to insert user
+    connection.query(`ALTER TABLE ${req.body.table} ADD COLUMN ${name} ${tableType}`, function (err, result) {
+        if (err) {
+            console.error("Error creating user:", err);
+            res.status(500).send(err);
+            return;
+        }
+        res.send(result)
+    });
+});
 app.post("/insert/data", function (req, res) {
     let rows = ""
     let values = ""
@@ -106,7 +121,7 @@ app.post("/create/user", function (req, res) {
         password += chars.charAt(Math.floor(Math.random() * chars.length));
     }
     console.log(`BATCH START \n username: ${username} \n password: ${password} \n host: ${host} \n db: ${db} \n Batch END`);
-    
+
 
 
     connection.query(`use dataSpotUsers`)
@@ -117,6 +132,7 @@ app.post("/create/user", function (req, res) {
     connection.query("FLUSH PRIVILEGES;")
     res.send(200)
 });
+
 
 app.get('/FetchDatabases', (req, res) => {
     connection.query('SHOW DATABASES', function (err, result, fields) {
