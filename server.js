@@ -115,6 +115,7 @@ app.post("/create/user", function (req, res) {
     connection.query(`CREATE USER '${username}'@'${host}' IDENTIFIED BY '${password}'`)
     connection.query(`GRANT ALL PRIVILEGES ON ${db}.* TO '${username}'@'${host}'`)
     connection.query("FLUSH PRIVILEGES;")
+    res.send(200)
 });
 
 app.get('/FetchDatabases', (req, res) => {

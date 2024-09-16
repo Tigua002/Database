@@ -141,6 +141,7 @@ document.getElementsByClassName("ModalClose")[0].addEventListener("click", () =>
 document.getElementsByClassName("ModalClose")[1].addEventListener("click", async () => { closeModal("DatabaseUserModal"); });
 document.getElementsByClassName("ModalClose")[2].addEventListener("click", () => closeModal("InsertDataModal"));
 document.getElementsByClassName("ModalClose")[3].addEventListener("click", () => closeModal("NewTableModal"));
+//open newUserModal
 document.getElementsByClassName("BlueBlackBtn")[0].addEventListener("click", async () => {
     openModal("DatabaseUserModal")
     let resopnse = await fetch("/get/users/" + state.dbInUse, {
@@ -154,6 +155,8 @@ document.getElementsByClassName("BlueBlackBtn")[0].addEventListener("click", asy
 
     } else {
         document.getElementById("createUser").style.display = "none"
+        console.log(data);
+        
     }
 });
 document.getElementsByClassName("BlueBlackBtn")[1].addEventListener("click", () => openModal("NewTableModal"));
