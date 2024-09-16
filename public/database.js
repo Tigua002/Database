@@ -6,7 +6,8 @@ const blackListedDBs = ["information_schema", "mysql", "performance_schema", "sy
 
 const state = {
     dbInUse: null,
-    tableInUse: null
+    tableInUse: null,
+    validIP: false,
 };
 
 const fetchDatabases = async () => {
@@ -46,6 +47,8 @@ const fetchDatabases = async () => {
 const loadTables = async (database) => {
     try {
         document.getElementsByClassName("BlueBlackBtn")[1].removeAttribute("disabled");
+        document.getElementById("createUser").style.display = "flex"
+        document.getElementsByClassName("dbUserInfo")[0].style.display = "flex"
         document.getElementsByClassName("tableHolder")[0].innerHTML = '';
         document.getElementsByClassName("TableDisplay")[0].innerHTML = "";
 
@@ -146,19 +149,16 @@ document.getElementsByClassName("BlueBlackBtn")[0].addEventListener("click", asy
     let data = await resopnse.json()
     if (data.length == 0) {
         let user = data[0]
-        document.getElementsByClassName("DatabaseUserModal")[0].innerHTML = `
-        <h1 class="ModalClose flex">&#x00D7;</h1>
-        <div class="ModalDiv flex">
-            <h1 class="ModalH1">USERS:</h1>
-        </div>
-        `
+        document.getElementsByClassName("dbUserInfo")[0].style.display = "none"
 
 
+    } else {
+        document.getElementById("createUser").style.display = "none"
     }
 });
 document.getElementsByClassName("BlueBlackBtn")[1].addEventListener("click", () => openModal("NewTableModal"));
 
-
+// opens the insert data modal
 document.getElementsByClassName("dataInsertBtn")[0].addEventListener("click", () => {
     document.getElementsByClassName("dataInsertDiv")[0].innerHTML = "";
     for (let i = 0; i < document.getElementsByClassName("tableDesc").length; i++) {
@@ -180,6 +180,7 @@ document.getElementsByClassName("dataInsertBtn")[0].addEventListener("click", ()
     openModal("InsertDataModal");
 });
 
+// creates a database
 document.getElementsByClassName("ModalBtn")[0].addEventListener("click", async () => {
     let dbName = document.getElementsByClassName("ModalInp")[0].value;
     const data = { db: dbName };
@@ -197,7 +198,7 @@ document.getElementsByClassName("ModalBtn")[0].addEventListener("click", async (
     }
 });
 
-
+// inreases the number of rows in a new table
 document.getElementsByClassName("newTableRow")[0].addEventListener("click", () => {
     let div = document.createElement("div");
     let Nameinput = document.createElement("input");
@@ -212,6 +213,7 @@ document.getElementsByClassName("newTableRow")[0].addEventListener("click", () =
     DropDown.appendChild(varchar);
     DropDown.appendChild(longtext);
     DropDown.appendChild(int);
+    // DropDown.appendChild(Boolean);
 
     div.setAttribute("class", "newRow");
     Nameinput.setAttribute("class", "RowName");
@@ -232,6 +234,7 @@ document.getElementsByClassName("newTableRow")[0].addEventListener("click", () =
     document.getElementsByClassName("tableRows")[0].appendChild(div);
 });
 
+// creates a new table
 document.getElementsByClassName("TableForm")[0].addEventListener("submit", async (event) => {
     event.preventDefault();
     let tableName = document.getElementsByClassName("TableName")[0].value;
@@ -267,34 +270,7 @@ document.getElementsByClassName("TableForm")[0].addEventListener("submit", async
     }
 });
 
-// document.getElementsByClassName("username-container")[0].addEventListener("click", () => {
 
-//     console.log("Thing");
-// })
-for (let i = 0; i < document.getElementsByClassName("dbUserRow").length; i++) {
-
-    document.getElementsByClassName("dbUserRow")[i].addEventListener("click", () => {
-        console.log("Thing");
-
-        const username = document.getElementsByClassName('dbUserValue')[i].innerText;
-        navigator.clipboard.writeText(username).then(() => {
-            const indicator = document.getElementsByClassName('indicator')[i];
-            indicator.innerHTML = "Copied!";
-            setTimeout(() => {
-                indicator.innerHTML = `
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                stroke="#ffffff" class="indicatorSVG">
-                <path stroke-linecap="round" stroke-linejoin="round"
-                d="M15.666 3.888A2.25 2.25 0 0 0 13.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 0 1-.75.75H9a.75.75 0 0 1-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 0 1-2.25 2.25H6.75A2.25 2.25 0 0 1 4.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 0 1 1.927-.184" />
-                </svg>
-                
-                `;
-            }, 2000);
-        }).catch(err => {
-            console.error('Failed to copy: ', err);
-        });
-    })
-}
 
 
 // Insert data
@@ -329,5 +305,75 @@ document.getElementById("InsertData").addEventListener("click", async () => {
     }
 });
 
+
+// create a new user
+document.getElementById("createUser").addEventListener("click", (event) => {
+    // create input field
+    event.target.parentElement.style.display = "none"
+    let div = document.createElement("div")
+    let label = document.createElement("h1")
+    let ipInp = document.createElement("input")
+    let btn = document.createElement("button")
+    div.appendChild(label)
+    div.appendChild(ipInp)
+    div.appendChild(btn)
+
+    div.setAttribute("class", "IpDiv")
+    ipInp.setAttribute("class", "IpInp")
+    label.setAttribute("class", "IpLabel")
+    btn.setAttribute("class", "Ipbtn")
+    btn.innerHTML = "CREATE"
+    label.innerHTML = "IP:"
+    ipInp.placeholder = "0.0.0.0 for all ip's"
+    ipInp.type = "text"
+    console.log("hi");
+    document.getElementsByClassName("DatabaseUserModal")[0].appendChild(div)
+    ipInp.addEventListener("change", () => {
+        
+        state.validIP = isValidIPv4(ipInp.value)
+        
+    })
+    // create user
+    btn.addEventListener("click", () => {
+        if (!state.validIP) {
+            alert("Invalid ip")
+            return
+        }
+        
+
+    })
+
+})
+
+
+// adds the code functionality to the user modal
+for (let i = 0; i < document.getElementsByClassName("dbUserRow").length; i++) {
+
+    document.getElementsByClassName("dbUserRow")[i].addEventListener("click", () => {
+        console.log("Thing");
+
+        const username = document.getElementsByClassName('dbUserValue')[i].innerText;
+        navigator.clipboard.writeText(username).then(() => {
+            const indicator = document.getElementsByClassName('indicator')[i];
+            indicator.innerHTML = "Copied!";
+            setTimeout(() => {
+                indicator.innerHTML = `
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="#ffffff" class="indicatorSVG">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M15.666 3.888A2.25 2.25 0 0 0 13.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 0 1-.75.75H9a.75.75 0 0 1-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 0 1-2.25 2.25H6.75A2.25 2.25 0 0 1 4.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 0 1 1.927-.184" />
+                </svg>
+                
+                `;
+            }, 2000);
+        }).catch(err => {
+            console.error('Failed to copy: ', err);
+        });
+    })
+}
+function isValidIPv4(ip) {
+    const ipv4Pattern = /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
+    return ipv4Pattern.test(ip);
+}
 
 fetchDatabases();

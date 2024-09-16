@@ -442,3 +442,38 @@ body {
 .indicator{
     color: lightgreen;
 }
+.IpDiv{
+    width: 80%;
+    padding: 10%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.IpInp{
+    font-size: 1vw;
+    border-radius: 1vw;
+    padding: .5vw;
+    background-color: #333333;
+    border: #1A1A1A solid 1px;
+    outline: none;
+}
+.IpLabel{
+    width: 60%;
+    font-size: 1vw;
+    padding-left: 1vw;
+    color: #66B2FF;
+}
+.Ipbtn{
+    width: 60%;
+    margin: 5%;
+    border: none;
+    background-color: #66B2FF;
+    font-size: 1vw;
+    padding: .5vw;
+    border-radius: 1vw;
+}
+.Ipbtn:hover{
+    opacity: .9 ;
+    border: solid white 1px;
+}
