@@ -46,6 +46,7 @@ const fetchDatabases = async () => {
 
 const loadTables = async (database) => {
     try {
+        document.getElementsByClassName("BlueBlackBtn")[0].removeAttribute("disabled");
         document.getElementsByClassName("BlueBlackBtn")[1].removeAttribute("disabled");
         document.getElementById("createUser").style.display = "flex"
         document.getElementsByClassName("dbUserInfo")[0].style.display = "flex"
@@ -155,7 +156,6 @@ document.getElementsByClassName("BlueBlackBtn")[0].addEventListener("click", asy
 
     } else {
         document.getElementById("createUser").style.display = "none"
-        console.log(data);
         document.getElementsByClassName("dbUserValue")[0].innerHTML = data[0].username
         document.getElementsByClassName("dbUserValue")[1].innerHTML = data[0].password
         document.getElementsByClassName("dbUserValue")[2].innerHTML = data[0].host
