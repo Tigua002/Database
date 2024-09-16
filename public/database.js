@@ -285,8 +285,10 @@ document.getElementsByClassName("TableForm")[0].addEventListener("submit", async
 
 // new column to a table
 document.getElementById("newColumn").addEventListener("click", async (event) => {
-    let tableName = event.target.parentElement.getElementsByClassName("RowName")[0].value
-    let option = event.target.parentElement.getElementsByClassName("TableType")[0].value
+    console.log(event.target.parentElement);
+    
+    let tableName = event.target.parentElement.parentElement.getElementsByClassName("RowName")[0].value
+    let option = event.target.parentElement.parentElement.getElementsByClassName("TableType")[0].value
     const data = {
         db: state.dbInUse,
         table: state.tableInUse,
@@ -302,6 +304,7 @@ document.getElementById("newColumn").addEventListener("click", async (event) => 
         },
         body: JSON.stringify(data)
     })
+    closeModal("AppendTableModal")
 })
 
 
@@ -386,7 +389,7 @@ document.getElementById("createUser").addEventListener("click", (event) => {
             },
             body: JSON.stringify(data)
         })
-
+        window.location.reload()
 
     })
 
