@@ -94,7 +94,32 @@ app.post("/insert/data", function (req, res) {
         res.send(result)
     });
 });
+app.post("/create/user", function (req, res) {
+    let chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&*';
+    let host = req.body.host
+    let db = req.body.db
+    let username;
+    let password;
 
+    for (let i = 0; i < length; i++) {
+        username += chars.charAt(Math.floor(Math.random() * chars.length));
+        password += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    console.log(`username: ${username} \n password: ${password} \n host: ${host} \n db: ${db} \n`);
+    
+
+
+    // connection.query(`use dataSpotUsers`)
+    // // Use parameterized query to insert user
+    // connection.query(`INSERT INTO users(username, password, host, database) VALUES (${values})`, function (err, result) {
+    //     if (err) {
+    //         console.error("Error creating user:", err);
+    //         res.status(500).send(err);
+    //         return;
+    //     }
+    //     res.send(result)
+    // });
+});
 
 app.get('/FetchDatabases', (req, res) => {
     connection.query('SHOW DATABASES', function (err, result, fields) {
@@ -124,7 +149,7 @@ app.get('/Select/data/:a/:b', (req, res) => {
     });
 });
 app.get('/get/users/:a', (req, res) => {
-    connection.query(`SELECT * FROM dataSpotUsers.users WHERE database= '${req.params.a}'`,  function (err, result, fields) {
+    connection.query(`SELECT * FROM dataSpotUsers.users WHERE database= '${req.params.a}'`, function (err, result, fields) {
         let data = JSON.parse(JSON.stringify(result));
         res.send(data);
     });

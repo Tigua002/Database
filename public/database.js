@@ -334,12 +334,26 @@ document.getElementById("createUser").addEventListener("click", (event) => {
         
     })
     // create user
-    btn.addEventListener("click", () => {
+    btn.addEventListener("click", async () => {
         if (!state.validIP) {
             alert("Invalid ip")
             return
         }
+        let hostIP = document.getElementsByClassName("IpInp")[0].value
+        const data = {
+            db: state.dbInUse,
+            host: hostIP
+        }
+        console.log(data);
         
+        await fetch("/create/user", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+
 
     })
 
