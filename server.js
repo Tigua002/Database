@@ -105,7 +105,7 @@ app.post("/create/user", function (req, res) {
         username += chars.charAt(Math.floor(Math.random() * chars.length));
         password += chars.charAt(Math.floor(Math.random() * chars.length));
     }
-    console.log(`username: ${username} \n password: ${password} \n host: ${host} \n db: ${db} \n`);
+    console.log(`BATCH START \n username: ${username} \n password: ${password} \n host: ${host} \n db: ${db} \n Batch END`);
     
 
 
