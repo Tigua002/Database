@@ -156,7 +156,10 @@ document.getElementsByClassName("BlueBlackBtn")[0].addEventListener("click", asy
     } else {
         document.getElementById("createUser").style.display = "none"
         console.log(data);
-        
+        document.getElementsByClassName("dbUserValue")[0].innerHTML = data[0].username
+        document.getElementsByClassName("dbUserValue")[1].innerHTML = data[0].password
+        document.getElementsByClassName("dbUserValue")[2].innerHTML = data[0].host
+        document.getElementsByClassName("dbUserValue")[3].innerHTML = "172.104.242.87"
     }
 });
 document.getElementsByClassName("BlueBlackBtn")[1].addEventListener("click", () => openModal("NewTableModal"));
