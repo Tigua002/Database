@@ -6,7 +6,7 @@ const mysql = require('mysql2');
 require("dotenv").config()
 // Define the port to use
 const PORT = process.env.PORT;
-app.listen(PORT, () => console.log(`Server is running on port: ${PORT}`));
+app.listen(PORT, () => console.log(`Dataspot port: ${PORT}`));
 
 // Middleware for parsing request bodies
 app.use(bodyParser.json());
@@ -98,10 +98,10 @@ app.post("/create/user", function (req, res) {
     let chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&*';
     let host = req.body.host
     let db = req.body.db
-    let username;
-    let password;
+    let username = ""
+    let password = ""
 
-    for (let i = 0; i < length; i++) {
+    for (let i = 0; i < 12; i++) {
         username += chars.charAt(Math.floor(Math.random() * chars.length));
         password += chars.charAt(Math.floor(Math.random() * chars.length));
     }
