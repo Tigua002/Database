@@ -98,7 +98,10 @@ const loadData = async (database, table) => {
             tableData.innerHTML = column.Field;
             tableRow.appendChild(tableData);
         });
-
+        let addRowBtn = document.createElement("button")
+        addRowBtn.setAttribute("class", "bluBlackBtn")
+        addRowBtn.innerHTML = "New Row"
+        tableRow.appendChild(addRowBtn)
         response = await fetch(`/Select/data/${database}/${table}`, { method: "GET" });
         if (!response.ok) throw new Error("Failed to fetch data");
 
