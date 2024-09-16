@@ -116,7 +116,7 @@ const loadData = async (database, table) => {
             columns.forEach(column => {
                 let tableData = document.createElement("td");
                 tableData.setAttribute("class", "tableData");
-                tableData.innerHTML = row[column.Field];
+                tableData.innerHTML = row[column.Field] || "NULL";
                 tableDataRow.appendChild(tableData);
             });
         });
@@ -285,8 +285,6 @@ document.getElementsByClassName("TableForm")[0].addEventListener("submit", async
 
 // new column to a table
 document.getElementById("newColumn").addEventListener("click", async (event) => {
-    console.log(event.target.parentElement);
-    
     let tableName = event.target.parentElement.parentElement.getElementsByClassName("RowName")[0].value
     let option = event.target.parentElement.parentElement.getElementsByClassName("TableType")[0].value
     const data = {
@@ -295,7 +293,6 @@ document.getElementById("newColumn").addEventListener("click", async (event) => 
         type: option,
         name: tableName
     }
-    console.log(data);
     
     await fetch("/create/column", {
         method: "POST",
@@ -305,6 +302,7 @@ document.getElementById("newColumn").addEventListener("click", async (event) => 
         body: JSON.stringify(data)
     })
     closeModal("AppendTableModal")
+    loadData(state.dbInUse, state.tableInUse)
 })
 
 
