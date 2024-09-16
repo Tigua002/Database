@@ -95,7 +95,7 @@ app.post("/insert/data", function (req, res) {
     });
 });
 app.post("/create/user", function (req, res) {
-    let chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&*';
+    let chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
     let host = req.body.host
     let db = req.body.db
     let username = ""
@@ -109,16 +109,12 @@ app.post("/create/user", function (req, res) {
     
 
 
-    // connection.query(`use dataSpotUsers`)
-    // // Use parameterized query to insert user
-    // connection.query(`INSERT INTO users(username, password, host, database) VALUES (${values})`, function (err, result) {
-    //     if (err) {
-    //         console.error("Error creating user:", err);
-    //         res.status(500).send(err);
-    //         return;
-    //     }
-    //     res.send(result)
-    // });
+    connection.query(`use dataSpotUsers`)
+    // Use parameterized query to insert user
+    connection.query(`INSERT INTO users(username, password, host, database) VALUES ('${username}', '${password}', '${host}', '${db}')`);
+    connection.query(`CREATE USER '${username}'@'${host}' IDENTIFIED BY '${password}'`)
+    connection.query(`GRANT ALL PRIVILEGES ON ${db}.* TO '${username}'@'${host}'`)
+    connection.query("FLUSH PRIVILEGES;")
 });
 
 app.get('/FetchDatabases', (req, res) => {
