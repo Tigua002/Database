@@ -166,11 +166,12 @@ document.getElementById("alterTable").addEventListener("click", async () => {
         let h1 = document.createElement("h1")        
         let select = document.createElement("h1")
         let btn = document.createElement("button")
-        div.appendChildh(h1)
+        div.appendChild(h1)
         div.appendChild(select)
         div.appendChild(btn)
         h1.innerHTML = data[i].Field
-        select.innerHTML = data[i].type
+        select.innerHTML = data[i].Type
+        btn.innerHTML = "EDIT"
         div.setAttribute("class", "flex")       
         h1.setAttribute("class", "modifyH1")       
         select.setAttribute("class", "modifySelect")   
