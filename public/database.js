@@ -116,7 +116,7 @@ const loadData = async (database, table) => {
             columns.forEach(column => {
                 let tableData = document.createElement("td");
                 tableData.setAttribute("class", "tableData");
-                tableData.innerHTML = row[column.Field] || "NULL";¨
+                tableData.innerHTML = row[column.Field] || "NULL";
                 if (tableData.innerHTML == "NULL") {
                     tableData.background = "red"
                 }
