@@ -46,14 +46,12 @@ app.post("/create/database", function (req, res) {
     });
 });
 app.post("/create/table", function (req, res) {
-    let string = ""
+    let string = "ID int auto_increment PRIMARY KEY"
     for (let i = 0; i < req.body.tableArray.length; i++) {
         let table = req.body.tableArray[i]
-        if (i == 0) {
-            string += `${table.name} ${table.type}`
-        } else {
-            string += ` ,${table.name} ${table.type}`
-        }
+
+        string += ` ,${table.name} ${table.type}`
+
     }
     connection.query(`use ${req.body.db}`)
     // Use parameterized query to insert user

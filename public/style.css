@@ -143,10 +143,10 @@ body {
 .dataInsertBtn{
     color: #333333;
     background-color: #66B2FF;
-    padding: .6vw;
+    padding: .4vw;
     margin: 1vw;
     border-radius: 1.5vw;
-    font-size: .7vw;
+    font-size: .6vw;
     cursor: pointer;
 }
 .dataInsertBtn:hover{
@@ -493,4 +493,38 @@ body {
     justify-content: start;
     flex-direction: column;
     display: none;
+}
+.dbBtnHolders{
+    justify-content: start;
+}
+.styleBlueBlack{
+    color: #333333;
+    background-color: #66B2FF;
+    padding: .4vw;
+    margin: 1vw;
+    border-radius: 1.5vw;
+    font-size: .6vw;
+    cursor: pointer;
+}
+.styleBlueBlack:hover{
+    opacity: .8;
+}
+
+.ModifyTable{
+    width: 30%;
+    border: solid 2px #1A1A1A;
+    outline: none;
+    background-color: #444444;
+    border-radius: 1vw;
+    margin: auto;
+    align-items: center;
+    justify-content: start;
+    flex-direction: column;
+    display: none;
+}
+.modifyDiv{
+
+}
+.modifyH1{
+    
 }

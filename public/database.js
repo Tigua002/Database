@@ -152,6 +152,30 @@ document.getElementsByClassName("ModalClose")[1].addEventListener("click", async
 document.getElementsByClassName("ModalClose")[2].addEventListener("click", () => closeModal("InsertDataModal"));
 document.getElementsByClassName("ModalClose")[3].addEventListener("click", () => closeModal("NewTableModal"));
 document.getElementsByClassName("ModalClose")[4].addEventListener("click", () => closeModal("AppendTableModal"));
+document.getElementsByClassName("ModalClose")[5].addEventListener("click", () => closeModal("ModifyTable"));
+document.getElementById("alterTable").addEventListener("click", async () => {
+    openModal("ModifyTable")
+    let response = await fetch("get/Tables/" + state.tableInUse, {
+        method: "GET"
+    })
+    let data = await response.json()
+    for (let i = 0; i < data.length; i++) {
+        let div = document.createElement("div")        
+        let h1 = document.createElement("h1")        
+        let select = document.createElement("h1")
+        let btn = document.createElement("button")
+        div.appendChildh(h1)
+        div.appendChild(select)
+        div.appendChild(btn)
+        div.setAttribute("class", "flex")       
+        h1.setAttribute("class", "modifyH1")       
+        select.setAttribute("class", "modifySelect")   
+        btn.setAttribute("class", "modifyBtn")   
+
+        document.getElementsByClassName("ModifyHolder")[0].appendChild(div)    
+
+    }
+})
 //open newUserModal
 document.getElementsByClassName("BlueBlackBtn")[0].addEventListener("click", async () => {
     openModal("DatabaseUserModal")
