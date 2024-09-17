@@ -118,7 +118,7 @@ const loadData = async (database, table) => {
                 tableData.setAttribute("class", "tableData");
                 tableData.innerHTML = row[column.Field] || "NULL";
                 if (tableData.innerHTML == "NULL") {
-                    tableData.background = "red"
+                    tableData.style.opacity = ".5"
                 }
                 tableDataRow.appendChild(tableData);
             });
