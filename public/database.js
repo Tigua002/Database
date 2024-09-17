@@ -155,7 +155,7 @@ document.getElementsByClassName("ModalClose")[4].addEventListener("click", () =>
 document.getElementsByClassName("ModalClose")[5].addEventListener("click", () => closeModal("ModifyTable"));
 document.getElementById("alterTable").addEventListener("click", async () => {
     openModal("ModifyTable")
-    let response = await fetch("get/Tables/" + state.tableInUse, {
+    let response = await fetch(`/get/columns/${state.dbInUse}/${state.tableInUse}`, {
         method: "GET"
     })
     let data = await response.json()
