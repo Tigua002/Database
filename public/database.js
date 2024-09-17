@@ -169,6 +169,8 @@ document.getElementById("alterTable").addEventListener("click", async () => {
         div.appendChildh(h1)
         div.appendChild(select)
         div.appendChild(btn)
+        h1.innerHTML = data[i].Field
+        select.innerHTML = data[i].type
         div.setAttribute("class", "flex")       
         h1.setAttribute("class", "modifyH1")       
         select.setAttribute("class", "modifySelect")   
