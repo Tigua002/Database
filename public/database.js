@@ -159,6 +159,8 @@ document.getElementById("alterTable").addEventListener("click", async () => {
         method: "GET"
     })
     let data = await response.json()
+    console.log(data);
+    
     for (let i = 0; i < data.length; i++) {
         let div = document.createElement("div")        
         let h1 = document.createElement("h1")        
@@ -171,7 +173,6 @@ document.getElementById("alterTable").addEventListener("click", async () => {
         h1.setAttribute("class", "modifyH1")       
         select.setAttribute("class", "modifySelect")   
         btn.setAttribute("class", "modifyBtn")   
-
         document.getElementsByClassName("ModifyHolder")[0].appendChild(div)    
 
     }

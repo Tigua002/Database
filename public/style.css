@@ -526,5 +526,22 @@ body {
 
 }
 .modifyH1{
-    
+    color: #ffffff;
+}
+.modifySelect{
+    background-color: #1A1A1A;
+    color: #66B2FF;
+    padding: .5vw;
+    border-radius: .4vw;
+    margin: 1vw;
+}
+.modifyBtn{
+    background-color: #B22222;
+    font-size: .8vw;
+    border: none;
+    outline: none;
+    margin: 1vw;
+    padding: .6vw;
+    border-radius: 1vw;
+    cursor: pointer;
 }
