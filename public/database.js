@@ -327,12 +327,9 @@ document.getElementsByClassName("TableForm")[0].addEventListener("submit", async
 
     for (let i = 1; i < document.getElementsByClassName("newRow").length; i++) {
         let name = document.getElementsByClassName("RowName")[i].value;
-        let type;
+        let type =document.getElementsByClassName("TableType")[i].value
         if (type == "custom") {
             type = document.getElementsByClassName("RowCustom")[i].value
-        }else{
-            type = document.getElementsByClassName("TableType")[i].value;
-
         }
 
         tableArray.push({ name, type });
