@@ -173,14 +173,29 @@ document.getElementById("alterTable").addEventListener("click", async () => {
         div.appendChild(btn)
         h1.innerHTML = data[i].Field
         select.innerHTML = data[i].Type
-        btn.innerHTML = "EDIT"
+        btn.innerHTML = "DELETE"
         separator.setAttribute("class", "flex")
         div.setAttribute("class", "flex modifyDiv")          
         h1.setAttribute("class", "modifyH1")       
         select.setAttribute("class", "modifySelect")   
         btn.setAttribute("class", "modifyBtn")   
         document.getElementsByClassName("ModifyHolder")[0].appendChild(div)    
-
+        btn.addEventListener("click", async () => {
+            const info = {
+                db: state.dbInUse,
+                table: state.tableInUse,
+                column: data[i].Field
+            }
+            await fetch(`/drop/column/`, {
+                method: "POST",
+                headers: {
+                    'Content-Type': "application/json"
+                },
+                body: JSON.stringify(info)
+            })
+            closeModal("ModifyTable")
+            document.getElementById("alterTable").click()
+        })
     }
 })
 //open newUserModal

@@ -79,6 +79,21 @@ app.post("/create/column", function (req, res) {
         res.send(result)
     });
 });
+app.post("/drop/column", function (req, res) {
+    let db = req.body.db
+    let table = req.body.table
+    let column = req.body.column
+    connection.query(`use ${db}`)
+    // Use parameterized query to insert user
+    connection.query(`ALTER TABLE ${table} DROP COLUMN ${column}`, function (err, result) {
+        if (err) {
+            console.error("Error creating user:", err);
+            res.status(500).send(err);
+            return;
+        }
+        res.send(result)
+    });
+});
 app.post("/insert/data", function (req, res) {
     let rows = ""
     let values = ""
