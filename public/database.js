@@ -152,7 +152,10 @@ document.getElementsByClassName("ModalClose")[1].addEventListener("click", async
 document.getElementsByClassName("ModalClose")[2].addEventListener("click", () => closeModal("InsertDataModal"));
 document.getElementsByClassName("ModalClose")[3].addEventListener("click", () => closeModal("NewTableModal"));
 document.getElementsByClassName("ModalClose")[4].addEventListener("click", () => closeModal("AppendTableModal"));
-document.getElementsByClassName("ModalClose")[5].addEventListener("click", () => closeModal("ModifyTable"));
+document.getElementsByClassName("ModalClose")[5].addEventListener("click", () => {
+    closeModal("ModifyTable")
+    loadData(state.dbInUse, state.tableInUse)
+});
 document.getElementById("alterTable").addEventListener("click", async () => {
     document.getElementsByClassName("ModifyHolder")[0].innerHTML = ""
     openModal("ModifyTable")
