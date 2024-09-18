@@ -53,6 +53,8 @@ app.post("/create/table", function (req, res) {
         string += ` ,${table.name} ${table.type}`
 
     }
+    console.log(string);
+    
     connection.query(`use ${req.body.db}`)
     // Use parameterized query to insert user
     connection.query(`CREATE TABLE ${req.body.name} (${string})`, function (err, result) {
