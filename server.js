@@ -47,6 +47,8 @@ app.post("/create/database", function (req, res) {
 });
 app.post("/create/table", function (req, res) {
     let string = "ID int auto_increment PRIMARY KEY"
+    console.log(req.body.tableArray);
+    
     for (let i = 0; i < req.body.tableArray.length; i++) {
         let table = req.body.tableArray[i]
 

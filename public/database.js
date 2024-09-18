@@ -331,7 +331,10 @@ document.getElementsByClassName("TableForm")[0].addEventListener("submit", async
         if (type == "custom") {
             type = document.getElementsByClassName("RowCustom")[i].value
         }
-
+        console.log("pushed:");
+        console.log(document.getElementsByClassName("newRow")[i]);
+        
+        
         tableArray.push({ name, type });
     }
 
