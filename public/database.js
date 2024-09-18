@@ -233,7 +233,7 @@ document.getElementsByClassName("BlueBlackBtn")[1].addEventListener("click", () 
 // opens the insert data modal
 document.getElementsByClassName("dataInsertBtn")[0].addEventListener("click", () => {
     document.getElementsByClassName("dataInsertDiv")[0].innerHTML = "";
-    for (let i = 0; i < document.getElementsByClassName("tableDesc").length; i++) {
+    for (let i = 1; i < document.getElementsByClassName("tableDesc").length; i++) {
         let div = document.createElement("div");
         let h1 = document.createElement("h1");
         let input = document.createElement("input");
@@ -389,7 +389,7 @@ document.getElementById("newColumn").addEventListener("click", async (event) => 
 // Insert data
 document.getElementById("InsertData").addEventListener("click", async () => {
     let dataArray = [];
-    for (let i = 0; i < document.getElementsByClassName("InsertDataInp").length; i++) {
+    for (let i = 1; i < document.getElementsByClassName("InsertDataInp").length; i++) {
         let rowName = document.getElementsByClassName("InsertDataH1")[i].innerHTML;
         let rowValue = document.getElementsByClassName("InsertDataInp")[i].value;
         dataArray.push({ name: rowName, value: rowValue });
