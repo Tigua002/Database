@@ -152,10 +152,13 @@ document.getElementsByClassName("ModalClose")[1].addEventListener("click", async
 document.getElementsByClassName("ModalClose")[2].addEventListener("click", () => closeModal("InsertDataModal"));
 document.getElementsByClassName("ModalClose")[3].addEventListener("click", () => closeModal("NewTableModal"));
 document.getElementsByClassName("ModalClose")[4].addEventListener("click", () => closeModal("AppendTableModal"));
+document.getElementsByClassName("BlueBlackBtn")[1].addEventListener("click", () => openModal("NewTableModal"));
 document.getElementsByClassName("ModalClose")[5].addEventListener("click", () => {
     closeModal("ModifyTable")
     loadData(state.dbInUse, state.tableInUse)
 });
+
+// opens the alterTable menu
 document.getElementById("alterTable").addEventListener("click", async () => {
     document.getElementsByClassName("ModifyHolder")[0].innerHTML = ""
     openModal("ModifyTable")
@@ -165,7 +168,7 @@ document.getElementById("alterTable").addEventListener("click", async () => {
     let data = await response.json()
     console.log(data);
     
-    for (let i = 0; i < data.length; i++) {
+    for (let i = 1; i < data.length; i++) {
         let div = document.createElement("div")        
         let separator = document.createElement("div")        
         let h1 = document.createElement("h1")        
@@ -228,7 +231,6 @@ document.getElementsByClassName("BlueBlackBtn")[0].addEventListener("click", asy
         }
     }
 });
-document.getElementsByClassName("BlueBlackBtn")[1].addEventListener("click", () => openModal("NewTableModal"));
 
 // opens the insert data modal
 document.getElementsByClassName("dataInsertBtn")[0].addEventListener("click", () => {
