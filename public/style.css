@@ -213,6 +213,9 @@ body {
     background-color: #1A1A1A;
     opacity: .3;
 }
+dialog{
+    overflow-x: hidden;
+}
 .ModalDiv{
     width: 90%;
     justify-content: center;
