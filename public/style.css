@@ -532,7 +532,8 @@ body {
 }
 .modifyDiv{
     justify-content: start;
-    border: solid 1px #B22222;
+    width: 100%;
+
 }
 .modifyH1{
     color: #ffffff;
@@ -550,6 +551,7 @@ body {
     border: none;
     outline: none;
     margin: 1vw;
+    margin-left: 30%;
     padding: .6vw;
     border-radius: 1vw;
     cursor: pointer;
