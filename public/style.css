@@ -237,6 +237,7 @@ body {
     justify-content: end;
     width: 95%;
     text-align: end;
+    padding: 1vw;
 }
 .ModalInp{
     color: #66B2FF;
@@ -550,9 +551,6 @@ body {
 .modifyDiv{
     justify-content: space-between;
     width: 90%;
-}
-.seperatorDiv{
-
 }
 .modifyH1{
     color: #ffffff;
