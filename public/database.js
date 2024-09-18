@@ -278,14 +278,14 @@ document.getElementsByClassName("newTableRow")[0].addEventListener("click", () =
     let varchar = document.createElement("option");
     let longtext = document.createElement("option");
     let int = document.createElement("option");
-    let Boolean = document.createElement("option");
+    let Custom = document.createElement("option");
 
     div.appendChild(Nameinput);
     div.appendChild(DropDown);
     DropDown.appendChild(varchar);
     DropDown.appendChild(longtext);
     DropDown.appendChild(int);
-    // DropDown.appendChild(Boolean);
+    DropDown.appendChild(Custom);
 
     div.setAttribute("class", "newRow");
     Nameinput.setAttribute("class", "RowName");
@@ -297,13 +297,19 @@ document.getElementsByClassName("newTableRow")[0].addEventListener("click", () =
     varchar.setAttribute("value", "varchar(255)");
     longtext.setAttribute("value", "longtext");
     int.setAttribute("value", "int");
-    Boolean.setAttribute("value", "Boolean");
+    Custom.setAttribute("value", "custom");
     varchar.innerHTML = "Short Text";
     longtext.innerHTML = "Multiple Lines of Text";
     int.innerHTML = "Number";
-    Boolean.innerHTML = "True/False";
+    Custom.innerHTML = "Custom";
 
     document.getElementsByClassName("tableRows")[0].appendChild(div);
+    DropDown.addEventListener("change", () => {
+        if (DropDown.value == "custom") {
+            let customInp = document.createElement ("input")
+            div.appendChild(customInp)
+        }
+    })
 });
 
 // creates a new table
