@@ -521,9 +521,18 @@ body {
     justify-content: start;
     flex-direction: column;
     display: none;
+    padding-bottom: 1vw;
+}
+.ModifyHolder{
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 .modifyDiv{
-
+    justify-content: start;
+    border: solid 1px #B22222;
 }
 .modifyH1{
     color: #ffffff;

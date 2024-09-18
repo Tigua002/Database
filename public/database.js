@@ -173,6 +173,7 @@ document.getElementById("alterTable").addEventListener("click", async () => {
         select.innerHTML = data[i].Type
         btn.innerHTML = "EDIT"
         div.setAttribute("class", "flex")       
+        div.setAttribute("class", "modifyDiv")       
         h1.setAttribute("class", "modifyH1")       
         select.setAttribute("class", "modifySelect")   
         btn.setAttribute("class", "modifyBtn")   
