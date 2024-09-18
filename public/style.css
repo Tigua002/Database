@@ -339,6 +339,12 @@ body {
     color: #66B2FF;
     
 }
+.newRow{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
 .RowName{
     background-color: #333333;
     border: none;
@@ -348,6 +354,17 @@ body {
     margin: .5vw;
     border-radius: .1vw;
     color: #66B2FF;
+}
+.RowCustom{
+    background-color: #333333;
+    border: none;
+    outline: none;
+    font-size: 1vw;
+    padding: .4vw;
+    margin: .5vw;
+    border-radius: .1vw;
+    color: #66B2FF;
+    display: none;
 }
 .InsertDataModal{
     width: 30%;

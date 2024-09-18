@@ -302,12 +302,19 @@ document.getElementsByClassName("newTableRow")[0].addEventListener("click", () =
     longtext.innerHTML = "Multiple Lines of Text";
     int.innerHTML = "Number";
     Custom.innerHTML = "Custom";
+    let customInp = document.createElement ("input")
+    customInp.setAttribute("class", "RowCustom")
+    customInp.setAttribute("placeholder", "Column Type")
+
+    div.appendChild(customInp)
 
     document.getElementsByClassName("tableRows")[0].appendChild(div);
     DropDown.addEventListener("change", () => {
         if (DropDown.value == "custom") {
-            let customInp = document.createElement ("input")
-            div.appendChild(customInp)
+            customInp.style.display = "block"
+        } else {
+            customInp.style.display = "none"
+
         }
     })
 });
@@ -318,9 +325,16 @@ document.getElementsByClassName("TableForm")[0].addEventListener("submit", async
     let tableName = document.getElementsByClassName("TableName")[0].value;
     let tableArray = [];
 
-    for (let i = 0; i < document.getElementsByClassName("newRow").length; i++) {
+    for (let i = 1; i < document.getElementsByClassName("newRow").length; i++) {
         let name = document.getElementsByClassName("RowName")[i].value;
-        let type = document.getElementsByClassName("TableType")[i].value;
+        let type;
+        if (type == "custom") {
+            type = document.getElementsByClassName("RowCustom")[i].value
+        }else{
+            type = document.getElementsByClassName("TableType")[i].value;
+
+        }
+
         tableArray.push({ name, type });
     }
 
