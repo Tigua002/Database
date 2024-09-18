@@ -169,8 +169,8 @@ document.getElementById("alterTable").addEventListener("click", async () => {
         let btn = document.createElement("button")
         separator.appendChild(h1)
         separator.appendChild(select)
-        div.appendChild(btn)
         div.appendChild(separator)
+        div.appendChild(btn)
         h1.innerHTML = data[i].Field
         select.innerHTML = data[i].Type
         btn.innerHTML = "EDIT"
