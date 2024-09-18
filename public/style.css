@@ -531,11 +531,11 @@ body {
     align-items: center;
 }
 .modifyDiv{
-    justify-content: start;
+    justify-content: space-between;
     width: 90%;
 }
 .seperatorDiv{
-    
+
 }
 .modifyH1{
     color: #ffffff;
