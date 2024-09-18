@@ -50,7 +50,9 @@ app.post("/create/table", function (req, res) {
     for (let i = 0; i < req.body.tableArray.length; i++) {
         let table = req.body.tableArray[i]
 
-        string += ` ,${table.name} ${table.type}`
+        string += `, ${table.name} ${table.type}`
+        console.log(string);
+        
 
     }
     console.log(string);
