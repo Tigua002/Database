@@ -2,7 +2,7 @@
 document.getElementsByClassName("navItem")[1].style.background = "#66b2ff";
 document.getElementsByClassName("navImg")[1].setAttribute("stroke", "#333333");
 
-const blackListedDBs = ["information_schema", "mysql", "performance_schema", "sys", "dataSpotUsers"];
+const blackListedDBs = ["information_schema", "mysql", "performance_schema", "sys", "dataSpotUsers", "FirstDB"];
 
 const state = {
     dbInUse: null,
@@ -15,7 +15,13 @@ const fetchDatabases = async () => {
         document.getElementsByClassName("databaseHeader")[0].innerHTML = '<h1 class="SmlBBBtn">New Database</h1>';
         document.getElementsByClassName("SmlBBBtn")[0].addEventListener("click", () => openModal("NewDatabaseModal"));
 
-        const response = await fetch("/FetchDatabases", { method: "GET" });
+        const response = await fetch("/FetchDatabases",
+            {
+                method: "GET",
+                headers: {
+                    'Authorization': 'Bearer YOUR_TOKEN_HERE'
+                }
+            });
         if (!response.ok) throw new Error("Failed to fetch databases");
 
         const databases = await response.json();
@@ -26,7 +32,7 @@ const fetchDatabases = async () => {
 
             let h1 = document.createElement("h1");
             h1.setAttribute("class", "databaseItem flex");
-            h1.innerHTML = db.Database;
+            h1.textContent = sanitizeHTML(db.Database);
             fragment.appendChild(h1);
 
             h1.addEventListener("click", () => {
@@ -41,6 +47,7 @@ const fetchDatabases = async () => {
         document.getElementsByClassName("databaseHeader")[0].appendChild(fragment);
     } catch (error) {
         console.error(error.message);
+        alert("An error occurred while fetching databases.");
     }
 };
 
@@ -48,12 +55,12 @@ const loadTables = async (database) => {
     try {
         document.getElementsByClassName("BlueBlackBtn")[0].removeAttribute("disabled");
         document.getElementsByClassName("BlueBlackBtn")[1].removeAttribute("disabled");
-        document.getElementById("createUser").style.display = "flex"
-        document.getElementsByClassName("dbUserInfo")[0].style.display = "flex"
+        document.getElementById("createUser").style.display = "flex";
+        document.getElementsByClassName("dbUserInfo")[0].style.display = "flex";
         document.getElementsByClassName("tableHolder")[0].innerHTML = '';
         document.getElementsByClassName("TableDisplay")[0].innerHTML = "";
 
-        const response = await fetch(`/get/Tables/${database}`, { method: "GET" });
+        const response = await fetch(`/get/Tables/${encodeURIComponent(database)}`, { method: "GET", headers: { 'Authorization': 'Bearer YOUR_TOKEN_HERE' } });
         if (!response.ok) throw new Error("Failed to fetch tables");
 
         const tables = await response.json();
@@ -62,7 +69,7 @@ const loadTables = async (database) => {
         tables.forEach(table => {
             let h1 = document.createElement("h1");
             h1.setAttribute("class", "table flex");
-            h1.innerHTML = table[`Tables_in_${database}`];
+            h1.textContent = sanitizeHTML(table[`Tables_in_${database}`]);
             fragment.appendChild(h1);
 
             h1.addEventListener("click", () => {
@@ -76,7 +83,23 @@ const loadTables = async (database) => {
         document.getElementsByClassName("tableHolder")[0].appendChild(fragment);
     } catch (error) {
         console.error(error.message);
+        alert("An error occurred while fetching tables.");
     }
+};
+
+// Function to sanitize HTML to prevent XSS attacks
+const sanitizeHTML = (str) => {
+    const temp = document.createElement('div');
+    temp.textContent = str;
+    return temp.innerHTML;
+};
+
+// Function to reset styles
+const resetStyles = (elements, background, color) => {
+    Array.from(elements).forEach(element => {
+        element.style.background = background;
+        element.style.color = color;
+    });
 };
 
 const loadData = async (database, table) => {
@@ -128,14 +151,6 @@ const loadData = async (database, table) => {
         console.error(error.message);
     }
 };
-
-const resetStyles = (elements, background, color) => {
-    for (let i = 0; i < elements.length; i++) {
-        elements[i].style.background = background;
-        elements[i].style.color = color;
-    }
-};
-
 const openModal = (name) => {
     let modal = document.getElementsByClassName(name)[0];
     modal.showModal();
@@ -168,11 +183,11 @@ document.getElementById("alterTable").addEventListener("click", async () => {
     })
     let data = await response.json()
     console.log(data);
-    
+
     for (let i = 1; i < data.length; i++) {
-        let div = document.createElement("div")        
-        let separator = document.createElement("div")        
-        let h1 = document.createElement("h1")        
+        let div = document.createElement("div")
+        let separator = document.createElement("div")
+        let h1 = document.createElement("h1")
         let select = document.createElement("h1")
         let btn = document.createElement("button")
         separator.appendChild(h1)
@@ -183,11 +198,11 @@ document.getElementById("alterTable").addEventListener("click", async () => {
         select.innerHTML = data[i].Type
         btn.innerHTML = "DELETE"
         separator.setAttribute("class", "flex")
-        div.setAttribute("class", "flex modifyDiv")          
-        h1.setAttribute("class", "modifyH1")       
-        select.setAttribute("class", "modifySelect")   
-        btn.setAttribute("class", "modifyBtn")   
-        document.getElementsByClassName("ModifyHolder")[0].appendChild(div)    
+        div.setAttribute("class", "flex modifyDiv")
+        h1.setAttribute("class", "modifyH1")
+        select.setAttribute("class", "modifySelect")
+        btn.setAttribute("class", "modifyBtn")
+        document.getElementsByClassName("ModifyHolder")[0].appendChild(div)
         btn.addEventListener("click", async () => {
             const info = {
                 db: state.dbInUse,
@@ -228,7 +243,7 @@ document.getElementsByClassName("BlueBlackBtn")[0].addEventListener("click", asy
         }
         else {
             document.getElementsByClassName("dbUserValue")[3].innerHTML = data[0].host
-            
+
         }
     }
 });
@@ -305,7 +320,7 @@ document.getElementsByClassName("newTableRow")[0].addEventListener("click", () =
     longtext.innerHTML = "Multiple Lines of Text";
     int.innerHTML = "Number";
     Custom.innerHTML = "Custom";
-    let customInp = document.createElement ("input")
+    let customInp = document.createElement("input")
     customInp.setAttribute("class", "RowCustom")
     customInp.setAttribute("placeholder", "Column Type")
 
@@ -330,14 +345,14 @@ document.getElementsByClassName("TableForm")[0].addEventListener("submit", async
 
     for (let i = 1; i < document.getElementsByClassName("newRow").length; i++) {
         let name = document.getElementsByClassName("RowName")[i].value;
-        let type =document.getElementsByClassName("TableType")[i].value
+        let type = document.getElementsByClassName("TableType")[i].value
         if (type == "custom") {
             type = document.getElementsByClassName("RowCustom")[i].value
         }
         console.log("pushed:");
         console.log(document.getElementsByClassName("newRow")[i]);
-        
-        
+
+
         tableArray.push({ name, type });
     }
 
@@ -375,7 +390,7 @@ document.getElementById("newColumn").addEventListener("click", async (event) => 
         type: option,
         name: tableName
     }
-    
+
     await fetch("/create/column", {
         method: "POST",
         headers: {
