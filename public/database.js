@@ -201,7 +201,7 @@ document.getElementById("alterTable").addEventListener("click", async () => {
                 body: JSON.stringify(info)
             })
             closeModal("ModifyTable")
-            document.getElementById("d").click()
+            document.getElementById("alterTable").click()
         })
     }
 })
