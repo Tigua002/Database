@@ -408,7 +408,7 @@ dialog{
     min-width: 50%;
     border-radius: .5vw;
     font-size: .8vw;
-    padding: 0vw .5vw;
+    padding: .2vw .2vw;
     color: #66B2FF;
 }
 .DatabaseUserModal{

@@ -83,6 +83,7 @@ const loadData = async (database, table) => {
     try {
         state.tableInUse = table;
         document.getElementsByClassName("dataInsertBtn")[0].removeAttribute("disabled");
+        document.getElementById("alterTable").removeAttribute("disabled");
         document.getElementsByClassName("TableDisplay")[0].innerHTML = "";
 
         let response = await fetch(`/get/columns/${database}/${table}`, { method: "GET" });
