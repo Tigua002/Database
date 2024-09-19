@@ -154,7 +154,9 @@ app.post("/create/user", function (req, res) {
     connection.query("FLUSH PRIVILEGES;")
     res.send(200)
 });
-
+app.get('/dataspots/', (req, res) => {
+    res.sendFile(__dirname + "/public/databases/index.html");
+})
 
 app.get('/FetchDatabases', (req, res) => {
     connection.query('SHOW DATABASES', function (err, result, fields) {
