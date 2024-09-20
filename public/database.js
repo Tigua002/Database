@@ -181,6 +181,7 @@ const loadData = async (database, table) => {
                         element.parentNode.replaceChild(newTd, element);
                         event.target.innerHTML = "SUBMIT"
                         event.target.style.background = "#ffffff"
+                        event.target.style.color = "#66B2FF"
                         
                     }
                 } else {
@@ -215,6 +216,7 @@ const loadData = async (database, table) => {
                     })
                     event.target.innerHTML = "EDIT"
                     event.target.style.background = "#B22222"
+                    event.target.style.color= "#ffffff"
                 }
 
             });
