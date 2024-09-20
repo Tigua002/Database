@@ -212,16 +212,13 @@ body {
     margin: 0vw;
 }
 .tableData{
-    display: flex;
-    justify-content: center;
-    align-items: end;
-    flex-direction: row;
     padding-left: .5vw;
     height: 3vh;
     width: 10vw;
     margin: 0%;
     font-size: .7vw;
     font-family: RobotoLight;
+    
 }
 .tableData:hover{
     background-color: #1A1A1A;
