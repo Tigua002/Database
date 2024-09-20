@@ -208,7 +208,7 @@ const loadData = async (database, table) => {
                     
                     for (let i = 1; i < document.getElementsByClassName("tableDesc").length; i++) {
                         let element = document.getElementsByClassName("tableDesc")[i];
-                        fieldArray.push(element.value)
+                        fieldArray.push(element.innerHTML)
                     }
 
                     const data = {
