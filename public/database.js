@@ -172,6 +172,8 @@ const loadData = async (database, table) => {
                     input.value = element.textContent;
                     input.type = "text";
                     input.setAttribute("class", "tableInput");
+                    input.focus()
+                    input.select()
                     
                     // Create a new td element if working with a table
                     let newTd = document.createElement("td");
@@ -179,7 +181,9 @@ const loadData = async (database, table) => {
                     
                     // Replace the old td element with the new one
                     element.parentNode.replaceChild(newTd, element);
+
                 }
+                
             });
             
             
