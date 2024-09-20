@@ -163,7 +163,7 @@ const loadData = async (database, table) => {
                     let input = document.createElement("input")
                     input.value = element.textContent
                     input.type = "text"
-                    input.setAttribute("class", "tableData")
+                    input.setAttribute("class", "tableInput")
                     parent.replaceChild(input, element)
                     
                 }

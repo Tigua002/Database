@@ -188,6 +188,17 @@ body {
     color: #ffffff;
     font-size: .7vw;
 }
+.tableInput{
+    padding-left: .5vw;
+    height: 2vw;
+    width: 10vw;
+    margin: 0%;
+    border: solid 1px #66B2FF;
+    color: #ffffff;
+    font-size: .7vw;
+    background: none;
+    outline: none;
+}
 .tableID{
     height: 2vw;
     width: 1.5vw;
