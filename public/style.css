@@ -151,6 +151,8 @@ body {
     border-radius: 1.5vw;
     font-size: .6vw;
     cursor: pointer;
+    border: none;
+    outline: none;
 }
 .dataInsertBtn:hover{
     opacity: .8;
@@ -579,6 +581,8 @@ dialog{
     border-radius: 1.5vw;
     font-size: .6vw;
     cursor: pointer;
+    border: none;
+    outline: none;
 }
 .styleBlueBlack:hover{
     opacity: .8;
