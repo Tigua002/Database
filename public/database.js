@@ -38,7 +38,7 @@ const fetchDatabases = async () => {
             h1.addEventListener("click", () => {
                 resetStyles(document.getElementsByClassName("databaseItem"), "none", "#ffffff");
                 h1.style.background = "#ffffff";
-                h1.style.color = "#66B2FF";
+                h1.style.color = "#333333";
                 state.dbInUse = db.Database;
                 loadTables(db.Database);
             });
