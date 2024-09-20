@@ -164,7 +164,6 @@ const loadData = async (database, table) => {
                         console.log("entered");
 
                         let element = collection[i];
-                        console.log(element);
 
                         let input = document.createElement("input");
                         input.value = element.textContent;
@@ -180,11 +179,13 @@ const loadData = async (database, table) => {
                         // Replace the old td element with the new one
                         element.parentNode.replaceChild(newTd, element);
                         event.target.innerHTML = "SUBMIT"
-                        event.target.style.background = "#ffffff"
-                        event.target.style.color = "#66B2FF"
+                        event.target.style.background = "#66B2FF"
+                        event.target.style.color = "#ffffff"
                         
                     }
                 } else {
+                    console.log("ran");
+                    
                     let itemArray = []
                     for (let i = 1; i < parent.getElementsByClassName("tableInput").length; i++) {
                         let element = parent.getElementsByClassName("tableInput");
@@ -216,7 +217,7 @@ const loadData = async (database, table) => {
                     })
                     event.target.innerHTML = "EDIT"
                     event.target.style.background = "#B22222"
-                    event.target.style.color= "#ffffff"
+                    event.target.style.color = "#ffffff"
                 }
 
             });
@@ -227,6 +228,7 @@ const loadData = async (database, table) => {
         console.error(error.message);
     }
 };
+
 const openModal = (name) => {
     let modal = document.getElementsByClassName(name)[0];
     modal.showModal();
@@ -258,7 +260,6 @@ document.getElementById("alterTable").addEventListener("click", async () => {
         method: "GET"
     })
     let data = await response.json()
-    console.log(data);
 
     for (let i = 1; i < data.length; i++) {
         let div = document.createElement("div")
@@ -425,20 +426,17 @@ document.getElementsByClassName("TableForm")[0].addEventListener("submit", async
         if (type == "custom") {
             type = document.getElementsByClassName("RowCustom")[i].value
         }
-        console.log("pushed:");
-        console.log(document.getElementsByClassName("newRow")[i]);
+
 
 
         tableArray.push({ name, type });
     }
 
-    console.log(tableName);
     const data = {
         db: state.dbInUse,
         name: tableName,
         tableArray
     };
-    console.log(data);
 
     try {
         const response = await fetch("/create/table", {
@@ -494,7 +492,6 @@ document.getElementById("InsertData").addEventListener("click", async () => {
         table: state.tableInUse,
         array: dataArray
     };
-    console.log(dataArray);
 
     try {
         const response = await fetch("/insert/data", {
@@ -533,7 +530,6 @@ document.getElementById("createUser").addEventListener("click", (event) => {
     label.innerHTML = "IP:"
     ipInp.placeholder = "0.0.0.0 for all ip's"
     ipInp.type = "text"
-    console.log("hi");
     document.getElementsByClassName("DatabaseUserModal")[0].appendChild(div)
     ipInp.addEventListener("change", () => {
 
@@ -551,7 +547,6 @@ document.getElementById("createUser").addEventListener("click", (event) => {
             db: state.dbInUse,
             host: hostIP
         }
-        console.log(data);
 
         await fetch("/create/user", {
             method: "POST",
@@ -571,7 +566,6 @@ document.getElementById("createUser").addEventListener("click", (event) => {
 for (let i = 0; i < document.getElementsByClassName("dbUserRow").length; i++) {
 
     document.getElementsByClassName("dbUserRow")[i].addEventListener("click", () => {
-        console.log("Thing");
 
         const username = document.getElementsByClassName('dbUserValue')[i].innerText;
         navigator.clipboard.writeText(username).then(() => {
