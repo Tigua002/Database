@@ -161,7 +161,7 @@ const loadData = async (database, table) => {
                 
                 let id = collection[0].innerHTML
                 alert(id)
-                for (let i = 0; i < collection.length; i++) {
+                for (let i = -1; i < collection.length; i++) {
                     let element = collection[i]
                     let input = document.createElement("input")
                     input.value = element.textContent
