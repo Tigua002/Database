@@ -156,10 +156,10 @@ const loadData = async (database, table) => {
             editBtn.addEventListener("click", (event) => {
                 let parent = event.target.parentElement.parentElement
                 let collection = parent.getElementsByClassName("tableData")
-                console.log(collection);
+                console.log(collection.length);
                 console.log(collection[0]);
                 
-                let id = collection[0].value
+                let id = collection[0].innerHTML
                 alert(id)
                 for (let i = 0; i < collection.length; i++) {
                     let element = collection[i]
@@ -167,7 +167,7 @@ const loadData = async (database, table) => {
                     input.value = element.textContent
                     input.type = "text"
                     input.setAttribute("class", "tableInput")
-                    // parent.replaceChild(input, element)
+                    parent.replaceChild(input, element)
                     
                 }
             })
