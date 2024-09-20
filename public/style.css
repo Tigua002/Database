@@ -221,7 +221,7 @@ body {
     
 }
 .tableRow:hover{
-    background-color: #1A1A1A;
+    background: #1A1A1A;
 }
 .tableInput{
     padding-left: .5vw;
