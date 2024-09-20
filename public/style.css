@@ -1,8 +1,25 @@
+@font-face {
+    font-family: 'RobotoBold';
+    src: url('fonts/roboto/Roboto-Bold.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'RobotoLightItalic';
+    src: url('fonts/roboto/Roboto-LightItalic.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'RobotoLight';
+    src: url('fonts/roboto/Roboto-Light.ttf') format('truetype');
+}
+
+
 body {
     margin: 0%;
     padding: 0%;
+    border-radius: 0%;
+    border: none;
     overflow: hidden;
     background-color: #444444;
+    font-family: RobotoBold;
 }
 
 .flex {
@@ -118,6 +135,7 @@ body {
     cursor: pointer;
     opacity: .9;
     border-bottom: solid 1px #66B2FF;
+    font-family: RobotoLightItalic;
 }
 .table:hover{
     opacity: 1;
@@ -132,6 +150,7 @@ body {
     margin: 0vw .5vw;
     cursor: pointer;
     box-shadow: 2px 2px 8px 2px rgba(27, 27, 27, 1);
+    font-family: RobotoBold;
 }
 .BlueBlackBtn:hover{
     transform: scale(102%);
@@ -154,6 +173,7 @@ body {
     cursor: pointer;
     border: none;
     outline: none;
+    font-family: RobotoBold;
 }
 .dataInsertBtn:hover{
     opacity: .8;
@@ -193,6 +213,7 @@ body {
     border: solid 1px #66B2FF;
     color: #ffffff;
     font-size: .7vw;
+    font-family: RobotoLight;
 }
 .tableInput{
     padding-left: .5vw;
@@ -584,6 +605,7 @@ dialog{
     cursor: pointer;
     border: none;
     outline: none;
+    font-family: RobotoBold;
 }
 .styleBlueBlack:hover{
     opacity: .8;
