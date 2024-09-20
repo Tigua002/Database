@@ -215,6 +215,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: end;
+    flex-direction: row;
     padding-left: .5vw;
     height: 3vh;
     width: 10vw;
