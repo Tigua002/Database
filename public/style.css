@@ -1,7 +1,7 @@
 body {
     margin: 0%;
     padding: 0%;
-    overflow-x: hidden;
+    overflow: hidden;
     background-color: #444444;
 }
 
@@ -60,6 +60,9 @@ body {
     overflow-y: scroll;
     border-top-left-radius: 1%;
     border-bottom-left-radius: 1%;
+}
+.databaseBody::-webkit-scrollbar{
+ display: none;
 }
 
 .databaseHeader {
