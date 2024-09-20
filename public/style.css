@@ -75,7 +75,6 @@ body {
     height: 100vh;
     display: flex;
     overflow-y: scroll;
-    border-top-left-radius: 1%;
     border-bottom-left-radius: 1%;
 }
 .databaseBody::-webkit-scrollbar{
@@ -86,7 +85,6 @@ body {
     flex-direction: column;
     justify-content: start;
     width: 7%;
-    padding-top: 1vw;
     border-right: solid 1px #ffffff79;
     background-color: #333333;
     
@@ -156,12 +154,20 @@ body {
     transform: scale(102%);
 }
 .SmlBBBtn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
     background-color: #66B2FF;
     color: #333333;
-    padding: .5vw;
-    border-radius: .5vw;
-    font-size: .7vw;
+    font-size: .8vw;
     cursor: pointer;
+    width: 90%;
+    padding: 5%;
+    height: 5%;
+    margin: 0%;
+}
+.SmlBBBtn:hover{
+    opacity: .9;
 }
 .dataInsertBtn{
     color: #333333;
