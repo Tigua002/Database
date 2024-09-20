@@ -159,10 +159,10 @@ const loadData = async (database, table) => {
                 let collection = Array.from(parent.getElementsByClassName("tableData")); // Convert to array
                 let id = collection[0].innerHTML;
                 console.log(event.target.style.background);
-                console.log(event.target.style.background == "#B22222");
+                console.log(event.target.style.background == "rgb(178, 34, 34)");
                 
                 
-                if (event.target.style.background == "#B22222") {
+                if (event.target.style.background == "rgb(178, 34, 34)") {
 
 
                     for (let i = 1; i < collection.length; i++) {
