@@ -225,8 +225,7 @@ td{
     background-color: #1A1A1A;
 }
 .tableInput{
-    padding-left: 5%;
-    width: fit-content;
+    padding-left: .5vw;
     margin: 0%;
     border: none;
     min-height: 2vw;
@@ -234,7 +233,6 @@ td{
     color: #333333;
     font-size: .7vw;
     outline: none;
-    text-wrap: wrap;
     width: 10vw;
 }
 .tableID{
