@@ -194,20 +194,15 @@ body {
     padding: 0%;
     border-collapse: collapse;
     border-spacing: 0;
+    background-color: #ffffff;
+    color: #333333;
+    border: .2vw;
 }
 .tableDesc{
     text-align: center;
     font-size: 1vw;
-    color: #66B2FF;
     margin: 0%;
-}
-.tableIDDesc{
-    
-    width: 1.5vw;
-    text-align: center;
-    font-size: 1vw;
-    color: #66B2FF;
-    margin: 0%;
+    border-bottom: solid 1px #66B2FF;
 }
 .tableRow{
     margin: 0%;
@@ -219,7 +214,6 @@ body {
     height: 2vw;
     width: 10vw;
     margin: 0%;
-    border: solid 1px #66B2FF;
     color: #ffffff;
     font-size: .7vw;
     font-family: RobotoLight;
@@ -229,8 +223,7 @@ body {
     height: 2vw;
     width: 10vw;
     margin: 0%;
-    border: solid 3px #ffffff;
-    color: #ffffff;
+    border: solid 3px #66B2FF;
     font-size: .7vw;
     background: none;
     outline: none;
