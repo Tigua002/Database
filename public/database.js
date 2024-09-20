@@ -159,6 +159,8 @@ const loadData = async (database, table) => {
                 let collection = Array.from(parent.getElementsByClassName("tableData")); // Convert to array
                 let id = collection[0].innerHTML;
                 console.log(event.target.style.background);
+                console.log(event.target.style.background == "#B22222");
+                
                 
                 if (event.target.style.background == "#B22222") {
 
