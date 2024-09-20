@@ -245,9 +245,8 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding-left: .5vw;
     height: 2vw;
-    width: 4vw;
+    width: 5vw;
     margin: 0%;
     color: #ffffff;
     font-size: .7vw;
@@ -262,12 +261,13 @@ body {
     font-size: .8vw;
     cursor: pointer;
     min-width: 5vw;
+    width: 5vw;
     height: 90%;
     border: none;
     outline: none;
 }
 .editRowBtn{
-    width: 100%;
+    width: 95%;
     background: #B22222;
     border-radius: 2vw;
     text-align: center;
