@@ -153,40 +153,73 @@ const loadData = async (database, table) => {
             editBtn.innerHTML = "EDIT"
             editDiv.appendChild(editBtn)
             tableDataRow.appendChild(editDiv)
-            editBtn.addEventListener("click", (event) => {
+            editBtn.addEventListener("click", async (event) => {
                 let parent = event.target.parentElement.parentElement;
                 let collection = Array.from(parent.getElementsByClassName("tableData")); // Convert to array
-                console.log(collection.length);
-                console.log(collection);
-                
                 let id = collection[0].innerHTML;
-                alert(id);
-                
-                for (let i = 1; i < collection.length; i++) {
-                    console.log("entered");
-                    
-                    let element = collection[i];
-                    console.log(element);
-                    
-                    let input = document.createElement("input");
-                    input.value = element.textContent;
-                    input.type = "text";
-                    input.setAttribute("class", "tableInput");
-                    input.focus()
-                    input.select()
-                    
-                    // Create a new td element if working with a table
-                    let newTd = document.createElement("td");
-                    newTd.appendChild(input);
-                    
-                    // Replace the old td element with the new one
-                    element.parentNode.replaceChild(newTd, element);
+                if (event.target.style.background = "#B22222") {
 
+
+                    for (let i = 1; i < collection.length; i++) {
+                        console.log("entered");
+
+                        let element = collection[i];
+                        console.log(element);
+
+                        let input = document.createElement("input");
+                        input.value = element.textContent;
+                        input.type = "text";
+                        input.setAttribute("class", "tableInput");
+                        input.focus()
+                        input.select()
+
+                        // Create a new td element if working with a table
+                        let newTd = document.createElement("td");
+                        newTd.appendChild(input);
+
+                        // Replace the old td element with the new one
+                        element.parentNode.replaceChild(newTd, element);
+                        event.target.innerHTML = "SUBMIT"
+                        event.target.style.background = "#ffffff"
+                        
+                    }
+                } else {
+                    let itemArray = []
+                    for (let i = 1; i < parent.getElementsByClassName("tableInput").length; i++) {
+                        let element = parent.getElementsByClassName("tableInput");
+                        itemArray.push(element.value)
+                        let h1 = document.createElement("td")
+                        h1.setAttribute("class", "tableData")
+                        h1.innerHTML = element.value
+                        element.parentNode.replaceChild(h1, element)
+                    }
+                    let fieldArray = []
+                    for (let i = 1; i < document.getElementsByClassName("tableDesc").length; i++) {
+                        let element = document.getElementsByClassName("tableDesc");
+                        fieldArray.push(element.value)
+                    }
+
+                    const data = {
+                        db: state.dbInUse,
+                        tbl: state.tableInUse,
+                        id: id,
+                        array: itemArray,
+                        fieldArr: fieldArray
+                    }
+                    await fetch("/update/row", {
+                        method: "POST",
+                        headers:{
+                            'Content-Type': "application/json"
+                        },
+                        body: JSON.stringify(data)
+                    })
+                    event.target.innerHTML = "EDIT"
+                    event.target.style.background = "#B22222"
                 }
-                
+
             });
-            
-            
+
+
         });
     } catch (error) {
         console.error(error.message);

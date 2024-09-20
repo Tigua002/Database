@@ -194,7 +194,7 @@ body {
     width: 10vw;
     margin: 0%;
     border: solid 1px #B22222;
-    color: #66B2FF;
+    color: #ffffff;
     font-size: .7vw;
     background: none;
     outline: none;
@@ -224,9 +224,11 @@ body {
     padding: .2vw .4vw;
     margin: 1vw;
     border-radius: 1.5vw;
-    font-size: .6vw;
+    font-size: .8vw;
     cursor: pointer;
     height: 80%;
+    border: none;
+    outline: none;
 }
 .editRowBtn{
     width: 100%;

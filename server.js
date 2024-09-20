@@ -48,17 +48,17 @@ app.post("/create/database", function (req, res) {
 app.post("/create/table", function (req, res) {
     let string = "ID int auto_increment PRIMARY KEY"
     console.log(req.body.tableArray);
-    
+
     for (let i = 0; i < req.body.tableArray.length; i++) {
         let table = req.body.tableArray[i]
 
         string += `, ${table.name} ${table.type}`
         console.log(string);
-        
+
 
     }
     console.log(string);
-    
+
     connection.query(`use ${req.body.db}`)
     // Use parameterized query to insert user
     connection.query(`CREATE TABLE ${req.body.name} (${string})`, function (err, result) {
@@ -154,6 +154,31 @@ app.post("/create/user", function (req, res) {
     connection.query("FLUSH PRIVILEGES;")
     res.send(200)
 });
+app.post("/update/row", function (req, res) {
+    let string = ""
+    for (let i = 0; i < req.body.array.length; i++) {
+        let value = req.body.array[i]
+        let row = req.body.fieldArr[i]
+
+
+        if (string == "") {
+            string += `${row} = '${value}'`
+        } else {
+            string += `, ${row} = '${value}'`
+        }
+    }
+    connection.query(`use ${req.body.db}`)
+    // Use parameterized query to insert user
+    connection.query(`UPDATE ${req.body.tbl} SET ${string} WHERE ID = ${req.body.id}`, function (err, result) {
+        if (err) {
+            console.error("Error updating data:", err);
+            res.status(500).send(err);
+            return;
+        }
+        res.send(result)
+    });
+});
+
 app.get('/dataspots/', (req, res) => {
     res.sendFile(__dirname + "/public/databases/index.html");
 })
