@@ -163,7 +163,6 @@ const loadData = async (database, table) => {
 
 
                     for (let i = 1; i < collection.length; i++) {
-                        console.log("entered");
 
                         let element = collection[i];
 
@@ -186,25 +185,20 @@ const loadData = async (database, table) => {
                         
                     }
                 } else {
-                    console.log("ran");
                     
                     let itemArray = [];
                     let inputs = Array.from(parent.getElementsByClassName("tableInput")); // Convert to array
-                    console.log(inputs);
                     
                     inputs.forEach((element) => {
                         itemArray.push(element.value);
                         let h1 = document.createElement("td");
                         h1.setAttribute("class", "tableData");
                         h1.innerHTML = element.value;
-                        console.log(h1);
-                        console.log(element);
                         
                         element.parentNode.replaceChild(h1, element);
                     });
                     
                     let fieldArray = []
-                    console.log( document.getElementsByClassName("tableDesc"));
                     
                     for (let i = 1; i < document.getElementsByClassName("tableDesc").length; i++) {
                         let element = document.getElementsByClassName("tableDesc")[i];
@@ -218,7 +212,6 @@ const loadData = async (database, table) => {
                         array: itemArray,
                         fieldArr: fieldArray
                     }
-                    console.log(data);
                     
                     await fetch("/update/row", {
                         method: "POST",
