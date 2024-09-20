@@ -195,6 +195,7 @@ body {
     border-collapse: collapse;
     border-spacing: 0;
     color: #66B2FF;
+    background: none;
     border: .2vw;
 }
 .tableDesc{
