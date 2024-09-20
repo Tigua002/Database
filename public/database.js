@@ -157,10 +157,7 @@ const loadData = async (database, table) => {
             editBtn.addEventListener("click", async (event) => {
                 let parent = event.target.parentElement.parentElement;
                 let collection = Array.from(parent.getElementsByClassName("tableData")); // Convert to array
-                let id = collection[0].innerHTML;
-                console.log(event.target.style.background);
-                console.log(event.target.style.background == "rgb(178, 34, 34)");
-                
+                let id = collection[0].innerHTML;            
                 
                 if (event.target.style.background == "rgb(178, 34, 34)") {
 
@@ -194,7 +191,7 @@ const loadData = async (database, table) => {
                     let itemArray = []
                     console.log(parent.getElementsByClassName("tableInput"));
                     
-                    for (let i = 1; i < parent.getElementsByClassName("tableInput").length; i++) {
+                    for (let i = 0; i < parent.getElementsByClassName("tableInput").length; i++) {
                         let element = parent.getElementsByClassName("tableInput")[i];
                         itemArray.push(element.value)
                         let h1 = document.createElement("td")
@@ -207,8 +204,10 @@ const loadData = async (database, table) => {
                         element.parentNode.replaceChild(h1, element)
                     }
                     let fieldArray = []
+                    console.log( document.getElementsByClassName("tableDesc"));
+                    
                     for (let i = 1; i < document.getElementsByClassName("tableDesc").length; i++) {
-                        let element = document.getElementsByClassName("tableDesc");
+                        let element = document.getElementsByClassName("tableDesc")[i];
                         fieldArray.push(element.value)
                     }
 
