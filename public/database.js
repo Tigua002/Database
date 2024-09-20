@@ -194,8 +194,8 @@ const loadData = async (database, table) => {
                         let h1 = document.createElement("td");
                         h1.setAttribute("class", "tableData");
                         h1.innerHTML = element.value;
-                        
-                        element.parentNode.replaceChild(h1, element.parentElement);
+                        let parentElm = element.parentElement
+                        element.parentNode.parentNode.replaceChild(h1, element.parentElm);
                     });
                     
                     let fieldArray = []
