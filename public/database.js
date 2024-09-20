@@ -153,6 +153,7 @@ const loadData = async (database, table) => {
             editBtn.innerHTML = "EDIT"
             editDiv.appendChild(editBtn)
             tableDataRow.appendChild(editDiv)
+            editBtn.style.background = "#B22222"
             editBtn.addEventListener("click", async (event) => {
                 let parent = event.target.parentElement.parentElement;
                 let collection = Array.from(parent.getElementsByClassName("tableData")); // Convert to array
