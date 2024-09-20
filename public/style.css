@@ -199,10 +199,11 @@ body {
     border: .2vw;
 }
 .tableDesc{
-    text-align: center;
+    text-align: start;
+    padding-left: .4vw;
     font-size: 1vw;
     margin: 0%;
-    border-bottom: solid 1px #66B2FF;
+    border-bottom: solid 1px #ffffff;
 }
 .tableRow{
     margin: 0%;
@@ -216,6 +217,7 @@ body {
     margin: 0%;
     font-size: .7vw;
     font-family: RobotoLight;
+    border-right: solid 1px #ffffff;
 }
 .tableInput{
     padding-left: .5vw;
