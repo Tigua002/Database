@@ -213,6 +213,7 @@ body {
 .tableData{
     padding-left: .5vw;
     width: 10vw;
+    min-height: 100%;
     margin: 0%;
     font-size: .7vw;
     font-family: RobotoLight;
