@@ -123,7 +123,7 @@ const loadData = async (database, table) => {
             tableRow.appendChild(tableData);
         });
         let addRowBtn = document.createElement("button")
-        addRowBtn.setAttribute("class", "BlueBlackBtn")
+        addRowBtn.setAttribute("class", "addRowBtn")
         addRowBtn.innerHTML = "New Row"
         tableRow.appendChild(addRowBtn)
         addRowBtn.addEventListener("click", () => {
@@ -153,8 +153,20 @@ const loadData = async (database, table) => {
             editBtn.innerHTML = "EDIT"
             editDiv.appendChild(editBtn)
             tableDataRow.appendChild(editDiv)
-            editBtn.addEventListener("click", () => {
-                alert("CLICKED EDIT")
+            editBtn.addEventListener("click", (event) => {
+                let parent = event.target.parentElement.parentElement
+                let collection = parent.getElementsByClassName("tableData")
+                let id = collection[0].value
+                alert(id)
+                for (let i = 0; i < collection.length; i++) {
+                    let element = collection[0]
+                    let input = document.createElement("input")
+                    input.value = element.textContent
+                    input.type = "text"
+                    input.setAttribute("class", "tableData")
+                    parent.replaceChild(input, element)
+                    
+                }
             })
             
         });

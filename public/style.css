@@ -207,6 +207,16 @@ body {
     color: #ffffff;
     font-size: .7vw;
 }
+.addRowBtn{
+    color: #333333;
+    background-color: #66B2FF;
+    padding: .4vw 0vw;
+    margin: 1vw;
+    border-radius: 1.5vw;
+    font-size: .6vw;
+    cursor: pointer;
+    height: 80%;
+}
 .editRowBtn{
     width: 100%;
     background-color: #B22222;
