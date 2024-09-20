@@ -209,7 +209,7 @@ body {
 .tableRow{
     margin: 0%;
     padding: 0%;
-    margin: .2vw;
+    margin: 0vw;
 }
 .tableData{
     padding-left: .5vw;
