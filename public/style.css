@@ -220,8 +220,8 @@ body {
     font-family: RobotoLight;
     
 }
-.tableRow:hover{
-    background: #1A1A1A;
+.tableData:hover{
+    background-color: #1A1A1A;
 }
 .tableInput{
     padding-left: .5vw;
@@ -251,6 +251,9 @@ body {
     margin: 0%;
     color: #ffffff;
     font-size: .7vw;
+}
+.tableEdit:hover{
+    background: #1A1A1A;
 }
 .addRowBtn{
     color: #333333;
