@@ -209,6 +209,7 @@ body {
     margin: 0%;
     padding: 0%;
     margin: 0vw;
+    margin-top: .2vw;
 }
 .tableData{
     padding-left: .5vw;
@@ -217,6 +218,9 @@ body {
     margin: 0%;
     font-size: .7vw;
     font-family: RobotoLight;
+}
+.table:hover{
+    background-color: #1A1A1A;
 }
 .tableInput{
     padding-left: .5vw;
