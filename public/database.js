@@ -154,29 +154,33 @@ const loadData = async (database, table) => {
             editDiv.appendChild(editBtn)
             tableDataRow.appendChild(editDiv)
             editBtn.addEventListener("click", (event) => {
-                let parent = event.target.parentElement.parentElement
-                let collection = parent.getElementsByClassName("tableData")
+                let parent = event.target.parentElement.parentElement;
+                let collection = parent.getElementsByClassName("tableData");
                 console.log(collection.length);
                 console.log(collection);
                 
-                let id = collection[0].innerHTML
-                alert(id)
-                for (let i = 1; i < parent.getElementsByClassName("tableData").length; i++) {
+                let id = collection[0].innerHTML;
+                alert(id);
+                
+                for (let i = 1; i < collection.length; i++) {
                     console.log("entered");
                     
-                    let element = parent.getElementsByClassName("tableData")[i]
+                    let element = collection[i];
                     console.log(element);
-                    let div = document.createElement("td")
-                    let input = document.createElement("input")
-                    input.value = element.textContent
-                    input.type = "text"
-                    input.setAttribute("class", "tableInput")
-                    div.appendChild(input)
                     
-                    parent.replaceChild(div, element)
+                    let input = document.createElement("input");
+                    input.value = element.textContent;
+                    input.type = "text";
+                    input.setAttribute("class", "tableInput");
                     
+                    // Create a new td element if working with a table
+                    let newTd = document.createElement("td");
+                    newTd.appendChild(input);
+                    
+                    // Replace the old td element with the new one
+                    element.parentNode.replaceChild(newTd, element);
                 }
-            })
+            });
             
         });
     } catch (error) {
