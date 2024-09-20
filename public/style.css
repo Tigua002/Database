@@ -219,7 +219,7 @@ body {
     font-size: .7vw;
     font-family: RobotoLight;
 }
-.table:hover{
+.tableData:hover{
     background-color: #1A1A1A;
 }
 .tableInput{
