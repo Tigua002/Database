@@ -155,7 +155,7 @@ const loadData = async (database, table) => {
             tableDataRow.appendChild(editDiv)
             editBtn.addEventListener("click", (event) => {
                 let parent = event.target.parentElement.parentElement;
-                let collection = parent.getElementsByClassName("tableData");
+                let collection = Array.from(parent.getElementsByClassName("tableData")); // Convert to array
                 console.log(collection.length);
                 console.log(collection);
                 
@@ -181,6 +181,7 @@ const loadData = async (database, table) => {
                     element.parentNode.replaceChild(newTd, element);
                 }
             });
+            
             
         });
     } catch (error) {
