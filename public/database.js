@@ -193,7 +193,7 @@ const loadData = async (database, table) => {
                     
                     let itemArray = []
                     for (let i = 1; i < parent.getElementsByClassName("tableInput").length; i++) {
-                        let element = parent.getElementsByClassName("tableInput");
+                        let element = parent.getElementsByClassName("tableInput")[i];
                         itemArray.push(element.value)
                         let h1 = document.createElement("td")
                         h1.setAttribute("class", "tableData")
