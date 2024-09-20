@@ -161,10 +161,10 @@ const loadData = async (database, table) => {
                 
                 let id = collection[0].innerHTML
                 alert(id)
-                for (let i = 1; i < collection.length; i++) {
+                for (let i = 1; i < parent.getElementsByClassName("tableData").length; i++) {
                     console.log("entered");
                     
-                    let element = collection[i]
+                    let element = parent.getElementsByClassName("tableData")[i]
                     console.log(element);
                     let div = document.createElement("td")
                     let input = document.createElement("input")
