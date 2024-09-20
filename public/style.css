@@ -232,6 +232,7 @@ body {
     color: #333333;
     font-size: .7vw;
     outline: none;
+    overflow: wrap;
 }
 .tableID{
     height: 2vw;
