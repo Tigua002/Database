@@ -223,9 +223,9 @@ body {
     background-color: #1A1A1A;
 }
 .tableInput{
-    padding-left: 2%;
+    padding-left: 5%;
     height: 2vw;
-    width: 98%;
+    width: 95%;
     margin: 0%;
     border: none;
     background: #ffffff;
@@ -265,6 +265,9 @@ body {
     height: 90%;
     border: none;
     outline: none;
+}
+.addRowBtn:hover{
+    opacity: .9;
 }
 .editRowBtn{
     width: 95%;
