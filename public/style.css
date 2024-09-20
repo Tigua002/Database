@@ -228,11 +228,9 @@ body {
     width: 10vw;
     margin: 0%;
     border: none;
-    background-color: #ffffff;
     background: #ffffff;
     color: #333333;
     font-size: .7vw;
-    background: none;
     outline: none;
 }
 .tableID{
