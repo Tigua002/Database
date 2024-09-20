@@ -188,21 +188,21 @@ const loadData = async (database, table) => {
                 } else {
                     console.log("ran");
                     
-                    let itemArray = []
-                    console.log(parent.getElementsByClassName("tableInput"));
+                    let itemArray = [];
+                    let inputs = Array.from(parent.getElementsByClassName("tableInput")); // Convert to array
+                    console.log(inputs);
                     
-                    for (let i = 0; i < parent.getElementsByClassName("tableInput").length; i++) {
-                        let element = parent.getElementsByClassName("tableInput")[i];
-                        itemArray.push(element.value)
-                        let h1 = document.createElement("td")
-                        h1.setAttribute("class", "tableData")
-                        h1.innerHTML = element.value
+                    inputs.forEach((element) => {
+                        itemArray.push(element.value);
+                        let h1 = document.createElement("td");
+                        h1.setAttribute("class", "tableData");
+                        h1.innerHTML = element.value;
                         console.log(h1);
                         console.log(element);
                         
-                        
-                        element.parentNode.replaceChild(h1, element)
-                    }
+                        element.parentNode.replaceChild(h1, element);
+                    });
+                    
                     let fieldArray = []
                     console.log( document.getElementsByClassName("tableDesc"));
                     
