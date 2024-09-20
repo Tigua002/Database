@@ -220,7 +220,7 @@ body {
     font-family: RobotoLight;
     
 }
-.tableData:hover{
+.tableRow:hover{
     background-color: #1A1A1A;
 }
 .tableInput{
