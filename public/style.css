@@ -209,11 +209,10 @@ body {
     margin: 0%;
     padding: 0%;
     margin: 0vw;
-    height: 2vh;
 }
 .tableData{
     padding-left: .5vw;
-    height: 2vw;
+    height: 5vh;
     width: 10vw;
     margin: 0%;
     font-size: .7vw;
