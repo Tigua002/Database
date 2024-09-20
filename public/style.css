@@ -227,7 +227,7 @@ body {
     width: 95%;
     margin: 0%;
     border: none;
-    height: 100%;
+    min-height: 3vw;
     background: #ffffff;
     color: #333333;
     font-size: .7vw;
