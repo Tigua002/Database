@@ -161,7 +161,7 @@ const loadData = async (database, table) => {
                 
                 let id = collection[0].innerHTML
                 alert(id)
-                for (let i = 0; i < collection.length; i++) {
+                for (let i = 1; i < collection.length; i++) {
                     console.log("entered");
                     
                     let element = collection[i]
@@ -171,7 +171,9 @@ const loadData = async (database, table) => {
                     input.value = element.textContent
                     input.type = "text"
                     input.setAttribute("class", "tableInput")
-                    // parent.replaceChild(input, element)
+                    console.log(parent);
+                    
+                    parent.replaceChild(input, element)
                     
                 }
             })
