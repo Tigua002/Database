@@ -192,6 +192,8 @@ body {
     margin-top: 5%;
     margin-left: 1%;
     padding: 0%;
+    border-collapse: collapse;
+    border-spacing: 0;
 }
 .tableDesc{
     text-align: center;
@@ -200,6 +202,7 @@ body {
     margin: 0%;
 }
 .tableIDDesc{
+    
     width: 1.5vw;
     text-align: center;
     font-size: 1vw;
