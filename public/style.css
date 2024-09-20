@@ -101,7 +101,7 @@ body {
     height: auto;
     width: 98.7%;
     justify-content: space-between;
-    padding-left: 1vw;
+    padding-left: 0vw;
     overflow-x: scroll;
 
 }
