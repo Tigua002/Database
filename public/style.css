@@ -235,6 +235,7 @@ td{
     font-size: .7vw;
     outline: none;
     text-wrap: wrap;
+    width: 10vw;
 }
 .tableID{
     height: 2vw;
