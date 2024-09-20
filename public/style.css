@@ -232,7 +232,7 @@ body {
 }
 .editRowBtn{
     width: 100%;
-    background-color: #B22222;
+    background: #B22222;
     border-radius: 2vw;
     text-align: center;
     color: #ffffff;
