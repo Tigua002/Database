@@ -228,7 +228,8 @@ body {
     height: 2vw;
     width: 10vw;
     margin: 0%;
-    border: solid 3px #66B2FF;
+    background: #ffffff;
+    color: #333333;
     font-size: .7vw;
     background: none;
     outline: none;
