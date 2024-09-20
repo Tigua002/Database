@@ -226,7 +226,7 @@ td{
 }
 .tableInput{
     padding-left: 5%;
-    width: 95%;
+    width: fit-content;
     margin: 0%;
     border: none;
     min-height: 2vw;
