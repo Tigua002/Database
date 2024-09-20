@@ -101,33 +101,41 @@ app.post("/drop/column", function (req, res) {
     });
 });
 app.post("/insert/data", function (req, res) {
-    let rows = ""
-    let values = ""
-    for (let i = 0; i < req.body.array.length; i++) {
-        let table = req.body.array[i]
-        if (table.value == "") {
-            continue
-        }
-        if (rows == "") {
-            rows += `${table.name}`
-            values += `"${table.value}"`
-        } else {
+    const { array, db, table } = req.body;
+    let columns = [];
+    let values = [];
 
-            rows += `, ${table.name}`
-            values += `, "${table.value}"`
+    array.forEach(item => {
+        if (item.value !== "") {
+            columns.push(item.name);
+            values.push(item.value);
         }
+    });
+
+    if (columns.length === 0) {
+        return res.status(400).send("No valid data provided.");
     }
-    connection.query(`use ${req.body.db}`)
-    // Use parameterized query to insert user
-    connection.query(`INSERT INTO ${req.body.table} (${rows}) VALUES (${values})`, function (err, result) {
+
+    const columnsString = columns.join(", ");
+    const placeholders = values.map(() => "?").join(", ");
+
+    connection.query(`USE ??`, [db], (err) => {
         if (err) {
-            console.error("Error creating user:", err);
-            res.status(500).send(err);
-            return;
+            console.error("Error selecting database:", err);
+            return res.status(500).send(err);
         }
-        res.send(result)
+
+        const query = `INSERT INTO ?? (${columnsString}) VALUES (${placeholders})`;
+        connection.query(query, [table, ...values], (err, result) => {
+            if (err) {
+                console.error("Error inserting data:", err);
+                return res.status(500).send(err);
+            }
+            res.send(result);
+        });
     });
 });
+
 app.post("/create/user", function (req, res) {
     let chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
     let host = req.body.host
@@ -155,27 +163,35 @@ app.post("/create/user", function (req, res) {
     res.send(200)
 });
 app.post("/update/row", function (req, res) {
-    let string = ""
-    for (let i = 0; i < req.body.array.length; i++) {
-        let value = req.body.array[i]
-        let row = req.body.fieldArr[i]
+    const { array, fieldArr, db, tbl, id } = req.body;
+    let updates = [];
 
-
-        if (string == "") {
-            string += `${row} = '${value}'`
-        } else {
-            string += `, ${row} = '${value}'`
+    array.forEach((value, index) => {
+        if (value !== "") {
+            updates.push(`${fieldArr[index]} = ?`);
         }
+    });
+
+    if (updates.length === 0) {
+        return res.status(400).send("No valid data provided.");
     }
-    connection.query(`use ${req.body.db}`)
-    // Use parameterized query to insert user
-    connection.query(`UPDATE ${req.body.tbl} SET ${string} WHERE ID = ${req.body.id}`, function (err, result) {
+
+    const updateString = updates.join(", ");
+
+    connection.query(`USE ??`, [db], (err) => {
         if (err) {
-            console.error("Error updating data:", err);
-            res.status(500).send(err);
-            return;
+            console.error("Error selecting database:", err);
+            return res.status(500).send(err);
         }
-        res.send(result)
+
+        const query = `UPDATE ?? SET ${updateString} WHERE ID = ?`;
+        connection.query(query, [tbl, ...array.filter(value => value !== ""), id], (err, result) => {
+            if (err) {
+                console.error("Error updating data:", err);
+                return res.status(500).send(err);
+            }
+            res.send(result);
+        });
     });
 });
 
