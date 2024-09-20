@@ -204,6 +204,7 @@ body {
     font-size: 1vw;
     margin: 0%;
     border-bottom: solid 1px #ffffff;
+
 }
 .tableRow{
     margin: 0%;
@@ -211,8 +212,11 @@ body {
     margin: 0vw;
 }
 .tableData{
+    display: flex;
+    justify-content: center;
+    align-items: end;
     padding-left: .5vw;
-    height: 5vh;
+    height: 3vh;
     width: 10vw;
     margin: 0%;
     font-size: .7vw;
