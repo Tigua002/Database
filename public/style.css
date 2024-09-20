@@ -191,11 +191,10 @@ body {
 .TableDisplay{
     margin-top: 5%;
     margin-left: 1%;
-    padding: 0%;
+    padding: .2vw;
     border-collapse: collapse;
     border-spacing: 0;
-    background-color: #ffffff;
-    color: #333333;
+    color: #66B2FF;
     border: .2vw;
 }
 .tableDesc{
@@ -248,7 +247,7 @@ body {
 }
 .addRowBtn{
     color: #333333;
-    background-color: #66B2FF;
+    background-color: #ffffff;
     padding: .4vw .4vw;
     font-size: .8vw;
     cursor: pointer;
