@@ -157,7 +157,7 @@ const loadData = async (database, table) => {
                 let parent = event.target.parentElement.parentElement
                 let collection = parent.getElementsByClassName("tableData")
                 console.log(collection.length);
-                console.log(collection[0]);
+                console.log(collection);
                 
                 let id = collection[0].innerHTML
                 alert(id)
@@ -166,14 +166,14 @@ const loadData = async (database, table) => {
                     
                     let element = collection[i]
                     console.log(element);
-                    
+                    let div = document.createElement("td")
                     let input = document.createElement("input")
                     input.value = element.textContent
                     input.type = "text"
                     input.setAttribute("class", "tableInput")
-                    console.log(parent);
+                    div.appendChild(input)
                     
-                    parent.replaceChild(input, element)
+                    parent.replaceChild(div, element)
                     
                 }
             })
