@@ -146,6 +146,17 @@ const loadData = async (database, table) => {
                 }
                 tableDataRow.appendChild(tableData);
             });
+            let editDiv = document.createElement("td")
+            editDiv.setAttribute("class", "tableEdit")
+            let editBtn = document.createElement("button")
+            editBtn.setAttribute("class", "editRowBtn")
+            editBtn.innerHTML = "EDIT"
+            editDiv.appendChild(editBtn)
+            tableDataRow.appendChild(editDiv)
+            editBtn.addEventListener("click", () => {
+                alert("CLICKED EDIT")
+            })
+            
         });
     } catch (error) {
         console.error(error.message);

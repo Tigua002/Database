@@ -196,6 +196,31 @@ body {
     color: #ffffff;
     text-align: center;
 }
+.tableEdit{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-left: .5vw;
+    height: 2vw;
+    width: 4vw;
+    margin: 0%;
+    color: #ffffff;
+    font-size: .7vw;
+}
+.editRowBtn{
+    width: 100%;
+    background-color: #B22222;
+    border-radius: 2vw;
+    text-align: center;
+    color: #ffffff;
+    font-size: .8vw;
+    height: 80%;
+    border: none;
+}
+.editRowBtn:hover{
+    opacity: .9;
+    border: #1A1A1A 1px solid;
+}
 .NewDatabaseModal{
     width: 20%;
     border: solid 2px #1A1A1A;
