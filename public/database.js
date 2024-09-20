@@ -156,10 +156,11 @@ const loadData = async (database, table) => {
             editBtn.addEventListener("click", (event) => {
                 let parent = event.target.parentElement.parentElement
                 let collection = parent.getElementsByClassName("tableData")
+                console.log(collection);
                 let id = collection[0].value
                 alert(id)
                 for (let i = 0; i < collection.length; i++) {
-                    let element = collection[0]
+                    let element = collection[i]
                     let input = document.createElement("input")
                     input.value = element.textContent
                     input.type = "text"
