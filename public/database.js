@@ -192,6 +192,8 @@ const loadData = async (database, table) => {
                     console.log("ran");
                     
                     let itemArray = []
+                    console.log(parent.getElementsByClassName("tableInput"));
+                    
                     for (let i = 1; i < parent.getElementsByClassName("tableInput").length; i++) {
                         let element = parent.getElementsByClassName("tableInput")[i];
                         itemArray.push(element.value)
@@ -217,6 +219,8 @@ const loadData = async (database, table) => {
                         array: itemArray,
                         fieldArr: fieldArray
                     }
+                    console.log(data);
+                    
                     await fetch("/update/row", {
                         method: "POST",
                         headers:{
