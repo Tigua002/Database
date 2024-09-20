@@ -21,7 +21,9 @@ body {
     background-color: #444444;
     font-family: RobotoBold;
 }
-
+td{
+    max-width: none;
+}
 .flex {
     display: flex;
     justify-content: center;
