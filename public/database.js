@@ -589,6 +589,9 @@ document.getElementsByClassName("removeTbl")[0].addEventListener("click", async 
         body: JSON.stringify(data)
 
     })
+    closeModal("ModifyTable")
+    state.tableInUse = null
+    loadData(state.dbInUse)
 })
 
 
