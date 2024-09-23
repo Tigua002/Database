@@ -369,6 +369,9 @@ dialog {
     text-align: end;
     padding: 1vw;
 }
+.ModalClose:hover{
+    transform: scale(95)
+}
 
 .ModalInp {
     color: #66B2FF;
