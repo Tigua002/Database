@@ -647,6 +647,8 @@ dialog{
     justify-content: center;
     width: 30%;
     position: relative;
+    margin: .5vw;
+    border-radius: .3vw;
 }
 .modifySeparator{
     flex-direction: column;

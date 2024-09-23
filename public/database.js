@@ -291,15 +291,6 @@ document.getElementById("alterTable").addEventListener("click", async () => {
         select.setAttribute("class", "modifySelect")
         btn.setAttribute("class", "modifyBtn")
         document.getElementsByClassName("ModifyHolder")[0].appendChild(div)
-        // div.addEventListener("mouseover", () => {
-        //     btnDiv.style.display = "flex"
-        //     btnDiv.style.transition = "background-color 1000ms ease-in-out;"
-        //     btnDiv.style.background = "rgba(0, 0, 0, 0.5)"
-        // })
-        // div.addEventListener("mouseout", () => {
-        //     btnDiv.style.display = "none"
-        //     btnDiv.style.background = "rgba(0, 0, 0, 0)"
-        // })
         btn.addEventListener("click", async () => {
             const info = {
                 db: state.dbInUse,
