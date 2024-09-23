@@ -644,7 +644,7 @@ function isValidMySQLDatabaseName(name) {
         return false;
     }
     if (!blackListedDBs[name]) {
-        alert("RESERVED")
+        alert("BLACKLIST")
         return false;
     }
     
@@ -667,24 +667,22 @@ function isValidMySQLDatabaseName(name) {
         alert("Reserved")
         return false;
     }
-
+    
     // Check for trailing spaces
     if (name.endsWith(' ')) {
+        alert("SPACING")
         return false;
     }
-
+    
     // Check for ASCII NUL and supplementary characters
     if (name.includes('\0') || /[\u{10000}-\u{10FFFF}]/u.test(name)) {
+        alert("SOME BULLSHIT")
         return false;
     }
 
     return true;
 }
 
-// Example usage
-console.log(isValidMySQLDatabaseName("valid_db_name")); // true
-console.log(isValidMySQLDatabaseName("invalid db name")); // false
-console.log(isValidMySQLDatabaseName("SELECT")); // false
 
 
 fetchDatabases();
