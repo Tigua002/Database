@@ -363,7 +363,11 @@ document.getElementsByClassName("dataInsertBtn")[0].addEventListener("click", ()
 document.getElementsByClassName("ModalBtn")[0].addEventListener("click", async () => {
     let dbName = document.getElementsByClassName("ModalInp")[0].value;
     const data = { db: dbName };
-
+    if (!isValidMySQLDatabaseName(dbName)) {
+        alert("Invalid Name")
+        dbName = ""
+        return
+    }
     try {
         await fetch("/create/database", {
             method: "POST",
@@ -632,5 +636,49 @@ function isValidIPv4(ip) {
     const ipv4Pattern = /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
     return ipv4Pattern.test(ip);
 }
+function isValidMySQLDatabaseName(name) {
+    // Check length
+    if (name.length > 64) {
+        return false;
+    }
+    if (!blackListedDBs[name]) {
+        return false;
+    }
+    
+    // Check for invalid characters
+    const invalidChars = /[^a-zA-Z0-9_$]/;
+    if (invalidChars.test(name)) {
+        return false;
+    }
+
+    // Check if name starts with a dollar sign (deprecated in MySQL 8.0.32 and later)
+    if (name.startsWith('$')) {
+        return false;
+    }
+
+    // Check for reserved words (simplified example, not exhaustive)
+    const reservedWords = ["SELECT", "INSERT", "UPDATE", "DELETE", "CREATE", "DROP", "ALTER"];
+    if (reservedWords.includes(name.toUpperCase())) {
+        return false;
+    }
+
+    // Check for trailing spaces
+    if (name.endsWith(' ')) {
+        return false;
+    }
+
+    // Check for ASCII NUL and supplementary characters
+    if (name.includes('\0') || /[\u{10000}-\u{10FFFF}]/u.test(name)) {
+        return false;
+    }
+
+    return true;
+}
+
+// Example usage
+console.log(isValidMySQLDatabaseName("valid_db_name")); // true
+console.log(isValidMySQLDatabaseName("invalid db name")); // false
+console.log(isValidMySQLDatabaseName("SELECT")); // false
+
 
 fetchDatabases();
