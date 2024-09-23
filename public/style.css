@@ -667,12 +667,15 @@ dialog{
     width: 100%;
     height: 100%;
     background: rgba(0, 0, 0, 0);
-    transition: 1000ms ease-in-out;
+    transition: background-color 1000ms ease-in-out;;
     z-index: 10;
     display: none;
     justify-content: center;
     align-items: center;
 }
+/* .modifyDiv:hover .modifyBtnDiv{
+    background-color: rgba(0, 0, 0, 0.5);
+} */
 .modifyBtn{
     background-color: #B22222;
     font-size: .8vw;
