@@ -342,9 +342,8 @@ dialog {
 }
 
 .ModalDiv {
-    width: 90%;
+    width: 100%;
     justify-content: center;
-    position: relative;
 }
 
 .ModalH1 {
@@ -369,6 +368,7 @@ dialog {
     position: absolute;
     top: 2%;
     right: 2%;
+    z-index: 10;
 
 }
 .ModalClose:hover{
