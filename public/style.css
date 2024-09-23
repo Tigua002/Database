@@ -344,6 +344,7 @@ dialog {
 .ModalDiv {
     width: 90%;
     justify-content: center;
+    position: relative;
 }
 
 .ModalH1 {
@@ -359,18 +360,18 @@ dialog {
 
 .ModalClose {
     color: #66B2FF;
-    padding: 0%;
     height: 3.5vh;
     font-size: 3vw;
     font-weight: 100;
     cursor: pointer;
-    justify-content: end;
-    width: 95%;
-    text-align: end;
     padding: 1vw;
+    position: absolute;
+    top: 2%;
+    right: 2%;
+
 }
 .ModalClose:hover{
-    transform: scale(95)
+    transform: scale(1.05)
 }
 
 .ModalInp {
