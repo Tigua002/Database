@@ -198,6 +198,7 @@ app.post('/delete/table', function (req, res) {
     let db = req.body.db
     let table = req.body.table
     connection.query(`DROP TABLE ${db}.${table}`)
+    res.send(200)
 })
 
 app.get('/dataspots/', (req, res) => {
