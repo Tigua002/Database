@@ -291,6 +291,12 @@ document.getElementById("alterTable").addEventListener("click", async () => {
         select.setAttribute("class", "modifySelect")
         btn.setAttribute("class", "modifyBtn")
         document.getElementsByClassName("ModifyHolder")[0].appendChild(div)
+        div.addEventListener("mouseover", () => {
+            btnDiv.style.display = "flex"
+            btnDiv.style.height = "100%"
+            btnDiv.style.transition = "300ms ease-in-out"
+            btnDiv.style.background = "rgba(0, 0, 0, 0.5)"
+        })
         btn.addEventListener("click", async () => {
             const info = {
                 db: state.dbInUse,
