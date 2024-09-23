@@ -233,7 +233,8 @@ td{
     color: #333333;
     font-size: .7vw;
     outline: none;
-    width: 100%;
+    font-family: RobotoLight;
+    width: 10vw;
 }
 .tableID{
     height: 2vw;
