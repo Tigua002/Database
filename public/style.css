@@ -645,6 +645,7 @@ dialog{
 .modifyDiv{
     justify-content: center;
     width: 30%;
+    position: relative;
 }
 .modifySeparator{
     flex-direction: column;
@@ -667,6 +668,7 @@ dialog{
     height: 100%;
     background-color: #333333;
     opacity: .5;
+    z-index: 10;
 }
 .modifyBtn{
     background-color: #B22222;
