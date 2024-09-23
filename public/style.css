@@ -369,6 +369,7 @@ dialog {
     top: 2%;
     right: 2%;
     z-index: 10;
+    transition: 100ms ease-in-out;
 
 }
 .ModalClose:hover{
@@ -551,17 +552,16 @@ dialog {
 .InsertDataH1 {
     color: #66B2FF;
     width: 30%;
-    font-size: 1.3vw;
+    font-size: .8vw;
 }
 
 .InsertDataInp {
     background: #333333;
     border: none;
     outline: none;
-    min-width: 50%;
+    min-width: 30%;
     border-radius: .5vw;
     font-size: .8vw;
-    height: auto;
     padding: .2vw .2vw;
     color: #66B2FF;
 }
