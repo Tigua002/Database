@@ -52,7 +52,10 @@ const fetchDatabases = async () => {
 };
 
 const loadTables = async (database) => {
+    
     try {
+        document.getElementsByClassName("dataInsertBtn")[0].setAttribute("disabled", "true");
+        document.getElementById("alterTable").setAttribute("disabled", "true");
         document.getElementsByClassName("BlueBlackBtn")[0].removeAttribute("disabled");
         document.getElementsByClassName("BlueBlackBtn")[1].removeAttribute("disabled");
         document.getElementById("createUser").style.display = "flex";
@@ -166,7 +169,7 @@ const loadData = async (database, table) => {
 
                         let element = collection[i];
 
-                        let input = document.createElement("input");
+                        let input = document.createElement("textarea");
                         input.value = element.textContent;
                         input.type = "text";
                         input.setAttribute("class", "tableInput");
