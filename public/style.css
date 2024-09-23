@@ -354,6 +354,7 @@ dialog {
     width: 80%;
     text-align: center;
     margin: 0%;
+    margin-top: 2vw;
     margin-bottom: 2vw;
     padding: 0%;
 }
