@@ -669,7 +669,6 @@ dialog{
     background: rgba(0, 0, 0, 0);
     transition: background-color 1000ms ease-in-out;;
     z-index: 10;
-    display: none;
     justify-content: center;
     align-items: center;
 }
