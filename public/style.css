@@ -253,9 +253,6 @@ td{
     color: #ffffff;
     font-size: .7vw;
 }
-.tableEdit:hover{
-    background: #1A1A1A;
-}
 .addRowBtn{
     color: #333333;
     background-color: #ffffff;
@@ -649,6 +646,9 @@ dialog{
     justify-content: space-between;
     width: 90%;
 }
+.modifySeparator{
+    flex-direction: column;
+}
 .modifyH1{
     color: #ffffff;
     font-size: 1.3vw;
@@ -661,6 +661,9 @@ dialog{
     margin: 1vw;
     font-size: 1.3vw;
 }
+.modifyBtnDiv{
+    
+}
 .modifyBtn{
     background-color: #B22222;
     font-size: .8vw;
@@ -671,3 +674,4 @@ dialog{
     border-radius: 1vw;
     cursor: pointer;
 }
+

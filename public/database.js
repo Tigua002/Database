@@ -274,15 +274,18 @@ document.getElementById("alterTable").addEventListener("click", async () => {
         let separator = document.createElement("div")
         let h1 = document.createElement("h1")
         let select = document.createElement("h1")
+        let btnDiv = document.createElement("div")
         let btn = document.createElement("button")
+        btnDiv.appendChild(btn)
         separator.appendChild(h1)
         separator.appendChild(select)
         div.appendChild(separator)
-        div.appendChild(btn)
+        div.appendChild(btnDiv)
         h1.innerHTML = data[i].Field
         select.innerHTML = data[i].Type
         btn.innerHTML = "DELETE"
-        separator.setAttribute("class", "flex")
+        btnDiv.setAttribute("class", "modifyBtnDiv")
+        separator.setAttribute("class", "modifySeparator flex")
         div.setAttribute("class", "flex modifyDiv")
         h1.setAttribute("class", "modifyH1")
         select.setAttribute("class", "modifySelect")
