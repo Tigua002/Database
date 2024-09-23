@@ -294,7 +294,7 @@ document.getElementById("alterTable").addEventListener("click", async () => {
         div.addEventListener("mouseover", () => {
             btnDiv.style.display = "flex"
             btnDiv.style.height = "100%"
-            btnDiv.style.transition = "300ms ease-in-out"
+            btnDiv.style.transition = "1000ms ease-in-out"
             btnDiv.style.background = "rgba(0, 0, 0, 0.5)"
         })
         btn.addEventListener("click", async () => {
