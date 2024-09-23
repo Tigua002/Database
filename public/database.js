@@ -296,13 +296,13 @@ document.getElementById("alterTable").addEventListener("click", async () => {
             btnDiv.style.height = "100%"
             btnDiv.style.transition = "1000ms ease-in-out"
             btnDiv.style.background = "rgba(0, 0, 0, 0.5)"
-            btn.style.opacity = .5
+            btn.style.opacity = ".5"
         })
-        div.addEventListener("mouseout", () => {
-            btnDiv.style.display = "none"
-            btnDiv.style.transition = "1000ms ease-in-out"
-            btnDiv.style.background = "rgba(0, 0, 0, 0)"
-        })
+        // div.addEventListener("mouseout", () => {
+        //     btnDiv.style.display = "none"
+        //     btnDiv.style.transition = "1000ms ease-in-out"
+        //     btnDiv.style.background = "rgba(0, 0, 0, 0)"
+        // })
         btn.addEventListener("click", async () => {
             const info = {
                 db: state.dbInUse,
