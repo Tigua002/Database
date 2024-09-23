@@ -623,7 +623,7 @@ dialog{
 }
 
 .ModifyTable{
-    width: 30%;
+    width: 50%;
     border: solid 2px #1A1A1A;
     outline: none;
     background-color: #444444;
@@ -643,7 +643,7 @@ dialog{
     align-items: center;
 }
 .modifyDiv{
-    justify-content: space-between;
+    justify-content: center;
     width: 30%;
 }
 .modifySeparator{
