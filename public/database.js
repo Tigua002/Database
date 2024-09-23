@@ -576,23 +576,32 @@ document.getElementsByClassName("removeTbl")[0].addEventListener("click", async 
     if (!confirm("Are you sure you want to delete this table?")) {   
         return;     
     }
+
     const data = {
         db: state.dbInUse,
         table: state.tableInUse,
+    };
 
+    try {
+        const response = await fetch('/delete/table', {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
+
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+
+        closeModal("ModifyTable");
+        state.tableInUse = null;
+        loadTables(state.dbInUse);
+    } catch (error) {
+        console.error('There was a problem with the fetch operation:', error);
     }
-    await fetch('/delete/table', {
-        method: "POST",
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-
-    })
-    closeModal("ModifyTable")
-    state.tableInUse = null
-    loadTables(state.dbInUse)
-})
+});
 
 
 // adds the code functionality to the user modal
