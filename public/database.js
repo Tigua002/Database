@@ -640,26 +640,31 @@ function isValidIPv4(ip) {
 function isValidMySQLDatabaseName(name) {
     // Check length
     if (name.length > 64) {
+        alert("LENGTH")
         return false;
     }
     if (!blackListedDBs[name]) {
+        alert("RESERVED")
         return false;
     }
     
     // Check for invalid characters
     const invalidChars = /[^a-zA-Z0-9_$]/;
     if (invalidChars.test(name)) {
+        alert("Characters")
         return false;
     }
-
+    
     // Check if name starts with a dollar sign (deprecated in MySQL 8.0.32 and later)
     if (name.startsWith('$')) {
+        alert("dollar")
         return false;
     }
-
+    
     // Check for reserved words (simplified example, not exhaustive)
     const reservedWords = ["SELECT", "INSERT", "UPDATE", "DELETE", "CREATE", "DROP", "ALTER"];
     if (reservedWords.includes(name.toUpperCase())) {
+        alert("Reserved")
         return false;
     }
 
