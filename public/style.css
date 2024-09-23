@@ -2,10 +2,12 @@
     font-family: 'RobotoBold';
     src: url('fonts/roboto/Roboto-Bold.ttf') format('truetype');
 }
+
 @font-face {
     font-family: 'RobotoLightItalic';
     src: url('fonts/roboto/Roboto-LightItalic.ttf') format('truetype');
 }
+
 @font-face {
     font-family: 'RobotoLight';
     src: url('fonts/roboto/Roboto-Light.ttf') format('truetype');
@@ -21,9 +23,11 @@ body {
     background-color: #444444;
     font-family: RobotoBold;
 }
-td{
+
+td {
     max-width: none;
 }
+
 .flex {
     display: flex;
     justify-content: center;
@@ -45,7 +49,7 @@ td{
     height: 98vh;
     justify-content: start;
     padding-top: 1vw;
-    
+
 }
 
 .navItem {
@@ -62,13 +66,15 @@ td{
     border-radius: 1vw;
     margin: .3vw;
 }
-.navImg{
+
+.navImg {
     width: 2.2vw;
     height: 2.2vw;
-    
+
 }
-.navItem:hover{
-    background-color: #1A1A1A ;
+
+.navItem:hover {
+    background-color: #1A1A1A;
 }
 
 .databaseBody {
@@ -79,8 +85,9 @@ td{
     overflow-y: scroll;
     border-bottom-left-radius: 1%;
 }
-.databaseBody::-webkit-scrollbar{
- display: none;
+
+.databaseBody::-webkit-scrollbar {
+    display: none;
 }
 
 .databaseHeader {
@@ -89,8 +96,8 @@ td{
     width: 7%;
     border-right: solid 1px #ffffff79;
     background-color: #333333;
-    
-    
+
+
 }
 
 .databaseItem {
@@ -104,11 +111,13 @@ td{
     padding-left: 10%;
     cursor: pointer;
 }
-.databaseDiv{
+
+.databaseDiv {
     width: 100%;
     overflow-x: scroll;
 }
-.databaseDiv::-webkit-scrollbar{
+
+.databaseDiv::-webkit-scrollbar {
     display: none;
     width: 0%;
     height: 0%;
@@ -122,7 +131,8 @@ td{
     overflow-x: scroll;
 
 }
-.tableHeader::-webkit-scrollbar{
+
+.tableHeader::-webkit-scrollbar {
     display: none;
     width: 0%;
     height: 0%;
@@ -137,10 +147,12 @@ td{
     border-bottom: solid 1px #66B2FF;
     font-family: RobotoLightItalic;
 }
-.table:hover{
+
+.table:hover {
     opacity: 1;
 }
-.BlueBlackBtn{
+
+.BlueBlackBtn {
     background-color: #66B2FF;
     color: #333333;
     border: none;
@@ -152,10 +164,12 @@ td{
     box-shadow: 2px 2px 8px 2px rgba(27, 27, 27, 1);
     font-family: RobotoBold;
 }
-.BlueBlackBtn:hover{
+
+.BlueBlackBtn:hover {
     transform: scale(102%);
 }
-.SmlBBBtn{
+
+.SmlBBBtn {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -168,10 +182,12 @@ td{
     height: 5%;
     margin: 0%;
 }
-.SmlBBBtn:hover{
+
+.SmlBBBtn:hover {
     opacity: .9;
 }
-.dataInsertBtn{
+
+.dataInsertBtn {
     color: #333333;
     background-color: #66B2FF;
     padding: .4vw;
@@ -183,14 +199,17 @@ td{
     outline: none;
     font-family: RobotoBold;
 }
-.dataInsertBtn:hover{
+
+.dataInsertBtn:hover {
     opacity: .8;
 }
-.SVG{
+
+.SVG {
     width: 1.2vw;
     height: 1.2vw;
 }
-.TableDisplay{
+
+.TableDisplay {
     margin-top: 5%;
     margin-left: 1%;
     padding: .2vw;
@@ -199,7 +218,8 @@ td{
     color: #66B2FF;
     border: .2vw;
 }
-.tableDesc{
+
+.tableDesc {
     text-align: start;
     padding-left: .4vw;
     font-size: 1vw;
@@ -207,24 +227,28 @@ td{
     border-bottom: solid 1px #ffffff;
 
 }
-.tableRow{
+
+.tableRow {
     margin: 0%;
     padding: 0%;
     margin: 0vw;
 }
-.tableData{
+
+.tableData {
     padding-left: .5vw;
     width: 10vw;
     min-height: 100%;
     margin: 0%;
     font-size: .7vw;
     font-family: RobotoLight;
-    
+
 }
-.tableData:hover{
+
+.tableData:hover {
     background-color: #1A1A1A;
 }
-.tableInput{
+
+.tableInput {
     padding-left: .5vw;
     margin: 0%;
     border: none;
@@ -236,7 +260,12 @@ td{
     font-family: RobotoLight;
     width: 10vw;
 }
-.tableID{
+
+.tabeTD {
+    width: 10vw;
+}
+
+.tableID {
     height: 2vw;
     width: 1.5vw;
     font-size: 1.2vw;
@@ -244,7 +273,8 @@ td{
     color: #ffffff;
     text-align: center;
 }
-.tableEdit{
+
+.tableEdit {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -254,7 +284,8 @@ td{
     color: #ffffff;
     font-size: .7vw;
 }
-.addRowBtn{
+
+.addRowBtn {
     color: #333333;
     background-color: #ffffff;
     padding: .4vw .4vw;
@@ -266,10 +297,12 @@ td{
     border: none;
     outline: none;
 }
-.addRowBtn:hover{
+
+.addRowBtn:hover {
     opacity: .9;
 }
-.editRowBtn{
+
+.editRowBtn {
     width: 95%;
     background: #B22222;
     border-radius: 2vw;
@@ -279,11 +312,13 @@ td{
     height: 80%;
     border: none;
 }
-.editRowBtn:hover{
+
+.editRowBtn:hover {
     opacity: .9;
     border: #1A1A1A 1px solid;
 }
-.NewDatabaseModal{
+
+.NewDatabaseModal {
     width: 20%;
     border: solid 2px #1A1A1A;
     outline: none;
@@ -295,19 +330,23 @@ td{
     flex-direction: column;
     display: none;
 }
-.NewDatabaseModal::backdrop{
+
+.NewDatabaseModal::backdrop {
     outline: none;
     background-color: #1A1A1A;
     opacity: .3;
 }
-dialog{
+
+dialog {
     overflow-x: hidden;
 }
-.ModalDiv{
+
+.ModalDiv {
     width: 90%;
     justify-content: center;
 }
-.ModalH1{
+
+.ModalH1 {
     color: #66B2FF;
     font-size: 1vw;
     font-weight: 500;
@@ -317,7 +356,8 @@ dialog{
     margin-bottom: 2vw;
     padding: 0%;
 }
-.ModalClose{
+
+.ModalClose {
     color: #66B2FF;
     padding: 0%;
     height: 3.5vh;
@@ -329,7 +369,8 @@ dialog{
     text-align: end;
     padding: 1vw;
 }
-.ModalInp{
+
+.ModalInp {
     color: #66B2FF;
     font-size: 1vw;
     font-weight: 500;
@@ -341,10 +382,11 @@ dialog{
     border-radius: 1.5vw;
 }
 
-.ModalInp:focus{
+.ModalInp:focus {
     border: #1A1A1A 1px solid;
 }
-.ModalBtn{
+
+.ModalBtn {
     color: #66B2FF;
     font-size: 1vw;
     background-color: #333333;
@@ -357,10 +399,12 @@ dialog{
     border: none;
     outline: none;
 }
-.ModalBtn:hover{
+
+.ModalBtn:hover {
     border: #ffffff 1px solid;
 }
-.NewTableModal{
+
+.NewTableModal {
     width: 30%;
     min-height: 35%;
     border: solid 2px #1A1A1A;
@@ -373,22 +417,25 @@ dialog{
     flex-direction: column;
     display: none;
 }
-.NewTableModal::backdrop{
+
+.NewTableModal::backdrop {
     outline: none;
     background-color: #1A1A1A;
     opacity: .3;
 }
 
-.ModalSVG{
+.ModalSVG {
     width: 1.5vw;
     height: 1.5vw;
 }
-.ModalBtnText{
+
+.ModalBtnText {
     width: 80%;
     font-size: 1vw;
     text-align: center;
 }
-.newTableRow{
+
+.newTableRow {
     font-size: 1vw;
     color: #66B2FF;
     width: 35%;
@@ -399,14 +446,17 @@ dialog{
     outline: none;
     border: none;
 }
-.TableForm{
+
+.TableForm {
     flex-direction: column;
 }
-.tableRows{
+
+.tableRows {
     flex-direction: column;
     margin-bottom: 3vw;
 }
-.TableName{
+
+.TableName {
     background-color: #333333;
     border: none;
     outline: none;
@@ -417,7 +467,7 @@ dialog{
     margin: 0vw 0vw 2vw 0vw;
 }
 
-.TableType{
+.TableType {
     background-color: #66B2FF;
     border: none;
     outline: none;
@@ -425,18 +475,21 @@ dialog{
     padding: .4vw;
     border-radius: .1vw;
 }
-.typeOptions{
+
+.typeOptions {
     background-color: #333333;
     color: #66B2FF;
-    
+
 }
-.newRow{
+
+.newRow {
     display: flex;
     justify-content: center;
     align-items: center;
     flex-wrap: wrap;
 }
-.RowName{
+
+.RowName {
     background-color: #333333;
     border: none;
     outline: none;
@@ -446,7 +499,8 @@ dialog{
     border-radius: .1vw;
     color: #66B2FF;
 }
-.RowCustom{
+
+.RowCustom {
     background-color: #333333;
     border: none;
     outline: none;
@@ -457,7 +511,8 @@ dialog{
     color: #66B2FF;
     display: none;
 }
-.InsertDataModal{
+
+.InsertDataModal {
     width: 30%;
     border: solid 2px #1A1A1A;
     outline: none;
@@ -469,27 +524,32 @@ dialog{
     flex-direction: column;
     display: none;
 }
-.InsertDataModal::backdrop{
+
+.InsertDataModal::backdrop {
     background: #1A1A1A;
     opacity: .3;
 }
-.dataInsertDiv{
+
+.dataInsertDiv {
     flex-direction: column;
     width: 90%;
 }
-.dataInsertRow{
+
+.dataInsertRow {
     display: flex;
     flex-direction: row;
     width: 100%;
     justify-content: space-around;
     margin: .2vw;
 }
-.InsertDataH1{
+
+.InsertDataH1 {
     color: #66B2FF;
     width: 30%;
     font-size: 1.3vw;
 }
-.InsertDataInp{
+
+.InsertDataInp {
     background: #333333;
     border: none;
     outline: none;
@@ -500,7 +560,8 @@ dialog{
     padding: .2vw .2vw;
     color: #66B2FF;
 }
-.DatabaseUserModal{
+
+.DatabaseUserModal {
     width: 40%;
     border: solid 2px #1A1A1A;
     outline: none;
@@ -512,15 +573,18 @@ dialog{
     flex-direction: column;
     display: none;
 }
-.dbUserInfo{
+
+.dbUserInfo {
     flex-direction: row;
     flex-wrap: wrap;
     width: 100%;
 }
-.divUserDiv{
+
+.divUserDiv {
     width: 30%;
     margin: 1vw;
 }
+
 .dbUserRow {
     display: flex;
     justify-content: space-between;
@@ -536,12 +600,13 @@ dialog{
     width: 12vw;
 }
 
-.dbUserValue{
+.dbUserValue {
     margin-right: 10px;
     font-size: 1.2em;
-    
+
 }
-.dbUserLabel{
+
+.dbUserLabel {
     padding-left: .5vw;
     color: #ffffff;
     font-size: .7vw;
@@ -551,10 +616,12 @@ dialog{
     width: 1vw;
     height: 1vw;
 }
-.indicator{
+
+.indicator {
     color: lightgreen;
 }
-.IpDiv{
+
+.IpDiv {
     width: 60%;
     padding: 10%;
     display: flex;
@@ -562,22 +629,25 @@ dialog{
     align-items: center;
     flex-direction: column;
 }
-.IpInp{
+
+.IpInp {
     font-size: 1vw;
     border-radius: 1vw;
     padding: .7vw;
     background-color: #333333;
     border: #1A1A1A solid 1px;
     outline: none;
-    
+
 }
-.IpLabel{
+
+.IpLabel {
     width: 60%;
     font-size: 1vw;
     padding-left: 2vw;
     color: #66B2FF;
 }
-.Ipbtn{
+
+.Ipbtn {
     width: 60%;
     margin: 5%;
     border: none;
@@ -586,13 +656,14 @@ dialog{
     padding: .5vw;
     border-radius: 1vw;
 }
-.Ipbtn:hover{
-    opacity: .9 ;
+
+.Ipbtn:hover {
+    opacity: .9;
     border: solid white 1px;
 }
 
 
-.AppendTableModal{
+.AppendTableModal {
     width: 30%;
     border: solid 2px #1A1A1A;
     outline: none;
@@ -604,10 +675,12 @@ dialog{
     flex-direction: column;
     display: none;
 }
-.dbBtnHolders{
+
+.dbBtnHolders {
     justify-content: start;
 }
-.styleBlueBlack{
+
+.styleBlueBlack {
     color: #333333;
     background-color: #66B2FF;
     padding: .4vw;
@@ -619,11 +692,12 @@ dialog{
     outline: none;
     font-family: RobotoBold;
 }
-.styleBlueBlack:hover{
+
+.styleBlueBlack:hover {
     opacity: .8;
 }
 
-.ModifyTable{
+.ModifyTable {
     width: 50%;
     border: solid 2px #1A1A1A;
     outline: none;
@@ -636,7 +710,8 @@ dialog{
     display: none;
     padding-bottom: 1vw;
 }
-.ModifyHolder{
+
+.ModifyHolder {
     width: 80%;
     display: flex;
     flex-direction: row;
@@ -644,21 +719,25 @@ dialog{
     justify-content: center;
     align-items: start;
 }
-.modifyDiv{
+
+.modifyDiv {
     justify-content: center;
     width: 30%;
     position: relative;
     margin: .5vw;
     border-radius: .3vw;
 }
-.modifySeparator{
+
+.modifySeparator {
     flex-direction: column;
 }
-.modifyH1{
+
+.modifyH1 {
     color: #ffffff;
     font-size: 1.3vw;
 }
-.modifySelect{
+
+.modifySelect {
     background-color: #1A1A1A;
     color: #66B2FF;
     padding: .5vw;
@@ -666,7 +745,8 @@ dialog{
     margin: 1vw;
     font-size: 1.3vw;
 }
-.modifyBtnDiv{
+
+.modifyBtnDiv {
     display: flex;
     position: absolute;
     border-radius: .3vw;
@@ -678,10 +758,12 @@ dialog{
     justify-content: center;
     align-items: center;
 }
-.modifyDiv:hover .modifyBtnDiv{
+
+.modifyDiv:hover .modifyBtnDiv {
     background-color: rgba(0, 0, 0, 0.7);
 }
-.modifyBtn{
+
+.modifyBtn {
     background-color: #B22222;
     font-size: .8vw;
     border: none;
@@ -691,10 +773,29 @@ dialog{
     border-radius: 1vw;
     cursor: pointer;
     opacity: 0;
-    transition: 300ms ease-in-out;;
+    transition: 300ms ease-in-out;
+    ;
+}
+.modifyDiv:hover .modifyBtn {
+    opacity: 1;
 }
 
+.tblRemoveDiv {
+    width: 100%;
+    margin-top: 3vw;
+}
 
-.modifyDiv:hover .modifyBtn{
-    opacity: 1;
+.removeTbl {
+    background-color: #B22222;
+    color: #ffffff;
+    font-size: 1vw;
+    padding: .7vw;
+    border-radius: 1vw;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    transition: 100ms ease-in-out;
+}
+.removeTbl:hover{
+    transform: scale(.95);
 }

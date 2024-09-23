@@ -179,6 +179,7 @@ const loadData = async (database, table) => {
                         // Create a new td element if working with a table
                         let newTd = document.createElement("td");
                         newTd.appendChild(input);
+                        newTd.setAttribute("tableTD")
 
                         // Replace the old td element with the new one
                         element.parentNode.replaceChild(newTd, element);
