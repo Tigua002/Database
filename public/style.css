@@ -546,7 +546,7 @@ dialog {
     flex-direction: row;
     width: 100%;
     justify-content: space-around;
-    margin: .5vw;
+    margin: .3vw;
 }
 
 .InsertDataH1 {
@@ -563,7 +563,7 @@ dialog {
     border-radius: .5vw;
     font-size: .6vw;
     padding: .2vw .2vw;
-    padding-left: .3vw;
+    padding-left: .5vw;
     color: #66B2FF;
 }
 
