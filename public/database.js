@@ -435,7 +435,7 @@ document.getElementsByClassName("TableForm")[0].addEventListener("submit", async
     event.preventDefault();
     let tableName = document.getElementsByClassName("TableName")[0].value;
     let tableArray = [];
-    if (isValidMySQLDatabaseName(tableName, false)) {
+    if (!isValidMySQLDatabaseName(tableName, false)) {
         alert("invalid table name")
         return;
     }
