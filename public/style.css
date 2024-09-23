@@ -673,9 +673,9 @@ dialog{
     justify-content: center;
     align-items: center;
 }
-/* .modifyDiv:hover .modifyBtnDiv{
+.modifyDiv:hover .modifyBtnDiv{
     background-color: rgba(0, 0, 0, 0.5);
-} */
+}
 .modifyBtn{
     background-color: #B22222;
     font-size: .8vw;
