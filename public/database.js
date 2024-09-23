@@ -643,7 +643,7 @@ function isValidMySQLDatabaseName(name) {
         alert("LENGTH")
         return false;
     }
-    if (!blackListedDBs[name]) {
+    if (blackListedDBs[name]) {
         alert("BLACKLIST")
         return false;
     }
