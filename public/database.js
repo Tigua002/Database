@@ -52,7 +52,7 @@ const fetchDatabases = async () => {
 };
 
 const loadTables = async (database) => {
-    
+
     try {
         document.getElementsByClassName("dataInsertBtn")[0].setAttribute("disabled", "true");
         document.getElementById("alterTable").setAttribute("disabled", "true");
@@ -62,6 +62,21 @@ const loadTables = async (database) => {
         document.getElementsByClassName("dbUserInfo")[0].style.display = "flex";
         document.getElementsByClassName("tableHolder")[0].innerHTML = '';
         document.getElementsByClassName("TableDisplay")[0].innerHTML = "";
+        document.getElementsByClassName("tableRows")[0].innerHTML = `
+        <input type="text" class="TableName" required placeholder="Table Name" maxlength="50">
+        <h1 class="ModalH1">ROWS:</h1>
+        <div class="newRow">
+            <input type="text" class="RowName" required value="ID" maxlength="50" disabled>
+            <select class="TableType" disabled>
+                <option class="typeOptions" value="int">Number</option>
+                <option class="typeOptions" value="varchar(255)">Short Text</option>
+                <option class="typeOptions" value="LONGTEXT">Multiple Lines of Text</option>
+                <option class="typeOptions" value="custom">Custom</option>
+            </select>
+            <input type="text" class="RowCustom" placeholder="Column Type">
+        </div>
+        `;
+
 
         const response = await fetch(`/get/Tables/${encodeURIComponent(database)}`, { method: "GET", headers: { 'Authorization': 'Bearer YOUR_TOKEN_HERE' } });
         if (!response.ok) throw new Error("Failed to fetch tables");
@@ -160,8 +175,8 @@ const loadData = async (database, table) => {
             editBtn.addEventListener("click", async (event) => {
                 let parent = event.target.parentElement.parentElement;
                 let collection = Array.from(parent.getElementsByClassName("tableData")); // Convert to array
-                let id = collection[0].innerHTML;            
-                
+                let id = collection[0].innerHTML;
+
                 if (event.target.style.background == "rgb(178, 34, 34)") {
 
 
@@ -186,13 +201,13 @@ const loadData = async (database, table) => {
                         event.target.innerHTML = "SUBMIT"
                         event.target.style.background = "#66B2FF"
                         event.target.style.color = "#ffffff"
-                        
+
                     }
                 } else {
-                    
+
                     let itemArray = [];
                     let inputs = Array.from(parent.getElementsByClassName("tableInput")); // Convert to array
-                    
+
                     inputs.forEach((element) => {
                         itemArray.push(element.value);
                         let h1 = document.createElement("td");
@@ -201,9 +216,9 @@ const loadData = async (database, table) => {
                         let parentElm = element.parentElement
                         parentElm.parentNode.replaceChild(h1, parentElm);
                     });
-                    
+
                     let fieldArray = []
-                    
+
                     for (let i = 1; i < document.getElementsByClassName("tableDesc").length; i++) {
                         let element = document.getElementsByClassName("tableDesc")[i];
                         fieldArray.push(element.innerHTML)
@@ -216,10 +231,10 @@ const loadData = async (database, table) => {
                         array: itemArray,
                         fieldArr: fieldArray
                     }
-                    
+
                     await fetch("/update/row", {
                         method: "POST",
-                        headers:{
+                        headers: {
                             'Content-Type': "application/json"
                         },
                         body: JSON.stringify(data)
@@ -584,8 +599,8 @@ document.getElementById("createUser").addEventListener("click", (event) => {
 
 // delete a table
 document.getElementsByClassName("removeTbl")[0].addEventListener("click", async () => {
-    if (!confirm("Are you sure you want to delete this table?")) {   
-        return;     
+    if (!confirm("Are you sure you want to delete this table?")) {
+        return;
     }
 
     const data = {
@@ -654,33 +669,33 @@ function isValidMySQLDatabaseName(name, checkBlackList) {
         alert("BLACKLIST")
         return false;
     }
-    
+
     // Check for invalid characters
     const invalidChars = /[^a-zA-Z0-9_$]/;
     if (invalidChars.test(name)) {
         alert("Characters")
         return false;
     }
-    
+
     // Check if name starts with a dollar sign (deprecated in MySQL 8.0.32 and later)
     if (name.startsWith('$')) {
         alert("dollar")
         return false;
     }
-    
+
     // Check for reserved words (simplified example, not exhaustive)
     const reservedWords = ["SELECT", "INSERT", "UPDATE", "DELETE", "CREATE", "DROP", "ALTER"];
     if (reservedWords.includes(name.toUpperCase())) {
         alert("Reserved")
         return false;
     }
-    
+
     // Check for trailing spaces
     if (name.endsWith(' ')) {
         alert("SPACING")
         return false;
     }
-    
+
     // Check for ASCII NUL and supplementary characters
     if (name.includes('\0') || /[\u{10000}-\u{10FFFF}]/u.test(name)) {
         alert("SOME BULLSHIT")
