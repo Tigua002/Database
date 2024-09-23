@@ -581,7 +581,7 @@ document.getElementsByClassName("removeTbl")[0].addEventListener("click", async 
         table: state.tableInUse,
 
     }
-    await fetch("/delete/table", {
+    fetch("/delete/table", {
         method: "POST",
         headers: { 
             'ContentType': 'application/json'
