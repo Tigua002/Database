@@ -363,8 +363,7 @@ document.getElementsByClassName("dataInsertBtn")[0].addEventListener("click", ()
 document.getElementsByClassName("ModalBtn")[0].addEventListener("click", async () => {
     let dbName = document.getElementsByClassName("ModalInp")[0].value;
     const data = { db: dbName };
-    alert(isValidMySQLDatabaseName(dbName))
-    if (!isValidMySQLDatabaseName(dbName)) {
+    if (!isValidMySQLDatabaseName(dbName, true)) {
         alert("Invalid Name")
         document.getElementsByClassName("ModalInp")[0].value = ""
         return
@@ -436,6 +435,10 @@ document.getElementsByClassName("TableForm")[0].addEventListener("submit", async
     event.preventDefault();
     let tableName = document.getElementsByClassName("TableName")[0].value;
     let tableArray = [];
+    if (isValidMySQLDatabaseName(tableName, false)) {
+        alert("invalid table name")
+        return;
+    }
 
     for (let i = 1; i < document.getElementsByClassName("newRow").length; i++) {
         let name = document.getElementsByClassName("RowName")[i].value;
@@ -640,13 +643,14 @@ function isValidIPv4(ip) {
     const ipv4Pattern = /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
     return ipv4Pattern.test(ip);
 }
-function isValidMySQLDatabaseName(name) {
+function isValidMySQLDatabaseName(name, checkBlackList) {
+    let value = checkBlackList || false
     // Check length
     if (name.length > 64) {
         alert("LENGTH")
         return false;
     }
-    if (blackListedDBs[name]) {
+    if (blackListedDBs[name] && value) {
         alert("BLACKLIST")
         return false;
     }
