@@ -488,8 +488,6 @@ document.getElementById("newColumn").addEventListener("click", async (event) => 
     loadData(state.dbInUse, state.tableInUse)
 })
 
-
-
 // Insert data
 document.getElementById("InsertData").addEventListener("click", async () => {
     let dataArray = [];
@@ -571,6 +569,26 @@ document.getElementById("createUser").addEventListener("click", (event) => {
 
     })
 
+})
+
+// delete a table
+document.getElementsByClassName("removeTbl")[0].addEventListener("click", async () => {
+    if (!confirm("Are you sure you want to delete this table?")) {   
+        return;     
+    }
+    const data = {
+        db: state.dbInUse,
+        table: state.tableInUse,
+
+    }
+    await fetch("/delete/table", {
+        method: "POST",
+        headers: { 
+            'ContentType': 'application/json'
+        },
+        body: JSON.stringify(data)
+
+    })
 })
 
 

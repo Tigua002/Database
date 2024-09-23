@@ -194,6 +194,11 @@ app.post("/update/row", function (req, res) {
         });
     });
 });
+app.post('/delete/table', function (req, res) {
+    let db = req.body.db
+    let table = req.body.table
+    connection.query(`DROP TABLE ${db}.${table}`)
+})
 
 app.get('/dataspots/', (req, res) => {
     res.sendFile(__dirname + "/public/databases/index.html");
