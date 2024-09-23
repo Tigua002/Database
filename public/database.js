@@ -528,6 +528,9 @@ document.getElementById("InsertData").addEventListener("click", async () => {
 // create a new user
 document.getElementById("createUser").addEventListener("click", (event) => {
     // create input field
+    if (document.getElementsByClassName("IpDiv")[0]) {
+        document.getElementsByClassName("IpDiv")[0].remove()
+    }
     event.target.parentElement.style.display = "none"
     let div = document.createElement("div")
     let label = document.createElement("h1")
