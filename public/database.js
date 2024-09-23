@@ -591,7 +591,7 @@ document.getElementsByClassName("removeTbl")[0].addEventListener("click", async 
     })
     closeModal("ModifyTable")
     state.tableInUse = null
-    loadData(state.dbInUse)
+    loadTables(state.dbInUse)
 })
 
 
