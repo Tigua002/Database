@@ -1,6 +1,17 @@
 const express = require('express');
 const router = express.Router();
 
+// Test database connection
+const connection = mysql.createConnection({
+    host: process.env.HOST,
+    user: process.env.DBUSER,
+    password: process.env.DBPASS,
+    database: process.env.DB
+});
+
+// Connect to the database with error handling
+connection.connect();
+
 const fetchDatabases = () => {
     return new Promise((resolve, reject) => {
         connection.query('SHOW DATABASES', function (err, result, fields) {
