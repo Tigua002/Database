@@ -7,6 +7,7 @@ const mysql = require('mysql2');
 require("dotenv").config()
 
 // Define the port to use
+app.set("view engine", "ejs")
 const userRouter = require('./routes/dataspot')
 const PORT = process.env.PORT;
 app.listen(PORT, () => console.log(`Dataspot port: ${PORT}`));
