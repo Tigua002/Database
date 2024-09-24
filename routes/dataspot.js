@@ -25,16 +25,27 @@ const connection = mysql.createConnection({
 // Connect to the database with error handling
 connection.connect();
 
-const fetchDatabases = async () => {
-    connection.query('SHOW DATABASES', function (err, result, fields) {
-        let data = JSON.parse(JSON.stringify(result));
-        return data;
+const fetchDatabases = () => {
+    return new Promise((resolve, reject) => {
+        connection.query('SHOW DATABASES', function (err, result, fields) {
+            if (err) reject(err);
+            let data = JSON.parse(JSON.stringify(result));
+            resolve(data);
+        });
     });
 }
 
-router.get('/', (req, res) => {
-    res.render('index', {dbs: fetchDatabases()});
-})
+
+router.get('/', async (req, res) => {
+    try {
+        const dbs = await fetchDatabases();
+        res.render('index', { dbs });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server Error');
+    }
+});
+
 
 
 module.exports = router
