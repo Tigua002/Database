@@ -46,7 +46,7 @@
                 dbs.forEach(db=> {
                     if (blackListedDBs.includes(db.Database)) return;
                     %>
-                    <h1 class="databaseItem flex">
+                    <h1 class="databaseItem flex" data-db="<%= db.Database%>">
                         <%= db.Database %>
                     </h1>
                     <% }) %>
@@ -60,9 +60,8 @@
                         <% if (typeof tbls !=='undefined' && tbls.length> 0) { %>
                             <% tbls.forEach(table=> { %>
                                 <h1 class="table flex">
-                                    
+
                                     <%= table["Tables_in_" + dbName] %>
-                                    <%= table %>
                                 </h1>
                                 <% })} %>
                     </div>
@@ -375,6 +374,13 @@
                 </div>
             </dialog>
 </body>
-<script src="../database.js"></script>
+<script>
+    document.querySelectorAll('.databaseItem').forEach(item => {
+            item.addEventListener('click', function() {
+                const dbName = this.getAttribute('data-db');
+                window.location.href = `/dataspot/${dbName}`;
+            });
+        });
+</script>
 
 </html>
