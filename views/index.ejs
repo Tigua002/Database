@@ -42,12 +42,15 @@
         <div class="databaseBody">
             <div class="databaseHeader flex">
                 <h1 class="SmlBBBtn">New Database</h1>
-                <% dbs.forEach(db=> { %>
+                <% 
+                const blackListedDBs=["information_schema", "mysql" , "performance_schema" , "sys" , "dataSpotUsers", "WebChat" ]; 
+                dbs.forEach(db=> {
+                    if (blackListedDBs.includes(db.Database)) return;
+                    %>
                     <h1 class="databaseItem flex">
                         <%= db.Database %>
                     </h1>
-                    <% }) 
-                %>
+                    <% }) %>
 
 
 
