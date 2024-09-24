@@ -9,7 +9,7 @@ require("dotenv").config()
 // Define the port to use
 app.set("view engine", "ejs")
 const userRouter = require('./routes/dataspot')
-app.use("dataspot", userRouter)
+app.use("/dataspot", userRouter)
 const PORT = process.env.PORT;
 app.listen(PORT, () => console.log(`Dataspot port: ${PORT}`));
 

@@ -35,3 +35,6 @@ const fetchDatabases = async () => {
 router.get('/', (req, res) => {
     res.render('index', {dbs: fetchDatabases()});
 })
+
+
+module.exports = router
