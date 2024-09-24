@@ -60,7 +60,9 @@
                         <% if (typeof tbls !=='undefined' && tbls.length> 0) { %>
                             <% tbls.forEach(table=> { %>
                                 <h1 class="table flex">
-                                    <%= table["Tables_in_" + table] %>
+                                    
+                                    <%= table["Tables_in_" + dbName] %>
+                                    <%= table %>
                                 </h1>
                                 <% })} %>
                     </div>

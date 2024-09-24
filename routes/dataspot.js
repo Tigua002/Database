@@ -55,7 +55,7 @@ router.get('/:DB', async (req, res) => {
     try {
         const dbs = await fetchDatabases();
         const tbls = await fetchTables(req.params.DB);
-        res.render('index', { dbs, tbls });
+        res.render('index', { dbs, tbls, dbName: req.params.DB });
     } catch (err) {
         console.error(err);
         res.status(500).send('Server Error');
