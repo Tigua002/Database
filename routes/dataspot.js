@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-
+const mysql = require('mysql2')
 // Test database connection
 const connection = mysql.createConnection({
     host: process.env.HOST,
