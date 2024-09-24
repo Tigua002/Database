@@ -1,6 +1,9 @@
 const express = require('express');
-const router = express.Router();
+const bodyParser = require('body-parser');
+const app = express();
 const mysql = require('mysql2')
+require("dotenv").config()
+
 // Test database connection
 const connection = mysql.createConnection({
     host: process.env.HOST,
@@ -11,6 +14,10 @@ const connection = mysql.createConnection({
 
 // Connect to the database with error handling
 connection.connect();
+
+app.set('view engine', 'ejs');
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 const fetchDatabases = () => {
     return new Promise((resolve, reject) => {
