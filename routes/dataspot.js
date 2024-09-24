@@ -54,7 +54,7 @@ router.get('/', async (req, res) => {
         res.status(500).send('Server Error');
     }
 });
-router.get('/:DB', async (req, res) => {
+router.get('/name/:DB', async (req, res) => {
     console.log(req.params.DB);
     
     try {
