@@ -7,9 +7,9 @@ require("dotenv").config()
 
 // Define the port to use
 
-// Middleware for parsing request bodies
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+// // Middleware for parsing request bodies
+// app.use(bodyParser.json());
+// app.use(bodyParser.urlencoded({ extended: false }));
 
 // Serve static files from the 'client' directory
 
