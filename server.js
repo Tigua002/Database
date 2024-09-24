@@ -34,9 +34,9 @@ connection.connect();
 // Handle requests
 
 // Serve the index.html file
-app.get('/', (req, res) => {
-    res.sendFile(__dirname + "/public/index.html");
-});
+// app.get('/', (req, res) => {
+//     res.sendFile(__dirname + "/public/index.html");
+// });
 
 app.post("/create/database", function (req, res) {
 
@@ -245,4 +245,4 @@ app.get('/get/users/:a', (req, res) => {
 
 
 
-app.use(express.static("public"));
+// app.use(express.static("public"));
