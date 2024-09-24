@@ -1,29 +1,5 @@
-// Load all necessary Node.js modules
 const express = require('express');
-const router = express.Router()
-const bodyParser = require('body-parser');
-const mysql = require('mysql2');
-require("dotenv").config()
-
-// Define the port to use
-
-// // Middleware for parsing request bodies
-// app.use(bodyParser.json());
-// app.use(bodyParser.urlencoded({ extended: false }));
-
-// Serve static files from the 'client' directory
-
-
-// Test database connection
-const connection = mysql.createConnection({
-    host: process.env.HOST,
-    user: process.env.DBUSER,
-    password: process.env.DBPASS,
-    database: process.env.DB
-});
-
-// Connect to the database with error handling
-connection.connect();
+const router = express.Router();
 
 const fetchDatabases = () => {
     return new Promise((resolve, reject) => {
@@ -33,7 +9,8 @@ const fetchDatabases = () => {
             resolve(data);
         });
     });
-}
+};
+
 const fetchTables = (dbName) => {
     return new Promise((resolve, reject) => {
         connection.query(`SHOW TABLES FROM ${dbName}`, function (err, result, fields) {
@@ -42,8 +19,7 @@ const fetchTables = (dbName) => {
             resolve(data);
         });
     });
-}
-
+};
 
 router.get('/', async (req, res) => {
     try {
@@ -54,9 +30,9 @@ router.get('/', async (req, res) => {
         res.status(500).send('Server Error');
     }
 });
-router.get('/name/:DB', async (req, res) => {
+
+router.get('/:DB', async (req, res) => {
     console.log(req.params.DB);
-    
     try {
         const dbs = await fetchDatabases();
         const tbls = await fetchTables(req.params.DB);
@@ -67,6 +43,4 @@ router.get('/name/:DB', async (req, res) => {
     }
 });
 
-
-
-module.exports = router
+module.exports = router;
