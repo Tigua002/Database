@@ -34,10 +34,9 @@ const fetchDatabases = () => {
         });
     });
 }
-const fetchTables = (db) => {
+const fetchTables = (dbName) => {
     return new Promise((resolve, reject) => {
-        connection.query(`use ${db}`)
-        connection.query('SHOW TABLES', function (err, result, fields) {
+        connection.query(`SHOW TABLES FROM ${dbName}`, function (err, result, fields) {
             if (err) reject(err);
             let data = JSON.parse(JSON.stringify(result));
             resolve(data);
@@ -56,6 +55,8 @@ router.get('/', async (req, res) => {
     }
 });
 router.get('/:DB', async (req, res) => {
+    console.log(req.params.DB);
+    
     try {
         const dbs = await fetchDatabases();
         const tbls = await fetchTables(req.params.DB);
