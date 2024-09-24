@@ -6,7 +6,6 @@ const mysql = require('mysql2');
 require("dotenv").config()
 
 // Define the port to use
-const userRouter = require('./routes/dataspot')
 
 // Middleware for parsing request bodies
 app.use(bodyParser.json());
@@ -33,6 +32,6 @@ const fetchDatabases = async () => {
     });
 }
 
-app.get('/dataspots/', (req, res) => {
+app.get('/', (req, res) => {
     res.render('index', {dbs: fetchDatabases()});
 })
