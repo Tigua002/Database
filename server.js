@@ -1,10 +1,13 @@
 // Load all necessary Node.js modules
 const express = require('express');
 const app = express();
+const router = express.Router()
 const bodyParser = require('body-parser');
 const mysql = require('mysql2');
 require("dotenv").config()
+
 // Define the port to use
+const userRouter = require('./routes/dataspot')
 const PORT = process.env.PORT;
 app.listen(PORT, () => console.log(`Dataspot port: ${PORT}`));
 
@@ -201,9 +204,6 @@ app.post('/delete/table', function (req, res) {
     res.send(200)
 })
 
-app.get('/dataspots/', (req, res) => {
-    res.sendFile(__dirname + "/public/databases/index.html");
-})
 
 app.get('/FetchDatabases', (req, res) => {
     connection.query('SHOW DATABASES', function (err, result, fields) {
