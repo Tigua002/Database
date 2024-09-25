@@ -178,87 +178,87 @@ const loadData = async (database, table) => {
 
             }
         }
-    });
 
-    let editDiv = document.createElement("td")
-    editDiv.setAttribute("class", "tableEdit")
-    let editBtn = document.createElement("button")
-    editBtn.setAttribute("class", "editRowBtn")
-    editBtn.innerHTML = "EDIT"
-    editDiv.appendChild(editBtn)
-    tableDataRow.appendChild(editDiv)
-    editBtn.style.background = "#B22222"
-    editBtn.addEventListener("click", async (event) => {
-        let parent = event.target.parentElement.parentElement;
-        let collection = Array.from(parent.getElementsByClassName("tableData")); // Convert to array
-        let id = collection[0].innerHTML;
+        let editDiv = document.createElement("td")
+        editDiv.setAttribute("class", "tableEdit")
+        let editBtn = document.createElement("button")
+        editBtn.setAttribute("class", "editRowBtn")
+        editBtn.innerHTML = "EDIT"
+        editDiv.appendChild(editBtn)
+        tableDataRow.appendChild(editDiv)
+        editBtn.style.background = "#B22222"
+        editBtn.addEventListener("click", async (event) => {
+            let parent = event.target.parentElement.parentElement;
+            let collection = Array.from(parent.getElementsByClassName("tableData")); // Convert to array
+            let id = collection[0].innerHTML;
 
-        if (event.target.style.background == "rgb(178, 34, 34)") {
+            if (event.target.style.background == "rgb(178, 34, 34)") {
 
 
-            for (let i = 1; i < collection.length; i++) {
+                for (let i = 1; i < collection.length; i++) {
 
-                let element = collection[i];
+                    let element = collection[i];
 
-                let input = document.createElement("textarea");
-                input.value = element.textContent;
-                input.type = "text";
-                input.setAttribute("class", "tableInput");
-                input.focus()
-                input.select()
+                    let input = document.createElement("textarea");
+                    input.value = element.textContent;
+                    input.type = "text";
+                    input.setAttribute("class", "tableInput");
+                    input.focus()
+                    input.select()
 
-                // Create a new td element if working with a table
-                let newTd = document.createElement("td");
-                newTd.appendChild(input);
-                newTd.setAttribute("class", "tableTD")
+                    // Create a new td element if working with a table
+                    let newTd = document.createElement("td");
+                    newTd.appendChild(input);
+                    newTd.setAttribute("class", "tableTD")
 
-                // Replace the old td element with the new one
-                element.parentNode.replaceChild(newTd, element);
-                event.target.innerHTML = "SUBMIT"
-                event.target.style.background = "#66B2FF"
+                    // Replace the old td element with the new one
+                    element.parentNode.replaceChild(newTd, element);
+                    event.target.innerHTML = "SUBMIT"
+                    event.target.style.background = "#66B2FF"
+                    event.target.style.color = "#ffffff"
+
+                }
+            } else {
+
+                let itemArray = [];
+                let inputs = Array.from(parent.getElementsByClassName("tableInput")); // Convert to array
+
+                inputs.forEach((element) => {
+                    itemArray.push(element.value);
+                    let h1 = document.createElement("td");
+                    h1.setAttribute("class", "tableData");
+                    h1.innerHTML = element.value;
+                    let parentElm = element.parentElement
+                    parentElm.parentNode.replaceChild(h1, parentElm);
+                });
+
+                let fieldArray = []
+
+                for (let i = 1; i < document.getElementsByClassName("tableDesc").length; i++) {
+                    let element = document.getElementsByClassName("tableDesc")[i];
+                    fieldArray.push(element.innerHTML)
+                }
+
+                const data = {
+                    db: state.dbInUse,
+                    tbl: state.tableInUse,
+                    id: id,
+                    array: itemArray,
+                    fieldArr: fieldArray
+                }
+
+                await fetch("/update/row", {
+                    method: "POST",
+                    headers: {
+                        'Content-Type': "application/json"
+                    },
+                    body: JSON.stringify(data)
+                })
+                event.target.innerHTML = "EDIT"
+                event.target.style.background = "#B22222"
                 event.target.style.color = "#ffffff"
-
             }
-        } else {
-
-            let itemArray = [];
-            let inputs = Array.from(parent.getElementsByClassName("tableInput")); // Convert to array
-
-            inputs.forEach((element) => {
-                itemArray.push(element.value);
-                let h1 = document.createElement("td");
-                h1.setAttribute("class", "tableData");
-                h1.innerHTML = element.value;
-                let parentElm = element.parentElement
-                parentElm.parentNode.replaceChild(h1, parentElm);
-            });
-
-            let fieldArray = []
-
-            for (let i = 1; i < document.getElementsByClassName("tableDesc").length; i++) {
-                let element = document.getElementsByClassName("tableDesc")[i];
-                fieldArray.push(element.innerHTML)
-            }
-
-            const data = {
-                db: state.dbInUse,
-                tbl: state.tableInUse,
-                id: id,
-                array: itemArray,
-                fieldArr: fieldArray
-            }
-
-            await fetch("/update/row", {
-                method: "POST",
-                headers: {
-                    'Content-Type': "application/json"
-                },
-                body: JSON.stringify(data)
-            })
-            event.target.innerHTML = "EDIT"
-            event.target.style.background = "#B22222"
-            event.target.style.color = "#ffffff"
-        }
+        });
     });
 
 }
