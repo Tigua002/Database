@@ -172,9 +172,9 @@ const loadData = async (database, table) => {
             }
             tableDataRow.appendChild(tableData);
             if (i == 0) {
-                tableData.style.borderTopLeftRadius = "1.5vw"
+                tableData.style.borderLeft = "solid #444444 1px"
             } else if (i + 1 == columns.length) {
-                tableData.style.borderTopRightRadius = "1.5vw"
+                tableData.style.borderRight = "solid #444444 1px"
 
             }
         }
