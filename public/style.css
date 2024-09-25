@@ -232,13 +232,14 @@ td {
     margin: 0%;
     padding: 0%;
     margin: 0vw;
+    margin: 2vw 2vw;
 }
 
 .tableData {
     padding-left: .5vw;
     width: 10vw;
     min-height: 100%;
-    margin: 2vw 2vw;
+    
     font-size: .7vw;
     font-family: RobotoLight;
     border-bottom: solid 1px #66B2FF;
