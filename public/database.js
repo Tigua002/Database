@@ -132,6 +132,7 @@ const loadData = async (database, table) => {
 
         let columns = await response.json();
         let tableRow = document.createElement("tr");
+        tableRow.setAttribute("class", "tableRow")
         document.getElementsByClassName("TableDisplay")[0].appendChild(tableRow);
 
         columns.forEach(column => {
