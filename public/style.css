@@ -281,7 +281,7 @@ td {
     display: flex;
     align-items: center;
     height: 2vw;
-    width: 6vw;
+    width: 5vw;
     margin: 0%;
     color: #ffffff;
     font-size: .7vw;
@@ -294,11 +294,12 @@ td {
     font-size: .8vw;
     cursor: pointer;
     min-width: 5vw;
-    margin-left: 2vw;
+    margin-left: 1vw;
     width: 5vw;
     height: 90%;
     border: none;
     outline: none;
+    border-radius: .1vw;
 }
 
 .addRowBtn:hover {
@@ -306,10 +307,10 @@ td {
 }
 
 .editRowBtn {
-    width: 5vw;
+    width: 4vw;
     background: #B22222;
     border-radius: 2vw;
-    margin-left: 2vw;
+    margin-left: 1vw;
     text-align: center;
     color: #ffffff;
     font-size: .8vw;
