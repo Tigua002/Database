@@ -134,13 +134,19 @@ const loadData = async (database, table) => {
         let tableRow = document.createElement("tr");
         tableRow.setAttribute("class", "tableRow")
         document.getElementsByClassName("TableDisplay")[0].appendChild(tableRow);
-
-        columns.forEach(column => {
+        for (let i = 0; i > columns.length; i++) {
+            const column = columns[i];
             let tableData = document.createElement("td");
             tableData.setAttribute("class", "tableDesc");
             tableData.innerHTML = column.Field;
             tableRow.appendChild(tableData);
-        });
+            if (i == 0) {
+                tableData.style.borderTopLeftRadius = "2vw"
+            } else if (i + 1 == columns.length){
+                tableData.style.borderTopRightRadius = "2vw"
+
+            }
+        }
         let addRowBtn = document.createElement("button")
         addRowBtn.setAttribute("class", "addRowBtn")
         addRowBtn.innerHTML = "New Row"
