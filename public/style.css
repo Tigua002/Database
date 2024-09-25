@@ -279,10 +279,9 @@ td {
 
 .tableEdit {
     display: flex;
-    justify-content: center;
     align-items: center;
     height: 2vw;
-    width: 5vw;
+    width: 6vw;
     margin: 0%;
     color: #ffffff;
     font-size: .7vw;
