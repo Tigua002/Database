@@ -264,396 +264,397 @@ const loadData = async (database, table) => {
     } catch (error) {
         console.error(error.message);
     }
+}
 
 
-    const openModal = (name) => {
-        let modal = document.getElementsByClassName(name)[0];
-        modal.showModal();
-        modal.style.display = "flex";
-    };
+const openModal = (name) => {
+    let modal = document.getElementsByClassName(name)[0];
+    modal.showModal();
+    modal.style.display = "flex";
+};
 
-    const closeModal = (name) => {
-        let modal = document.getElementsByClassName(name)[0];
-        modal.close();
-        modal.style.display = "none";
-    };
+const closeModal = (name) => {
+    let modal = document.getElementsByClassName(name)[0];
+    modal.close();
+    modal.style.display = "none";
+};
 
-    document.getElementsByClassName("ModalClose")[0].addEventListener("click", () => closeModal("NewDatabaseModal"));
-    document.getElementsByClassName("ModalClose")[1].addEventListener("click", async () => { closeModal("DatabaseUserModal"); });
-    document.getElementsByClassName("ModalClose")[2].addEventListener("click", () => closeModal("InsertDataModal"));
-    document.getElementsByClassName("ModalClose")[3].addEventListener("click", () => closeModal("NewTableModal"));
-    document.getElementsByClassName("ModalClose")[4].addEventListener("click", () => closeModal("AppendTableModal"));
-    document.getElementsByClassName("BlueBlackBtn")[1].addEventListener("click", () => openModal("NewTableModal"));
-    document.getElementsByClassName("ModalClose")[5].addEventListener("click", () => {
-        closeModal("ModifyTable")
-        loadData(state.dbInUse, state.tableInUse)
-    });
+document.getElementsByClassName("ModalClose")[0].addEventListener("click", () => closeModal("NewDatabaseModal"));
+document.getElementsByClassName("ModalClose")[1].addEventListener("click", async () => { closeModal("DatabaseUserModal"); });
+document.getElementsByClassName("ModalClose")[2].addEventListener("click", () => closeModal("InsertDataModal"));
+document.getElementsByClassName("ModalClose")[3].addEventListener("click", () => closeModal("NewTableModal"));
+document.getElementsByClassName("ModalClose")[4].addEventListener("click", () => closeModal("AppendTableModal"));
+document.getElementsByClassName("BlueBlackBtn")[1].addEventListener("click", () => openModal("NewTableModal"));
+document.getElementsByClassName("ModalClose")[5].addEventListener("click", () => {
+    closeModal("ModifyTable")
+    loadData(state.dbInUse, state.tableInUse)
+});
 
-    // opens the alterTable menu
-    document.getElementById("alterTable").addEventListener("click", async () => {
-        document.getElementsByClassName("ModifyHolder")[0].innerHTML = ""
-        openModal("ModifyTable")
-        let response = await fetch(`/get/columns/${state.dbInUse}/${state.tableInUse}`, {
-            method: "GET"
-        })
-        let data = await response.json()
-
-        for (let i = 1; i < data.length; i++) {
-            let div = document.createElement("div")
-            let separator = document.createElement("div")
-            let h1 = document.createElement("h1")
-            let select = document.createElement("h1")
-            let btnDiv = document.createElement("div")
-            let btn = document.createElement("button")
-            btnDiv.appendChild(btn)
-            separator.appendChild(h1)
-            separator.appendChild(select)
-            div.appendChild(separator)
-            div.appendChild(btnDiv)
-            h1.innerHTML = data[i].Field
-            select.innerHTML = data[i].Type
-            btn.innerHTML = "DELETE"
-            btnDiv.setAttribute("class", "modifyBtnDiv")
-            separator.setAttribute("class", "modifySeparator flex")
-            div.setAttribute("class", "flex modifyDiv")
-            h1.setAttribute("class", "modifyH1")
-            select.setAttribute("class", "modifySelect")
-            btn.setAttribute("class", "modifyBtn")
-            document.getElementsByClassName("ModifyHolder")[0].appendChild(div)
-            btn.addEventListener("click", async () => {
-                const info = {
-                    db: state.dbInUse,
-                    table: state.tableInUse,
-                    column: data[i].Field
-                }
-                await fetch(`/drop/column/`, {
-                    method: "POST",
-                    headers: {
-                        'Content-Type': "application/json"
-                    },
-                    body: JSON.stringify(info)
-                })
-                closeModal("ModifyTable")
-                document.getElementById("alterTable").click()
-            })
-        }
+// opens the alterTable menu
+document.getElementById("alterTable").addEventListener("click", async () => {
+    document.getElementsByClassName("ModifyHolder")[0].innerHTML = ""
+    openModal("ModifyTable")
+    let response = await fetch(`/get/columns/${state.dbInUse}/${state.tableInUse}`, {
+        method: "GET"
     })
-    //open newUserModal
-    document.getElementsByClassName("BlueBlackBtn")[0].addEventListener("click", async () => {
-        openModal("DatabaseUserModal")
-        let resopnse = await fetch("/get/users/" + state.dbInUse, {
-            method: "GET"
-        })
-        let data = await resopnse.json()
-        if (data.length == 0) {
-            let user = data[0]
-            document.getElementsByClassName("dbUserInfo")[0].style.display = "none"
+    let data = await response.json()
 
-
-        } else {
-            document.getElementById("createUser").style.display = "none"
-            document.getElementsByClassName("dbUserValue")[0].innerHTML = data[0].username
-            document.getElementsByClassName("dbUserValue")[1].innerHTML = data[0].password
-            document.getElementsByClassName("dbUserValue")[2].innerHTML = "172.104.242.87"
-            if (data[0].host = "%") {
-                document.getElementsByClassName("dbUserValue")[3].innerHTML = "all"
+    for (let i = 1; i < data.length; i++) {
+        let div = document.createElement("div")
+        let separator = document.createElement("div")
+        let h1 = document.createElement("h1")
+        let select = document.createElement("h1")
+        let btnDiv = document.createElement("div")
+        let btn = document.createElement("button")
+        btnDiv.appendChild(btn)
+        separator.appendChild(h1)
+        separator.appendChild(select)
+        div.appendChild(separator)
+        div.appendChild(btnDiv)
+        h1.innerHTML = data[i].Field
+        select.innerHTML = data[i].Type
+        btn.innerHTML = "DELETE"
+        btnDiv.setAttribute("class", "modifyBtnDiv")
+        separator.setAttribute("class", "modifySeparator flex")
+        div.setAttribute("class", "flex modifyDiv")
+        h1.setAttribute("class", "modifyH1")
+        select.setAttribute("class", "modifySelect")
+        btn.setAttribute("class", "modifyBtn")
+        document.getElementsByClassName("ModifyHolder")[0].appendChild(div)
+        btn.addEventListener("click", async () => {
+            const info = {
+                db: state.dbInUse,
+                table: state.tableInUse,
+                column: data[i].Field
             }
-            else {
-                document.getElementsByClassName("dbUserValue")[3].innerHTML = data[0].host
-
-            }
-        }
-    });
-
-    // opens the insert data modal
-    document.getElementsByClassName("dataInsertBtn")[0].addEventListener("click", () => {
-        document.getElementsByClassName("dataInsertDiv")[0].innerHTML = "";
-        for (let i = 1; i < document.getElementsByClassName("tableDesc").length; i++) {
-            let div = document.createElement("div");
-            let h1 = document.createElement("h1");
-            let input = document.createElement("input");
-
-            div.setAttribute("class", "dataInsertRow");
-            h1.setAttribute("class", "InsertDataH1");
-            input.setAttribute("class", "InsertDataInp");
-            input.setAttribute("placeholder", "...");
-            input.setAttribute("type", "text");
-            h1.innerHTML = document.getElementsByClassName("tableDesc")[i].innerHTML;
-
-            document.getElementsByClassName("dataInsertDiv")[0].appendChild(div);
-            div.appendChild(h1);
-            div.appendChild(input);
-        }
-        openModal("InsertDataModal");
-    });
-
-    // creates a database
-    document.getElementsByClassName("ModalBtn")[0].addEventListener("click", async () => {
-        let dbName = document.getElementsByClassName("ModalInp")[0].value;
-        const data = { db: dbName };
-        if (!isValidMySQLDatabaseName(dbName, true)) {
-            alert("Invalid Name")
-            document.getElementsByClassName("ModalInp")[0].value = ""
-            return
-        }
-        try {
-            await fetch("/create/database", {
-                method: "POST",
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(data)
-            });
-            closeModal("NewDatabaseModal");
-            fetchDatabases();
-        } catch (error) {
-            console.error("Failed to create database", error);
-        }
-    });
-
-    // inreases the number of rows in a new table
-    document.getElementsByClassName("newTableRow")[0].addEventListener("click", () => {
-        let div = document.createElement("div");
-        let Nameinput = document.createElement("input");
-        let DropDown = document.createElement("select");
-        let varchar = document.createElement("option");
-        let longtext = document.createElement("option");
-        let int = document.createElement("option");
-        let Custom = document.createElement("option");
-
-        div.appendChild(Nameinput);
-        div.appendChild(DropDown);
-        DropDown.appendChild(varchar);
-        DropDown.appendChild(longtext);
-        DropDown.appendChild(int);
-        DropDown.appendChild(Custom);
-
-        div.setAttribute("class", "newRow");
-        Nameinput.setAttribute("class", "RowName");
-        Nameinput.setAttribute("required", "true");
-        Nameinput.setAttribute("placeholder", "Column Name");
-        Nameinput.setAttribute("maxlength", "50");
-        Nameinput.setAttribute("type", "text");
-        DropDown.setAttribute("class", "TableType");
-        varchar.setAttribute("value", "varchar(255)");
-        longtext.setAttribute("value", "longtext");
-        int.setAttribute("value", "int");
-        Custom.setAttribute("value", "custom");
-        varchar.innerHTML = "Short Text";
-        longtext.innerHTML = "Multiple Lines of Text";
-        int.innerHTML = "Number";
-        Custom.innerHTML = "Custom";
-        let customInp = document.createElement("input")
-        customInp.setAttribute("class", "RowCustom")
-        customInp.setAttribute("placeholder", "Column Type")
-
-        div.appendChild(customInp)
-
-        document.getElementsByClassName("tableRows")[0].appendChild(div);
-        DropDown.addEventListener("change", () => {
-            if (DropDown.value == "custom") {
-                customInp.style.display = "block"
-            } else {
-                customInp.style.display = "none"
-
-            }
-        })
-    });
-
-    // creates a new table
-    document.getElementsByClassName("TableForm")[0].addEventListener("submit", async (event) => {
-        event.preventDefault();
-        let tableName = document.getElementsByClassName("TableName")[0].value;
-        let tableArray = [];
-        if (!isValidMySQLDatabaseName(tableName, false)) {
-            alert("invalid table name")
-            return;
-        }
-
-        for (let i = 1; i < document.getElementsByClassName("newRow").length; i++) {
-            let name = document.getElementsByClassName("RowName")[i].value;
-            let type = document.getElementsByClassName("TableType")[i].value
-            if (type == "custom") {
-                type = document.getElementsByClassName("RowCustom")[i].value
-            }
-
-
-
-            tableArray.push({ name, type });
-        }
-
-        const data = {
-            db: state.dbInUse,
-            name: tableName,
-            tableArray
-        };
-
-        try {
-            const response = await fetch("/create/table", {
+            await fetch(`/drop/column/`, {
                 method: "POST",
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': "application/json"
                 },
-                body: JSON.stringify(data)
-            });
-            if (!response.ok) throw new Error("Failed to create table");
-            closeModal("NewTableModal");
-            loadTables(state.dbInUse);
-        } catch (error) {
-            console.error(error.message);
-        }
-    });
+                body: JSON.stringify(info)
+            })
+            closeModal("ModifyTable")
+            document.getElementById("alterTable").click()
+        })
+    }
+})
+//open newUserModal
+document.getElementsByClassName("BlueBlackBtn")[0].addEventListener("click", async () => {
+    openModal("DatabaseUserModal")
+    let resopnse = await fetch("/get/users/" + state.dbInUse, {
+        method: "GET"
+    })
+    let data = await resopnse.json()
+    if (data.length == 0) {
+        let user = data[0]
+        document.getElementsByClassName("dbUserInfo")[0].style.display = "none"
 
-    // new column to a table
-    document.getElementById("newColumn").addEventListener("click", async (event) => {
-        let tableName = event.target.parentElement.parentElement.getElementsByClassName("RowName")[0].value
-        let option = event.target.parentElement.parentElement.getElementsByClassName("TableType")[0].value
+
+    } else {
+        document.getElementById("createUser").style.display = "none"
+        document.getElementsByClassName("dbUserValue")[0].innerHTML = data[0].username
+        document.getElementsByClassName("dbUserValue")[1].innerHTML = data[0].password
+        document.getElementsByClassName("dbUserValue")[2].innerHTML = "172.104.242.87"
+        if (data[0].host = "%") {
+            document.getElementsByClassName("dbUserValue")[3].innerHTML = "all"
+        }
+        else {
+            document.getElementsByClassName("dbUserValue")[3].innerHTML = data[0].host
+
+        }
+    }
+});
+
+// opens the insert data modal
+document.getElementsByClassName("dataInsertBtn")[0].addEventListener("click", () => {
+    document.getElementsByClassName("dataInsertDiv")[0].innerHTML = "";
+    for (let i = 1; i < document.getElementsByClassName("tableDesc").length; i++) {
+        let div = document.createElement("div");
+        let h1 = document.createElement("h1");
+        let input = document.createElement("input");
+
+        div.setAttribute("class", "dataInsertRow");
+        h1.setAttribute("class", "InsertDataH1");
+        input.setAttribute("class", "InsertDataInp");
+        input.setAttribute("placeholder", "...");
+        input.setAttribute("type", "text");
+        h1.innerHTML = document.getElementsByClassName("tableDesc")[i].innerHTML;
+
+        document.getElementsByClassName("dataInsertDiv")[0].appendChild(div);
+        div.appendChild(h1);
+        div.appendChild(input);
+    }
+    openModal("InsertDataModal");
+});
+
+// creates a database
+document.getElementsByClassName("ModalBtn")[0].addEventListener("click", async () => {
+    let dbName = document.getElementsByClassName("ModalInp")[0].value;
+    const data = { db: dbName };
+    if (!isValidMySQLDatabaseName(dbName, true)) {
+        alert("Invalid Name")
+        document.getElementsByClassName("ModalInp")[0].value = ""
+        return
+    }
+    try {
+        await fetch("/create/database", {
+            method: "POST",
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        });
+        closeModal("NewDatabaseModal");
+        fetchDatabases();
+    } catch (error) {
+        console.error("Failed to create database", error);
+    }
+});
+
+// inreases the number of rows in a new table
+document.getElementsByClassName("newTableRow")[0].addEventListener("click", () => {
+    let div = document.createElement("div");
+    let Nameinput = document.createElement("input");
+    let DropDown = document.createElement("select");
+    let varchar = document.createElement("option");
+    let longtext = document.createElement("option");
+    let int = document.createElement("option");
+    let Custom = document.createElement("option");
+
+    div.appendChild(Nameinput);
+    div.appendChild(DropDown);
+    DropDown.appendChild(varchar);
+    DropDown.appendChild(longtext);
+    DropDown.appendChild(int);
+    DropDown.appendChild(Custom);
+
+    div.setAttribute("class", "newRow");
+    Nameinput.setAttribute("class", "RowName");
+    Nameinput.setAttribute("required", "true");
+    Nameinput.setAttribute("placeholder", "Column Name");
+    Nameinput.setAttribute("maxlength", "50");
+    Nameinput.setAttribute("type", "text");
+    DropDown.setAttribute("class", "TableType");
+    varchar.setAttribute("value", "varchar(255)");
+    longtext.setAttribute("value", "longtext");
+    int.setAttribute("value", "int");
+    Custom.setAttribute("value", "custom");
+    varchar.innerHTML = "Short Text";
+    longtext.innerHTML = "Multiple Lines of Text";
+    int.innerHTML = "Number";
+    Custom.innerHTML = "Custom";
+    let customInp = document.createElement("input")
+    customInp.setAttribute("class", "RowCustom")
+    customInp.setAttribute("placeholder", "Column Type")
+
+    div.appendChild(customInp)
+
+    document.getElementsByClassName("tableRows")[0].appendChild(div);
+    DropDown.addEventListener("change", () => {
+        if (DropDown.value == "custom") {
+            customInp.style.display = "block"
+        } else {
+            customInp.style.display = "none"
+
+        }
+    })
+});
+
+// creates a new table
+document.getElementsByClassName("TableForm")[0].addEventListener("submit", async (event) => {
+    event.preventDefault();
+    let tableName = document.getElementsByClassName("TableName")[0].value;
+    let tableArray = [];
+    if (!isValidMySQLDatabaseName(tableName, false)) {
+        alert("invalid table name")
+        return;
+    }
+
+    for (let i = 1; i < document.getElementsByClassName("newRow").length; i++) {
+        let name = document.getElementsByClassName("RowName")[i].value;
+        let type = document.getElementsByClassName("TableType")[i].value
+        if (type == "custom") {
+            type = document.getElementsByClassName("RowCustom")[i].value
+        }
+
+
+
+        tableArray.push({ name, type });
+    }
+
+    const data = {
+        db: state.dbInUse,
+        name: tableName,
+        tableArray
+    };
+
+    try {
+        const response = await fetch("/create/table", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
+        if (!response.ok) throw new Error("Failed to create table");
+        closeModal("NewTableModal");
+        loadTables(state.dbInUse);
+    } catch (error) {
+        console.error(error.message);
+    }
+});
+
+// new column to a table
+document.getElementById("newColumn").addEventListener("click", async (event) => {
+    let tableName = event.target.parentElement.parentElement.getElementsByClassName("RowName")[0].value
+    let option = event.target.parentElement.parentElement.getElementsByClassName("TableType")[0].value
+    const data = {
+        db: state.dbInUse,
+        table: state.tableInUse,
+        type: option,
+        name: tableName
+    }
+
+    await fetch("/create/column", {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+    closeModal("AppendTableModal")
+    loadData(state.dbInUse, state.tableInUse)
+})
+
+// Insert data
+document.getElementById("InsertData").addEventListener("click", async () => {
+    let dataArray = [];
+    for (let i = 0; i < document.getElementsByClassName("InsertDataInp").length; i++) {
+        let rowName = document.getElementsByClassName("InsertDataH1")[i].innerHTML;
+        let rowValue = document.getElementsByClassName("InsertDataInp")[i].value;
+        dataArray.push({ name: rowName, value: rowValue });
+    }
+
+    const data = {
+        db: state.dbInUse,
+        table: state.tableInUse,
+        array: dataArray
+    };
+
+    try {
+        const response = await fetch("/insert/data", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
+        if (!response.ok) throw new Error("Failed to insert data");
+        closeModal("InsertDataModal");
+        loadData(state.dbInUse, state.tableInUse);
+    } catch (error) {
+        console.error(error.message);
+    }
+});
+
+
+// create a new user
+document.getElementById("createUser").addEventListener("click", (event) => {
+    // create input field
+    if (document.getElementsByClassName("IpDiv")[0]) {
+        document.getElementsByClassName("IpDiv")[0].remove()
+    }
+    event.target.parentElement.style.display = "none"
+    let div = document.createElement("div")
+    let label = document.createElement("h1")
+    let ipInp = document.createElement("input")
+    let btn = document.createElement("button")
+    div.appendChild(label)
+    div.appendChild(ipInp)
+    div.appendChild(btn)
+
+    div.setAttribute("class", "IpDiv")
+    ipInp.setAttribute("class", "IpInp")
+    label.setAttribute("class", "IpLabel")
+    btn.setAttribute("class", "Ipbtn")
+    btn.innerHTML = "CREATE"
+    label.innerHTML = "IP:"
+    ipInp.placeholder = "0.0.0.0 for all ip's"
+    ipInp.type = "text"
+    document.getElementsByClassName("DatabaseUserModal")[0].appendChild(div)
+    ipInp.addEventListener("change", () => {
+
+        state.validIP = isValidIPv4(ipInp.value)
+
+    })
+    // create user
+    btn.addEventListener("click", async () => {
+        if (!state.validIP) {
+            alert("Invalid ip")
+            return
+        }
+        let hostIP = document.getElementsByClassName("IpInp")[0].value
         const data = {
             db: state.dbInUse,
-            table: state.tableInUse,
-            type: option,
-            name: tableName
+            host: hostIP
         }
 
-        await fetch("/create/column", {
+        await fetch("/create/user", {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(data)
         })
-        closeModal("AppendTableModal")
-        loadData(state.dbInUse, state.tableInUse)
-    })
-
-    // Insert data
-    document.getElementById("InsertData").addEventListener("click", async () => {
-        let dataArray = [];
-        for (let i = 0; i < document.getElementsByClassName("InsertDataInp").length; i++) {
-            let rowName = document.getElementsByClassName("InsertDataH1")[i].innerHTML;
-            let rowValue = document.getElementsByClassName("InsertDataInp")[i].value;
-            dataArray.push({ name: rowName, value: rowValue });
-        }
-
-        const data = {
-            db: state.dbInUse,
-            table: state.tableInUse,
-            array: dataArray
-        };
-
-        try {
-            const response = await fetch("/insert/data", {
-                method: "POST",
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
-            });
-            if (!response.ok) throw new Error("Failed to insert data");
-            closeModal("InsertDataModal");
-            loadData(state.dbInUse, state.tableInUse);
-        } catch (error) {
-            console.error(error.message);
-        }
-    });
-
-
-    // create a new user
-    document.getElementById("createUser").addEventListener("click", (event) => {
-        // create input field
-        if (document.getElementsByClassName("IpDiv")[0]) {
-            document.getElementsByClassName("IpDiv")[0].remove()
-        }
-        event.target.parentElement.style.display = "none"
-        let div = document.createElement("div")
-        let label = document.createElement("h1")
-        let ipInp = document.createElement("input")
-        let btn = document.createElement("button")
-        div.appendChild(label)
-        div.appendChild(ipInp)
-        div.appendChild(btn)
-
-        div.setAttribute("class", "IpDiv")
-        ipInp.setAttribute("class", "IpInp")
-        label.setAttribute("class", "IpLabel")
-        btn.setAttribute("class", "Ipbtn")
-        btn.innerHTML = "CREATE"
-        label.innerHTML = "IP:"
-        ipInp.placeholder = "0.0.0.0 for all ip's"
-        ipInp.type = "text"
-        document.getElementsByClassName("DatabaseUserModal")[0].appendChild(div)
-        ipInp.addEventListener("change", () => {
-
-            state.validIP = isValidIPv4(ipInp.value)
-
-        })
-        // create user
-        btn.addEventListener("click", async () => {
-            if (!state.validIP) {
-                alert("Invalid ip")
-                return
-            }
-            let hostIP = document.getElementsByClassName("IpInp")[0].value
-            const data = {
-                db: state.dbInUse,
-                host: hostIP
-            }
-
-            await fetch("/create/user", {
-                method: "POST",
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
-            })
-            window.location.reload()
-
-        })
+        window.location.reload()
 
     })
 
-    // delete a table
-    document.getElementsByClassName("removeTbl")[0].addEventListener("click", async () => {
-        if (!confirm("Are you sure you want to delete this table?")) {
-            return;
+})
+
+// delete a table
+document.getElementsByClassName("removeTbl")[0].addEventListener("click", async () => {
+    if (!confirm("Are you sure you want to delete this table?")) {
+        return;
+    }
+
+    const data = {
+        db: state.dbInUse,
+        table: state.tableInUse,
+    };
+
+    try {
+        const response = await fetch('/delete/table', {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
+
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
         }
 
-        const data = {
-            db: state.dbInUse,
-            table: state.tableInUse,
-        };
-
-        try {
-            const response = await fetch('/delete/table', {
-                method: "POST",
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
-            });
-
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-
-            closeModal("ModifyTable");
-            state.tableInUse = null;
-            loadTables(state.dbInUse);
-        } catch (error) {
-            console.error('There was a problem with the fetch operation:', error);
-        }
-    });
+        closeModal("ModifyTable");
+        state.tableInUse = null;
+        loadTables(state.dbInUse);
+    } catch (error) {
+        console.error('There was a problem with the fetch operation:', error);
+    }
+});
 
 
-    // adds the code functionality to the user modal
-    for (let i = 0; i < document.getElementsByClassName("dbUserRow").length; i++) {
+// adds the code functionality to the user modal
+for (let i = 0; i < document.getElementsByClassName("dbUserRow").length; i++) {
 
-        document.getElementsByClassName("dbUserRow")[i].addEventListener("click", () => {
+    document.getElementsByClassName("dbUserRow")[i].addEventListener("click", () => {
 
-            const username = document.getElementsByClassName('dbUserValue')[i].innerText;
-            navigator.clipboard.writeText(username).then(() => {
-                const indicator = document.getElementsByClassName('indicator')[i];
-                indicator.innerHTML = "Copied!";
-                setTimeout(() => {
-                    indicator.innerHTML = `
+        const username = document.getElementsByClassName('dbUserValue')[i].innerText;
+        navigator.clipboard.writeText(username).then(() => {
+            const indicator = document.getElementsByClassName('indicator')[i];
+            indicator.innerHTML = "Copied!";
+            setTimeout(() => {
+                indicator.innerHTML = `
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                     stroke="#ffffff" class="indicatorSVG">
                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -661,63 +662,63 @@ const loadData = async (database, table) => {
                 </svg>
                 
                 `;
-                }, 2000);
-            }).catch(err => {
-                console.error('Failed to copy: ', err);
-            });
-        })
+            }, 2000);
+        }).catch(err => {
+            console.error('Failed to copy: ', err);
+        });
+    })
+}
+function isValidIPv4(ip) {
+    const ipv4Pattern = /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
+    return ipv4Pattern.test(ip);
+}
+function isValidMySQLDatabaseName(name, checkBlackList) {
+    let value = checkBlackList || false
+    // Check length
+    if (name.length > 64) {
+        alert("LENGTH")
+        return false;
     }
-    function isValidIPv4(ip) {
-        const ipv4Pattern = /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
-        return ipv4Pattern.test(ip);
-    }
-    function isValidMySQLDatabaseName(name, checkBlackList) {
-        let value = checkBlackList || false
-        // Check length
-        if (name.length > 64) {
-            alert("LENGTH")
-            return false;
-        }
-        if (blackListedDBs[name] && value) {
-            alert("BLACKLIST")
-            return false;
-        }
-
-        // Check for invalid characters
-        const invalidChars = /[^a-zA-Z0-9_$]/;
-        if (invalidChars.test(name)) {
-            alert("Characters")
-            return false;
-        }
-
-        // Check if name starts with a dollar sign (deprecated in MySQL 8.0.32 and later)
-        if (name.startsWith('$')) {
-            alert("dollar")
-            return false;
-        }
-
-        // Check for reserved words (simplified example, not exhaustive)
-        const reservedWords = ["SELECT", "INSERT", "UPDATE", "DELETE", "CREATE", "DROP", "ALTER"];
-        if (reservedWords.includes(name.toUpperCase())) {
-            alert("Reserved")
-            return false;
-        }
-
-        // Check for trailing spaces
-        if (name.endsWith(' ')) {
-            alert("SPACING")
-            return false;
-        }
-
-        // Check for ASCII NUL and supplementary characters
-        if (name.includes('\0') || /[\u{10000}-\u{10FFFF}]/u.test(name)) {
-            alert("SOME BULLSHIT")
-            return false;
-        }
-
-        return true;
+    if (blackListedDBs[name] && value) {
+        alert("BLACKLIST")
+        return false;
     }
 
+    // Check for invalid characters
+    const invalidChars = /[^a-zA-Z0-9_$]/;
+    if (invalidChars.test(name)) {
+        alert("Characters")
+        return false;
+    }
+
+    // Check if name starts with a dollar sign (deprecated in MySQL 8.0.32 and later)
+    if (name.startsWith('$')) {
+        alert("dollar")
+        return false;
+    }
+
+    // Check for reserved words (simplified example, not exhaustive)
+    const reservedWords = ["SELECT", "INSERT", "UPDATE", "DELETE", "CREATE", "DROP", "ALTER"];
+    if (reservedWords.includes(name.toUpperCase())) {
+        alert("Reserved")
+        return false;
+    }
+
+    // Check for trailing spaces
+    if (name.endsWith(' ')) {
+        alert("SPACING")
+        return false;
+    }
+
+    // Check for ASCII NUL and supplementary characters
+    if (name.includes('\0') || /[\u{10000}-\u{10FFFF}]/u.test(name)) {
+        alert("SOME BULLSHIT")
+        return false;
+    }
+
+    return true;
+}
 
 
-    fetchDatabases();
+
+fetchDatabases()
