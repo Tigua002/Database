@@ -140,9 +140,9 @@ const loadData = async (database, table) => {
         tableData.innerHTML = column.Field;
         tableRow.appendChild(tableData);
         if (i == 0) {
-            tableData.style.borderTopLeftRadius = "1.5vw"
+            tableData.style.borderTopLeftRadius = "1vw"
         } else if (i + 1 == columns.length) {
-            tableData.style.borderTopRightRadius = "1.5vw"
+            tableData.style.borderTopRightRadius = "1vw"
 
         }
     }
