@@ -134,7 +134,7 @@ const loadData = async (database, table) => {
         let tableRow = document.createElement("tr");
         tableRow.setAttribute("class", "tableRow")
         document.getElementsByClassName("TableDisplay")[0].appendChild(tableRow);
-        for (let i = 0; i > columns.length; i++) {
+        for (let i = 0; i < columns.length; i++) {
             const column = columns[i];
             let tableData = document.createElement("td");
             tableData.setAttribute("class", "tableDesc");
