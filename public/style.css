@@ -237,6 +237,7 @@ td {
 }
 
 .tableData {
+    padding-top: 1vw;
     padding-left: .5vw;
     width: 10vw;
     min-height: 100%;
