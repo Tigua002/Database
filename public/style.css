@@ -217,6 +217,7 @@ td {
     border-spacing: 0;
     color: #66B2FF;
     border: .2vw;
+    border: solid 1px #444444;
 }
 
 .tableDesc {

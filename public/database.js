@@ -154,6 +154,7 @@ const loadData = async (database, table) => {
         let data = await response.json();
         data.forEach(row => {
             let tableDataRow = document.createElement("tr");
+            tableDataRow.setAttribute("class", "tableRow")
             document.getElementsByClassName("TableDisplay")[0].appendChild(tableDataRow);
 
             columns.forEach(column => {
