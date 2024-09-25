@@ -121,25 +121,56 @@ const resetStyles = (elements, background, color) => {
 };
 
 const loadData = async (database, table) => {
-    try {
-        state.tableInUse = table;
-        document.getElementsByClassName("dataInsertBtn")[0].removeAttribute("disabled");
-        document.getElementById("alterTable").removeAttribute("disabled");
-        document.getElementsByClassName("TableDisplay")[0].innerHTML = "";
+    state.tableInUse = table;
+    document.getElementsByClassName("dataInsertBtn")[0].removeAttribute("disabled");
+    document.getElementById("alterTable").removeAttribute("disabled");
+    document.getElementsByClassName("TableDisplay")[0].innerHTML = "";
 
-        let response = await fetch(`/get/columns/${database}/${table}`, { method: "GET" });
-        if (!response.ok) throw new Error("Failed to fetch columns");
+    let response = await fetch(`/get/columns/${database}/${table}`, { method: "GET" });
+    if (!response.ok) throw new Error("Failed to fetch columns");
 
-        let columns = await response.json();
-        let tableRow = document.createElement("tr");
-        tableRow.setAttribute("class", "tableRow")
-        document.getElementsByClassName("TableDisplay")[0].appendChild(tableRow);
+    let columns = await response.json();
+    let tableRow = document.createElement("tr");
+    tableRow.setAttribute("class", "tableRow")
+    document.getElementsByClassName("TableDisplay")[0].appendChild(tableRow);
+    for (let i = 0; i < columns.length; i++) {
+        const column = columns[i];
+        let tableData = document.createElement("td");
+        tableData.setAttribute("class", "tableDesc");
+        tableData.innerHTML = column.Field;
+        tableRow.appendChild(tableData);
+        if (i == 0) {
+            tableData.style.borderTopLeftRadius = "1.5vw"
+        } else if (i + 1 == columns.length) {
+            tableData.style.borderTopRightRadius = "1.5vw"
+
+        }
+    }
+    let addRowBtn = document.createElement("button")
+    addRowBtn.setAttribute("class", "addRowBtn")
+    addRowBtn.innerHTML = "New Row"
+    tableRow.appendChild(addRowBtn)
+    addRowBtn.addEventListener("click", () => {
+        openModal("AppendTableModal")
+    })
+    response = await fetch(`/Select/data/${database}/${table}`, { method: "GET" });
+    if (!response.ok) throw new Error("Failed to fetch data");
+
+    let data = await response.json();
+    data.forEach(row => {
+        let tableDataRow = document.createElement("tr");
+        tableDataRow.setAttribute("class", "tableRow")
+        document.getElementsByClassName("TableDisplay")[0].appendChild(tableDataRow);
+
         for (let i = 0; i < columns.length; i++) {
             const column = columns[i];
             let tableData = document.createElement("td");
-            tableData.setAttribute("class", "tableDesc");
-            tableData.innerHTML = column.Field;
-            tableRow.appendChild(tableData);
+            tableData.setAttribute("class", "tableData");
+            tableData.innerHTML = row[column.Field] || "NULL";
+            if (tableData.innerHTML == "NULL") {
+                tableData.style.opacity = ".5"
+            }
+            tableDataRow.appendChild(tableData);
             if (i == 0) {
                 tableData.style.borderTopLeftRadius = "1.5vw"
             } else if (i + 1 == columns.length) {
@@ -147,123 +178,89 @@ const loadData = async (database, table) => {
 
             }
         }
-        let addRowBtn = document.createElement("button")
-        addRowBtn.setAttribute("class", "addRowBtn")
-        addRowBtn.innerHTML = "New Row"
-        tableRow.appendChild(addRowBtn)
-        addRowBtn.addEventListener("click", () => {
-            openModal("AppendTableModal")
-        })
-        response = await fetch(`/Select/data/${database}/${table}`, { method: "GET" });
-        if (!response.ok) throw new Error("Failed to fetch data");
+    });
 
-        let data = await response.json();
-        data.forEach(row => {
-            let tableDataRow = document.createElement("tr");
-            tableDataRow.setAttribute("class", "tableRow")
-            document.getElementsByClassName("TableDisplay")[0].appendChild(tableDataRow);
+    let editDiv = document.createElement("td")
+    editDiv.setAttribute("class", "tableEdit")
+    let editBtn = document.createElement("button")
+    editBtn.setAttribute("class", "editRowBtn")
+    editBtn.innerHTML = "EDIT"
+    editDiv.appendChild(editBtn)
+    tableDataRow.appendChild(editDiv)
+    editBtn.style.background = "#B22222"
+    editBtn.addEventListener("click", async (event) => {
+        let parent = event.target.parentElement.parentElement;
+        let collection = Array.from(parent.getElementsByClassName("tableData")); // Convert to array
+        let id = collection[0].innerHTML;
 
-            for (let i = 0; i < columns.length; i++) {
-                const column = columns[i];
-                let tableData = document.createElement("td");
-                tableData.setAttribute("class", "tableData");
-                tableData.innerHTML = row[column.Field] || "NULL";
-                if (tableData.innerHTML == "NULL") {
-                    tableData.style.opacity = ".5"
-                }
-                tableDataRow.appendChild(tableData);
-                if (i == 0) {
-                    tableData.style.borderTopLeftRadius = "1.5vw"
-                } else if (i + 1 == columns.length) {
-                    tableData.style.borderTopRightRadius = "1.5vw"
-
-                }
-            }
-        });
-
-        let editDiv = document.createElement("td")
-        editDiv.setAttribute("class", "tableEdit")
-        let editBtn = document.createElement("button")
-        editBtn.setAttribute("class", "editRowBtn")
-        editBtn.innerHTML = "EDIT"
-        editDiv.appendChild(editBtn)
-        tableDataRow.appendChild(editDiv)
-        editBtn.style.background = "#B22222"
-        editBtn.addEventListener("click", async (event) => {
-            let parent = event.target.parentElement.parentElement;
-            let collection = Array.from(parent.getElementsByClassName("tableData")); // Convert to array
-            let id = collection[0].innerHTML;
-
-            if (event.target.style.background == "rgb(178, 34, 34)") {
+        if (event.target.style.background == "rgb(178, 34, 34)") {
 
 
-                for (let i = 1; i < collection.length; i++) {
+            for (let i = 1; i < collection.length; i++) {
 
-                    let element = collection[i];
+                let element = collection[i];
 
-                    let input = document.createElement("textarea");
-                    input.value = element.textContent;
-                    input.type = "text";
-                    input.setAttribute("class", "tableInput");
-                    input.focus()
-                    input.select()
+                let input = document.createElement("textarea");
+                input.value = element.textContent;
+                input.type = "text";
+                input.setAttribute("class", "tableInput");
+                input.focus()
+                input.select()
 
-                    // Create a new td element if working with a table
-                    let newTd = document.createElement("td");
-                    newTd.appendChild(input);
-                    newTd.setAttribute("class", "tableTD")
+                // Create a new td element if working with a table
+                let newTd = document.createElement("td");
+                newTd.appendChild(input);
+                newTd.setAttribute("class", "tableTD")
 
-                    // Replace the old td element with the new one
-                    element.parentNode.replaceChild(newTd, element);
-                    event.target.innerHTML = "SUBMIT"
-                    event.target.style.background = "#66B2FF"
-                    event.target.style.color = "#ffffff"
-
-                }
-            } else {
-
-                let itemArray = [];
-                let inputs = Array.from(parent.getElementsByClassName("tableInput")); // Convert to array
-
-                inputs.forEach((element) => {
-                    itemArray.push(element.value);
-                    let h1 = document.createElement("td");
-                    h1.setAttribute("class", "tableData");
-                    h1.innerHTML = element.value;
-                    let parentElm = element.parentElement
-                    parentElm.parentNode.replaceChild(h1, parentElm);
-                });
-
-                let fieldArray = []
-
-                for (let i = 1; i < document.getElementsByClassName("tableDesc").length; i++) {
-                    let element = document.getElementsByClassName("tableDesc")[i];
-                    fieldArray.push(element.innerHTML)
-                }
-
-                const data = {
-                    db: state.dbInUse,
-                    tbl: state.tableInUse,
-                    id: id,
-                    array: itemArray,
-                    fieldArr: fieldArray
-                }
-
-                await fetch("/update/row", {
-                    method: "POST",
-                    headers: {
-                        'Content-Type': "application/json"
-                    },
-                    body: JSON.stringify(data)
-                })
-                event.target.innerHTML = "EDIT"
-                event.target.style.background = "#B22222"
+                // Replace the old td element with the new one
+                element.parentNode.replaceChild(newTd, element);
+                event.target.innerHTML = "SUBMIT"
+                event.target.style.background = "#66B2FF"
                 event.target.style.color = "#ffffff"
+
             }
-        });
-    } catch (error) {
-        console.error(error.message);
-    }
+        } else {
+
+            let itemArray = [];
+            let inputs = Array.from(parent.getElementsByClassName("tableInput")); // Convert to array
+
+            inputs.forEach((element) => {
+                itemArray.push(element.value);
+                let h1 = document.createElement("td");
+                h1.setAttribute("class", "tableData");
+                h1.innerHTML = element.value;
+                let parentElm = element.parentElement
+                parentElm.parentNode.replaceChild(h1, parentElm);
+            });
+
+            let fieldArray = []
+
+            for (let i = 1; i < document.getElementsByClassName("tableDesc").length; i++) {
+                let element = document.getElementsByClassName("tableDesc")[i];
+                fieldArray.push(element.innerHTML)
+            }
+
+            const data = {
+                db: state.dbInUse,
+                tbl: state.tableInUse,
+                id: id,
+                array: itemArray,
+                fieldArr: fieldArray
+            }
+
+            await fetch("/update/row", {
+                method: "POST",
+                headers: {
+                    'Content-Type': "application/json"
+                },
+                body: JSON.stringify(data)
+            })
+            event.target.innerHTML = "EDIT"
+            event.target.style.background = "#B22222"
+            event.target.style.color = "#ffffff"
+        }
+    });
+
 }
 
 
