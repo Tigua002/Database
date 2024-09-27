@@ -252,6 +252,7 @@ td {
     flex-wrap: wrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    overflow-wrap: break-word;
 }
 
 .tableData:hover {
