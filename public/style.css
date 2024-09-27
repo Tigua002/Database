@@ -262,11 +262,11 @@ td {
     outline: none;
     font-family: RobotoLight;
     width: 10vw;
-    border-bottom: solid 1px #B22222;
 }
 
 .tabeTD {
     width: 10vw;
+    border-bottom: solid 1px #B22222;
 }
 
 .tableID {
