@@ -240,6 +240,7 @@ td {
     padding-left: .5vw;
     width: 10vw;
     min-height: 100%;
+    max-width: 10vw;
     height: 3vh;
     font-size: .7vw;
     font-family: RobotoLight;
