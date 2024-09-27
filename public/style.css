@@ -236,7 +236,6 @@ td {
 
 .tableData {
     padding-top: .6vw;
-    padding-bottom: .2vw;
     padding-left: .5vw;
     width: 10vw;
     min-height: 100%;
@@ -255,9 +254,10 @@ td {
     padding-left: .5vw;
     margin: 0%;
     border: none;
-    min-height: 2vw;
-    background: #ffffff;
-    color: #333333;
+    min-height: 2.5vh;
+    max-width: 30vw;
+    background: none;
+    color: #66B2FF;
     font-size: .7vw;
     outline: none;
     font-family: RobotoLight;
