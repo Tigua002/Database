@@ -253,9 +253,11 @@ td {
     overflow: hidden;
     text-overflow: ellipsis;
     overflow-wrap: break-word;
-    overflow-wrap: break-word;
     white-space: normal;
+    word-break: break-all; /* Add this line */
+    flex-basis: 100%; /* Add this line */
 }
+
 
 .tableData:hover {
     background-color: #1A1A1A;
