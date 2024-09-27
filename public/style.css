@@ -271,6 +271,7 @@ td {
     outline: none;
     font-family: RobotoLight;
     width: 10vw;
+    min-width: 10vw;
 }
 
 .tableInput::-webkit-scrollbar{
