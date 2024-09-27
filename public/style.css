@@ -224,6 +224,7 @@ td {
     font-size: 1vw;
     background-color: #444444;
     width: 10vw;
+    padding-top: .4vw;
 }
 
 .tableRow {
@@ -339,7 +340,7 @@ td {
 }
 
 .editRowBtn:hover {
-    transform: scale(1.1);
+    transform: scale(0.95);
 }
 
 .NewDatabaseModal {
