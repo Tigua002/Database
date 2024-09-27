@@ -286,7 +286,7 @@ td {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 2.5vh;
+    height: 2.5vh + .6vw;
     width: 5vw;
     margin: 0%;
     color: #ffffff;
