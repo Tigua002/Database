@@ -276,7 +276,9 @@ td {
 .tableInput::-webkit-scrollbar-corner{
     display: none;
 }
-
+.tableTD::-webkit-scrollbar-corner{
+    display: none;
+}
 .tableTD {
     width: 10vw;
     border-bottom: solid 1px #B22222;
