@@ -273,24 +273,13 @@ td {
     width: 10vw;
 }
 
-.tableInput::-webkit-scrollbar-corner{
+.tableInput::-webkit-scrollbar{
     display: none;
 }
-.tableInput::-webkit-scrollbar-button{
+.tableTD::-webkit-scrollbar{
     display: none;
 }
-.tableInput::-webkit-scrollbar-track{
-    display: none;
-}
-.tableTD::-webkit-scrollbar-corner{
-    display: none;
-}
-.tableTD::-webkit-scrollbar-button{
-    display: none;
-}
-.tableTD::-webkit-scrollbar-track{
-    display: none;
-}
+
 .tableTD {
     width: 10vw;
     border-bottom: solid 1px #B22222;
