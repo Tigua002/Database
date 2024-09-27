@@ -250,7 +250,8 @@ td {
     align-items: end;
     flex-direction: row;
     flex-wrap: wrap;
-    text-overflow: clip;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .tableData:hover {
