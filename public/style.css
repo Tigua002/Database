@@ -248,6 +248,7 @@ td {
     justify-content: start;
     align-items: end;
     flex-direction: row;
+    text-wrap: wrap;
 }
 
 .tableData:hover {
