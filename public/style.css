@@ -261,7 +261,6 @@ td {
 }
 
 .tableInput {
-    padding-left: .5vw;
     margin: 0%;
     border: none;
     min-height: 3vh + .6vw;
@@ -272,6 +271,10 @@ td {
     outline: none;
     font-family: RobotoLight;
     width: 10vw;
+}
+
+.tableInput::-webkit-scrollbar-corner{
+    display: none;
 }
 
 .tableTD {
