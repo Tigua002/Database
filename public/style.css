@@ -237,6 +237,7 @@ td {
 
 .tableData {
     padding-top: .4vw;
+    padding-bottom: .2vw;
     padding-left: .5vw;
     width: 10vw;
     min-height: 100%;
@@ -250,10 +251,6 @@ td {
     align-items: end;
     flex-direction: row;
     flex-wrap: wrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    overflow-wrap: break-word;
-    white-space: normal;
     word-break: break-all; /* Add this line */
     flex-basis: 100%; /* Add this line */
 }
