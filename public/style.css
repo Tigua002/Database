@@ -277,6 +277,7 @@ td {
 .tableTD {
     width: 10vw;
     border-bottom: solid 1px #B22222;
+    padding-left: .5vw;
 }
 
 .tableID {
