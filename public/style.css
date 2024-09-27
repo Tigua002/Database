@@ -276,7 +276,19 @@ td {
 .tableInput::-webkit-scrollbar-corner{
     display: none;
 }
+.tableInput::-webkit-scrollbar-button{
+    display: none;
+}
+.tableInput::-webkit-scrollbar-track{
+    display: none;
+}
 .tableTD::-webkit-scrollbar-corner{
+    display: none;
+}
+.tableTD::-webkit-scrollbar-button{
+    display: none;
+}
+.tableTD::-webkit-scrollbar-track{
     display: none;
 }
 .tableTD {
