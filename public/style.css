@@ -216,6 +216,7 @@ td {
     border-collapse: collapse;
     border-spacing: 0;
     color: #66B2FF;
+    border: solid 2px #444444;
 }
 
 .tableDesc {
