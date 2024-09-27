@@ -235,7 +235,7 @@ td {
 }
 
 .tableData {
-    padding-top: .6vw;
+    padding-top: .4vw;
     padding-left: .5vw;
     width: 10vw;
     min-height: 100%;
@@ -244,6 +244,9 @@ td {
     font-size: .7vw;
     font-family: RobotoLight;
     border-bottom: solid 1px #66B2FF;
+    display: flex;
+    justify-content: center;
+    align-items: end;
 }
 
 .tableData:hover {
