@@ -216,7 +216,6 @@ td {
     border-collapse: collapse;
     border-spacing: 0;
     color: #66B2FF;
-    border: solid 2px #444444;
 }
 
 .tableDesc {
@@ -322,8 +321,7 @@ td {
 }
 
 .editRowBtn:hover {
-    opacity: .9;
-    border: #1A1A1A 1px solid;
+    transform: scale(1.1);
 }
 
 .NewDatabaseModal {
