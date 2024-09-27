@@ -253,6 +253,8 @@ td {
     overflow: hidden;
     text-overflow: ellipsis;
     overflow-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
 }
 
 .tableData:hover {
