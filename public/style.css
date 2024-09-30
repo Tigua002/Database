@@ -314,8 +314,9 @@ td {
     font-size: .8vw;
     cursor: pointer;
     min-width: 5vw;
-    margin: 5% 0% 5% 5%;
+    margin: 1% 0% 1% 0%;
     width: 5vw;
+    width: 90%;
     height: 90%;
     border: none;
     outline: none;
