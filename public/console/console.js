@@ -13,4 +13,6 @@ ws.onopen = function () {
     console.log('Connected to server');
 };
 
-
+ws.onerror = function (error) {
+    console.error('WebSocket Error: ', error);
+};

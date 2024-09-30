@@ -30,6 +30,10 @@ wss.on('connection', ws => {
     ws.send('Connected to server');
 });
 
+ws.onerror = function (error) {
+    console.error('WebSocket Error: ', error);
+    alert('WebSocket connection failed. Please check the console for more details.');
+};
 server.listen(8080, () => {
     console.log('Server is listening on port 8080');
 });
