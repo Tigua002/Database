@@ -6,6 +6,9 @@ const bodyParser = require('body-parser');
 const mysql = require('mysql2');
 require("dotenv").config()
 
+
+const https = require('https');
+const fs = require('fs');
 const WebSocket = require('ws')
 const { exec } = require("child_process")
 
@@ -13,7 +16,7 @@ const wss = new WebSocket.Server({ port: 8080 });
 
 wss.on('connection', (ws) => {
     console.log("Client connected");
-    
+
     // Use PM2 to stream logs
     const pm2Logs = exec('pm2 logs Dataspot')
 
@@ -27,6 +30,10 @@ wss.on('connection', (ws) => {
         pm2Logs.kill();
     });
 })
+
+server.listen(8080, () => {
+    console.log('Secure WebSocket server is running on port 8080');
+  });
 
 // Define the port to use
 const PORT = process.env.PORT;
