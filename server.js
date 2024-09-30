@@ -6,6 +6,28 @@ const bodyParser = require('body-parser');
 const mysql = require('mysql2');
 require("dotenv").config()
 
+const WebSocket = require('ws')
+const { exec } = require("child_process")
+
+const wss = new WebSocket.Server({ port: 8080 });
+
+wss.on('connection', (ws) => {
+    console.log("Client connected");
+    
+    // Use PM2 to stream logs
+    const pm2Logs = exec('pm2 logs Dataspot')
+
+    // Send stderr data to the client
+    pm2Logs.stderr.on('data', (data) => {
+        ws.send(data.toString())
+    });
+
+    ws.on('close', () => {
+        console.log('Client disconnected');
+        pm2Logs.kill();
+    });
+})
+
 // Define the port to use
 const PORT = process.env.PORT;
 app.listen(PORT, () => console.log(`Dataspot port: ${PORT}`));
