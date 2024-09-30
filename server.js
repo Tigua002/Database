@@ -7,36 +7,35 @@ const mysql = require('mysql2');
 require("dotenv").config()
 
 
-const http = require('http');
+const fs = require('fs');
 const WebSocket = require('ws');
-
-const server = http.createServer();
-const wss = new WebSocket.Server({ server });
-
-let consoleOutput = '';
-
-const originalLog = console.log;
-console.log = function (message) {
-    consoleOutput += message + '\n';
-    originalLog.apply(console, arguments);
-    wss.clients.forEach(client => {
-        if (client.readyState === WebSocket.OPEN) {
-            client.send(message);
-        }
-    });
-};
+const wss = new WebSocket.Server({ port: 8080 });
 
 wss.on('connection', ws => {
+    ws.on('message', message => {
+        console.log(`Received message => ${message}`);
+    });
     ws.send('Connected to server');
 });
 
-wss.onerror = function (error) {
-    console.error('WebSocket Error: ', error);
-    alert('WebSocket connection failed. Please check the console for more details.');
-};
-server.listen(8080, () => {
-    console.log('Server is listening on port 8080');
+const filePath = '../../.pm2/logs/DatabaseManager-out.log';
+
+fs.watch(filePath, (eventType, filename) => {
+    if (filename) {
+        fs.readFile(filePath, 'utf8', (err, data) => {
+            if (err) {
+                console.error(err);
+                return;
+            }
+            wss.clients.forEach(client => {
+                if (client.readyState === WebSocket.OPEN) {
+                    client.send(data);
+                }
+            });
+        });
+    }
 });
+
 
 
 // Define the port to use
