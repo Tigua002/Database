@@ -7,4 +7,7 @@ const ws = new WebSocket('ws://localhost:8080');
 ws.onmessage = (event) => {
     const logs = document.getElementById('logs');
     logs.textContent += event.data;
+    let h1 = document.createElement("h1")
+    h1.innerHTML = event.data
+    logs.appendChild(h1)
 };
