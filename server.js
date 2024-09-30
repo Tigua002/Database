@@ -12,6 +12,12 @@ const fs = require('fs');
 const WebSocket = require('ws')
 const { exec } = require("child_process")
 
+const server = https.createServer({
+    cert: fs.readFileSync('server.cert'),
+    key: fs.readFileSync('server.key')
+  });
+
+
 const wss = new WebSocket.Server({ port: 8080 });
 
 wss.on('connection', (ws) => {
