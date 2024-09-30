@@ -252,8 +252,8 @@ td {
     align-items: end;
     flex-direction: row;
     flex-wrap: wrap;
-    word-break: break-all; /* Add this line */
-    flex-basis: 100%; /* Add this line */
+    word-break: break-all;
+    flex-basis: 100%;
 }
 
 
