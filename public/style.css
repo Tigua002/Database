@@ -223,7 +223,7 @@ td {
     font-size: 1vw;
     background-color: #444444;
     width: 10vw;
-    padding: .5vw;
+    padding: .5vw 0vw;
 }
 
 .tableRow {
