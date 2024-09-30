@@ -314,9 +314,8 @@ td {
     font-size: .8vw;
     cursor: pointer;
     min-width: 5vw;
-    margin: 1% 0% 1% 0%;
+    margin: 1% 0% 1% 1vw;
     width: 5vw;
-    width: 8vw;
     height: 90%;
     border: none;
     outline: none;
@@ -337,6 +336,7 @@ td {
     font-size: .8vw;
     height: 80%;
     border: none;
+    min-width: 5vw;
 }
 
 .editRowBtn:hover {
