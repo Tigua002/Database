@@ -7,44 +7,31 @@ const mysql = require('mysql2');
 require("dotenv").config()
 
 
-const https = require('https');
-const fs = require('fs');
+const http = require('http');
 const WebSocket = require('ws');
-const { exec } = require('child_process');
 
-// Load SSL certificates
-const server = https.createServer({
-  cert: fs.readFileSync('server.cert'),
-  key: fs.readFileSync('server.key')
-});
-
+const server = http.createServer();
 const wss = new WebSocket.Server({ server });
 
-wss.on('connection', (ws) => {
-  console.log('Client connected');
+let consoleOutput = '';
 
-  // Use PM2 to stream logs
-  const pm2Logs = exec('pm2 logs your-app --lines 0');
+const originalLog = console.log;
+console.log = function (message) {
+    consoleOutput += message + '\n';
+    originalLog.apply(console, arguments);
+    wss.clients.forEach(client => {
+        if (client.readyState === WebSocket.OPEN) {
+            client.send(message);
+        }
+    });
+};
 
-  // Send stdout data to the client
-  pm2Logs.stdout.on('data', (data) => {
-    ws.send(data.toString());
-  });
-
-  // Send stderr data to the client
-  pm2Logs.stderr.on('data', (data) => {
-    ws.send(data.toString());
-  });
-
-  ws.on('close', () => {
-    console.log('Client disconnected');
-    pm2Logs.kill();
-  });
+wss.on('connection', ws => {
+    ws.send('Connected to server');
 });
 
-// Start the server on port 8080
 server.listen(8080, () => {
-  console.log('Secure WebSocket server is running on port 8080');
+    console.log('Server is listening on port 8080');
 });
 
 
