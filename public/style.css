@@ -220,10 +220,10 @@ td {
 .tableDesc {
     display: flex;
     align-items: center;
-    padding-left: .5vw;
     font-size: 1vw;
     background-color: #444444;
     width: 10vw;
+    padding: .5vw;
 }
 
 .tableRow {
