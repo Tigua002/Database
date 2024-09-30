@@ -210,7 +210,6 @@ td {
 }
 
 .TableDisplay {
-    margin-top: 5%;
     margin-left: 1%;
     padding: .2vw;
     border-collapse: collapse;
@@ -220,7 +219,6 @@ td {
 
 .tableDesc {
     display: flex;
-    justify-content: center;
     align-items: center;
     padding-left: .5vw;
     font-size: 1vw;
