@@ -219,7 +219,9 @@ td {
 }
 
 .tableDesc {
-    text-align: start;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     padding-left: .5vw;
     font-size: 1vw;
     background-color: #444444;
@@ -249,7 +251,7 @@ td {
     border-bottom: solid 1px #66B2FF;
     display: flex;
     justify-content: start;
-    align-items: end;
+    align-items: center;
     flex-direction: row;
     flex-wrap: wrap;
     word-break: break-all;
