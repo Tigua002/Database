@@ -30,7 +30,7 @@ wss.on('connection', ws => {
     ws.send('Connected to server');
 });
 
-ws.onerror = function (error) {
+wss.onerror = function (error) {
     console.error('WebSocket Error: ', error);
     alert('WebSocket connection failed. Please check the console for more details.');
 };
