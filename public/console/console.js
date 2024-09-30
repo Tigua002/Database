@@ -2,7 +2,7 @@ document.getElementsByClassName("navItem")[2].style.background = "#66B2FF"
 document.getElementsByClassName("navImg")[2].setAttribute("stroke", "#333333")
 
 
-const ws = new WebSocket('wss://45.79.249.21:8080');
+const ws = new WebSocket('ws://dataspot.gusarov.site:8080');
 
 ws.onmessage = function (event) {
     const consoleOutputDiv = document.getElementById('consoleOutput');
