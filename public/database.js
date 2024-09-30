@@ -142,9 +142,11 @@ const loadData = async (database, table) => {
         tableData.style.borderTop = "solid #444444 2px"
         if (i == 0) {
             tableData.style.borderTopLeftRadius = ".5vw"
+            tableData.style.borderBottomLeftRadius = ".5vw"
             tableData.style.borderLeft = "solid #444444 2px"
         } else if (i + 1 == columns.length) {
             tableData.style.borderTopRightRadius = ".5vw"
+            tableData.style.borderBottomRightRadius = ".5vw"
             tableData.style.borderRight = "solid #444444 2px"
 
         }
@@ -174,12 +176,11 @@ const loadData = async (database, table) => {
                 tableData.style.opacity = ".5"
             }
             tableDataRow.appendChild(tableData);
-            if (i == 0) {
-                tableData.style.borderLeft = "solid #444444 2px"
-            } else if ((i + 1) == columns.length) {
-                tableData.style.borderRight = "solid #444444 2px"
-
-            }
+            // if (i == 0) {
+            //     tableData.style.borderLeft = "solid #444444 2px"
+            // } else if ((i + 1) == columns.length) {
+            //     tableData.style.borderRight = "solid #444444 2px"
+            // }
         }
 
         let editDiv = document.createElement("td")
