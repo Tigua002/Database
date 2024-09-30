@@ -327,16 +327,16 @@ td {
 }
 
 .editRowBtn {
-    width: 5vw;
+    width: 4vw;
     background: #B22222;
     border-radius: 2vw;
-    margin-left: 1vw;
+    margin-left: 2vw;
     text-align: center;
     color: #ffffff;
     font-size: .8vw;
     height: 80%;
     border: none;
-    min-width: 5vw;
+    min-width: 4vw;
 }
 
 .editRowBtn:hover {
