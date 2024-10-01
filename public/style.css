@@ -853,14 +853,13 @@ dialog {
 .consoleLine{
     font-size: .6vw;
     color: #66B2FF;
-    padding: .5vw;
 }
 .consoleLine:hover{
     background-color: #333333;
     border: green solid 1px;
 }
 .consoleError{
-    font-size: .6vw;
+    font-size: .8vw;
     color: red;
     margin-top: 1vh;
     padding: .5vw;
