@@ -34,7 +34,6 @@ app.get('/file', (req, res) => {
 
 wss.on('connection', (ws) => {
     console.log('Client connected');
-    ws.send(data);
     fs.watch(filePath, (eventType, filename) => {
         if (eventType === 'change') {
             fs.readFile(filePath, 'utf8', (err, data) => {
