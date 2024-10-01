@@ -25,31 +25,31 @@ const filePath = process.env.FILEPATH
 const errorPath = process.env.ERRORPATH
 
 app.get('/file', (req, res) => {
-    var file = "";
-    var error = "";
+    let file = "";
+    let error = "";
+
     fs.readFile(filePath, 'utf8', (err, data) => {
         if (err) {
             return res.status(500).send('Error reading file');
         }
-        
-        file = data
-        
+        file = data;
+
+        fs.readFile(errorPath, 'utf8', (err, dataThing) => {
+            if (err) {
+                return res.status(500).send('Error reading file');
+            }
+            error = dataThing;
+
+            let body = {
+                data: file,
+                err: error
+            };
+            console.log(body);
+            res.send(body);
+        });
     });
-    fs.readFile(errorPath, 'utf8', (err, dataThing) => {
-        if (err) {
-            return res.status(500).send('Error reading file');
-        }
-        error = dataThing
-        
-    });
-    let body = {
-        data: file,
-        err: error
-    }
-    console.log(body);
-    
-    res.send(body)
 });
+
 
 wss.on('connection', (ws) => {
     console.log('Client connected');
