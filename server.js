@@ -44,6 +44,10 @@ wss.on('connection', (ws) => {
 wss.on('close', () => {
     console.log('Client disconnected');
 });
+wss.on('error', (err) => {
+    console.log(err);
+    
+})
 // Define the port to use
 const PORT = process.env.PORT;
 app.listen(PORT, () => console.log(`Dataspot port: ${PORT}`));
