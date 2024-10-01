@@ -24,10 +24,7 @@ fetch('/file')
         consoleDiv.scrollTop = consoleDiv.scrollHeight;
         let errLines = body.err.split("Error")
         errLines.forEach(line => {
-            let div = document.createElement("div")
             let newMessage = document.createElement("h1")
-            div.innerHTML = "<br>"
-            div.appendChild(newMessage)
             newMessage.setAttribute("class", "consoleError")
             errorDiv.appendChild(newMessage)
             newMessage.innerHTML = line
