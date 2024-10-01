@@ -7,7 +7,7 @@ const errorDiv = document.getElementById('consoleError');
 const ws = new WebSocket('wss://dataspot.gusarov.site:8080');
 
 fetch('/file')
-    .then(response => response.text())
+    .then(response => response.json())
     .then(body => {
         console.log(body);
         
