@@ -26,8 +26,12 @@ app.get('/file', (req, res) => {
 });
 
 wss.on('connection', (ws) => {
-    console.log('Client connected');
-
+    fs.readFile(filePath, 'utf8', (err, data) => {
+        if (err) {
+            return res.status(500).send('Error reading file');
+        }
+        res.send(data);
+    });
     fs.watch(filePath, (eventType, filename) => {
         if (eventType === 'change') {
             fs.readFile(filePath, 'utf8', (err, data) => {
