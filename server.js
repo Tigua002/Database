@@ -13,8 +13,8 @@ const wss = new WebSocket.Server({ port: 8080 });
 
 
 
-// const filePath = '../../.pm2/logs/DatabaseManager-out.log';
-const filePath = './server.js';
+const filePath = '../../.pm2/logs/DatabaseManager-out.log';
+// const filePath = './server.js';
 
 app.get('/file', (req, res) => {
     fs.readFile(filePath, 'utf8', (err, data) => {
