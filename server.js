@@ -25,12 +25,25 @@ const filePath = process.env.FILEPATH
 const errorPath = process.env.ERRORPATH
 
 app.get('/file', (req, res) => {
+    let file;
+    let error;
     fs.readFile(filePath, 'utf8', (err, data) => {
         if (err) {
             return res.status(500).send('Error reading file');
         }
-        res.send(data);
+        file = data
     });
+    fs.readFile(errorPath, 'utf8', (err, data) => {
+        if (err) {
+            return res.status(500).send('Error reading file');
+        }
+        error = data
+    });
+    let body = {
+        data: file,
+        err: error
+    }
+    res.send(body)
 });
 
 wss.on('connection', (ws) => {

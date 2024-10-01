@@ -8,10 +8,10 @@ const ws = new WebSocket('wss://dataspot.gusarov.site:8080');
 
 fetch('/file')
     .then(response => response.text())
-    .then(data => {
+    .then(body => {
         console.log("LOADED");
 
-        let lines = data.split("\n")
+        let lines = body.data.split("\n")
         lines.forEach(line => {
             let newMessage = document.createElement("h1")
             newMessage.setAttribute("class", "consoleLine")
@@ -20,6 +20,15 @@ fetch('/file')
 
         })
         consoleDiv.scrollTop = consoleDiv.scrollHeight;
+        let errLines = body.data.split("\n")
+        errLines.forEach(line => {
+            let newMessage = document.createElement("h1")
+            newMessage.setAttribute("class", "consoleError")
+            errorDiv.appendChild(newMessage)
+            newMessage.innerHTML = line
+
+        })
+        errorDiv.scrollTop = errorDiv.scrollHeight;
     });
 
 ws.onmessage = (event) => {
