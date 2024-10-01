@@ -24,27 +24,31 @@ const ws = new WebSocket('ws://dataspot.gusarov.site:8080');
 fetch('/file')
     .then(response => response.text())
     .then(data => {
+        console.log("LOADED");
+
         let lines = data.split("\n")
         lines.forEach(line => {
             let newMessage = document.createElement("h1")
             newMessage.setAttribute("class", "consoleLine")
             consoleDiv.appendChild(newMessage)
             newMessage.innerHTML = line
-            
+
         })
         consoleDiv.scrollTop = consoleDiv.scrollHeight;
     });
 
 ws.onmessage = (event) => {
-        let lines = event.data.split("\n")
-        lines.forEach(line => {
-            let newMessage = document.createElement("h1")
-            newMessage.setAttribute("class", "consoleLine")
-            consoleDiv.appendChild(newMessage)
-            newMessage.innerHTML = line
-            
-        })
-        consoleDiv.scrollTop = consoleDiv.scrollHeight;
+    console.log("UPDATE");
+
+    let lines = event.data.split("\n")
+    lines.forEach(line => {
+        let newMessage = document.createElement("h1")
+        newMessage.setAttribute("class", "consoleLine")
+        consoleDiv.appendChild(newMessage)
+        newMessage.innerHTML = line
+
+    })
+    consoleDiv.scrollTop = consoleDiv.scrollHeight;
 };
 
 ws.onclose = () => {
