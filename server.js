@@ -33,14 +33,13 @@ app.get('/file', (req, res) => {
         }
         
         file = data
-        console.log(file);
         
     });
-    fs.readFile(errorPath, 'utf8', (err, data) => {
+    fs.readFile(errorPath, 'utf8', (err, dataThing) => {
         if (err) {
             return res.status(500).send('Error reading file');
         }
-        error = data
+        error = dataThing
         
     });
     let body = {
