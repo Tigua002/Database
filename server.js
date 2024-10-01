@@ -25,8 +25,8 @@ const filePath = process.env.FILEPATH
 const errorPath = process.env.ERRORPATH
 
 app.get('/file', (req, res) => {
-    var file;
-    var error;
+    var file = "";
+    var error = "";
     fs.readFile(filePath, 'utf8', (err, data) => {
         if (err) {
             return res.status(500).send('Error reading file');
