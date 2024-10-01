@@ -13,7 +13,7 @@ const wss = new WebSocket.Server({ port: 8080 });
 
 
 
-const filePath = '../../.pm2/logs/api-out.log';
+const filePath = '../../.pm2/logs/DatabaseManager-out.log';
 // const filePath = './server.js';
 
 app.get('/file', (req, res) => {
@@ -26,12 +26,8 @@ app.get('/file', (req, res) => {
 });
 
 wss.on('connection', (ws) => {
-    fs.readFile(filePath, 'utf8', (err, data) => {
-        if (err) {
-            return res.status(500).send('Error reading file');
-        }
-        res.send(data);
-    });
+    console.log('Client connected');
+
     fs.watch(filePath, (eventType, filename) => {
         if (eventType === 'change') {
             fs.readFile(filePath, 'utf8', (err, data) => {
