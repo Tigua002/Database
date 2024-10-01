@@ -20,7 +20,11 @@ const ws = new WebSocket('wss://dataspot.gusarov.site:8080');
 //         })
 //         consoleDiv.scrollTop = consoleDiv.scrollHeight;
 //     });
-
+ws.onopen = (event) => {
+    console.log("OPEN");
+    console.log(event.data);
+    
+}
 ws.onmessage = (event) => {
     console.log("UPDATE");
     consoleDiv.innerHTML = ""
