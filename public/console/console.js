@@ -5,21 +5,21 @@ const consoleDiv = document.getElementById('consoleOutput');
 // const ws = new WebSocket('ws://localhost:8080');
 const ws = new WebSocket('wss://dataspot.gusarov.site:8080');
 
-fetch('/file')
-    .then(response => response.text())
-    .then(data => {
-        console.log("LOADED");
+// fetch('/file')
+//     .then(response => response.text())
+//     .then(data => {
+//         console.log("LOADED");
 
-        let lines = data.split("\n")
-        lines.forEach(line => {
-            let newMessage = document.createElement("h1")
-            newMessage.setAttribute("class", "consoleLine")
-            consoleDiv.appendChild(newMessage)
-            newMessage.innerHTML = line
+//         let lines = data.split("\n")
+//         lines.forEach(line => {
+//             let newMessage = document.createElement("h1")
+//             newMessage.setAttribute("class", "consoleLine")
+//             consoleDiv.appendChild(newMessage)
+//             newMessage.innerHTML = line
 
-        })
-        consoleDiv.scrollTop = consoleDiv.scrollHeight;
-    });
+//         })
+//         consoleDiv.scrollTop = consoleDiv.scrollHeight;
+//     });
 
 ws.onmessage = (event) => {
     console.log("UPDATE");
