@@ -11,33 +11,39 @@ const fs = require('fs');
 const WebSocket = require('ws');
 const wss = new WebSocket.Server({ port: 8080 });
 
-wss.on('connection', ws => {
-    ws.on('message', message => {
-        console.log(`Received message => ${message}`);
-    });
-    ws.send('Connected to server');
-});
+
 
 const filePath = '../../.pm2/logs/DatabaseManager-out.log';
 // const filePath = './server.js';
 
-fs.watch(filePath, (eventType, filename) => {
-    if (filename) {
-        fs.readFile(filePath, 'utf8', (err, data) => {
-            if (err) {
-                console.error(err);
-                return;
-            }
-            wss.clients.forEach(client => {
-                if (client.readyState === WebSocket.OPEN) {
-                    client.send(data);
-                }
-            });
-        });
-    }
+app.get('/file', (req, res) => {
+    fs.readFile(filePath, 'utf8', (err, data) => {
+        if (err) {
+            return res.status(500).send('Error reading file');
+        }
+        res.send(data);
+    });
 });
 
+wss.on('connection', (ws) => {
+    console.log('Client connected');
 
+    fs.watch(filePath, (eventType, filename) => {
+        if (eventType === 'change') {
+            fs.readFile(filePath, 'utf8', (err, data) => {
+                if (err) {
+                    console.error('Error reading file');
+                    return;
+                }
+                ws.send(data);
+            });
+        }
+    });
+
+    ws.on('close', () => {
+        console.log('Client disconnected');
+    });
+});
 
 // Define the port to use
 const PORT = process.env.PORT;

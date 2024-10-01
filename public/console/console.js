@@ -20,19 +20,24 @@ document.getElementsByClassName("navImg")[2].setAttribute("stroke", "#333333")
 const consoleDiv = document.getElementById('consoleOutput');
 const ws = new WebSocket('ws://localhost:8080');
 
-ws.onmessage = (event) => {
-    console.log("News!");
-    const message = event.data;
-    const lines = message.split('\n'); // Split the message by line breaks
-    lines.forEach(line => {
-        const newMessage = document.createElement('div');
-        newMessage.setAttribute("class", "consoleLine")
-        newMessage.innerHTML = line;
-        consoleDiv.appendChild(newMessage);
+fetch('/file')
+    .then(response => response.text())
+    .then(data => {
+        let lines = data.split("\n")
+        lines.forEach(line => {
+            let newMessage = document.createElement("h1")
+            newMessage.setAttribute("class", "consoleLine")
+            consoleDiv.appendChild(newMessage)
+            newMessage.innerHTML = line
+            
+        })
+        consoleDiv.scrollTop = consoleDiv.scrollHeight;
     });
-    consoleDiv.scrollTop = consoleDiv.scrollHeight;
+
+ws.onmessage = (event) => {
+    document.getElementById('consoleOutput').textContent = event.data;
 };
 
-ws.onopen = function (event) {
-    console.log('Connected to server');
+ws.onclose = () => {
+    console.log('WebSocket connection closed');
 };
