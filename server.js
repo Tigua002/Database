@@ -227,10 +227,12 @@ app.post("/create/user", function (req, res) {
     let host = req.body.host
     let db = req.body.db
     let username = ""
+    let password = ""
+    console.log(host);
+    
     if (host == "0.0.0.0") {
         host = "%"
     }
-    let password = ""
 
     for (let i = 0; i < 12; i++) {
         username += chars.charAt(Math.floor(Math.random() * chars.length));
