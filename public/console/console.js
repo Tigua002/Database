@@ -18,7 +18,7 @@ document.getElementsByClassName("navImg")[2].setAttribute("stroke", "#333333")
 // };
 
 const consoleDiv = document.getElementById('console');
-const ws = new WebSocket('ws://dataspot.gusarov.site:8080');
+const ws = new WebSocket('ws://localhost:8080');
 
 ws.onmessage = (event) => {
     const message = event.data;
