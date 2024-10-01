@@ -9,7 +9,9 @@ require("dotenv").config()
 
 const fs = require('fs');
 const WebSocket = require('ws');
-const wss = new WebSocket.Server({ port: 8080 });
+const wss = new WebSocket.Server({ port: 8080 }, () => {
+    console.log('WebSocket server listening on port 8080');
+});
 
 
 
@@ -43,7 +45,6 @@ wss.on('connection', (ws) => {
         console.log('Client disconnected');
     });
 });
-
 // Define the port to use
 const PORT = process.env.PORT;
 app.listen(PORT, () => console.log(`Dataspot port: ${PORT}`));
