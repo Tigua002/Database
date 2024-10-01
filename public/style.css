@@ -859,7 +859,7 @@ dialog {
     border: green solid 1px;
 }
 .consoleError{
-    font-size: .8vw;
+    font-size: .7vw;
     color: red;
     margin-top: 1vh;
     padding: .5vw;
