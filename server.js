@@ -6,10 +6,16 @@ const bodyParser = require('body-parser');
 const mysql = require('mysql2');
 require("dotenv").config()
 
-
+const https = require('https');
 const fs = require('fs');
 const WebSocket = require('ws');
-const wss = new WebSocket.Server({ port: 8080 }, () => {
+const serverOptions = {
+    cert: fs.readFileSync(process.env.FULLCHAIN),
+    key: fs.readFileSync(process.env.PRIVKEY)
+};
+const server = https.createServer(serverOptions);
+
+const wss = new WebSocket.Server({ server  }, () => {
     console.log('WebSocket server listening on port 8080');
 });
 
@@ -47,7 +53,9 @@ wss.on('close', () => {
 wss.on('error', (err) => {
     console.error('WebSocket error:', err);
 });
-
+server.listen(8080, () => {
+    console.log('WebSocket server listening on port 8080 (via HTTPS)');
+});
 // Define the port to use
 const PORT = process.env.PORT;
 app.listen(PORT, () => console.log(`Dataspot port: ${PORT}`));
