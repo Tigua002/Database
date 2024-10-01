@@ -359,7 +359,7 @@ document.getElementsByClassName("BlueBlackBtn")[0].addEventListener("click", asy
         document.getElementsByClassName("dbUserValue")[2].innerHTML = "172.104.242.87"
         console.log(data[0].host);
         
-        if (data[0].host = "%") {
+        if (data[0].host == "%") {
             document.getElementsByClassName("dbUserValue")[3].innerHTML = "all"
         }
         else {

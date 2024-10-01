@@ -22,7 +22,7 @@ fetch('/file')
 
         })
         consoleDiv.scrollTop = consoleDiv.scrollHeight;
-        let errLines = body.err.split("\n")
+        let errLines = body.err.split("Error")
         errLines.forEach(line => {
             let div = document.createElement("div")
             let newMessage = document.createElement("h1")
