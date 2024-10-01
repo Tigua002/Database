@@ -19,7 +19,7 @@ document.getElementsByClassName("navImg")[2].setAttribute("stroke", "#333333")
 
 const consoleDiv = document.getElementById('consoleOutput');
 // const ws = new WebSocket('ws://localhost:8080');
-const ws = new WebSocket('ws://dataspot.gusarov.site:8080');
+const ws = new WebSocket('wss://dataspot.gusarov.site:8080');
 
 fetch('/file')
     .then(response => response.text())
