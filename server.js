@@ -22,7 +22,7 @@ const wss = new WebSocket.Server({ server  }, () => {
 
 
 const filePath = process.env.FILEPATH
-const errorPath = process.env.errorPath
+const errorPath = process.env.ERRORPATH
 
 app.get('/file', (req, res) => {
     fs.readFile(filePath, 'utf8', (err, data) => {
