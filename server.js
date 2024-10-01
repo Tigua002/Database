@@ -40,10 +40,9 @@ wss.on('connection', (ws) => {
             });
         }
     });
-
-    ws.on('close', () => {
-        console.log('Client disconnected');
-    });
+});
+wss.on('close', () => {
+    console.log('Client disconnected');
 });
 // Define the port to use
 const PORT = process.env.PORT;
