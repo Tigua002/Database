@@ -22,6 +22,7 @@ const wss = new WebSocket.Server({ server  }, () => {
 
 
 const filePath = process.env.FILEPATH
+const errorPath = process.env.errorPath
 
 app.get('/file', (req, res) => {
     fs.readFile(filePath, 'utf8', (err, data) => {
@@ -41,7 +42,26 @@ wss.on('connection', (ws) => {
                     console.error('Error reading file');
                     return;
                 }
-                ws.send(data);
+                const body = {
+                    dt: data,
+                    error: false
+                }
+                ws.send(body);
+            });
+        }
+    });
+    fs.watch(errorPath, (eventType, filename) => {
+        if (eventType === 'change') {
+            fs.readFile(filePath, 'utf8', (err, data) => {
+                if (err) {
+                    console.error('Error reading file');
+                    return;
+                }
+                const body = {
+                    dt: data,
+                    error: true
+                }
+                ws.send(body);
             });
         }
     });
