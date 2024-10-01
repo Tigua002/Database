@@ -43,6 +43,8 @@ app.get('/file', (req, res) => {
         data: file,
         err: error
     }
+    console.log(body);
+    
     res.send(body)
 });
 

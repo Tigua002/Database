@@ -9,6 +9,8 @@ const ws = new WebSocket('wss://dataspot.gusarov.site:8080');
 fetch('/file')
     .then(response => response.text())
     .then(body => {
+        console.log(body);
+        
         console.log("LOADED");
 
         let lines = body.data.split("\n")
