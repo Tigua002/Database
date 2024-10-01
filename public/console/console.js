@@ -27,3 +27,6 @@ ws.onmessage = (event) => {
     consoleDiv.appendChild(newMessage);
     consoleDiv.scrollTop = consoleDiv.scrollHeight;
 };
+ws.onopen = function () {
+    console.log('Connected to server');
+};
