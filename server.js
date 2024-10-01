@@ -9,15 +9,15 @@ require("dotenv").config()
 const https = require('https');
 const fs = require('fs');
 const WebSocket = require('ws');
-const serverOptions = {
-    cert: fs.readFileSync(process.env.FULLCHAIN),
-    key: fs.readFileSync(process.env.PRIVKEY)
-};
-const server = https.createServer(serverOptions);
+// const serverOptions = {
+//     cert: fs.readFileSync(process.env.FULLCHAIN),
+//     key: fs.readFileSync(process.env.PRIVKEY)
+// };
+// const server = https.createServer(serverOptions);
 
-const wss = new WebSocket.Server({ server  }, () => {
-    console.log('WebSocket server listening on port 8080');
-});
+// const wss = new WebSocket.Server({ server  }, () => {
+//     console.log('WebSocket server listening on port 8080');
+// });
 
 
 
@@ -44,55 +44,54 @@ app.get('/file', (req, res) => {
                 data: file,
                 err: error
             };
-            console.log(body);
             res.send(body);
         });
     });
 });
 
 
-wss.on('connection', (ws) => {
-    console.log('Client connected');
-    fs.watch(filePath, (eventType, filename) => {
-        if (eventType === 'change') {
-            fs.readFile(filePath, 'utf8', (err, data) => {
-                if (err) {
-                    console.error('Error reading file');
-                    return;
-                }
-                const body = {
-                    dt: data,
-                    error: false
-                }
-                ws.send(body);
-            });
-        }
-    });
-    fs.watch(errorPath, (eventType, filename) => {
-        if (eventType === 'change') {
-            fs.readFile(filePath, 'utf8', (err, data) => {
-                if (err) {
-                    console.error('Error reading file');
-                    return;
-                }
-                const body = {
-                    dt: data,
-                    error: true
-                }
-                ws.send(body);
-            });
-        }
-    });
-});
-wss.on('close', () => {
-    console.log('Client disconnected');
-});
-wss.on('error', (err) => {
-    console.error('WebSocket error:', err);
-});
-server.listen(8080, () => {
-    console.log('WebSocket server listening on port 8080 (via HTTPS)');
-});
+// wss.on('connection', (ws) => {
+//     console.log('Client connected');
+//     fs.watch(filePath, (eventType, filename) => {
+//         if (eventType === 'change') {
+//             fs.readFile(filePath, 'utf8', (err, data) => {
+//                 if (err) {
+//                     console.error('Error reading file');
+//                     return;
+//                 }
+//                 const body = {
+//                     dt: data,
+//                     error: false
+//                 }
+//                 ws.send(body);
+//             });
+//         }
+//     });
+//     fs.watch(errorPath, (eventType, filename) => {
+//         if (eventType === 'change') {
+//             fs.readFile(filePath, 'utf8', (err, data) => {
+//                 if (err) {
+//                     console.error('Error reading file');
+//                     return;
+//                 }
+//                 const body = {
+//                     dt: data,
+//                     error: true
+//                 }
+//                 ws.send(body);
+//             });
+//         }
+//     });
+// });
+// wss.on('close', () => {
+//     console.log('Client disconnected');
+// });
+// wss.on('error', (err) => {
+//     console.error('WebSocket error:', err);
+// });
+// server.listen(8080, () => {
+//     console.log('WebSocket server listening on port 8080 (via HTTPS)');
+// });
 // Define the port to use
 const PORT = process.env.PORT;
 app.listen(PORT, () => console.log(`Dataspot port: ${PORT}`));
@@ -228,7 +227,7 @@ app.post("/create/user", function (req, res) {
     let host = req.body.host
     let db = req.body.db
     let username = ""
-    if (host = "0.0.0.0") {
+    if (host == "0.0.0.0") {
         host = "%"
     }
     let password = ""
@@ -237,7 +236,6 @@ app.post("/create/user", function (req, res) {
         username += chars.charAt(Math.floor(Math.random() * chars.length));
         password += chars.charAt(Math.floor(Math.random() * chars.length));
     }
-    console.log(`BATCH START \n username: ${username} \n password: ${password} \n host: ${host} \n db: ${db} \n Batch END`);
 
 
 

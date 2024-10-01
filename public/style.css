@@ -835,7 +835,7 @@ dialog {
     margin: 1vw;
     margin-top: 10vh;
     background-color: #1A1A1A;
-    width: 40vw;
+    width: 30vw;
     height: 70vh;
     color: #ffffff;
     overflow-y: scroll;
@@ -851,10 +851,10 @@ dialog {
     width: 1vw;
 }
 .consoleLine{
-    font-size: .7vw;
+    font-size: .6vw;
     color: #66B2FF;
 }
 .consoleError{
-    font-size: .7vw;
+    font-size: .6vw;
     color: red;
 }
