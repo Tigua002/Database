@@ -31,13 +31,18 @@ app.get('/file', (req, res) => {
         if (err) {
             return res.status(500).send('Error reading file');
         }
+        
         file = data
+        console.log(file);
+        
     });
     fs.readFile(errorPath, 'utf8', (err, data) => {
         if (err) {
             return res.status(500).send('Error reading file');
         }
         error = data
+        console.log(error);
+        
     });
     let body = {
         data: file,
