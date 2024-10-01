@@ -853,6 +853,7 @@ dialog {
 .consoleLine{
     font-size: .6vw;
     color: #66B2FF;
+    padding: .5vw;
 }
 .consoleLine:hover{
     background-color: #333333;
@@ -861,6 +862,8 @@ dialog {
 .consoleError{
     font-size: .6vw;
     color: red;
+    margin-top: 1vh;
+    padding: .5vw;
 }
 .consoleError:hover{
     background-color: #333333;
