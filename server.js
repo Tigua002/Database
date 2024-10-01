@@ -45,9 +45,9 @@ wss.on('close', () => {
     console.log('Client disconnected');
 });
 wss.on('error', (err) => {
-    console.log(err);
-    
-})
+    console.error('WebSocket error:', err);
+});
+
 // Define the port to use
 const PORT = process.env.PORT;
 app.listen(PORT, () => console.log(`Dataspot port: ${PORT}`));
