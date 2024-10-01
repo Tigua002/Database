@@ -17,16 +17,22 @@ document.getElementsByClassName("navImg")[2].setAttribute("stroke", "#333333")
 //     console.error('WebSocket Error: ', error);
 // };
 
-const consoleDiv = document.getElementById('console');
+const consoleDiv = document.getElementById('consoleOutput');
 const ws = new WebSocket('ws://localhost:8080');
 
 ws.onmessage = (event) => {
+    console.log("News!");
     const message = event.data;
-    const newMessage = document.createElement('div');
-    newMessage.textContent = message;
-    consoleDiv.appendChild(newMessage);
+    const lines = message.split('\n'); // Split the message by line breaks
+    lines.forEach(line => {
+        const newMessage = document.createElement('div');
+        newMessage.setAttribute("class", "consoleLine")
+        newMessage.innerHTML = line;
+        consoleDiv.appendChild(newMessage);
+    });
     consoleDiv.scrollTop = consoleDiv.scrollHeight;
 };
-ws.onopen = function () {
+
+ws.onopen = function (event) {
     console.log('Connected to server');
 };

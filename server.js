@@ -19,6 +19,7 @@ wss.on('connection', ws => {
 });
 
 const filePath = '../../.pm2/logs/DatabaseManager-out.log';
+// const filePath = './server.js';
 
 fs.watch(filePath, (eventType, filename) => {
     if (filename) {
@@ -59,8 +60,6 @@ const connection = mysql.createConnection({
 
 // Connect to the database with error handling
 connection.connect();
-
-// Handle requests
 
 // Serve the index.html file
 app.get('/', (req, res) => {
