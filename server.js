@@ -76,7 +76,39 @@ app.get('/file', (req, res) => {
 
 
 app.post('/start/server', (req, res) => {
-    exec('pm2 start api', (error, stdout, stderr) => {
+    exec('pm2 start Dataspot', (error, stdout, stderr) => {
+        if (error) {
+            console.error(`Error executing command: ${error.message}`);
+            res.status(500).send('Error starting server');
+            return;
+        }
+        if (stderr) {
+            console.error(`Error output: ${stderr}`);
+            res.status(500).send('Error starting server');
+            return;
+        }
+        console.log(`Command output: ${stdout}`);
+        res.status(200).send('Server started successfully');
+    });
+});
+app.post('/restart/server', (req, res) => {
+    exec('pm2 restart Dataspot', (error, stdout, stderr) => {
+        if (error) {
+            console.error(`Error executing command: ${error.message}`);
+            res.status(500).send('Error starting server');
+            return;
+        }
+        if (stderr) {
+            console.error(`Error output: ${stderr}`);
+            res.status(500).send('Error starting server');
+            return;
+        }
+        console.log(`Command output: ${stdout}`);
+        res.status(200).send('Server started successfully');
+    });
+});
+app.post('/pull/server', (req, res) => {
+    exec('bash ../db.sh', (error, stdout, stderr) => {
         if (error) {
             console.error(`Error executing command: ${error.message}`);
             res.status(500).send('Error starting server');
@@ -92,7 +124,7 @@ app.post('/start/server', (req, res) => {
     });
 });
 app.post('/stop/server', (req, res) => {
-    exec('pm2 stop api', (error, stdout, stderr) => {
+    exec('pm2 stop Dataspot', (error, stdout, stderr) => {
         if (error) {
             console.error(`Error executing command: ${error.message}`);
             res.status(500).send('Error stopping server');

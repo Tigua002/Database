@@ -219,3 +219,31 @@ document.getElementById("stop").addEventListener("click", async () => {
         console.error('Error:', error);
     }
 });
+document.getElementById("rerun").addEventListener("click", async () => {
+    try {
+        let response = await fetch('/restart/server', {
+            method: "POST"
+        });
+        if (response.ok) {
+            console.log('Server stopped successfully');
+        } else {
+            console.error('Failed to stop server');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+    }
+});
+document.getElementById("restart").addEventListener("click", async () => {
+    try {
+        let response = await fetch('/pull/server', {
+            method: "POST"
+        });
+        if (response.ok) {
+            console.log('Server stopped successfully');
+        } else {
+            console.error('Failed to stop server');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+    }
+});
