@@ -68,8 +68,6 @@ app.get('/file', (req, res) => {
 });
 
 app.post('/clear/files', (req, res) => {
-    console.log(req.body);
-
     let secondPath = "";
     if (req.body.dataType === "CLEAR ERRORS") {
         secondPath = errorPath;
