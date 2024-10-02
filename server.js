@@ -99,7 +99,7 @@ wss.on('connection', (ws) => {
                     dt: data,
                     error: false
                 }
-                ws.send(body);
+                ws.send(JSON.stringify(body));;
             });
         }
     });
