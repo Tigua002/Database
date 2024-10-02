@@ -45,14 +45,14 @@ ws.onmessage = (event) => {
     console.log(event.data);
     let data = JSON.parse(event.data)
 
-    let lines = data.dt.split("\n")
     if (data.error == false) {
         for (let i = 0; i < document.getElementsByClassName("consoleLine").length; i++) {
             
             const line = document.getElementsByClassName("consoleLine")[i];
-            console.log(line.remove());
-            // line.remove()
+            console.log(line);
+            line.remove()
         }
+        let lines = data.dt.split("\n")
         lines.forEach(line => {
             let newMessage = document.createElement("h1")
             newMessage.setAttribute("class", "consoleLine")
@@ -65,9 +65,10 @@ ws.onmessage = (event) => {
             
             const line = document.getElementsByClassName("consoleError")[i];
             console.log(line);
-            // line.remove()
+            line.remove()
         }
-        lines.forEach(line => {
+        let errLines = data.dt.split("Error")
+        errLines.forEach(line => {
             let newMessage = document.createElement("h1")
             newMessage.setAttribute("class", "consoleError")
             errorDiv.appendChild(newMessage)
