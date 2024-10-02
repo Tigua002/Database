@@ -45,10 +45,8 @@ ws.onmessage = (event) => {
     console.log(JSON.parse(event.data));
     console.log(event.data);
     let data = JSON.parse(event.data)
-    if (data == "") {
-        return;
-    }
-    let lines = data.split("\n")
+
+    let lines = data.dt.split("\n")
     if (data.error == false) {
         lines.forEach(line => {
             let newMessage = document.createElement("h1")
