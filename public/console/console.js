@@ -5,6 +5,10 @@ const consoleDiv = document.getElementById('consoleOutput');
 const errorDiv = document.getElementById('consoleError');
 // const ws = new WebSocket('ws://localhost:8080');
 const ws = new WebSocket('wss://dataspot.gusarov.site:8080');
+const state = {
+    errEvent: null,
+    logEvent: null
+}
 
 fetch('/file')
     .then(response => response.json())
@@ -30,7 +34,9 @@ fetch('/file')
             newMessage.innerHTML = line
 
         })
-        errorDiv.scrollTop = errorDiv.scrollHeight;
+        createOverlay(errorDiv, "CLEAR ERROR", state.errEvent, "47%")
+        createOverlay(consoleDiv, "CLEAR LOGS", state.logEvent, "6%")
+
     });
 
 ws.onmessage = (event) => {
@@ -58,6 +64,49 @@ ws.onmessage = (event) => {
     consoleDiv.scrollTop = consoleDiv.scrollHeight;
     errorDiv.scrollTop = errorDiv.scrollHeight;
 };
+
+const createOverlay = (element, buttonText, stateEvent, position) => {
+    let errReset = document.createElement("div")
+    let errButton = document.createElement("button")
+    let errIndic = document.createElement("h1")
+    errReset.appendChild(errIndic)
+    errReset.appendChild(errButton)
+    errReset.setAttribute("class", "errReset")
+    errButton.setAttribute("class", "errButton")
+    errIndic.setAttribute("class", "errIndic")
+    errIndic.innerHTML = "&#x276C"
+    errButton.innerHTML = buttonText
+    element.appendChild(errReset)
+    element.scrollTop = element.scrollHeight;
+    errReset.style.left = position
+
+    errReset.addEventListener("mouseover", () => {
+        clearTimeout(stateEvent)
+        stateEvent = setTimeout(() => {
+            errReset.style.transition = "200ms"
+            errReset.style.height = "11vh"
+            errIndic.style.transform = "rotate(-90deg) rotateY(180deg)"
+        }, 200)  
+    })
+    errReset.addEventListener("mouseout", () => {
+        clearTimeout(stateEvent)
+        stateEvent = setTimeout(() => {
+            errReset.style.transition = "200ms"
+            errReset.style.height = "3vh"
+            errIndic.style.transform = "rotate(-90deg)"
+        }, 200)
+    })
+    errIndic.addEventListener("click", (e) => {
+        if (errReset.style.height == "11vh") {
+            clearTimeout(stateEvent)
+            stateEvent = setTimeout(() => {
+                errReset.style.transition = "200ms"
+                errReset.style.height = "3vh"
+                errIndic.style.transform = "rotate(-90deg)"
+            }, 1)
+        } 
+    })
+}
 
 ws.onclose = () => {
     console.log('WebSocket connection closed');

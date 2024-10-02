@@ -833,7 +833,6 @@ dialog {
 
 #consoleOutput, #consoleError{
     margin: 1vw;
-    margin-top: 10vh;
     background-color: #1A1A1A;
     width: 35vw;
     height: 70vh;
@@ -841,6 +840,7 @@ dialog {
     overflow-y: scroll;
     padding: 2vw;
     border-radius: 1vw;
+    position: relative;
 }
 #consoleOutput::-webkit-scrollbar, #consoleError::-webkit-scrollbar{
     background: none;
@@ -863,4 +863,47 @@ dialog {
 .consoleError:hover{
     background-color: #333333;
     border: red solid 1px;
+}
+.errReset{
+    position: fixed;
+    top: 1vw;
+    width: 39vw;
+    height: 3vh;
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    overflow: hidden;
+    border-top-left-radius: 1vw;
+    border-top-right-radius: 1vw;
+    opacity: .3;
+    cursor: pointer;
+    
+}
+.errReset:hover{
+    opacity: 1;
+    background-color: rgba(255, 255, 255, .8);
+}
+.errButton{
+    margin-top: 1vw;
+    background-color: #66B2FF;
+    padding: .7vw;
+    border-radius: 2vw;
+    border: none;
+    transition: 100ms;
+    cursor: pointer;
+    color: #333333;
+}
+.errButton:hover{
+    transform: scale(105%);
+    border: solid 1px #333333;
+}
+.errIndic{
+    margin: 0%;
+    color: #333333;
+    transform: rotate(-90deg) ;
+    transition: 300ms;
+    padding: .4vw;
+    margin-top: -.4vw;
 }
