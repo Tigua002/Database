@@ -42,6 +42,7 @@ fetch('/file')
 ws.onmessage = (event) => {
     console.log("UPDATE");
     consoleDiv.innerHTML = ""
+    console.log(JSON.parse(event.data));
     console.log(event.data);
     
     let lines = event.data.split("\n")
