@@ -53,13 +53,15 @@ ws.onmessage = (event) => {
             line.remove()
         }
         let lines = data.dt.split("\n")
-        lines.forEach(line => {
-            let newMessage = document.createElement("h1")
-            newMessage.setAttribute("class", "consoleLine")
-            consoleDiv.appendChild(newMessage)
-            newMessage.innerHTML = line
-
-        })
+        setTimeout(() => {
+            lines.forEach(line => {
+                let newMessage = document.createElement("h1")
+                newMessage.setAttribute("class", "consoleLine")
+                consoleDiv.appendChild(newMessage)
+                newMessage.innerHTML = line
+    
+            })
+        }, 500)
     } else if (data.error == true) {
         for (let i = 0; i < document.getElementsByClassName("consoleError").length; i++) {
             
@@ -68,14 +70,17 @@ ws.onmessage = (event) => {
             line.remove()
         }
         let errLines = data.dt.split("Error")
-        errLines.forEach(line => {
-            let newMessage = document.createElement("h1")
-            newMessage.setAttribute("class", "consoleError")
-            errorDiv.appendChild(newMessage)
-            newMessage.innerHTML = line
+        setTimeout(() => {
 
-        })
-
+            errLines.forEach(line => {
+                let newMessage = document.createElement("h1")
+                newMessage.setAttribute("class", "consoleError")
+                errorDiv.appendChild(newMessage)
+                newMessage.innerHTML = line
+                
+            })
+        }, 500)
+            
     }
     consoleDiv.scrollTop = consoleDiv.scrollHeight;
     errorDiv.scrollTop = errorDiv.scrollHeight;
