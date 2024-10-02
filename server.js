@@ -76,7 +76,7 @@ app.get('/file', (req, res) => {
 
 
 app.post('/start/server', (req, res) => {
-    exec('pm2 start Dataspot', (error, stdout, stderr) => {
+    exec('pm2 start WebChat', (error, stdout, stderr) => {
         if (error) {
             console.error(`Error executing command: ${error.message}`);
             res.status(500).send('Error starting server');
@@ -92,7 +92,7 @@ app.post('/start/server', (req, res) => {
     });
 });
 app.post('/stop/server', (req, res) => {
-    exec('pm2 stop Dataspot', (error, stdout, stderr) => {
+    exec('pm2 stop WebChat', (error, stdout, stderr) => {
         if (error) {
             console.error(`Error executing command: ${error.message}`);
             res.status(500).send('Error stopping server');
