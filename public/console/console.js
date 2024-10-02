@@ -44,9 +44,9 @@ ws.onmessage = (event) => {
     consoleDiv.innerHTML = ""
     console.log(JSON.parse(event.data));
     console.log(event.data);
-    
-    let lines = event.data.split("\n")
-    if (event.body.error == false) {
+    let data = JSON.parse(event.data)
+    let lines = data.split("\n")
+    if (data.error == false) {
         lines.forEach(line => {
             let newMessage = document.createElement("h1")
             newMessage.setAttribute("class", "consoleLine")
@@ -54,7 +54,7 @@ ws.onmessage = (event) => {
             newMessage.innerHTML = line
 
         })
-    } else if (event.body.error == true) {
+    } else if (data.error == true) {
         lines.forEach(line => {
             let newMessage = document.createElement("h1")
             newMessage.setAttribute("class", "consoleError")
