@@ -48,8 +48,10 @@ ws.onmessage = (event) => {
     let lines = data.dt.split("\n")
     if (data.error == false) {
         for (let i = 0; i < document.getElementsByClassName("consoleLine").length; i++) {
+            console.log(line);
+            
             const line = document.getElementsByClassName("consoleLine")[i];
-            line.remove()
+            // line.remove()
         }
         lines.forEach(line => {
             let newMessage = document.createElement("h1")
@@ -60,8 +62,10 @@ ws.onmessage = (event) => {
         })
     } else if (data.error == true) {
         for (let i = 0; i < document.getElementsByClassName("consoleError").length; i++) {
+            console.log(line);
+            
             const line = document.getElementsByClassName("consoleError")[i];
-            line.remove()
+            // line.remove()
         }
         lines.forEach(line => {
             let newMessage = document.createElement("h1")
