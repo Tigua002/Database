@@ -50,7 +50,7 @@ ws.onmessage = (event) => {
         for (let i = 0; i < document.getElementsByClassName("consoleLine").length; i++) {
             
             const line = document.getElementsByClassName("consoleLine")[i];
-            console.log(line);
+            console.log(line.remove());
             // line.remove()
         }
         lines.forEach(line => {
@@ -62,9 +62,9 @@ ws.onmessage = (event) => {
         })
     } else if (data.error == true) {
         for (let i = 0; i < document.getElementsByClassName("consoleError").length; i++) {
-            console.log(line);
             
             const line = document.getElementsByClassName("consoleError")[i];
+            console.log(line);
             // line.remove()
         }
         lines.forEach(line => {
