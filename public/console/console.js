@@ -43,7 +43,6 @@ ws.onmessage = (event) => {
     console.log("UPDATE");
     consoleDiv.innerHTML = ""
     let lines = event.data.split("\n")
-    event.body = JSON.parse(event.body)
     if (event.body.error == false) {
         lines.forEach(line => {
             let newMessage = document.createElement("h1")
