@@ -45,6 +45,9 @@ ws.onmessage = (event) => {
     console.log(JSON.parse(event.data));
     console.log(event.data);
     let data = JSON.parse(event.data)
+    if (data == "") {
+        return;
+    }
     let lines = data.split("\n")
     if (data.error == false) {
         lines.forEach(line => {
