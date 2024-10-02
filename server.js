@@ -2,6 +2,7 @@
 require("dotenv").config()
 const express = require('express');
 const app = express();
+const { exec } = require('child_process');
 const PORT = process.env.PORT;
 app.listen(PORT, () => console.log(`Dataspot port: ${PORT}`));
 
@@ -37,10 +38,16 @@ const wss = new WebSocket.Server({ server }, () => {
     console.log('WebSocket server listening on port 8080');
 });
 
-
-
 const filePath = process.env.FILEPATH
 const errorPath = process.env.ERRORPATH
+
+// Serve the index.html file
+app.get('/', (req, res) => {
+    res.sendFile(__dirname + "/public/index.html");
+});
+
+
+
 
 app.get('/file', (req, res) => {
     let file = "";
@@ -64,6 +71,40 @@ app.get('/file', (req, res) => {
             };
             res.send(body);
         });
+    });
+});
+
+
+app.post('/start/server', (req, res) => {
+    exec('pm2 start Dataspot', (error, stdout, stderr) => {
+        if (error) {
+            console.error(`Error executing command: ${error.message}`);
+            res.status(500).send('Error starting server');
+            return;
+        }
+        if (stderr) {
+            console.error(`Error output: ${stderr}`);
+            res.status(500).send('Error starting server');
+            return;
+        }
+        console.log(`Command output: ${stdout}`);
+        res.status(200).send('Server started successfully');
+    });
+});
+pp.post('/stop/server', (req, res) => {
+    exec('pm2 stop Dataspot', (error, stdout, stderr) => {
+        if (error) {
+            console.error(`Error executing command: ${error.message}`);
+            res.status(500).send('Error stopping server');
+            return;
+        }
+        if (stderr) {
+            console.error(`Error output: ${stderr}`);
+            res.status(500).send('Error stopping server');
+            return;
+        }
+        console.log(`Command output: ${stdout}`);
+        res.status(200).send('Server stopped successfully');
     });
 });
 
@@ -128,11 +169,11 @@ server.listen(8080, () => {
 });
 
 
-// Serve the index.html file
-app.get('/', (req, res) => {
-    res.sendFile(__dirname + "/public/index.html");
-});
 
+
+
+
+//
 app.post("/create/database", function (req, res) {
 
     // Use parameterized query to insert user

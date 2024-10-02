@@ -190,3 +190,18 @@ ws.onclose = () => {
 ws.onerror = (error) => {
     console.error('WebSocket error:', error);
 };
+
+document.getElementById("start").addEventListener("click", async () => {
+    try {
+        let response = await fetch('/start/server', {
+            method: "POST"
+        });
+        if (response.ok) {
+            console.log('Server started successfully');
+        } else {
+            console.error('Failed to start server');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+    }
+});
