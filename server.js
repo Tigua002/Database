@@ -99,7 +99,7 @@ wss.on('connection', (ws) => {
                     dt: data,
                     error: false
                 }
-                ws.send(JSON.stringify(body));;
+                ws.send(JSON.stringify(body));
             });
         }
     });
@@ -114,7 +114,7 @@ wss.on('connection', (ws) => {
                     dt: data,
                     error: true
                 }
-                ws.send(body);
+                ws.send(JSON.stringify(body));
             });
         }
     });
