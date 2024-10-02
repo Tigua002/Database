@@ -98,8 +98,8 @@ wss.on('connection', (ws) => {
                 const body = {
                     dt: data,
                     error: false
-                }
-                ws.send(body);
+                };
+                ws.send(JSON.stringify(body)); // Convert body to string
             });
         }
     });
@@ -113,8 +113,8 @@ wss.on('connection', (ws) => {
                 const body = {
                     dt: data,
                     error: true
-                }
-                ws.send(body);
+                };
+                ws.send(JSON.stringify(body)); // Convert body to string
             });
         }
     });
