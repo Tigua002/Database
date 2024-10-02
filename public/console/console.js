@@ -39,7 +39,7 @@ fetch('/file')
 
     });
 
-ws.onmessage = (event) => {
+ws.onmessage =  (event) => {
     console.log("UPDATE");
     console.log(JSON.parse(event.data));
     console.log(event.data);
@@ -57,11 +57,11 @@ ws.onmessage = (event) => {
             lines.forEach(line => {
                 let newMessage = document.createElement("h1")
                 newMessage.setAttribute("class", "consoleLine")
-                consoleDiv.appendChild(newMessage)
+                // consoleDiv.appendChild(newMessage)
                 newMessage.innerHTML = line
     
             })
-        }, 500)
+        }, 1000)
     } else if (data.error == true) {
         for (let i = 0; i < document.getElementsByClassName("consoleError").length; i++) {
             
@@ -75,11 +75,11 @@ ws.onmessage = (event) => {
             errLines.forEach(line => {
                 let newMessage = document.createElement("h1")
                 newMessage.setAttribute("class", "consoleError")
-                errorDiv.appendChild(newMessage)
+                // errorDiv.appendChild(newMessage)
                 newMessage.innerHTML = line
                 
             })
-        }, 500)
+        }, 1000)
             
     }
     consoleDiv.scrollTop = consoleDiv.scrollHeight;
@@ -112,7 +112,7 @@ const createOverlay = (element, buttonText, stateEvent, position, fullPosition, 
             errReset.style.borderRadius = "0vw"
             errReset.style.borderTopLeftRadius = "1vw"
             errReset.style.borderTopRightRadius = "1vw"
-        }, 400)
+        }, 200)
     })
     errReset.addEventListener("mouseout", () => {
         clearTimeout(stateEvent)
@@ -127,30 +127,30 @@ const createOverlay = (element, buttonText, stateEvent, position, fullPosition, 
             errIndic.style.transform = "rotate(-90deg)"
         }, 200)
     })
-    errIndic.addEventListener("click", () => {
-        clearTimeout(stateEvent)
-        if (errReset.style.height == "3vh") {
-            errReset.style.transition = "200ms"
-            errReset.style.height = "11vh"
-            errReset.style.width = "34vw"
-            errReset.style.left = fullPosition
-            errIndic.style.transform = "rotate(-90deg) rotateY(180deg)"
-            errReset.style.borderRadius = "0vw"
-            errReset.style.borderTopLeftRadius = "1vw"
-            errReset.style.borderTopRightRadius = "1vw"
+    // errIndic.addEventListener("click", () => {
+    //     clearTimeout(stateEvent)
+    //     if (errReset.style.height == "3vh") {
+    //         errReset.style.transition = "200ms"
+    //         errReset.style.height = "11vh"
+    //         errReset.style.width = "34vw"
+    //         errReset.style.left = fullPosition
+    //         errIndic.style.transform = "rotate(-90deg) rotateY(180deg)"
+    //         errReset.style.borderRadius = "0vw"
+    //         errReset.style.borderTopLeftRadius = "1vw"
+    //         errReset.style.borderTopRightRadius = "1vw"
             
-        } else {
-            errReset.style.transition = "200ms"
-            errReset.style.height = "3vh"
-            errReset.style.width = "5vw"
-            errReset.style.left = position
-            errReset.style.borderRadius = "0vw"
-            errReset.style.borderBottomLeftRadius = "1vw"
-            errReset.style.borderBottomRightRadius = "1vw"
-            errIndic.style.transform = "rotate(-90deg)"
+    //     } else {
+    //         errReset.style.transition = "200ms"
+    //         errReset.style.height = "3vh"
+    //         errReset.style.width = "5vw"
+    //         errReset.style.left = position
+    //         errReset.style.borderRadius = "0vw"
+    //         errReset.style.borderBottomLeftRadius = "1vw"
+    //         errReset.style.borderBottomRightRadius = "1vw"
+    //         errIndic.style.transform = "rotate(-90deg)"
 
-        }
-    })
+    //     }
+    // })
     // errIndic.addEventListener("click", (e) => {
     //     if (errReset.style.height == "11vh") {
     //         clearTimeout(stateEvent)

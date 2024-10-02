@@ -888,13 +888,15 @@ dialog {
 }
 .errButton{
     margin-top: 1vw;
-    background-color: #66B2FF;
+    background: #66B2FF;
     padding: .7vw;
-    border-radius: 2vw;
+    font-size: .5vw;
+    border-radius: .5vw;
     border: none;
     transition: 100ms;
     cursor: pointer;
-    color: #333333;
+    color: #1A1A1A;
+    border: solid 1px #1A1A1A;
 }
 .errButton:hover{
     transform: scale(105%);
@@ -907,6 +909,7 @@ dialog {
     transition: 300ms;
     padding: .4vw;
     margin-top: -.4vw;
+    font-size: 1vw;
 }
 #consoleBtns{
     margin-top: 1.5vw;

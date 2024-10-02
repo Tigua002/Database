@@ -28,18 +28,19 @@ connection.connect();
 const https = require('https');
 const fs = require('fs');
 const WebSocket = require('ws');
-const serverOptions = {
-    cert: fs.readFileSync(process.env.FULLCHAIN),
-    key: fs.readFileSync(process.env.PRIVKEY)
-};
-const server = https.createServer(serverOptions);
+// const serverOptions = {
+//     cert: fs.readFileSync(process.env.FULLCHAIN),
+//     key: fs.readFileSync(process.env.PRIVKEY)
+// };
+// const server = https.createServer(serverOptions);
 
-const wss = new WebSocket.Server({ server }, () => {
-    console.log('WebSocket server listening on port 8080');
-});
+// const wss = new WebSocket.Server({ server }, () => {
+//     console.log('WebSocket server listening on port 8080');
+// });
 
 const filePath = process.env.FILEPATH
 const errorPath = process.env.ERRORPATH
+const targetProcess = process.env.TARGET
 
 // Serve the index.html file
 app.get('/', (req, res) => {
@@ -76,7 +77,7 @@ app.get('/file', (req, res) => {
 
 
 app.post('/start/server', (req, res) => {
-    exec('pm2 start Dataspot', (error, stdout, stderr) => {
+    exec('pm2 start ' + targetProcess, (error, stdout, stderr) => {
         if (error) {
             console.error(`Error executing command: ${error.message}`);
             res.status(500).send('Error starting server');
@@ -92,7 +93,7 @@ app.post('/start/server', (req, res) => {
     });
 });
 app.post('/restart/server', (req, res) => {
-    exec('pm2 restart Dataspot', (error, stdout, stderr) => {
+    exec('pm2 restart ' + targetProcess, (error, stdout, stderr) => {
         if (error) {
             console.error(`Error executing command: ${error.message}`);
             res.status(500).send('Error starting server');
@@ -124,7 +125,7 @@ app.post('/restart/server', (req, res) => {
 //     });
 // });
 app.post('/stop/server', (req, res) => {
-    exec('pm2 stop Dataspot', (error, stdout, stderr) => {
+    exec('pm2 stop '  + targetProcess, (error, stdout, stderr) => {
         if (error) {
             console.error(`Error executing command: ${error.message}`);
             res.status(500).send('Error stopping server');
@@ -157,48 +158,48 @@ app.post('/clear/files', (req, res) => {
     });
 });
 
-wss.on('connection', (ws) => {
-    console.log('Client connected');
-    fs.watch(filePath, (eventType, filename) => {
-        if (eventType === 'change') {
-            fs.readFile(filePath, 'utf8', (err, data) => {
-                if (err) {
-                    console.error('Error reading file');
-                    return;
-                }
-                const body = {
-                    dt: data,
-                    error: false
-                };
-                ws.send(JSON.stringify(body)); // Convert body to string
-            });
-        }
-    });
-    fs.watch(errorPath, (eventType, filename) => {
-        if (eventType === 'change') {
-            fs.readFile(filePath, 'utf8', (err, data) => {
-                if (err) {
-                    console.error('Error reading file');
-                    return;
-                }
-                const body = {
-                    dt: data,
-                    error: true
-                };
-                ws.send(JSON.stringify(body)); // Convert body to string
-            });
-        }
-    });
-});
-wss.on('close', () => {
-    console.log('Client disconnected');
-});
-wss.on('error', (err) => {
-    console.error('WebSocket error:', err);
-});
-server.listen(8080, () => {
-    console.log('WebSocket server listening on port 8080 (via HTTPS)');
-});
+// wss.on('connection', (ws) => {
+//     console.log('Client connected');
+//     fs.watch(filePath, (eventType, filename) => {
+//         if (eventType === 'change') {
+//             fs.readFile(filePath, 'utf8', (err, data) => {
+//                 if (err) {
+//                     console.error('Error reading file');
+//                     return;
+//                 }
+//                 const body = {
+//                     dt: data,
+//                     error: false
+//                 };
+//                 ws.send(JSON.stringify(body)); // Convert body to string
+//             });
+//         }
+//     });
+//     fs.watch(errorPath, (eventType, filename) => {
+//         if (eventType === 'change') {
+//             fs.readFile(filePath, 'utf8', (err, data) => {
+//                 if (err) {
+//                     console.error('Error reading file');
+//                     return;
+//                 }
+//                 const body = {
+//                     dt: data,
+//                     error: true
+//                 };
+//                 ws.send(JSON.stringify(body)); // Convert body to string
+//             });
+//         }
+//     });
+// });
+// wss.on('close', () => {
+//     console.log('Client disconnected');
+// });
+// wss.on('error', (err) => {
+//     console.error('WebSocket error:', err);
+// });
+// server.listen(8080, () => {
+//     console.log('WebSocket server listening on port 8080 (via HTTPS)');
+// });
 
 
 
