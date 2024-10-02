@@ -14,7 +14,7 @@ fetch('/file')
     .then(response => response.json())
     .then(body => {
         console.log(body);
-        
+
         console.log("LOADED");
 
         let lines = body.data.split("\n")
@@ -34,8 +34,8 @@ fetch('/file')
             newMessage.innerHTML = line
 
         })
-        createOverlay(errorDiv, "CLEAR ERROR", state.errEvent, "47%")
-        createOverlay(consoleDiv, "CLEAR LOGS", state.logEvent, "6%")
+        createOverlay(errorDiv, "CLEAR ERRORS", state.errEvent, "47%", "consoleError")
+        createOverlay(consoleDiv, "CLEAR LOGS", state.logEvent, "6%", "consoleLine")
 
     });
 
@@ -49,7 +49,7 @@ ws.onmessage = (event) => {
             newMessage.setAttribute("class", "consoleLine")
             consoleDiv.appendChild(newMessage)
             newMessage.innerHTML = line
-    
+
         })
     } else if (event.body.error == true) {
         lines.forEach(line => {
@@ -57,15 +57,15 @@ ws.onmessage = (event) => {
             newMessage.setAttribute("class", "consoleError")
             errorDiv.appendChild(newMessage)
             newMessage.innerHTML = line
-    
+
         })
-        
+
     }
     consoleDiv.scrollTop = consoleDiv.scrollHeight;
     errorDiv.scrollTop = errorDiv.scrollHeight;
 };
 
-const createOverlay = (element, buttonText, stateEvent, position) => {
+const createOverlay = (element, buttonText, stateEvent, position, wiper) => {
     let errReset = document.createElement("div")
     let errButton = document.createElement("button")
     let errIndic = document.createElement("h1")
@@ -86,7 +86,7 @@ const createOverlay = (element, buttonText, stateEvent, position) => {
             errReset.style.transition = "200ms"
             errReset.style.height = "11vh"
             errIndic.style.transform = "rotate(-90deg) rotateY(180deg)"
-        }, 200)  
+        }, 200)
     })
     errReset.addEventListener("mouseout", () => {
         clearTimeout(stateEvent)
@@ -104,8 +104,39 @@ const createOverlay = (element, buttonText, stateEvent, position) => {
                 errReset.style.height = "3vh"
                 errIndic.style.transform = "rotate(-90deg)"
             }, 1)
-        } 
+        }
     })
+    errButton.addEventListener("click", async () => {
+        if (!confirm("Are you sure you want to " + buttonText + "?")) {
+            return;
+        }
+
+        const data = {
+            dataType: buttonText
+        };
+
+        try {
+            const response = await fetch('/clear/files', {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+
+            for (let i = 0; i < document.getElementsByClassName(wiper).length; i++) {
+                const line = document.getElementsByClassName(wiper)[i];
+                line.remove()
+            }
+        } catch (error) {
+            console.error('There was a problem with the fetch operation:', error);
+        }
+    });
+
 }
 
 ws.onclose = () => {

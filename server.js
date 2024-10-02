@@ -1,11 +1,29 @@
 // Load all necessary Node.js modules
+require("dotenv").config()
 const express = require('express');
 const app = express();
+const PORT = process.env.PORT;
+app.listen(PORT, () => console.log(`Dataspot port: ${PORT}`));
 
+
+// Middleware for parsing request bodies
 const bodyParser = require('body-parser');
-const mysql = require('mysql2');
-require("dotenv").config()
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 
+const mysql = require('mysql2');
+
+
+// Test database connection
+const connection = mysql.createConnection({
+    host: process.env.HOST,
+    user: process.env.DBUSER,
+    password: process.env.DBPASS,
+    database: process.env.DB
+});
+
+// Connect to the database with error handling
+connection.connect();
 const https = require('https');
 const fs = require('fs');
 const WebSocket = require('ws');
@@ -15,7 +33,7 @@ const serverOptions = {
 };
 const server = https.createServer(serverOptions);
 
-const wss = new WebSocket.Server({ server  }, () => {
+const wss = new WebSocket.Server({ server }, () => {
     console.log('WebSocket server listening on port 8080');
 });
 
@@ -49,6 +67,24 @@ app.get('/file', (req, res) => {
     });
 });
 
+app.post('/clear/files', (req, res) => {
+    console.log(req.body);
+
+    let secondPath = "";
+    if (req.body.dataType === "CLEAR ERRORS") {
+        secondPath = errorPath;
+    } else {
+        secondPath = filePath;
+    }
+
+    fs.truncate(secondPath, 0, (err) => {
+        if (err) {
+            res.status(500).send('Error clearing the file');
+        } else {
+            res.status(200).send('File contents cleared successfully!');
+        }
+    });
+});
 
 wss.on('connection', (ws) => {
     console.log('Client connected');
@@ -92,27 +128,7 @@ wss.on('error', (err) => {
 server.listen(8080, () => {
     console.log('WebSocket server listening on port 8080 (via HTTPS)');
 });
-// Define the port to use
-const PORT = process.env.PORT;
-app.listen(PORT, () => console.log(`Dataspot port: ${PORT}`));
 
-// Middleware for parsing request bodies
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-
-// Serve static files from the 'client' directory
-
-
-// Test database connection
-const connection = mysql.createConnection({
-    host: process.env.HOST,
-    user: process.env.DBUSER,
-    password: process.env.DBPASS,
-    database: process.env.DB
-});
-
-// Connect to the database with error handling
-connection.connect();
 
 // Serve the index.html file
 app.get('/', (req, res) => {
@@ -229,7 +245,7 @@ app.post("/create/user", function (req, res) {
     let username = ""
     let password = ""
     console.log(host);
-    
+
     if (host == "0.0.0.0") {
         host = "%"
     }
