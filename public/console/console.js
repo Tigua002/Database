@@ -41,21 +41,28 @@ fetch('/file')
 
 ws.onmessage = (event) => {
     console.log("UPDATE");
-    consoleDiv.innerHTML = ""
     console.log(JSON.parse(event.data));
     console.log(event.data);
     let data = JSON.parse(event.data)
 
     let lines = data.dt.split("\n")
     if (data.error == false) {
+        for (let i = 0; i < document.getElementsByClassName("consoleLine").length; i++) {
+            const line = document.getElementsByClassName(wiper)[i];
+            line.remove()
+        }
         lines.forEach(line => {
             let newMessage = document.createElement("h1")
             newMessage.setAttribute("class", "consoleLine")
             consoleDiv.appendChild(newMessage)
             newMessage.innerHTML = line
-
+            
         })
     } else if (data.error == true) {
+        for (let i = 0; i < document.getElementsByClassName("consoleError").length; i++) {
+            const line = document.getElementsByClassName(wiper)[i];
+            line.remove()
+        }
         lines.forEach(line => {
             let newMessage = document.createElement("h1")
             newMessage.setAttribute("class", "consoleError")
