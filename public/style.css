@@ -834,7 +834,7 @@ dialog {
 #consoleOutput, #consoleError{
     margin: 1vw;
     background-color: #1A1A1A;
-    width: 35vw;
+    width: 30vw;
     height: 70vh;
     color: #ffffff;
     overflow-y: scroll;
@@ -844,6 +844,7 @@ dialog {
 }
 #consoleOutput::-webkit-scrollbar, #consoleError::-webkit-scrollbar{
     background: none;
+    border-radius: 1vw;
 }
 #consoleOutput::-webkit-scrollbar-thumb, #consoleError::-webkit-scrollbar-thumb{
     background-color: #ffffff;
@@ -867,7 +868,7 @@ dialog {
 .errReset{
     position: fixed;
     top: 1vw;
-    width: 39vw;
+    width: 5vw;
     height: 3vh;
     background-color: #ffffff;
     display: flex;
@@ -875,8 +876,8 @@ dialog {
     justify-content: start;
     align-items: center;
     overflow: hidden;
-    border-top-left-radius: 1vw;
-    border-top-right-radius: 1vw;
+    border-bottom-left-radius: 1vw;
+    border-bottom-right-radius: 1vw;
     opacity: .3;
     cursor: pointer;
     
@@ -906,4 +907,71 @@ dialog {
     transition: 300ms;
     padding: .4vw;
     margin-top: -.4vw;
+}
+#consoleBtns{
+    margin-top: 1.5vw;
+    display: flex;
+    width: 22vw;
+    flex-wrap: wrap;
+    flex-direction: row;
+    background-color: #1A1A1A;
+    border-radius: .2vw;
+    min-height: 10vh;
+    justify-content: space-between;
+}
+#serverStatus{
+    width: 40%;
+    margin: .5vw;
+    color: #ffffff;
+}
+#status{
+    width: 40%;
+    margin: .5vw;
+    display: flex;
+    justify-content: end;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    color: #ffffff;
+}
+.statusIndic{
+    margin: 0%;
+    width: .5vw;
+    height: .5vw;
+    background-color: #d32c2c;
+    background-color: #66B2FF;
+    background-color: rgb(54, 201, 54);
+    border: #1A1A1A solid 1px;
+    border: #444444 solid 1px;
+    border: #ffffff solid 1px;
+    border-radius: 50%;
+}
+.consoleOpt{
+    background-color: #66B2FF;
+    border: none;
+    outline: none;
+    font-size: 1vw;
+    border-radius: .2vw;
+    margin: .5vw;
+    padding: .5vw;
+    font-family: RobotoBold;
+    height: 4vh;
+    cursor: pointer;
+    width: 45%;
+}
+#start{
+    background-color: rgb(54, 201, 54);
+}
+#stop{
+    background-color: #d32c2c;
+}
+#rerun{
+    color: #ffffff;
+}
+#restart{
+    background-color: #444444;
+    color: #ffffff;
+}
+.consoleOpt:hover{
+    opacity: .8;
+    transform: scale(99%);
 }

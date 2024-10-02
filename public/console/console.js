@@ -34,8 +34,8 @@ fetch('/file')
             newMessage.innerHTML = line
 
         })
-        createOverlay(errorDiv, "CLEAR ERRORS", state.errEvent, "47%", "consoleError")
-        createOverlay(consoleDiv, "CLEAR LOGS", state.logEvent, "6%", "consoleLine")
+        createOverlay(errorDiv, "CLEAR ERRORS", state.errEvent, "56.5%", "42%", "consoleError")
+        createOverlay(consoleDiv, "CLEAR LOGS", state.logEvent, "20.5%", "6%", "consoleLine")
 
     });
 
@@ -56,7 +56,7 @@ ws.onmessage = (event) => {
             newMessage.setAttribute("class", "consoleLine")
             consoleDiv.appendChild(newMessage)
             newMessage.innerHTML = line
-            
+
         })
     } else if (data.error == true) {
         for (let i = 0; i < document.getElementsByClassName("consoleError").length; i++) {
@@ -76,7 +76,7 @@ ws.onmessage = (event) => {
     errorDiv.scrollTop = errorDiv.scrollHeight;
 };
 
-const createOverlay = (element, buttonText, stateEvent, position, wiper) => {
+const createOverlay = (element, buttonText, stateEvent, position, fullPosition, wiper) => {
     let errReset = document.createElement("div")
     let errButton = document.createElement("button")
     let errIndic = document.createElement("h1")
@@ -96,27 +96,61 @@ const createOverlay = (element, buttonText, stateEvent, position, wiper) => {
         stateEvent = setTimeout(() => {
             errReset.style.transition = "200ms"
             errReset.style.height = "11vh"
+            errReset.style.width = "34vw"
+            errReset.style.left = fullPosition
             errIndic.style.transform = "rotate(-90deg) rotateY(180deg)"
-        }, 200)
+            errReset.style.borderRadius = "0vw"
+            errReset.style.borderTopLeftRadius = "1vw"
+            errReset.style.borderTopRightRadius = "1vw"
+        }, 400)
     })
     errReset.addEventListener("mouseout", () => {
         clearTimeout(stateEvent)
         stateEvent = setTimeout(() => {
             errReset.style.transition = "200ms"
             errReset.style.height = "3vh"
+            errReset.style.width = "5vw"
+            errReset.style.left = position
+            errReset.style.borderRadius = "0vw"
+            errReset.style.borderBottomLeftRadius = "1vw"
+            errReset.style.borderBottomRightRadius = "1vw"
             errIndic.style.transform = "rotate(-90deg)"
         }, 200)
     })
-    errIndic.addEventListener("click", (e) => {
-        if (errReset.style.height == "11vh") {
-            clearTimeout(stateEvent)
-            stateEvent = setTimeout(() => {
-                errReset.style.transition = "200ms"
-                errReset.style.height = "3vh"
-                errIndic.style.transform = "rotate(-90deg)"
-            }, 1)
+    errIndic.addEventListener("click", () => {
+        clearTimeout(stateEvent)
+        if (errReset.style.height == "3vh") {
+            errReset.style.transition = "200ms"
+            errReset.style.height = "11vh"
+            errReset.style.width = "34vw"
+            errReset.style.left = fullPosition
+            errIndic.style.transform = "rotate(-90deg) rotateY(180deg)"
+            errReset.style.borderRadius = "0vw"
+            errReset.style.borderTopLeftRadius = "1vw"
+            errReset.style.borderTopRightRadius = "1vw"
+            
+        } else {
+            errReset.style.transition = "200ms"
+            errReset.style.height = "3vh"
+            errReset.style.width = "5vw"
+            errReset.style.left = position
+            errReset.style.borderRadius = "0vw"
+            errReset.style.borderBottomLeftRadius = "1vw"
+            errReset.style.borderBottomRightRadius = "1vw"
+            errIndic.style.transform = "rotate(-90deg)"
+
         }
     })
+    // errIndic.addEventListener("click", (e) => {
+    //     if (errReset.style.height == "11vh") {
+    //         clearTimeout(stateEvent)
+    //         stateEvent = setTimeout(() => {
+    //             errReset.style.transition = "200ms"
+    //             errReset.style.height = "3vh"
+    //             errIndic.style.transform = "rotate(-90deg)"
+    //         }, 1)
+    //     }
+    // })
     errButton.addEventListener("click", async () => {
         if (!confirm("Are you sure you want to " + buttonText + "?")) {
             return;
