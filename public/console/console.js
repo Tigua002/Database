@@ -48,9 +48,9 @@ ws.onmessage = (event) => {
     let lines = data.dt.split("\n")
     if (data.error == false) {
         for (let i = 0; i < document.getElementsByClassName("consoleLine").length; i++) {
-            console.log(line);
             
             const line = document.getElementsByClassName("consoleLine")[i];
+            console.log(line);
             // line.remove()
         }
         lines.forEach(line => {
