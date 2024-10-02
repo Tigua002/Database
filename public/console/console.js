@@ -205,3 +205,17 @@ document.getElementById("start").addEventListener("click", async () => {
         console.error('Error:', error);
     }
 });
+document.getElementById("stop").addEventListener("click", async () => {
+    try {
+        let response = await fetch('/stop/server', {
+            method: "POST"
+        });
+        if (response.ok) {
+            console.log('Server stopped successfully');
+        } else {
+            console.error('Failed to stop server');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+    }
+});

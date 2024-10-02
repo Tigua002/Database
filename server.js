@@ -91,7 +91,7 @@ app.post('/start/server', (req, res) => {
         res.status(200).send('Server started successfully');
     });
 });
-pp.post('/stop/server', (req, res) => {
+app.post('/stop/server', (req, res) => {
     exec('pm2 stop Dataspot', (error, stdout, stderr) => {
         if (error) {
             console.error(`Error executing command: ${error.message}`);
