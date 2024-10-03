@@ -28,6 +28,7 @@ connection.connect();
 const https = require('https');
 const fs = require('fs');
 const WebSocket = require('ws');
+const pm2 = require('pm2')
 const serverOptions = {
     cert: fs.readFileSync(process.env.FULLCHAIN),
     key: fs.readFileSync(process.env.PRIVKEY)
@@ -41,7 +42,7 @@ const wss = new WebSocket.Server({ server }, () => {
 const filePath = process.env.FILEPATH
 const errorPath = process.env.ERRORPATH
 const targetProcess = process.env.TARGET
-const bashPath=process.env.BASH
+const bashPath = process.env.BASH
 
 // Serve the index.html file
 app.get('/', (req, res) => {
@@ -111,7 +112,7 @@ app.post('/restart/server', (req, res) => {
 });
 app.post('/pull/server', (req, res) => {
     console.log("Arrived");
-    
+
     exec('bash ' + bashPath, (error, stdout, stderr) => {
         if (error) {
             console.error(`Error executing command: ${error.message}`);
@@ -128,7 +129,7 @@ app.post('/pull/server', (req, res) => {
     });
 });
 app.post('/stop/server', (req, res) => {
-    exec('pm2 stop '  + targetProcess, (error, stdout, stderr) => {
+    exec('pm2 stop ' + targetProcess, (error, stdout, stderr) => {
         if (error) {
             console.error(`Error executing command: ${error.message}`);
             res.status(500).send('Error stopping server');
@@ -141,6 +142,32 @@ app.post('/stop/server', (req, res) => {
         }
         console.log(`Command output: ${stdout}`);
         res.status(200).send('Server stopped successfully');
+    });
+});
+app.get('/status', (req, res) => {
+    const appName = req.query.appName;
+
+    if (!appName) {
+        res.status(400).send({ error: 'App name is required' });
+        return;
+    }
+
+    pm2.connect((err) => {
+        if (err) {
+            res.status(500).send({ error: 'Failed to connect to PM2' });
+            return;
+        }
+
+        pm2.describe(appName, (err, processDescription) => {
+            if (err) {
+                res.status(500).send({ error: 'Failed to get process description' });
+                pm2.disconnect();
+                return;
+            }
+
+            res.send(processDescription);
+            pm2.disconnect();
+        });
     });
 });
 
@@ -172,7 +199,8 @@ wss.on('connection', (ws) => {
                 }
                 const body = {
                     dt: data,
-                    error: false
+                    error: false,
+                    serverName: targetProcess
                 };
                 ws.send(JSON.stringify(body)); // Convert body to string
             });
@@ -187,7 +215,8 @@ wss.on('connection', (ws) => {
                 }
                 const body = {
                     dt: data,
-                    error: true
+                    error: true,
+                    serverName: targetProcess
                 };
                 ws.send(JSON.stringify(body)); // Convert body to string
             });

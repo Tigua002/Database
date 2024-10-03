@@ -196,9 +196,9 @@ const createOverlay = (element, buttonText, stateEvent, position, fullPosition, 
             let number = document.getElementsByClassName(wiper).length
             for (let i = 0; i < number; i++) {
                 console.log(i);
-    
+
                 document.getElementsByClassName(wiper)[0].remove()
-    
+
             }
         } catch (error) {
             console.error('There was a problem with the fetch operation:', error);
@@ -257,6 +257,7 @@ document.getElementById("rerun").addEventListener("click", async () => {
     }
 });
 document.getElementById("restart").addEventListener("click", async () => {
+
     try {
         let response = await fetch('/pull/server', {
             method: "POST"
@@ -266,7 +267,16 @@ document.getElementById("restart").addEventListener("click", async () => {
         } else {
             console.error('Failed to pull server');
         }
+        getServerStatus("api")
     } catch (error) {
         console.error('Error:', error);
     }
 });
+
+const getServerStatus = async (serverName) => {
+    fetch(`http://localhost:3000/status?appName=${serverName}`)
+        .then(response => response.json())
+        .then(data => console.log(data))
+        .catch(error => console.error('Error:', error));
+
+}
