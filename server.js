@@ -39,10 +39,13 @@ const wss = new WebSocket.Server({ server }, () => {
     console.log('WebSocket server listening on port 8080');
 });
 // const wss = new WebSocket.Server({ port:8080 })
-const filePath = process.env.FILEPATH
-const errorPath = process.env.ERRORPATH
-const targetProcess = process.env.TARGET
-const bashPath = process.env.BASH
+const state = {
+    filePath: process.env.state.filePath,
+    errorPath: process.env.state.errorPath,
+    targetProcess: process.env.TARGET,
+    bashPath: process.env.BASH
+
+}
 
 // Serve the index.html file
 app.get('/', (req, res) => {
@@ -55,14 +58,15 @@ app.get('/', (req, res) => {
 app.get('/file/:a', (req, res) => {
     let file = "";
     let error = "";
-
-    fs.readFile(`../../.pm2/logs/${req.params.a}-out.log`, 'utf8', (err, data) => {
+    state.filePath = `../../.pm2/logs/${req.params.a}-out.log`
+    state.errorPath = `../../.pm2/logs/${req.params.a}-error.log`
+    fs.readFile(state.filePath, 'utf8', (err, data) => {
         if (err) {
             return res.status(500).send('Error reading file');
         }
         file = data;
 
-        fs.readFile(`../../.pm2/logs/${req.params.a}-error.log`, 'utf8', (err, dataThing) => {
+        fs.readFile(state.errorPath, 'utf8', (err, dataThing) => {
             if (err) {
                 return res.status(500).send('Error reading file');
             }
@@ -87,15 +91,15 @@ app.get('/processes', (req, res) => {
                 continue;
             }
             // sendData.push(data[i])
-            
+
         }
         res.send(data, 200)
-        
+
     })
 });
 
 app.post('/start/server', (req, res) => {
-    exec('pm2 start ' + targetProcess, (error, stdout, stderr) => {
+    exec('pm2 start ' + state.targetProcess, (error, stdout, stderr) => {
         if (error) {
             console.error(`Error executing command: ${error.message}`);
             res.status(500).send('Error starting server');
@@ -111,7 +115,7 @@ app.post('/start/server', (req, res) => {
     });
 });
 app.post('/restart/server', (req, res) => {
-    exec('pm2 restart ' + targetProcess, (error, stdout, stderr) => {
+    exec('pm2 restart ' + state.targetProcess, (error, stdout, stderr) => {
         if (error) {
             console.error(`Error executing command: ${error.message}`);
             res.status(500).send('Error starting server');
@@ -122,7 +126,7 @@ app.post('/restart/server', (req, res) => {
             res.status(500).send('Error starting server');
             return;
         }
-        fs.appendFile(filePath, "Server shut down  \n", (err) => {
+        fs.appendFile(state.filePath, "Server shut down  \n", (err) => {
             if (err) {
                 console.error('Failed to write to file', err);
             } else {
@@ -137,7 +141,7 @@ app.post('/restart/server', (req, res) => {
 app.post('/pull/server', (req, res) => {
     console.log("Arrived");
 
-    exec('bash ' + bashPath, (error, stdout, stderr) => {
+    exec('bash ' + state.bashPath, (error, stdout, stderr) => {
         if (error) {
             console.error(`Error executing command: ${error.message}`);
             res.status(500).send('Error starting server');
@@ -148,7 +152,7 @@ app.post('/pull/server', (req, res) => {
             res.status(500).send('Error starting server');
             return;
         }
-        fs.appendFile(filePath, "Server shut down  \n", (err) => {
+        fs.appendFile(state.filePath, "Server shut down  \n", (err) => {
             if (err) {
                 console.error('Failed to write to file', err);
             } else {
@@ -162,7 +166,7 @@ app.post('/pull/server', (req, res) => {
     res.status(200).send('Server started successfully');
 });
 app.post('/stop/server', (req, res) => {
-    exec('pm2 stop ' + targetProcess, (error, stdout, stderr) => {
+    exec('pm2 stop ' + state.targetProcess, (error, stdout, stderr) => {
         if (error) {
             console.error(`Error executing command: ${error.message}`);
             res.status(500).send('Error stopping server');
@@ -173,7 +177,7 @@ app.post('/stop/server', (req, res) => {
             res.status(500).send('Error stopping server');
             return;
         }
-        fs.appendFile(filePath, "Server shut down \n", (err) => {
+        fs.appendFile(state.filePath, "Server shut down \n", (err) => {
             if (err) {
                 console.error('Failed to write to file', err);
             } else {
@@ -215,9 +219,9 @@ app.get('/status/server', (req, res) => {
 app.post('/clear/files', (req, res) => {
     let secondPath = "";
     if (req.body.dataType === "CLEAR ERRORS") {
-        secondPath = errorPath;
+        secondPath = state.errorPath;
     } else {
-        secondPath = filePath;
+        secondPath = state.filePath;
     }
 
     fs.truncate(secondPath, 0, (err) => {
@@ -231,9 +235,9 @@ app.post('/clear/files', (req, res) => {
 
 wss.on('connection', (ws) => {
     console.log('Client connected');
-    fs.watch(filePath, (eventType, filename) => {
+    fs.watch(state.filePath, (eventType, filename) => {
         if (eventType === 'change') {
-            fs.readFile(filePath, 'utf8', (err, data) => {
+            fs.readFile(state.filePath, 'utf8', (err, data) => {
                 if (err) {
                     console.error('Error reading file');
                     return;
@@ -241,15 +245,15 @@ wss.on('connection', (ws) => {
                 const body = {
                     dt: data,
                     error: false,
-                    serverName: targetProcess
+                    serverName: state.targetProcess
                 };
                 ws.send(JSON.stringify(body)); // Convert body to string
             });
         }
     });
-    fs.watch(errorPath, (eventType, filename) => {
+    fs.watch(state.errorPath, (eventType, filename) => {
         if (eventType === 'change') {
-            fs.readFile(filePath, 'utf8', (err, data) => {
+            fs.readFile(state.filePath, 'utf8', (err, data) => {
                 if (err) {
                     console.error('Error reading file');
                     return;
@@ -257,7 +261,7 @@ wss.on('connection', (ws) => {
                 const body = {
                     dt: data,
                     error: true,
-                    serverName: targetProcess
+                    serverName: state.targetProcess
                 };
                 ws.send(JSON.stringify(body)); // Convert body to string
             });
@@ -461,7 +465,7 @@ app.get('/FetchDatabases', (req, res) => {
                 continue;
             }
             sendData.push(data[i])
-            
+
         }
         res.send(sendData, 200)
     });
