@@ -60,6 +60,8 @@ app.get('/file/:a', (req, res) => {
     let error = "";
     state.filePath = `../../.pm2/logs/${req.params.a}-out.log`
     state.errorPath = `../../.pm2/logs/${req.params.a}-error.log`
+    console.log(state);
+    
     fs.readFile(state.filePath, 'utf8', (err, data) => {
         if (err) {
             return res.status(500).send('Error reading file');
@@ -223,7 +225,8 @@ app.post('/clear/files', (req, res) => {
     } else {
         secondPath = state.filePath;
     }
-
+    console.log(state);
+    
     fs.truncate(secondPath, 0, (err) => {
         if (err) {
             res.status(500).send('Error clearing the file');
