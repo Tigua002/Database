@@ -38,6 +38,8 @@ const loadProjects = async  () => {
                     fetch('/file/' + process.Name)
                         .then(response => response.json())
                         .then(body => {
+                            consoleDiv.innerHTML = ""
+                            errorDiv.innerHTML = ""
                             let lines = body.data.split("\n")
                             lines.forEach(line => {
                                 let newMessage = document.createElement("h1")
