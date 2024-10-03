@@ -277,7 +277,7 @@ document.getElementById("restart").addEventListener("click", async () => {
 });
 
 const getServerStatus = async (serverName) => {
-    fetch(`http://localhost:3000/status?appName=${serverName}`)
+    fetch(`/status/server?appName=${serverName}`)
         .then(response => response.json())
         .then(data => console.log(data))
         .catch(error => console.error('Error:', error));

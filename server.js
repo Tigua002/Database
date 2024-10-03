@@ -144,7 +144,7 @@ app.post('/stop/server', (req, res) => {
         res.status(200).send('Server stopped successfully');
     });
 });
-app.get('/status', (req, res) => {
+app.get('/status/server', (req, res) => {
     const appName = req.query.appName;
 
     if (!appName) {
