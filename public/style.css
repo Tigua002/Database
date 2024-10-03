@@ -995,6 +995,10 @@ dialog {
     border-radius: .2vw;
     justify-content: space-between;
 }
+.settingsText{
+    font-size: 1vw;
+    margin: 0%;
+}
 .settingsArrow{
     width: 1.5vw;
     height: 1.5vw;
