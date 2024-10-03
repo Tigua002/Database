@@ -209,6 +209,9 @@ ws.onerror = (error) => {
 };
 
 document.getElementById("start").addEventListener("click", async () => {
+    document.getElementsByClassName("statusIndic")[0].style.background = "#66B2FF"
+    document.getElementsByClassName("statusIndic")[0].style.border = "#444444 solid 1px"
+    document.getElementById("statusText").innerText = "Booting"
     try {
         let response = await fetch('/start/server', {
             method: "POST"
@@ -224,6 +227,9 @@ document.getElementById("start").addEventListener("click", async () => {
     getServerStatus("api")
 });
 document.getElementById("stop").addEventListener("click", async () => {
+    document.getElementsByClassName("statusIndic")[0].style.background = "#d32c2c"
+    document.getElementsByClassName("statusIndic")[0].style.border = "#1A1A1A solid 1px"
+    document.getElementById("statusText").innerText = "Shutting down"
     try {
         let response = await fetch('/stop/server', {
             method: "POST"
@@ -239,6 +245,9 @@ document.getElementById("stop").addEventListener("click", async () => {
     getServerStatus("api")
 });
 document.getElementById("rerun").addEventListener("click", async () => {
+    document.getElementsByClassName("statusIndic")[0].style.background = "#66B2FF"
+    document.getElementsByClassName("statusIndic")[0].style.border = "#444444 solid 1px"
+    document.getElementById("statusText").innerText = "Restarting"
     try {
         let response = await fetch('/restart/server', {
             method: "POST"
@@ -254,6 +263,9 @@ document.getElementById("rerun").addEventListener("click", async () => {
     getServerStatus("api")
 });
 document.getElementById("restart").addEventListener("click", async () => {
+    document.getElementsByClassName("statusIndic")[0].style.background = "#66B2FF"
+    document.getElementsByClassName("statusIndic")[0].style.border = "#444444 solid 1px"
+    document.getElementById("statusText").innerText = "Restarting"
 
     try {
         let response = await fetch('/pull/server', {
@@ -274,10 +286,23 @@ const getServerStatus = async (serverName) => {
     fetch(`/status/server?appName=${serverName}`)
         .then(response => response.json())
         .then(data => {
-            console.log(data[0].pm2_env.status)
-            document.getElementById("statusText").innerText = data[0].pm2_env.status
+            let status = data[0].pm2_env.status
+            console.log(status)
+            if (status == "stopped") {
+                document.getElementsByClassName("statusIndic")[0].style.background = "#1A1A1A"
+                document.getElementsByClassName("statusIndic")[0].style.border = "#ffffff solid 1px"
+                document.getElementById("statusText").innerText = status
+            } else if (status == "online") {
+                document.getElementsByClassName("statusIndic")[0].style.background = "rgb(54, 201, 54)"
+                document.getElementsByClassName("statusIndic")[0].style.border = "#ffffff solid 1px"
+                document.getElementById("statusText").innerText = "Live"
+            }else if (status == "errored") {
+                document.getElementsByClassName("statusIndic")[0].style.background = "#d32c2c"
+                document.getElementsByClassName("statusIndic")[0].style.border = "#ffffff solid 1px"
+                document.getElementById("statusText").innerText = "Error"
+            }
         })
         .catch(error => console.error('Error:', error));
-    
+
 
 }
