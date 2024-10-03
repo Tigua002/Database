@@ -215,6 +215,7 @@ ws.onerror = (error) => {
 };
 
 document.getElementById("start").addEventListener("click", async () => {
+    getServerStatus("api")
     try {
         let response = await fetch('/start/server', {
             method: "POST"
@@ -229,6 +230,7 @@ document.getElementById("start").addEventListener("click", async () => {
     }
 });
 document.getElementById("stop").addEventListener("click", async () => {
+    getServerStatus("api")
     try {
         let response = await fetch('/stop/server', {
             method: "POST"
@@ -243,6 +245,7 @@ document.getElementById("stop").addEventListener("click", async () => {
     }
 });
 document.getElementById("rerun").addEventListener("click", async () => {
+    getServerStatus("api")
     try {
         let response = await fetch('/restart/server', {
             method: "POST"
