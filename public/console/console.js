@@ -192,9 +192,12 @@ const createOverlay = (element, buttonText, stateEvent, position, fullPosition, 
                 throw new Error('Network response was not ok');
             }
 
-            for (let i = 0; i < document.getElementsByClassName(wiper).length; i++) {
-                const line = document.getElementsByClassName(wiper)[i];
-                line.remove()
+            let number = document.getElementsByClassName(wiper).length
+            for (let i = 0; i < number; i++) {
+                console.log(i);
+    
+                document.getElementsByClassName(wiper)[0].remove()
+    
             }
         } catch (error) {
             console.error('There was a problem with the fetch operation:', error);
