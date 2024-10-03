@@ -940,12 +940,12 @@ dialog {
     margin: 0%;
     width: .5vw;
     height: .5vw;
-    background-color: #444444;
+    background-color: #1A1A1A;
     border-radius: 50%;
 }
 #statusText{
     margin: 0%;
-    font-size: 1vw;
+    font-size: 1.4vw;
 }
 .consoleOpt{
     background-color: #66B2FF;

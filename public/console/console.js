@@ -34,6 +34,7 @@ fetch('/file')
         })
         createOverlay(errorDiv, "CLEAR ERRORS", state.errEvent, "56.5%", "42%", "consoleError")
         createOverlay(consoleDiv, "CLEAR LOGS", state.logEvent, "20.5%", "6%", "consoleLine")
+        getServerStatus("api")
 
     });
 
