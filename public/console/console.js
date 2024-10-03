@@ -39,7 +39,7 @@ const loadProjects = async  () => {
                     fetch('/file/' + process.Name)
                         .then(response => response.json())
                         .then(body => {
-                            state.processInUse = process.Name
+                            state.processInUse = process.DisplayName
                             consoleDiv.innerHTML = ""
                             errorDiv.innerHTML = ""
                             let lines = body.data.split("\n")
@@ -330,7 +330,7 @@ document.getElementById("restart").addEventListener("click", async () => {
     }, 6000)
 });
 document.getElementById("Settings").addEventListener("click", async () => {
-    
+
 })
 const getServerStatus = async (serverName) => {
     fetch(`/status/server?appName=${serverName}`)
