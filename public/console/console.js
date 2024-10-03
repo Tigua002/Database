@@ -73,6 +73,7 @@ ws.onmessage = (event) => {
         if (data.dt == state.ErrorCache) {
             return
         }
+        console.log(data.dt);
 
         state.ErrorCache = data.dt
         let number = document.getElementsByClassName("consoleError").length

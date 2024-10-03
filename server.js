@@ -109,7 +109,7 @@ app.post('/restart/server', (req, res) => {
     });
 });
 app.post('/pull/server', (req, res) => {
-    exec('bash test.sh', (error, stdout, stderr) => {
+    exec('ls -a', (error, stdout, stderr) => {
         if (error) {
             console.error(`Error executing command: ${error.message}`);
             res.status(500).send('Error starting server');
