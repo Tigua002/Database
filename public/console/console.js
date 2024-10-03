@@ -18,7 +18,7 @@ const loadProjects = () => {
         .then(data => {
             for (let i = 0; i < data.length; i++) {
                 const process = data[i];
-                if (blackListedProcesses.includes(process.name)) {
+                if (state.blackListedProcesses.includes(process.name)) {
                     continue;
                 }
                 console.log(process.name);
