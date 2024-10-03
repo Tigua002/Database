@@ -164,7 +164,8 @@ app.get('/status/server', (req, res) => {
                 pm2.disconnect();
                 return;
             }
-
+            console.log(processDescription);
+            
             res.send(processDescription[0].status);
             pm2.disconnect();
         });
