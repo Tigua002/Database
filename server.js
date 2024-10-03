@@ -40,8 +40,8 @@ const wss = new WebSocket.Server({ server }, () => {
 });
 // const wss = new WebSocket.Server({ port:8080 })
 const state = {
-    filePath: process.env.state.filePath,
-    errorPath: process.env.state.errorPath,
+    filePath: process.env.FILEPATH,
+    errorPath: process.env.ERRORPATH,
     targetProcess: process.env.TARGET,
     bashPath: process.env.BASH
 
