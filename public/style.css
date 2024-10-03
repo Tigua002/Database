@@ -996,8 +996,8 @@ dialog {
 
 }
 .settingsArrow{
-    width: 5%;
-    height: 5%;
+    width: 2vw;
+    height: 2vw;
 }
 .consoleOpt:hover{
     opacity: .8;
