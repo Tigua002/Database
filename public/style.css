@@ -982,15 +982,16 @@ dialog {
     color: #ffffff;
 }
 #Settings{
-    width: 90%;
+    width: 100%;
     background-color: gray;
     color: white;
     font-size: 1vw;
-    margin: 1vw;
+    margin: .5vw;
     padding: .5vw;
     cursor: pointer;
     border: none;
     outline: none;
+    border-radius: .2vw;
 
 }
 .consoleOpt:hover{
