@@ -37,7 +37,7 @@ const server = https.createServer(serverOptions);
 const wss = new WebSocket.Server({ server }, () => {
     console.log('WebSocket server listening on port 8080');
 });
-
+// const wss = new WebSocket.Server({ port:8080 })
 const filePath = process.env.FILEPATH
 const errorPath = process.env.ERRORPATH
 const targetProcess = process.env.TARGET

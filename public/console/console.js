@@ -7,7 +7,9 @@ const errorDiv = document.getElementById('consoleError');
 const ws = new WebSocket('wss://dataspot.gusarov.site:8080');
 const state = {
     errEvent: null,
-    logEvent: null
+    logEvent: null,
+    LogCache: null,
+    ErrorCache: null
 }
 
 fetch('/file')
@@ -39,35 +41,44 @@ fetch('/file')
 
     });
 
-ws.onmessage =  (event) => {
-    console.log("UPDATE");
-    console.log(JSON.parse(event.data));
-    console.log(event.data);
+ws.onmessage = (event) => {
     let data = JSON.parse(event.data)
 
+   
+    
     if (data.error == false) {
-        for (let i = 0; i < document.getElementsByClassName("consoleLine").length; i++) {
+        if (data.dt == state.LogCache) {
+            return
+        }
+
+        state.LogCache = data.dt
+        let number = document.getElementsByClassName("consoleLine").length
+        for (let i = 0; i < number; i++) {
+            console.log(i);
             
-            const line = document.getElementsByClassName("consoleLine")[i];
-            console.log(line);
-            line.remove()
+            document.getElementsByClassName("consoleLine")[0].remove()
+
         }
         let lines = data.dt.split("\n")
         setTimeout(() => {
             lines.forEach(line => {
                 let newMessage = document.createElement("h1")
                 newMessage.setAttribute("class", "consoleLine")
-                // consoleDiv.appendChild(newMessage)
+                consoleDiv.appendChild(newMessage)
                 newMessage.innerHTML = line
     
             })
         }, 1000)
     } else if (data.error == true) {
-        for (let i = 0; i < document.getElementsByClassName("consoleError").length; i++) {
-            
-            const line = document.getElementsByClassName("consoleError")[i];
-            console.log(line);
-            line.remove()
+        if (data.dt == state.ErrorCache) {
+            return
+        }        
+        
+        state.ErrorCache = data.dt
+        let number = document.getElementsByClassName("consoleError").length
+        for (let i = 0; i < number; i++) {
+            document.getElementsByClassName("consoleError")[0].remove()
+
         }
         let errLines = data.dt.split("Error")
         setTimeout(() => {
@@ -75,7 +86,7 @@ ws.onmessage =  (event) => {
             errLines.forEach(line => {
                 let newMessage = document.createElement("h1")
                 newMessage.setAttribute("class", "consoleError")
-                // errorDiv.appendChild(newMessage)
+                errorDiv.appendChild(newMessage)
                 newMessage.innerHTML = line
                 
             })
