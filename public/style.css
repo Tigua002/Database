@@ -1000,8 +1000,8 @@ dialog {
     margin: 0%;
 }
 .settingsArrow{
-    width: 1.5vw;
-    height: 1.5vw;
+    width: 1vw;
+    height: 1vw;
 }
 .consoleOpt:hover{
     opacity: .8;
