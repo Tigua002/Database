@@ -987,6 +987,7 @@ dialog {
     color: white;
     font-size: 1vw;
     margin: .5vw;
+    margin-top: 1vw;
     padding: .5vw;
     cursor: pointer;
     border: none;
