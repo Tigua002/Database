@@ -333,6 +333,8 @@ document.getElementById("Settings").addEventListener("click", async () => {
 
 })
 const getServerStatus = async (serverName) => {
+    console.log(serverName);
+    
     fetch(`/status/server?appName=${serverName}`)
         .then(response => response.json())
         .then(data => {
