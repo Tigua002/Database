@@ -113,10 +113,9 @@ app.post('/restart/server', (req, res) => {
                 console.log('Shutdown message written to file');
             }
         })
-        res.status(200).send('Server stopped successfully');
+        console.log(`Command output: ${stdout}`);
+        res.status(200).send('Server restarted successfully');
     });
-    console.log(`Command output: ${stdout}`);
-    res.status(200).send('Server started successfully');
 });
 
 app.post('/pull/server', (req, res) => {
