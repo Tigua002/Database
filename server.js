@@ -109,6 +109,8 @@ app.post('/restart/server', (req, res) => {
     });
 });
 app.post('/pull/server', (req, res) => {
+    console.log("Arrived");
+    
     exec('ls -a', (error, stdout, stderr) => {
         if (error) {
             console.error(`Error executing command: ${error.message}`);

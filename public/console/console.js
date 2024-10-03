@@ -262,9 +262,9 @@ document.getElementById("restart").addEventListener("click", async () => {
             method: "POST"
         });
         if (response.ok) {
-            console.log('Server stopped successfully');
+            console.log('Server Pulled successfully');
         } else {
-            console.error('Failed to stop server');
+            console.error('Failed to pull server');
         }
     } catch (error) {
         console.error('Error:', error);
