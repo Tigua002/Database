@@ -9,7 +9,8 @@ const state = {
     errEvent: null,
     logEvent: null,
     LogCache: null,
-    ErrorCache: null
+    ErrorCache: null,
+    blackListedProcesses: ["test", "Datatest"]
 }
 const loadProjects = () => {
     fetch('/processes')
@@ -17,40 +18,56 @@ const loadProjects = () => {
         .then(data => {
             for (let i = 0; i < data.length; i++) {
                 const process = data[i];
+                if (blackListedProcesses.includes(process.name)) {
+                    continue;
+                }
                 console.log(process.name);
-                
-                
+                let div = document.createElement("div")
+                let h1 = document.createElement("h1")
+                let indic = document.createElement("h1")
+                div.setAttribute("class", "project")
+                h1.setAttribute("class", "projectTitle")
+                indic.setAttribute("class", "projectIndicator")
+                div.appendChild(h1)
+                div.appendChild(indic)
+                document.getElementsByClassName("ConsoleHeader")[0].appendChild(div)
+                h1.innerHTML = process.name
+                indic.innerHTML = "&#x276C"
+
+                h1.addEventListener("click", () => {
+                    fetch('/file/' + process.name)
+                        .then(response => response.json())
+                        .then(body => {
+                            let lines = body.data.split("\n")
+                            lines.forEach(line => {
+                                let newMessage = document.createElement("h1")
+                                newMessage.setAttribute("class", "consoleLine")
+                                consoleDiv.appendChild(newMessage)
+                                newMessage.innerHTML = line
+
+                            })
+                            consoleDiv.scrollTop = consoleDiv.scrollHeight;
+                            let errLines = body.err.split("Error")
+                            errLines.forEach(line => {
+                                let newMessage = document.createElement("h1")
+                                newMessage.setAttribute("class", "consoleError")
+                                errorDiv.appendChild(newMessage)
+                                newMessage.innerHTML = line
+
+                            })
+                            createOverlay(errorDiv, "CLEAR ERRORS", state.errEvent, "56.5%", "42%", "consoleError")
+                            createOverlay(consoleDiv, "CLEAR LOGS", state.logEvent, "20.5%", "6%", "consoleLine")
+                            getServerStatus("api")
+
+                        });
+                })
             }
         })
         .catch(error => console.error('Error:', error));
-
 }
+loadProjects()
 
-fetch('/file')
-    .then(response => response.json())
-    .then(body => {
-        let lines = body.data.split("\n")
-        lines.forEach(line => {
-            let newMessage = document.createElement("h1")
-            newMessage.setAttribute("class", "consoleLine")
-            consoleDiv.appendChild(newMessage)
-            newMessage.innerHTML = line
 
-        })
-        consoleDiv.scrollTop = consoleDiv.scrollHeight;
-        let errLines = body.err.split("Error")
-        errLines.forEach(line => {
-            let newMessage = document.createElement("h1")
-            newMessage.setAttribute("class", "consoleError")
-            errorDiv.appendChild(newMessage)
-            newMessage.innerHTML = line
-
-        })
-        createOverlay(errorDiv, "CLEAR ERRORS", state.errEvent, "56.5%", "42%", "consoleError")
-        createOverlay(consoleDiv, "CLEAR LOGS", state.logEvent, "20.5%", "6%", "consoleLine")
-        getServerStatus("api")
-
-    });
 
 ws.onmessage = (event) => {
     let data = JSON.parse(event.data)

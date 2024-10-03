@@ -52,17 +52,17 @@ app.get('/', (req, res) => {
 
 
 
-app.get('/file', (req, res) => {
+app.get('/file/:a', (req, res) => {
     let file = "";
     let error = "";
 
-    fs.readFile(filePath, 'utf8', (err, data) => {
+    fs.readFile(`../../.pm2/logs/${req.params.a}-out.log`, 'utf8', (err, data) => {
         if (err) {
             return res.status(500).send('Error reading file');
         }
         file = data;
 
-        fs.readFile(errorPath, 'utf8', (err, dataThing) => {
+        fs.readFile(`../../.pm2/logs/${req.params.a}-error.log`, 'utf8', (err, dataThing) => {
             if (err) {
                 return res.status(500).send('Error reading file');
             }
