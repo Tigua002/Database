@@ -86,10 +86,10 @@ app.get('/processes', (req, res) => {
             if (blackListedProcesses.includes(data[i].Name)) {
                 continue;
             }
-            sendData.push(data[i])
+            // sendData.push(data[i])
             
         }
-        res.send(sendData, 200)
+        res.send(data, 200)
         
     })
 });

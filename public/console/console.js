@@ -12,8 +12,8 @@ const state = {
     ErrorCache: null,
     blackListedProcesses: ["test", "Datatest"]
 }
-const loadProjects = () => {
-    fetch('/processes')
+const loadProjects = async  () => {
+    await fetch('/processes')
         .then(response => response.json())
         .then(data => {
             for (let i = 0; i < data.length; i++) {
