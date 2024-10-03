@@ -44,8 +44,8 @@ fetch('/file')
 ws.onmessage = (event) => {
     let data = JSON.parse(event.data)
 
-   
-    
+
+
     if (data.error == false) {
         if (data.dt == state.LogCache) {
             return
@@ -55,25 +55,25 @@ ws.onmessage = (event) => {
         let number = document.getElementsByClassName("consoleLine").length
         for (let i = 0; i < number; i++) {
             console.log(i);
-            
+
             document.getElementsByClassName("consoleLine")[0].remove()
 
         }
         let lines = data.dt.split("\n")
-        setTimeout(() => {
-            lines.forEach(line => {
-                let newMessage = document.createElement("h1")
-                newMessage.setAttribute("class", "consoleLine")
-                consoleDiv.appendChild(newMessage)
-                newMessage.innerHTML = line
-    
-            })
-        }, 1000)
+
+        lines.forEach(line => {
+            let newMessage = document.createElement("h1")
+            newMessage.setAttribute("class", "consoleLine")
+            consoleDiv.appendChild(newMessage)
+            newMessage.innerHTML = line
+
+        })
+
     } else if (data.error == true) {
         if (data.dt == state.ErrorCache) {
             return
-        }        
-        
+        }
+
         state.ErrorCache = data.dt
         let number = document.getElementsByClassName("consoleError").length
         for (let i = 0; i < number; i++) {
@@ -81,17 +81,15 @@ ws.onmessage = (event) => {
 
         }
         let errLines = data.dt.split("Error")
-        setTimeout(() => {
 
-            errLines.forEach(line => {
-                let newMessage = document.createElement("h1")
-                newMessage.setAttribute("class", "consoleError")
-                errorDiv.appendChild(newMessage)
-                newMessage.innerHTML = line
-                
-            })
-        }, 1000)
-            
+        errLines.forEach(line => {
+            let newMessage = document.createElement("h1")
+            newMessage.setAttribute("class", "consoleError")
+            errorDiv.appendChild(newMessage)
+            newMessage.innerHTML = line
+
+        })
+
     }
     consoleDiv.scrollTop = consoleDiv.scrollHeight;
     errorDiv.scrollTop = errorDiv.scrollHeight;
@@ -149,7 +147,7 @@ const createOverlay = (element, buttonText, stateEvent, position, fullPosition, 
     //         errReset.style.borderRadius = "0vw"
     //         errReset.style.borderTopLeftRadius = "1vw"
     //         errReset.style.borderTopRightRadius = "1vw"
-            
+
     //     } else {
     //         errReset.style.transition = "200ms"
     //         errReset.style.height = "3vh"
