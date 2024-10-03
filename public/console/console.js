@@ -11,6 +11,20 @@ const state = {
     LogCache: null,
     ErrorCache: null
 }
+const loadProjects = () => {
+    fetch('/processes')
+        .then(response => response.json())
+        .then(data => {
+            for (let i = 0; i < data.length; i++) {
+                const process = data[i];
+                console.log(process.pm2_env.status);
+                
+                
+            }
+        })
+        .catch(error => console.error('Error:', error));
+
+}
 
 fetch('/file')
     .then(response => response.json())
@@ -309,7 +323,7 @@ const getServerStatus = async (serverName) => {
                 document.getElementsByClassName("statusIndic")[0].style.background = "rgb(54, 201, 54)"
                 document.getElementsByClassName("statusIndic")[0].style.border = "#ffffff solid 1px"
                 document.getElementById("statusText").innerText = "Live"
-            }else if (status == "errored") {
+            } else if (status == "errored") {
                 document.getElementsByClassName("statusIndic")[0].style.background = "#d32c2c"
                 document.getElementsByClassName("statusIndic")[0].style.border = "#ffffff solid 1px"
                 document.getElementById("statusText").innerText = "Error"

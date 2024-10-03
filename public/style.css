@@ -996,6 +996,7 @@ dialog {
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
     border-left: solid #ffffff 1px;
     border-right: solid #ffffff 1px;
     height: 2vw;
@@ -1004,7 +1005,22 @@ dialog {
     color: #66B2FF;
     font-size: 1vw;
 }
+
+.projectTitle{
+    font-size: 1vw;
+    margin: 0%;
+    margin-top: .5vw;
+}
+.projectIndicator{
+    margin: 0%;
+    font-size: 1vw;
+    transform: rotate(-90deg);
+    color: #444444;
+}
 .project:hover {
-    font-size: 1.1vw;
     background-color: #333333;
+}
+.project:hover .projectIndicator{
+    color: #ffffff;
+
 }

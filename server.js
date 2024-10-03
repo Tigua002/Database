@@ -76,7 +76,25 @@ app.get('/file', (req, res) => {
         });
     });
 });
-
+app.get('/processes', (req, res) => {
+    pm2.connect((err) => {
+      if (err) {
+        res.status(500).send({ error: 'Failed to connect to PM2' });
+        return;
+      }
+  
+      pm2.list((err, processList) => {
+        if (err) {
+          res.status(500).send({ error: 'Failed to get process list' });
+          pm2.disconnect();
+          return;
+        }
+  
+        res.send(processList);
+        pm2.disconnect();
+      });
+    });
+  });
 
 app.post('/start/server', (req, res) => {
     exec('pm2 start ' + targetProcess, (error, stdout, stderr) => {
