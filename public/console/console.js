@@ -225,7 +225,10 @@ document.getElementById("start").addEventListener("click", async () => {
     } catch (error) {
         console.error('Error:', error);
     }
-    getServerStatus("api")
+    setTimeout(() => {
+        getServerStatus("api")
+
+    }, 1000)
 });
 document.getElementById("stop").addEventListener("click", async () => {
     document.getElementsByClassName("statusIndic")[0].style.background = "#d32c2c"
@@ -243,7 +246,10 @@ document.getElementById("stop").addEventListener("click", async () => {
     } catch (error) {
         console.error('Error:', error);
     }
-    getServerStatus("api")
+    setTimeout(() => {
+        getServerStatus("api")
+
+    }, 1000)
 });
 document.getElementById("rerun").addEventListener("click", async () => {
     document.getElementsByClassName("statusIndic")[0].style.background = "#66B2FF"
@@ -261,7 +267,10 @@ document.getElementById("rerun").addEventListener("click", async () => {
     } catch (error) {
         console.error('Error:', error);
     }
-    getServerStatus("api")
+    setTimeout(() => {
+        getServerStatus("api")
+
+    }, 1000)
 });
 document.getElementById("restart").addEventListener("click", async () => {
     document.getElementsByClassName("statusIndic")[0].style.background = "#66B2FF"
@@ -280,7 +289,10 @@ document.getElementById("restart").addEventListener("click", async () => {
     } catch (error) {
         console.error('Error:', error);
     }
-    getServerStatus("api")
+    setTimeout(() => {
+        getServerStatus("api")
+
+    }, 1000)
 });
 
 const getServerStatus = async (serverName) => {
