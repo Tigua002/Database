@@ -2,12 +2,12 @@
 document.getElementsByClassName("navItem")[1].style.background = "#66b2ff";
 document.getElementsByClassName("navImg")[1].setAttribute("stroke", "#333333");
 
-const blackListedDBs = ["information_schema", "mysql", "performance_schema", "sys", "dataSpotUsers"];
 
 const state = {
     dbInUse: null,
     tableInUse: null,
     validIP: false,
+    blackListedDBs: ["information_schema", "mysql", "performance_schema", "sys", "dataSpotUsers"],
 };
 
 const fetchDatabases = async () => {
@@ -28,7 +28,7 @@ const fetchDatabases = async () => {
         const fragment = document.createDocumentFragment();
 
         databases.forEach(db => {
-            if (blackListedDBs.includes(db.Database)) return;
+            if (state.blackListedDBs.includes(db.Database)) return;
 
             let h1 = document.createElement("h1");
             h1.setAttribute("class", "databaseItem flex");
@@ -682,7 +682,7 @@ function isValidMySQLDatabaseName(name, checkBlackList) {
         alert("LENGTH")
         return false;
     }
-    if (blackListedDBs[name] && value) {
+    if (state.blackListedDBs[name] && value) {
         alert("BLACKLIST")
         return false;
     }

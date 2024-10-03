@@ -18,10 +18,10 @@ const loadProjects = () => {
         .then(data => {
             for (let i = 0; i < data.length; i++) {
                 const process = data[i];
-                if (state.blackListedProcesses.includes(process.name)) {
+                if (state.blackListedProcesses.includes(process.Name)) {
                     continue;
                 }
-                console.log(process.name);
+                console.log(process.Name);
                 let div = document.createElement("div")
                 let h1 = document.createElement("h1")
                 let indic = document.createElement("h1")
@@ -31,11 +31,11 @@ const loadProjects = () => {
                 div.appendChild(h1)
                 div.appendChild(indic)
                 document.getElementsByClassName("ConsoleHeader")[0].appendChild(div)
-                h1.innerHTML = process.name
+                h1.innerHTML = process.DisplayName
                 indic.innerHTML = "&#x276C"
 
                 h1.addEventListener("click", () => {
-                    fetch('/file/' + process.name)
+                    fetch('/file/' + process.Name)
                         .then(response => response.json())
                         .then(body => {
                             let lines = body.data.split("\n")

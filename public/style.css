@@ -223,6 +223,7 @@ td {
     font-size: 1vw;
     background-color: #444444;
     width: 10vw;
+    max-width: none;
     padding: .5vw 0vw .5vw .5vw;
 }
 

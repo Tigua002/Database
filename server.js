@@ -77,24 +77,22 @@ app.get('/file/:a', (req, res) => {
     });
 });
 app.get('/processes', (req, res) => {
-    pm2.connect((err) => {
-      if (err) {
-        res.status(500).send({ error: 'Failed to connect to PM2' });
-        return;
-      }
-  
-      pm2.list((err, processList) => {
-        if (err) {
-          res.status(500).send({ error: 'Failed to get process list' });
-          pm2.disconnect();
-          return;
+    connection.query("SELECT * FROM dataSpotUsers.processes", (err, result) => {
+        let data = JSON.parse(JSON.stringify(result))
+        let blackListedProcesses = ["test", "Datatest"]
+        let sendData = {}
+        for (let i = 0; i < data.length; i++) {
+            const element = data[i];
+            if (blackListedProcesses.includes(data[i].Name)) {
+                continue;
+            }
+            sendData.push(data[i])
+            
         }
-  
-        res.send(processList);
-        pm2.disconnect();
-      });
-    });
-  });
+        res.send(sendData, 200)
+        
+    })
+});
 
 app.post('/start/server', (req, res) => {
     exec('pm2 start ' + targetProcess, (error, stdout, stderr) => {
@@ -455,7 +453,17 @@ app.post('/delete/table', function (req, res) {
 app.get('/FetchDatabases', (req, res) => {
     connection.query('SHOW DATABASES', function (err, result, fields) {
         let data = JSON.parse(JSON.stringify(result));
-        res.send(data);
+        let blackListedDBs = ["information_schema", "mysql", "performance_schema", "sys", "dataSpotUsers"]
+        let sendData = {}
+        for (let i = 0; i < data.length; i++) {
+            const element = data[i];
+            if (blackListedDBs.includes(element.Database)) {
+                continue;
+            }
+            sendData.push(data[i])
+            
+        }
+        res.send(sendData, 200)
     });
 });
 app.get('/get/Tables/:a', (req, res) => {
