@@ -215,7 +215,6 @@ ws.onerror = (error) => {
 };
 
 document.getElementById("start").addEventListener("click", async () => {
-    getServerStatus("api")
     try {
         let response = await fetch('/start/server', {
             method: "POST"
@@ -228,9 +227,9 @@ document.getElementById("start").addEventListener("click", async () => {
     } catch (error) {
         console.error('Error:', error);
     }
+    getServerStatus("api")
 });
 document.getElementById("stop").addEventListener("click", async () => {
-    getServerStatus("api")
     try {
         let response = await fetch('/stop/server', {
             method: "POST"
@@ -243,9 +242,9 @@ document.getElementById("stop").addEventListener("click", async () => {
     } catch (error) {
         console.error('Error:', error);
     }
+    getServerStatus("api")
 });
 document.getElementById("rerun").addEventListener("click", async () => {
-    getServerStatus("api")
     try {
         let response = await fetch('/restart/server', {
             method: "POST"
@@ -258,6 +257,7 @@ document.getElementById("rerun").addEventListener("click", async () => {
     } catch (error) {
         console.error('Error:', error);
     }
+    getServerStatus("api")
 });
 document.getElementById("restart").addEventListener("click", async () => {
 
@@ -270,16 +270,16 @@ document.getElementById("restart").addEventListener("click", async () => {
         } else {
             console.error('Failed to pull server');
         }
-        getServerStatus("api")
     } catch (error) {
         console.error('Error:', error);
     }
+    getServerStatus("api")
 });
 
 const getServerStatus = async (serverName) => {
     fetch(`/status/server?appName=${serverName}`)
         .then(response => response.json())
-        .then(data => console.log(data[0].status))
+        .then(data => console.log(data[0].pm2_env.status))
         .catch(error => console.error('Error:', error));
 
 }
