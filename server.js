@@ -108,22 +108,22 @@ app.post('/restart/server', (req, res) => {
         res.status(200).send('Server started successfully');
     });
 });
-// app.post('/pull/server', (req, res) => {
-//     exec('bash ../db.sh', (error, stdout, stderr) => {
-//         if (error) {
-//             console.error(`Error executing command: ${error.message}`);
-//             res.status(500).send('Error starting server');
-//             return;
-//         }
-//         if (stderr) {
-//             console.error(`Error output: ${stderr}`);
-//             res.status(500).send('Error starting server');
-//             return;
-//         }
-//         console.log(`Command output: ${stdout}`);
-//         res.status(200).send('Server started successfully');
-//     });
-// });
+app.post('/pull/server', (req, res) => {
+    exec('bash test.sh', (error, stdout, stderr) => {
+        if (error) {
+            console.error(`Error executing command: ${error.message}`);
+            res.status(500).send('Error starting server');
+            return;
+        }
+        if (stderr) {
+            console.error(`Error output: ${stderr}`);
+            res.status(500).send('Error starting server');
+            return;
+        }
+        console.log(`Command output: ${stdout}`);
+        res.status(200).send('Server started successfully');
+    });
+});
 app.post('/stop/server', (req, res) => {
     exec('pm2 stop '  + targetProcess, (error, stdout, stderr) => {
         if (error) {
