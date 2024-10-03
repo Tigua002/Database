@@ -112,7 +112,6 @@ app.post('/start/server', (req, res) => {
             res.status(500).send('Error starting server');
             return;
         }
-        console.log(`Command output: ${stdout}`);
         res.status(200).send('Server started successfully');
     });
 });
@@ -131,17 +130,13 @@ app.post('/restart/server', (req, res) => {
         fs.appendFile(state.filePath, "Server shut down  \n", (err) => {
             if (err) {
                 console.error('Failed to write to file', err);
-            } else {
-                console.log('Shutdown message written to file');
-            }
+            } 
         })
-        console.log(`Command output: ${stdout}`);
         res.status(200).send('Server restarted successfully');
     });
 });
 
 app.post('/pull/server', (req, res) => {
-    console.log("Arrived");
 
     exec('bash ' + state.bashPath, (error, stdout, stderr) => {
         if (error) {
@@ -157,14 +152,9 @@ app.post('/pull/server', (req, res) => {
         fs.appendFile(state.filePath, "Server shut down  \n", (err) => {
             if (err) {
                 console.error('Failed to write to file', err);
-            } else {
-                console.log('Shutdown message written to file');
-            }
+            } 
         })
-        console.log(`Command output: ${stdout}`);
-        res.status(200).send('Server stopped successfully');
     });
-    console.log(`Command output: ${stdout}`);
     res.status(200).send('Server started successfully');
 });
 app.post('/stop/server', (req, res) => {
@@ -182,11 +172,8 @@ app.post('/stop/server', (req, res) => {
         fs.appendFile(state.filePath, "Server shut down \n", (err) => {
             if (err) {
                 console.error('Failed to write to file', err);
-            } else {
-                console.log('Shutdown message written to file');
             }
         })
-        console.log(`Command output: ${stdout}`);
         res.status(200).send('Server stopped successfully');
     });
 });
@@ -210,7 +197,6 @@ app.get('/status/server', (req, res) => {
                 pm2.disconnect();
                 return;
             }
-            console.log(processDescription);
 
             res.send(processDescription);
             pm2.disconnect();
@@ -237,7 +223,6 @@ app.post('/clear/files', (req, res) => {
 });
 
 wss.on('connection', (ws) => {
-    console.log('Client connected');
     fs.watch(state.filePath, (eventType, filename) => {
         if (eventType === 'change') {
             fs.readFile(state.filePath, 'utf8', (err, data) => {
@@ -301,17 +286,14 @@ app.post("/create/database", function (req, res) {
 });
 app.post("/create/table", function (req, res) {
     let string = "ID int auto_increment PRIMARY KEY"
-    console.log(req.body.tableArray);
 
     for (let i = 0; i < req.body.tableArray.length; i++) {
         let table = req.body.tableArray[i]
 
         string += `, ${table.name} ${table.type}`
-        console.log(string);
 
 
     }
-    console.log(string);
 
     connection.query(`use ${req.body.db}`)
     // Use parameterized query to insert user
@@ -396,7 +378,6 @@ app.post("/create/user", function (req, res) {
     let db = req.body.db
     let username = ""
     let password = ""
-    console.log(host);
 
     if (host == "0.0.0.0") {
         host = "%"
