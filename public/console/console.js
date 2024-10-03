@@ -17,7 +17,7 @@ const loadProjects = () => {
         .then(data => {
             for (let i = 0; i < data.length; i++) {
                 const process = data[i];
-                console.log(process.pm2_env.status);
+                console.log(process.name);
                 
                 
             }
