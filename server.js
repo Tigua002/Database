@@ -106,10 +106,20 @@ app.post('/restart/server', (req, res) => {
             res.status(500).send('Error starting server');
             return;
         }
+        fs.appendFile(filePath, "Server shut down", (err) => {
+            if (err) {
+                console.error('Failed to write to file', err);
+            } else {
+                console.log('Shutdown message written to file');
+            }
+        })
         console.log(`Command output: ${stdout}`);
-        res.status(200).send('Server started successfully');
+        res.status(200).send('Server stopped successfully');
     });
+    console.log(`Command output: ${stdout}`);
+    res.status(200).send('Server started successfully');
 });
+
 app.post('/pull/server', (req, res) => {
     console.log("Arrived");
 
@@ -124,9 +134,18 @@ app.post('/pull/server', (req, res) => {
             res.status(500).send('Error starting server');
             return;
         }
+        fs.appendFile(filePath, "Server shut down", (err) => {
+            if (err) {
+                console.error('Failed to write to file', err);
+            } else {
+                console.log('Shutdown message written to file');
+            }
+        })
         console.log(`Command output: ${stdout}`);
-        res.status(200).send('Server started successfully');
+        res.status(200).send('Server stopped successfully');
     });
+    console.log(`Command output: ${stdout}`);
+    res.status(200).send('Server started successfully');
 });
 app.post('/stop/server', (req, res) => {
     exec('pm2 stop ' + targetProcess, (error, stdout, stderr) => {
@@ -140,6 +159,13 @@ app.post('/stop/server', (req, res) => {
             res.status(500).send('Error stopping server');
             return;
         }
+        fs.appendFile(filePath, "Server shut down", (err) => {
+            if (err) {
+                console.error('Failed to write to file', err);
+            } else {
+                console.log('Shutdown message written to file');
+            }
+        })
         console.log(`Command output: ${stdout}`);
         res.status(200).send('Server stopped successfully');
     });
@@ -165,7 +191,7 @@ app.get('/status/server', (req, res) => {
                 return;
             }
             console.log(processDescription);
-            
+
             res.send(processDescription);
             pm2.disconnect();
         });
