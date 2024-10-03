@@ -15,10 +15,6 @@ const state = {
 fetch('/file')
     .then(response => response.json())
     .then(body => {
-        console.log(body);
-
-        console.log("LOADED");
-
         let lines = body.data.split("\n")
         lines.forEach(line => {
             let newMessage = document.createElement("h1")
@@ -54,7 +50,6 @@ ws.onmessage = (event) => {
         state.LogCache = data.dt
         let number = document.getElementsByClassName("consoleLine").length
         for (let i = 0; i < number; i++) {
-            console.log(i);
 
             document.getElementsByClassName("consoleLine")[0].remove()
 
@@ -73,7 +68,6 @@ ws.onmessage = (event) => {
         if (data.dt == state.ErrorCache) {
             return
         }
-        console.log(data.dt);
 
         state.ErrorCache = data.dt
         let number = document.getElementsByClassName("consoleError").length
@@ -279,7 +273,11 @@ document.getElementById("restart").addEventListener("click", async () => {
 const getServerStatus = async (serverName) => {
     fetch(`/status/server?appName=${serverName}`)
         .then(response => response.json())
-        .then(data => console.log(data[0].pm2_env.status))
+        .then(data => {
+            console.log(data[0].pm2_env.status)
+            document.getElementById("statusText").innerText = data[0].pm2_env.status
+        })
         .catch(error => console.error('Error:', error));
+    
 
 }
