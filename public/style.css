@@ -1002,6 +1002,7 @@ dialog {
 .settingsArrow{
     width: 1vw;
     height: 1vw;
+    transform: rotate(180deg);
 }
 .consoleOpt:hover{
     opacity: .8;

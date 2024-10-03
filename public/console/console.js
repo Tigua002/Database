@@ -10,7 +10,8 @@ const state = {
     logEvent: null,
     LogCache: null,
     ErrorCache: null,
-    blackListedProcesses: ["test", "Datatest"]
+    blackListedProcesses: ["test", "Datatest"],
+    processInUse: null
 }
 const loadProjects = async  () => {
     await fetch('/processes')
@@ -38,6 +39,7 @@ const loadProjects = async  () => {
                     fetch('/file/' + process.Name)
                         .then(response => response.json())
                         .then(body => {
+                            state.processInUse = process.Name
                             consoleDiv.innerHTML = ""
                             errorDiv.innerHTML = ""
                             let lines = body.data.split("\n")
@@ -59,7 +61,7 @@ const loadProjects = async  () => {
                             })
                             createOverlay(errorDiv, "CLEAR ERRORS", state.errEvent, "56.5%", "42%", "consoleError")
                             createOverlay(consoleDiv, "CLEAR LOGS", state.logEvent, "20.5%", "6%", "consoleLine")
-                            getServerStatus("api")
+                            getServerStatus(state.processInUse)
 
                         });
                 })
@@ -259,7 +261,7 @@ document.getElementById("start").addEventListener("click", async () => {
         console.error('Error:', error);
     }
     setTimeout(() => {
-        getServerStatus("api")
+        getServerStatus(state.processInUse)
 
     }, 5000)
 });
@@ -280,7 +282,7 @@ document.getElementById("stop").addEventListener("click", async () => {
         console.error('Error:', error);
     }
     setTimeout(() => {
-        getServerStatus("api")
+        getServerStatus(state.processInUse)
 
     }, 1000)
 });
@@ -301,7 +303,7 @@ document.getElementById("rerun").addEventListener("click", async () => {
         console.error('Error:', error);
     }
     setTimeout(() => {
-        getServerStatus("api")
+        getServerStatus(state.processInUse)
 
     }, 6000)
 });
@@ -323,11 +325,13 @@ document.getElementById("restart").addEventListener("click", async () => {
         console.error('Error:', error);
     }
     setTimeout(() => {
-        getServerStatus("api")
+        getServerStatus(state.processInUse)
 
     }, 6000)
 });
-
+document.getElementById("Settings").addEventListener("click", async () => {
+    
+})
 const getServerStatus = async (serverName) => {
     fetch(`/status/server?appName=${serverName}`)
         .then(response => response.json())
