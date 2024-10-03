@@ -36,7 +36,7 @@ const loadProjects = async  () => {
                 indic.innerHTML = "&#x276C"
 
                 h1.addEventListener("click", () => {
-                    fetch('/file/' + process.Name)
+                    fetch('/file/' + process.Name + "/" + process.DisplayName)
                         .then(response => response.json())
                         .then(body => {
                             state.processInUse = process.DisplayName

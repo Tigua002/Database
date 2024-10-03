@@ -55,12 +55,12 @@ app.get('/', (req, res) => {
 
 
 
-app.get('/file/:a', (req, res) => {
+app.get('/file/:a/:b', (req, res) => {
     let file = "";
     let error = "";
     state.filePath = `../../.pm2/logs/${req.params.a}-out.log`
     state.errorPath = `../../.pm2/logs/${req.params.a}-error.log`
-    state.targetProcess = req.params.a
+    state.targetProcess = req.params.b
     console.log(state);
     
     fs.readFile(state.filePath, 'utf8', (err, data) => {
