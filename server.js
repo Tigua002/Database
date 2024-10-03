@@ -106,7 +106,7 @@ app.post('/restart/server', (req, res) => {
             res.status(500).send('Error starting server');
             return;
         }
-        fs.appendFile(filePath, "Server shut down", (err) => {
+        fs.appendFile(filePath, "Server shut down  \n", (err) => {
             if (err) {
                 console.error('Failed to write to file', err);
             } else {
@@ -134,7 +134,7 @@ app.post('/pull/server', (req, res) => {
             res.status(500).send('Error starting server');
             return;
         }
-        fs.appendFile(filePath, "Server shut down", (err) => {
+        fs.appendFile(filePath, "Server shut down  \n", (err) => {
             if (err) {
                 console.error('Failed to write to file', err);
             } else {
@@ -159,7 +159,7 @@ app.post('/stop/server', (req, res) => {
             res.status(500).send('Error stopping server');
             return;
         }
-        fs.appendFile(filePath, "Server shut down", (err) => {
+        fs.appendFile(filePath, "Server shut down \n", (err) => {
             if (err) {
                 console.error('Failed to write to file', err);
             } else {
