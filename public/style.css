@@ -241,7 +241,7 @@ td {
     padding-left: .5vw;
     width: 10vw;
     min-height: 100%;
-    max-width: 10vw;
+    max-width: none;
     height: 3vh;
     font-size: .7vw;
     font-family: RobotoLight;
@@ -831,11 +831,16 @@ dialog {
     transform: scale(.95);
 }
 
+
+/* CONSOLE TAB */
+.consoleDiv{
+    align-items: start;
+}
 #consoleOutput, #consoleError{
     margin: 1vw;
     background-color: #1A1A1A;
     width: 30vw;
-    height: 70vh;
+    height: 80vh;
     color: #ffffff;
     overflow-y: scroll;
     padding: 2vw;
@@ -867,7 +872,7 @@ dialog {
 }
 .errReset{
     position: fixed;
-    top: 1vw;
+    top: 4vw;
     width: 5vw;
     height: 3vh;
     background-color: #ffffff;
@@ -948,6 +953,7 @@ dialog {
     margin-right: .2vw;
     font-size: 1.1vw;
 }
+
 .consoleOpt{
     background-color: #66B2FF;
     border: none;
@@ -977,4 +983,28 @@ dialog {
 .consoleOpt:hover{
     opacity: .8;
     transform: scale(99%);
+}
+
+.ConsoleHeader{
+    width: 110%;
+    height: 3vw;
+    justify-content: start;
+}
+.project{
+    margin: 0%;
+    min-width: 5vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-left: solid #ffffff 1px;
+    border-right: solid #ffffff 1px;
+    height: 2vw;
+    padding: .5vw;
+    cursor: pointer;
+    color: #66B2FF;
+    font-size: 1vw;
+}
+.project:hover {
+    font-size: 1.1vw;
+    background-color: #333333;
 }
