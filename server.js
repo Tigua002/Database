@@ -449,10 +449,10 @@ app.get('/FetchDatabases', (req, res) => {
             if (blackListedDBs.includes(element.Database)) {
                 continue;
             }
-            sendData.push(data[i])
+            // sendData.push(data[i])
 
         }
-        res.send(sendData, 200)
+        res.send(data, 200)
     });
 });
 app.get('/get/Tables/:a', (req, res) => {

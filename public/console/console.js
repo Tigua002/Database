@@ -61,6 +61,8 @@ const loadProjects = async  () => {
                             })
                             createOverlay(errorDiv, "CLEAR ERRORS", state.errEvent, "56.5%", "42%", "consoleError")
                             createOverlay(consoleDiv, "CLEAR LOGS", state.logEvent, "20.5%", "6%", "consoleLine")
+                            console.log(state.processInUse);
+                            
                             getServerStatus(state.processInUse)
 
                         });
