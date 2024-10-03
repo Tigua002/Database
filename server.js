@@ -41,6 +41,7 @@ const wss = new WebSocket.Server({ server }, () => {
 const filePath = process.env.FILEPATH
 const errorPath = process.env.ERRORPATH
 const targetProcess = process.env.TARGET
+const bashPath=process.env.BASH
 
 // Serve the index.html file
 app.get('/', (req, res) => {
@@ -111,7 +112,7 @@ app.post('/restart/server', (req, res) => {
 app.post('/pull/server', (req, res) => {
     console.log("Arrived");
     
-    exec('bash ../db.sh', (error, stdout, stderr) => {
+    exec('bash ' + bashPath, (error, stdout, stderr) => {
         if (error) {
             console.error(`Error executing command: ${error.message}`);
             res.status(500).send('Error starting server');

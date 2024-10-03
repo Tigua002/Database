@@ -2,7 +2,7 @@
 document.getElementsByClassName("navItem")[1].style.background = "#66b2ff";
 document.getElementsByClassName("navImg")[1].setAttribute("stroke", "#333333");
 
-const blackListedDBs = ["information_schema", "mysql", "performance_schema", "sys", "dataSpotUsers", "WebChat"];
+const blackListedDBs = ["information_schema", "mysql", "performance_schema", "sys", "dataSpotUsers"];
 
 const state = {
     dbInUse: null,
