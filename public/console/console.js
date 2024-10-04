@@ -77,7 +77,7 @@ const loadProjects = async  () => {
         })
         .catch(error => console.error('Error:', error));
 }
-loadProjects()
+
 
 
 
@@ -361,3 +361,6 @@ const getServerStatus = async (serverName) => {
 
 
 }
+
+
+loadProjects()
