@@ -324,24 +324,29 @@ app.post('/create/Server', (req, res) => {
                 cd ../../Database
 
                 `;
-
+                console.log("Wrote to nginx");
+                
                 fs.writeFile("./TestBash.sh", bashFile, (err) => {
                     if (err) {
                         console.error('Error writing bash script:', err);
                         return res.status(500).send('Failed to write bash script');
                     }
-
+                    console.log("wrote bash file");
+                    
                     exec('sh ./TestBash.sh', (err, stdout, stderr) => {
                         if (err) {
                             console.error('Error executing bash script:', err);
                             return res.status(500).send('Failed to execute bash script');
-                        }
-
+                        }  
+                        console.log("Ran bash file");
+                        
                         fs.writeFile(`../DataspotServers/${lastPart}/.env`, req.body.ENV, (err) => {
                             if (err) {
                                 console.error('Error writing .env file:', err);
                                 return res.status(500).send('Failed to write .env file');
                             }
+                            console.log("Pm2 start attempt");
+                            
                             exec(`pm2 start currentFile -n ${req.body.Name}`)
 
                             res.status(200).send('Settings updated successfully');
