@@ -55,7 +55,7 @@ app.get('/', (req, res) => {
 
 
 // Console
-app.get('/file/:a/:b', (req, res) => {
+app.get('/file/:a/:b/:c', (req, res) => {
     let file = "";
     let error = "";
     state.filePath = `../../.pm2/logs/${req.params.a}-out.log`
