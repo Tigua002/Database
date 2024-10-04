@@ -221,6 +221,8 @@ app.post('/clear/files', (req, res) => {
     });
 });
 app.post('/update/settings', (req, res) => {
+    console.log(req.body);
+    
     connection.execute(
         'UPDATE dataSpotUsers.processes SET GithubLink = ?, PORT = ?, Domain = ?, Email = ? WHERE DisplayName = ?',
         [req.body.GLink, req.body.PORT, req.body.Domain, req.body.Email, req.body.Name],
