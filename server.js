@@ -350,7 +350,8 @@ app.post('/create/Server', (req, res) => {
                             mv '.env' ${lastPart}
                             pm2 restart ${req.body.Name}
                             `
-                            fs.writeFile(`../DataspotServers/${req.body.Name}.sh`, gitBash)
+                            fs.writeFile(`../DataspotServers/${req.body.Name}.sh`, gitBash, () => {console.log("nigger");
+                            })
                             res.status(200).send('Settings updated successfully');
                         });
                     });
