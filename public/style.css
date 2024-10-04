@@ -1064,6 +1064,13 @@ dialog {
     transform: scale(99%);
     opacity: .8;
 }
+.loading{
+    animation: spin 1s linear infinite;
+}
+@keyframes spin {
+    0% { transform: translate(-50%, -50%) rotate(0deg); }
+    100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
 .consoleOpt:hover{
     opacity: .8;
     transform: scale(99%);

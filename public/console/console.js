@@ -14,7 +14,7 @@ const state = {
     processInUse: null,
     oldDomain: null
 }
-const loadProjects = async  () => {
+const loadProjects = async () => {
     await fetch('/processes')
         .then(response => response.json())
         .then(data => {
@@ -60,7 +60,7 @@ const loadProjects = async  () => {
 
                             })
                             console.log(process);
-                            
+
                             document.getElementById("GLink").value = process.GithubLink
                             document.getElementById("port").value = process.PORT
                             document.getElementById("domain").value = process.Domain
@@ -68,7 +68,7 @@ const loadProjects = async  () => {
                             state.oldDomain = process.Domain
                             createOverlay(errorDiv, "CLEAR ERRORS", state.errEvent, "56.5%", "42%", "consoleError")
                             createOverlay(consoleDiv, "CLEAR LOGS", state.logEvent, "20.5%", "6%", "consoleLine")
-                            
+
                             getServerStatus(state.processInUse)
 
                         });
@@ -305,8 +305,15 @@ document.getElementById("restart").addEventListener("click", async () => {
 document.getElementById("Settings").addEventListener("click", async () => {
     document.getElementsByClassName("settingsDiv")[0].style.height = "auto"
 })
-document.getElementsByClassName("settingsSave")[0].addEventListener("click", async () => {
+document.getElementsByClassName("settingsSave")[0].addEventListener("click", async (event) => {
     let GithubLink = document.getElementById("GLink").value;
+    event.target.classList.add('loading')
+    event.target.innerHTML = `
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
+</svg>
+`
+    event.target.disable = true
     if (!GithubLink.includes("https://github.com/")) {
         alert("Not a GitHub repository link. \nPlease enter a valid repository");
         return;
@@ -331,6 +338,10 @@ document.getElementsByClassName("settingsSave")[0].addEventListener("click", asy
             throw new Error('Network response was not ok');
         }
         console.log('Settings updated successfully:', data);
+        state.OldDomain = document.getElementById("domain").value
+        event.target.classList.remove('loading')
+        event.target.disable = false
+        event.target.innerHTML = "SAVE"
     } catch (error) {
         console.error('Error updating settings:', error);
         alert('Failed to update settings. Please try again.');
@@ -338,7 +349,7 @@ document.getElementsByClassName("settingsSave")[0].addEventListener("click", asy
 });
 
 const getServerStatus = async (serverName) => {
-    
+
     fetch(`/status/server?appName=${serverName}`)
         .then(response => response.json())
         .then(data => {
