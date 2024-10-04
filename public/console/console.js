@@ -40,7 +40,7 @@ const loadProjects = async () => {
                         .then(response => response.json())
                         .then(body => {
                             for (let x = 0; (x + 1) < document.getElementsByClassName("project").length; x++) {
-                                const element = documen.getElementsByClassName("project")[x];
+                                const element = document.getElementsByClassName("project")[x];
                                 element.style.backgroundColor = "none"
                             }
                             event.target.style.background = "#1A1A1A"
