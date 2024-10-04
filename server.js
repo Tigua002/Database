@@ -96,7 +96,7 @@ app.get('/processes', (req, res) => {
             // sendData.push(data[i])
 
         }
-        res.send(data, 200)
+        res.send(data)
 
     })
 });
@@ -212,7 +212,6 @@ app.post('/clear/files', (req, res) => {
     } else {
         secondPath = state.filePath;
     }
-    console.log(state);
 
     fs.truncate(secondPath, 0, (err) => {
         if (err) {
@@ -223,7 +222,6 @@ app.post('/clear/files', (req, res) => {
     });
 });
 app.post('/update/settings', (req, res) => {
-    console.log(req.body);
 
     connection.execute(
         'UPDATE dataSpotUsers.processes SET GithubLink = ?, PORT = ?, Domain = ?, Email = ? WHERE DisplayName = ?',
@@ -277,7 +275,6 @@ app.post('/update/settings', (req, res) => {
 });
 
 app.post('/create/Server', (req, res) => {
-    console.log(req.body);
 
     connection.execute(
         'INSERT INTO dataSpotUsers.processes (GithubLink, PORT, Domain, Email, DisplayName, Name, BashPath) VALUES (?, ?, ?, ?, ?, ?, ?)',
@@ -326,28 +323,24 @@ app.post('/create/Server', (req, res) => {
                 cd ../../Database
 
                 `;
-                console.log("Wrote to nginx");
 
                 fs.writeFile("./TestBash.sh", bashFile, (err) => {
                     if (err) {
                         console.error('Error writing bash script:', err);
                         return res.status(500).send('Failed to write bash script');
                     }
-                    console.log("wrote bash file");
 
                     exec('sh ./TestBash.sh', (err, stdout, stderr) => {
                         if (err) {
                             console.error('Error executing bash script:', err);
                             return res.status(500).send('Failed to execute bash script');
                         }
-                        console.log("Ran bash file");
 
                         fs.writeFile(`../DataspotServers/${lastPart}/.env`, req.body.ENV, (err) => {
                             if (err) {
                                 console.error('Error writing .env file:', err);
                                 return res.status(500).send('Failed to write .env file');
                             }
-                            console.log("Pm2 start attempt");
                             const gitBash = `
                             mv ${lastPart}/.env ./
                             wait
