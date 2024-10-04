@@ -3,7 +3,7 @@ require("dotenv").config()
 const express = require('express');
 const app = express();
 const { exec } = require('child_process');
-const PORT = process.env.PORT;
+const PORT = process.env.DataspotPORT;
 app.listen(PORT, () => console.log(`Dataspot port: ${PORT}`));
 
 
