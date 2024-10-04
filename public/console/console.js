@@ -58,10 +58,10 @@ const loadProjects = async  () => {
                                 newMessage.innerHTML = line
 
                             })
-                            document.getElementById("GLink").innerHTML = process.Glink
-                            document.getElementById("port").innerHTML = process.PORT
-                            document.getElementById("domain").innerHTML = process.Domain
-                            document.getElementById("email").innerHTML = process.Email
+                            document.getElementById("GLink").value = process.Glink
+                            document.getElementById("port").value = process.PORT
+                            document.getElementById("domain").value = process.Domain
+                            document.getElementById("email").value = process.Email
                             createOverlay(errorDiv, "CLEAR ERRORS", state.errEvent, "56.5%", "42%", "consoleError")
                             createOverlay(consoleDiv, "CLEAR LOGS", state.logEvent, "20.5%", "6%", "consoleLine")
                             
@@ -303,7 +303,7 @@ document.getElementById("Settings").addEventListener("click", async () => {
 })
 document.getElementsByClassName("settingsSave")[0].addEventListener("click", async  () => {
     const data = {
-        Glink: document.getElementById("GLINK").value,
+        Glink: document.getElementById("GLink").value,
         PORT: document.getElementById("port").value,
         Domain: document.getElementById("domain").value,
         Email: document.getElementById("email").value
