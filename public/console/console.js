@@ -305,30 +305,38 @@ document.getElementById("restart").addEventListener("click", async () => {
 document.getElementById("Settings").addEventListener("click", async () => {
     document.getElementsByClassName("settingsDiv")[0].style.height = "auto"
 })
-document.getElementsByClassName("settingsSave")[0].addEventListener("click", async  () => {
-    let GithubLink = document.getElementById("GLink").value
+document.getElementsByClassName("settingsSave").addEventListener("click", async () => {
+    let GithubLink = document.getElementById("GLink").value;
     if (!GithubLink.includes("https://github.com/")) {
-        alert("Not a github repoistory link. \n Please enter a valid repository")
-        return
+        alert("Not a GitHub repository link. \nPlease enter a valid repository");
+        return;
     }
     const data = {
-        Glink: GithubLink,
+        GLink: GithubLink,
         PORT: document.getElementById("port").value,
         Domain: document.getElementById("domain").value,
         OldDomain: state.oldDomain,
         Email: document.getElementById("email").value,
         Name: state.processInUse
+    };
+    try {
+        const response = await fetch("/update/settings", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        console.log('Settings updated successfully:', data);
+    } catch (error) {
+        console.error('Error updating settings:', error);
+        alert('Failed to update settings. Please try again.');
     }
-    await fetch("/update/settings", {
-        method: "POST",
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-    })
-    console.log(data);
-    
-})
+});
+
 const getServerStatus = async (serverName) => {
     
     fetch(`/status/server?appName=${serverName}`)
