@@ -60,7 +60,7 @@ const loadProjects = async  () => {
                             })
                             console.log(process);
                             
-                            document.getElementById("GLink").value = process.Glink
+                            document.getElementById("GLink").value = process.GithubLink
                             document.getElementById("port").value = process.PORT
                             document.getElementById("domain").value = process.Domain
                             document.getElementById("email").value = process.Email
