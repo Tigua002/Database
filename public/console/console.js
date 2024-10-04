@@ -11,7 +11,8 @@ const state = {
     LogCache: null,
     ErrorCache: null,
     blackListedProcesses: ["test", "Datatest"],
-    processInUse: null
+    processInUse: null,
+    oldDomain: null
 }
 const loadProjects = async  () => {
     await fetch('/processes')
@@ -64,6 +65,7 @@ const loadProjects = async  () => {
                             document.getElementById("port").value = process.PORT
                             document.getElementById("domain").value = process.Domain
                             document.getElementById("email").value = process.Email
+                            state.oldDomain = process.Domain
                             createOverlay(errorDiv, "CLEAR ERRORS", state.errEvent, "56.5%", "42%", "consoleError")
                             createOverlay(consoleDiv, "CLEAR LOGS", state.logEvent, "20.5%", "6%", "consoleLine")
                             
@@ -304,12 +306,25 @@ document.getElementById("Settings").addEventListener("click", async () => {
     document.getElementsByClassName("settingsDiv")[0].style.height = "auto"
 })
 document.getElementsByClassName("settingsSave")[0].addEventListener("click", async  () => {
+    if (!Glink.includes("https://github.com/")) {
+        alert("Not a github repoistory link. \n Please enter a valid repository")
+        return
+    }
     const data = {
         Glink: document.getElementById("GLink").value,
         PORT: document.getElementById("port").value,
         Domain: document.getElementById("domain").value,
-        Email: document.getElementById("email").value
+        OldDomain: state.oldDomain,
+        Email: document.getElementById("email").value,
+        Name: state.processInUse
     }
+    await fetch("/update/settings", {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
     console.log(data);
     
 })

@@ -54,14 +54,14 @@ app.get('/', (req, res) => {
 
 
 
-
+// Console
 app.get('/file/:a/:b', (req, res) => {
     let file = "";
     let error = "";
     state.filePath = `../../.pm2/logs/${req.params.a}-out.log`
     state.errorPath = `../../.pm2/logs/${req.params.a}-error.log`
     state.targetProcess = req.params.b
-    
+
     fs.readFile(state.filePath, 'utf8', (err, data) => {
         if (err) {
             return res.status(500).send('Error reading file');
@@ -130,7 +130,7 @@ app.post('/restart/server', (req, res) => {
         fs.appendFile(state.filePath, "Server shut down  \n", (err) => {
             if (err) {
                 console.error('Failed to write to file', err);
-            } 
+            }
         })
         res.status(200).send('Server restarted successfully');
     });
@@ -152,7 +152,7 @@ app.post('/pull/server', (req, res) => {
         fs.appendFile(state.filePath, "Server shut down  \n", (err) => {
             if (err) {
                 console.error('Failed to write to file', err);
-            } 
+            }
         })
     });
     res.status(200).send('Server started successfully');
@@ -203,7 +203,6 @@ app.get('/status/server', (req, res) => {
         });
     });
 });
-
 app.post('/clear/files', (req, res) => {
     let secondPath = "";
     if (req.body.dataType === "CLEAR ERRORS") {
@@ -212,7 +211,7 @@ app.post('/clear/files', (req, res) => {
         secondPath = state.filePath;
     }
     console.log(state);
-    
+
     fs.truncate(secondPath, 0, (err) => {
         if (err) {
             res.status(500).send('Error clearing the file');
@@ -221,6 +220,65 @@ app.post('/clear/files', (req, res) => {
         }
     });
 });
+app.post('/update/settings', (req, res) => {
+    connection.execute(
+        'UPDATE dataSpotUsers.processes SET GithubLink = ?, PORT = ?, Domain = ?, Email = ? WHERE DisplayName = ?',
+        [req.body.GLink, req.body.PORT, req.body.Domain, req.body.Email, req.body.Name],
+        (err, results) => {
+            if (err) {
+                console.error('Database update error:', err);
+                return res.status(500).send('Database update failed');
+            }
+
+            fs.unlink(`../../../etc/nginx/sites-available/${req.body.OldDomain}`, (err) => {
+                if (err) {
+                    console.error('Error deleting old domain file:', err);
+                    return res.status(500).send('Failed to delete old domain file');
+                }
+
+                let fileContents = `
+                server {
+                listen 80;
+                server_name ${req.body.Domain};
+
+                location / {
+                    proxy_pass http://localhost:${req.body.PORT};
+                    proxy_http_version 1.1;
+                    proxy_set_header Upgrade $http_upgrade;
+                    proxy_set_header Connection 'upgrade';
+                    proxy_set_header Host $host;
+                    proxy_cache_bypass $http_upgrade;
+                }
+
+                listen 443 ssl; # managed by Certbot
+                ssl_certificate /etc/letsencrypt/live/${req.body.Domain}/fullchain.pem; # managed by Certbot
+                ssl_certificate_key /etc/letsencrypt/live/${req.body.Domain}/privkey.pem; # managed by Certbot
+                include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+                ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+                }`;
+
+                fs.writeFile(`../../../etc/nginx/sites-available/${req.body.Domain}`, fileContents, (err) => {
+                    if (err) {
+                        console.error('Error writing new domain file:', err);
+                        return res.status(500).send('Failed to write new domain file');
+                    }
+
+                    exec(`certbot --nginx -n --agree-tos --email ${req.body.Email} -d ${req.body.Domain}`, (err, stdout, stderr) => {
+                        if (err) {
+                            console.error('Error running Certbot:', err);
+                            return res.status(500).send('Failed to run Certbot');
+                        }
+                        exec('systemctl restart nginx')
+                        res.status(200).send('Settings updated successfully');
+                    });
+                });
+            });
+        }
+    );
+});
+
+
+
 
 wss.on('connection', (ws) => {
     fs.watch(state.filePath, (eventType, filename) => {
@@ -271,7 +329,7 @@ server.listen(8080, () => {
 
 
 
-//
+// Database
 app.post("/create/database", function (req, res) {
 
     // Use parameterized query to insert user
