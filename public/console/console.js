@@ -22,7 +22,6 @@ const loadProjects = async  () => {
                 if (state.blackListedProcesses.includes(process.Name)) {
                     continue;
                 }
-                console.log(process.Name);
                 let div = document.createElement("div")
                 let h1 = document.createElement("h1")
                 let indic = document.createElement("h1")
@@ -59,9 +58,12 @@ const loadProjects = async  () => {
                                 newMessage.innerHTML = line
 
                             })
+                            document.getElementById("GLink").innerHTML = process.Glink
+                            document.getElementById("port").innerHTML = process.PORT
+                            document.getElementById("domain").innerHTML = process.Domain
+                            document.getElementById("email").innerHTML = process.Email
                             createOverlay(errorDiv, "CLEAR ERRORS", state.errEvent, "56.5%", "42%", "consoleError")
                             createOverlay(consoleDiv, "CLEAR LOGS", state.logEvent, "20.5%", "6%", "consoleLine")
-                            console.log(state.processInUse);
                             
                             getServerStatus(state.processInUse)
 
@@ -169,40 +171,6 @@ const createOverlay = (element, buttonText, stateEvent, position, fullPosition, 
             errIndic.style.transform = "rotate(-90deg)"
         }, 200)
     })
-    // errIndic.addEventListener("click", () => {
-    //     clearTimeout(stateEvent)
-    //     if (errReset.style.height == "3vh") {
-    //         errReset.style.transition = "200ms"
-    //         errReset.style.height = "11vh"
-    //         errReset.style.width = "34vw"
-    //         errReset.style.left = fullPosition
-    //         errIndic.style.transform = "rotate(-90deg) rotateY(180deg)"
-    //         errReset.style.borderRadius = "0vw"
-    //         errReset.style.borderTopLeftRadius = "1vw"
-    //         errReset.style.borderTopRightRadius = "1vw"
-
-    //     } else {
-    //         errReset.style.transition = "200ms"
-    //         errReset.style.height = "3vh"
-    //         errReset.style.width = "5vw"
-    //         errReset.style.left = position
-    //         errReset.style.borderRadius = "0vw"
-    //         errReset.style.borderBottomLeftRadius = "1vw"
-    //         errReset.style.borderBottomRightRadius = "1vw"
-    //         errIndic.style.transform = "rotate(-90deg)"
-
-    //     }
-    // })
-    // errIndic.addEventListener("click", (e) => {
-    //     if (errReset.style.height == "11vh") {
-    //         clearTimeout(stateEvent)
-    //         stateEvent = setTimeout(() => {
-    //             errReset.style.transition = "200ms"
-    //             errReset.style.height = "3vh"
-    //             errIndic.style.transform = "rotate(-90deg)"
-    //         }, 1)
-    //     }
-    // })
     errButton.addEventListener("click", async () => {
         if (!confirm("Are you sure you want to " + buttonText + "?")) {
             return;
@@ -227,7 +195,6 @@ const createOverlay = (element, buttonText, stateEvent, position, fullPosition, 
 
             let number = document.getElementsByClassName(wiper).length
             for (let i = 0; i < number; i++) {
-                console.log(i);
 
                 document.getElementsByClassName(wiper)[0].remove()
 
@@ -332,16 +299,24 @@ document.getElementById("restart").addEventListener("click", async () => {
     }, 6000)
 });
 document.getElementById("Settings").addEventListener("click", async () => {
-
+    document.getElementsByClassName("settingsDiv")[0].style.height = "auto"
+})
+document.getElementsByClassName("settingsSave")[0].addEventListener("click", async  () => {
+    const data = {
+        Glink: document.getElementById("GLINK").value,
+        PORT: document.getElementById("port").value,
+        Domain: document.getElementById("domain").value,
+        Email: document.getElementById("email").value
+    }
+    console.log(data);
+    
 })
 const getServerStatus = async (serverName) => {
-    console.log(serverName);
     
     fetch(`/status/server?appName=${serverName}`)
         .then(response => response.json())
         .then(data => {
             let status = data[0].pm2_env.status
-            console.log(status)
             if (status == "stopped") {
                 document.getElementsByClassName("statusIndic")[0].style.background = "#1A1A1A"
                 document.getElementsByClassName("statusIndic")[0].style.border = "#ffffff solid 1px"

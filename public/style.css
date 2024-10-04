@@ -993,7 +993,10 @@ dialog {
     border: none;
     outline: none;
     border-radius: .2vw;
-    justify-content: space-between;
+}
+#Settings:hover{
+    transform: scale(99%);
+    opacity: .8;
 }
 .settingsText{
     font-size: 1vw;
@@ -1003,6 +1006,63 @@ dialog {
     width: 1vw;
     height: 1vw;
     transform: rotate(180deg);
+}
+.settingsDiv{
+    width: 100%;
+    color: white;
+    font-size: 1vw;
+    margin: .5vw;
+    margin-top: 0vw;
+    cursor: pointer;
+    border: none;
+    outline: none;
+    border-radius: .2vw;
+    height: 0vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+.settingsTitle, .settingsTitleHalf{
+    width: 94%;
+    text-align: left;
+    font-size: .7vw;
+    margin-top: 1vw;
+    padding: 2%;
+    padding-bottom: 0%;
+}
+.settingsTitleHalf{
+    width: 44%;
+}
+.SettingsInputs, .SettingsInputsHalf{
+    width: 96%;
+    background-color: #444444;
+    color: #ffffff;
+    padding: 3%;
+    padding-right: 0%;
+    font-size: .7vw;
+    border: none;
+    outline: none;
+    border-radius: .2vw;
+}
+.SettingsInputsHalf{
+    width: 46%;
+}
+.settingsSave{
+    width: 100%;
+    background-color: #ffffff;
+    color: #1A1A1A;
+    padding: .5vw;
+    border-radius: .2vw;
+    margin-top: 2vw;
+    font-size: 1vw;
+    cursor: pointer;
+    transition: 100ms ease;
+}
+.settingsSave:hover{
+    transform: scale(99%);
+    opacity: .8;
 }
 .consoleOpt:hover{
     opacity: .8;
