@@ -36,7 +36,8 @@ const loadProjects = async () => {
                 indic.innerHTML = "&#x276C"
 
                 div.addEventListener("click", (event) => {
-                    fetch('/file/' + process.Name + "/" + process.DisplayName + "/" + process.BashPath)
+                    const bashPathEncoded = encodeURIComponent(process.BashPath);
+                    fetch(`/file/${process.Name}/${process.DisplayName}/${bashPathEncoded}`)
                         .then(response => response.json())
                         .then(body => {
                             for (let x = 0; (x + 1) < document.getElementsByClassName("project").length; x++) {
@@ -153,7 +154,7 @@ const loadProjects = async () => {
                 let AppNameLabel = document.createElement("h1")
                 AppNameLabel.setAttribute("class", "ServerDesc")
                 AppNameLabel.innerHTML = "App Name:"
-                
+
 
                 let createServer = document.createElement("button")
                 createServer.setAttribute("class", "ServerCreate")
@@ -192,7 +193,7 @@ const loadProjects = async () => {
 
                 closeButton.addEventListener("click", () => {
                     ServerDiv.remove()
-                    
+
                 });
                 ServerDiv.addEventListener("submit", async (event) => {
                     event.preventDefault()
@@ -223,9 +224,9 @@ const loadProjects = async () => {
                         alert('Failed to update settings. Please try again.');
                     }
                 })
-                
+
             })
-            
+
         })
         .catch(error => console.error('Error:', error));
 }
