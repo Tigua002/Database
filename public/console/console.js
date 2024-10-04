@@ -306,12 +306,13 @@ document.getElementById("Settings").addEventListener("click", async () => {
     document.getElementsByClassName("settingsDiv")[0].style.height = "auto"
 })
 document.getElementsByClassName("settingsSave")[0].addEventListener("click", async  () => {
+    let GithubLink = document.getElementById("GLink").value
     if (!Glink.includes("https://github.com/")) {
         alert("Not a github repoistory link. \n Please enter a valid repository")
         return
     }
     const data = {
-        Glink: document.getElementById("GLink").value,
+        Glink: GithubLink,
         PORT: document.getElementById("port").value,
         Domain: document.getElementById("domain").value,
         OldDomain: state.oldDomain,
