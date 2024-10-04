@@ -1106,6 +1106,7 @@ dialog {
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative;
 }
 .projectIndicator{
     margin: 0%;
@@ -1114,7 +1115,7 @@ dialog {
     color: #444444;
 }
 .project:hover {
-    background-color: #333333;
+    background: #333333;
 }
 .project:hover .projectIndicator{
     color: #ffffff;
@@ -1123,4 +1124,66 @@ dialog {
 .newServerIcon{
     width: 1.2vw;
     height: 1.2vw;
+}
+.ServerDiv{
+    position: absolute;
+    margin-top: 1.5vw;
+    display: flex;
+    width: 22vw;
+    flex-wrap: wrap;
+    flex-direction: row;
+    background-color: #1A1A1A;
+    border-radius: .2vw;
+    min-height: 10vh;
+    justify-content: center;
+    left: 77%;
+    top: 6%;
+    color: #ffffff;
+    padding-bottom: 1vw;
+    height: 75vh;
+}
+.ServerDesc, .ServerDescHalf{
+    width: 90%;
+    text-align: left;
+    font-size: .7vw;
+    margin-top: 1vw;
+    padding: 2%;
+    padding-bottom: 0%;
+    color: #ffffff;
+}
+.ServerDescHalf{
+    width: 44%;
+}
+.ServerInput, .ServerInputHalf{
+    width: 88%;
+    background-color: #333333;
+    color: #1A1A1A;
+    padding: 3%;
+    padding-left: 2%;
+    padding-right: 2%;
+    font-size: .7vw;
+    border: none;
+    outline: none;
+    border-radius: .2vw;
+    color: #ffffff;
+}
+.ServerInputHalf{
+    width: 40%;
+    margin: .6vw;
+    margin-top: 0%;
+    margin-bottom: 0%;
+}
+.ServerCreate{
+    margin-top: 1vw;
+    width: 90%;
+    background-color: #ffffff;
+    color: #1A1A1A;
+    padding: .5vw;
+    border-radius: .2vw;
+    border: none;
+    font-size: .8vw;
+}
+.ServerCreate:hover{
+    transform: scale(99%);
+    opacity: .8;
 }

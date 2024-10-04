@@ -66,7 +66,6 @@ const loadProjects = async () => {
                                 newMessage.innerHTML = line
 
                             })
-                            console.log(process);
 
                             document.getElementById("GLink").value = process.GithubLink
                             document.getElementById("port").value = process.PORT
@@ -95,10 +94,131 @@ const loadProjects = async () => {
             h1.setAttribute("class", "projectTitle")
             h1.style.margin = "0%"
             document.getElementsByClassName("ConsoleHeader")[0].appendChild(div)
-            div.addEventListener("click", () => {
+            h1.addEventListener("click", () => {
 
+                let ServerDiv = document.createElement("form")
+                ServerDiv.setAttribute("class", "ServerDiv")
+                let ServerTitle = document.createElement("h1")
+                ServerTitle.setAttribute("class", "ServerTitle")
+                let Git = document.createElement("input")
+                Git.setAttribute("required", "true")
+                Git.setAttribute("class", "ServerInput")
+                Git.setAttribute("placeholder", "https://github.com/name/reposiotry")
+                let port = document.createElement("input")
+                port.setAttribute("required", "true")
+                port.setAttribute("class", "ServerInputHalf")
+                port.setAttribute("placeholder", "3000")
+                let Name = document.createElement("input")
+                Name.setAttribute("required", "true")
+                Name.setAttribute("class", "ServerInputHalf")
+                Name.setAttribute("placeholder", "MyServer")
+                let Domain = document.createElement("input")
+                Domain.setAttribute("required", "true")
+                Domain.setAttribute("class", "ServerInput")
+                Domain.setAttribute("placeholder", "example.com")
+                let Email = document.createElement("input")
+                Email.setAttribute("class", "ServerInput")
+                Email.setAttribute("placeholder", "example@gmail.com")
+                let Modules = document.createElement("input")
+                Modules.setAttribute("class", "ServerInput")
+                Modules.setAttribute("placeholder", "express mysql2 dotenv")
+                let ENV = document.createElement("textarea")
+                ENV.setAttribute("class", "ServerInput")
+                ENV.setAttribute("placeholder", "USER=example123")
+
+                let GitLabel = document.createElement("h1")
+                GitLabel.setAttribute("class", "ServerDesc")
+                GitLabel.innerHTML = "GITHUB LINK: "
+                let portLabel = document.createElement("h1")
+                portLabel.setAttribute("class", "ServerDescHalf")
+                portLabel.innerHTML = "PORT:"
+                let NameLabel = document.createElement("h1")
+                NameLabel.setAttribute("class", "ServerDescHalf")
+                NameLabel.innerHTML = "Server Name:"
+                let DomainLabel = document.createElement("h1")
+                DomainLabel.setAttribute("class", "ServerDesc")
+                DomainLabel.innerHTML = "Domain Name:"
+                let EmailLabel = document.createElement("h1")
+                EmailLabel.setAttribute("class", "ServerDesc")
+                EmailLabel.innerHTML = "EMAIL (recommended):"
+                let ModuleLabel = document.createElement("h1")
+                ModuleLabel.setAttribute("class", "ServerDesc")
+                ModuleLabel.innerHTML = "Node Modules:"
+                let ENVLabel = document.createElement("h1")
+                ENVLabel.setAttribute("class", "ServerDesc")
+                ENVLabel.innerHTML = ".env File:"
+                
+
+                let createServer = document.createElement("button")
+                createServer.setAttribute("class", "ServerCreate")
+                createServer.innerHTML = "CREATE"
+                createServer.type = "submit"
+
+                let closeButton = document.createElement("button")
+                closeButton.setAttribute("class", "ServerCreate")
+                closeButton.innerHTML = "CANCEL"
+                closeButton.style.background = "#333333"
+                closeButton.style.color = "#ffffff"
+
+                ServerDiv.appendChild(GitLabel)
+                ServerDiv.appendChild(Git)
+                ServerDiv.appendChild(portLabel)
+                ServerDiv.appendChild(NameLabel)
+                ServerDiv.appendChild(port)
+                ServerDiv.appendChild(Name)
+                ServerDiv.appendChild(DomainLabel)
+                ServerDiv.appendChild(Domain)
+                ServerDiv.appendChild(EmailLabel)
+                ServerDiv.appendChild(Email)
+                ServerDiv.appendChild(ModuleLabel)
+                ServerDiv.appendChild(Modules)
+                ServerDiv.appendChild(ENVLabel)
+                ServerDiv.appendChild(ENV)
+                ServerDiv.appendChild(createServer)
+                ServerDiv.appendChild(closeButton)
+
+                div.appendChild(ServerDiv)
+                ServerDiv.addEventListener("submit", () => {
+
+                })
+
+                closeButton.addEventListener("click", () => {
+                    ServerDiv.remove()
+                    
+                });
+                createServer.addEventListener("click", async () => {
+                    const data = {
+                        GLink: Git.value,
+                        PORT: port.value,
+                        Domain: Domain.value,
+                        Email: Email.value,
+                        Name: Name.value,
+                        Modules: "ee",
+                        ENV: "ee"
+                    };
+                    try {
+                        const response = await fetch("/update/settings", {
+                            method: "POST",
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(data)
+                        });
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        console.log('Settings updated successfully:', data);
+                        state.OldDomain = document.getElementById("domain").value
+                        event.target.disable = false
+                        event.target.innerHTML = "SAVE"
+                    } catch (error) {
+                        console.error('Error updating settings:', error);
+                        alert('Failed to update settings. Please try again.');
+                    }
+                })
+                
             })
-
+            
         })
         .catch(error => console.error('Error:', error));
 }

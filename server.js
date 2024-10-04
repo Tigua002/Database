@@ -222,7 +222,7 @@ app.post('/clear/files', (req, res) => {
 });
 app.post('/update/settings', (req, res) => {
     console.log(req.body);
-    
+
     connection.execute(
         'UPDATE dataSpotUsers.processes SET GithubLink = ?, PORT = ?, Domain = ?, Email = ? WHERE DisplayName = ?',
         [req.body.GLink, req.body.PORT, req.body.Domain, req.body.Email, req.body.Name],
@@ -274,6 +274,84 @@ app.post('/update/settings', (req, res) => {
     );
 });
 
+app.post('/create/Server', (req, res) => {
+    console.log(req.body);
+
+    connection.execute(
+        'INSERT INTO dataSpotUsers.processes (GithubLink, PORT, Domain, Email, DisplayName, Name) VALUES (?, ?, ?, ?, ?, ?)',
+        [req.body.GLink, req.body.PORT, req.body.Domain, req.body.Email, req.body.Name, req.body.Name],
+        (err, results) => {
+            if (err) {
+                console.error('Database update error:', err);
+                return res.status(500).send('Database update failed');
+            }
+
+            let fileContents = `
+                server {
+                    listen 80;
+                    server_name ${req.body.Domain};
+
+                    location / {
+                        proxy_pass http://localhost:${req.body.PORT};
+                        proxy_http_version 1.1;
+                        proxy_set_header Upgrade $http_upgrade;
+                        proxy_set_header Connection 'upgrade';
+                        proxy_set_header Host $host;
+                        proxy_cache_bypass $http_upgrade;
+                    }
+                }`;
+
+            fs.writeFile(`../../../etc/nginx/sites-available/${req.body.Domain}`, fileContents, (err) => {
+                if (err) {
+                    console.error('Error writing new domain file:', err);
+                    return res.status(500).send('Failed to write new domain file');
+                }
+
+                const parts = req.body.GLink.split('/');
+                const lastPart = parts[parts.length - 1];
+                let bashFile = `
+                ln -s /etc/nginx/sites-available/${req.body.Domain} /etc/nginx/sites-enabled/
+                wait
+                certbot --nginx -n --agree-tos --email ${req.body.Email} -d ${req.body.Domain}
+                wait
+                cd ../DataspotServers
+                git clone ${req.body.GLink}
+                wait
+                cd ${lastPart}
+                npm i ${req.body.Modules}
+                wait
+                pm2 start ${req.body.appName} -n currentFile
+                cd ../../Database
+
+                `;
+
+                fs.writeFile("./TestBash.sh", bashFile, (err) => {
+                    if (err) {
+                        console.error('Error writing bash script:', err);
+                        return res.status(500).send('Failed to write bash script');
+                    }
+
+                    exec('sh ./TestBash.sh', (err, stdout, stderr) => {
+                        if (err) {
+                            console.error('Error executing bash script:', err);
+                            return res.status(500).send('Failed to execute bash script');
+                        }
+
+                        fs.writeFile(`../DataspotServers/${lastPart}/.env`, req.body.ENV, (err) => {
+                            if (err) {
+                                console.error('Error writing .env file:', err);
+                                return res.status(500).send('Failed to write .env file');
+                            }
+                            exec(`pm2 start currentFile -n ${req.body.Name}`)
+
+                            res.status(200).send('Settings updated successfully');
+                        });
+                    });
+                });
+            });
+        }
+    );
+});
 
 
 
