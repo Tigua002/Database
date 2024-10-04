@@ -342,6 +342,7 @@ app.post('/create/Server', (req, res) => {
                                 return res.status(500).send('Failed to write .env file');
                             }
                             const gitBash = `
+                            cd ../DataspotServers 
                             mv ${lastPart}/.env ./
                             wait
                             rm WebChat
