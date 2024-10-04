@@ -305,7 +305,7 @@ document.getElementById("restart").addEventListener("click", async () => {
 document.getElementById("Settings").addEventListener("click", async () => {
     document.getElementsByClassName("settingsDiv")[0].style.height = "auto"
 })
-document.getElementsByClassName("settingsSave").addEventListener("click", async () => {
+document.getElementsByClassName("settingsSave")[0].addEventListener("click", async () => {
     let GithubLink = document.getElementById("GLink").value;
     if (!GithubLink.includes("https://github.com/")) {
         alert("Not a GitHub repository link. \nPlease enter a valid repository");
