@@ -125,6 +125,9 @@ const loadProjects = async () => {
                 let ENV = document.createElement("textarea")
                 ENV.setAttribute("class", "ServerInput")
                 ENV.setAttribute("placeholder", "USER=example123")
+                let appName = document.createElement("textarea")
+                appName.setAttribute("class", "ServerInput")
+                appName.setAttribute("placeholder", "USER=example123")
 
                 let GitLabel = document.createElement("h1")
                 GitLabel.setAttribute("class", "ServerDesc")
@@ -147,6 +150,9 @@ const loadProjects = async () => {
                 let ENVLabel = document.createElement("h1")
                 ENVLabel.setAttribute("class", "ServerDesc")
                 ENVLabel.innerHTML = ".env File:"
+                let AppNameLabel = document.createElement("h1")
+                AppNameLabel.setAttribute("class", "ServerDesc")
+                AppNameLabel.innerHTML = "App Name:"
                 
 
                 let createServer = document.createElement("button")
@@ -174,6 +180,8 @@ const loadProjects = async () => {
                 ServerDiv.appendChild(Modules)
                 ServerDiv.appendChild(ENVLabel)
                 ServerDiv.appendChild(ENV)
+                ServerDiv.appendChild(AppNameLabel)
+                ServerDiv.appendChild(appName)
                 ServerDiv.appendChild(createServer)
                 ServerDiv.appendChild(closeButton)
 
@@ -195,7 +203,8 @@ const loadProjects = async () => {
                         Email: Email.value,
                         Name: Name.value,
                         Modules: Modules.value,
-                        ENV: ENV.value
+                        ENV: ENV.value,
+                        appName: appName.value
                     };
                     try {
                         const response = await fetch("/create/Server", {
