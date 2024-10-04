@@ -36,7 +36,7 @@ const loadProjects = async () => {
                 indic.innerHTML = "&#x276C"
 
                 div.addEventListener("click", (event) => {
-                    fetch('/file/' + process.Name + "/" + process.DisplayName)
+                    fetch('/file/' + process.Name + "/" + process.DisplayName + "/" + process.BashPath)
                         .then(response => response.json())
                         .then(body => {
                             for (let x = 0; (x + 1) < document.getElementsByClassName("project").length; x++) {

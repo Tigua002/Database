@@ -61,6 +61,7 @@ app.get('/file/:a/:b', (req, res) => {
     state.filePath = `../../.pm2/logs/${req.params.a}-out.log`
     state.errorPath = `../../.pm2/logs/${req.params.a}-error.log`
     state.targetProcess = req.params.b
+    state.bashPath = req.params.c
 
     fs.readFile(state.filePath, 'utf8', (err, data) => {
         if (err) {
@@ -278,8 +279,8 @@ app.post('/create/Server', (req, res) => {
     console.log(req.body);
 
     connection.execute(
-        'INSERT INTO dataSpotUsers.processes (GithubLink, PORT, Domain, Email, DisplayName, Name) VALUES (?, ?, ?, ?, ?, ?)',
-        [req.body.GLink, req.body.PORT, req.body.Domain, req.body.Email, req.body.Name, req.body.Name],
+        'INSERT INTO dataSpotUsers.processes (GithubLink, PORT, Domain, Email, DisplayName, Name, BashPath) VALUES (?, ?, ?, ?, ?, ?, ?)',
+        [req.body.GLink, req.body.PORT, req.body.Domain, req.body.Email, req.body.Name, req.body.Name, `../DataspotServers/${req.body.Name}.sh`],
         (err, results) => {
             if (err) {
                 console.error('Database update error:', err);
@@ -325,29 +326,37 @@ app.post('/create/Server', (req, res) => {
 
                 `;
                 console.log("Wrote to nginx");
-                
+
                 fs.writeFile("./TestBash.sh", bashFile, (err) => {
                     if (err) {
                         console.error('Error writing bash script:', err);
                         return res.status(500).send('Failed to write bash script');
                     }
                     console.log("wrote bash file");
-                    
+
                     exec('sh ./TestBash.sh', (err, stdout, stderr) => {
                         if (err) {
                             console.error('Error executing bash script:', err);
                             return res.status(500).send('Failed to execute bash script');
-                        }  
+                        }
                         console.log("Ran bash file");
-                        
+
                         fs.writeFile(`../DataspotServers/${lastPart}/.env`, req.body.ENV, (err) => {
                             if (err) {
                                 console.error('Error writing .env file:', err);
                                 return res.status(500).send('Failed to write .env file');
                             }
                             console.log("Pm2 start attempt");
-                            
-
+                            const gitBash = `
+                            mv ${lastPart}/.env ./
+                            wait
+                            rm WebChat
+                            git clone ${req.body.GLink}
+                            wait
+                            mv '.env' ${lastPart}
+                            pm2 restart ${req.body.Name}
+                            `
+                            fs.writeFile(`../DataspotServers/${req.body.Name}.sh`, gitBash)
                             res.status(200).send('Settings updated successfully');
                         });
                     });
