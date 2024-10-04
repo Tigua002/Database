@@ -307,7 +307,7 @@ document.getElementById("Settings").addEventListener("click", async () => {
 })
 document.getElementsByClassName("settingsSave")[0].addEventListener("click", async  () => {
     let GithubLink = document.getElementById("GLink").value
-    if (!Glink.includes("https://github.com/")) {
+    if (!GithubLink.includes("https://github.com/")) {
         alert("Not a github repoistory link. \n Please enter a valid repository")
         return
     }
