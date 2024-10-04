@@ -197,7 +197,7 @@ const loadProjects = async () => {
                         ENV: "ee"
                     };
                     try {
-                        const response = await fetch("/update/settings", {
+                        const response = await fetch("/create/Server", {
                             method: "POST",
                             headers: {
                                 'Content-Type': 'application/json'
@@ -208,9 +208,6 @@ const loadProjects = async () => {
                             throw new Error('Network response was not ok');
                         }
                         console.log('Settings updated successfully:', data);
-                        state.OldDomain = document.getElementById("domain").value
-                        event.target.disable = false
-                        event.target.innerHTML = "SAVE"
                     } catch (error) {
                         console.error('Error updating settings:', error);
                         alert('Failed to update settings. Please try again.');
