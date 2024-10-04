@@ -58,6 +58,8 @@ const loadProjects = async  () => {
                                 newMessage.innerHTML = line
 
                             })
+                            console.log(process);
+                            
                             document.getElementById("GLink").value = process.Glink
                             document.getElementById("port").value = process.PORT
                             document.getElementById("domain").value = process.Domain
