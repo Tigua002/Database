@@ -259,7 +259,7 @@ app.post('/update/settings', (req, res) => {
                         return res.status(500).send('Failed to write new domain file');
                     }
                     exec('rm /etc/nginx/sites-enabled/' + req.body.OldDomain)
-                    exec(`ln -s /etc/nginx/sites-available/${req.body.Domain}.gusarov.site /etc/nginx/sites-enabled/`)
+                    exec(`ln -s /etc/nginx/sites-available/${req.body.Domain} /etc/nginx/sites-enabled/`)
                     exec(`certbot --nginx -n --agree-tos --email ${req.body.Email} -d ${req.body.Domain}`, (err, stdout, stderr) => {
                         if (err) {
                             console.error('Error running Certbot:', err);
