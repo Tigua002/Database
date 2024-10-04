@@ -1067,6 +1067,10 @@ dialog {
 .loading{
     animation: spin 1s linear infinite;
 }
+.loadingSVG{
+    width: 2vw;
+    height: 2vw;
+}
 @keyframes spin {
     0% { transform: translate(-50%, -50%) rotate(0deg); }
     100% { transform: translate(-50%, -50%) rotate(360deg); }
