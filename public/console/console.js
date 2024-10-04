@@ -125,9 +125,9 @@ const loadProjects = async () => {
                 let ENV = document.createElement("textarea")
                 ENV.setAttribute("class", "ServerInput")
                 ENV.setAttribute("placeholder", "USER=example123")
-                let appName = document.createElement("textarea")
+                let appName = document.createElement("input")
                 appName.setAttribute("class", "ServerInput")
-                appName.setAttribute("placeholder", "USER=example123")
+                appName.setAttribute("placeholder", "server.js")
 
                 let GitLabel = document.createElement("h1")
                 GitLabel.setAttribute("class", "ServerDesc")

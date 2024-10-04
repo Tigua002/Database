@@ -320,7 +320,7 @@ app.post('/create/Server', (req, res) => {
                 cd ${lastPart}
                 npm i ${req.body.Modules}
                 wait
-                pm2 start ${req.body.appName} -n currentFile
+                pm2 start ${req.body.appName} -n ${req.body.Name}
                 cd ../../Database
 
                 `;
@@ -347,7 +347,6 @@ app.post('/create/Server', (req, res) => {
                             }
                             console.log("Pm2 start attempt");
                             
-                            exec(`pm2 start currentFile -n ${req.body.Name}`)
 
                             res.status(200).send('Settings updated successfully');
                         });
