@@ -138,11 +138,12 @@ app.post('/restart/server', (req, res) => {
 });
 
 app.post('/pull/server', (req, res) => {
-
+    console.log(state.bashPath);
+    
     exec('bash ' + state.bashPath, (error, stdout, stderr) => {
         if (error) {
             console.error(`Error executing command: ${error.message}`);
-            res.status(500).send('Error starting server');
+            res.send('Error starting server', 500);
             return;
         }
         if (stderr) {
