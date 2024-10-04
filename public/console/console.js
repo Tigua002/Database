@@ -186,15 +186,16 @@ const loadProjects = async () => {
                     ServerDiv.remove()
                     
                 });
-                createServer.addEventListener("click", async () => {
+                ServerDiv.addEventListener("submit", async (event) => {
+                    event.preventDefault()
                     const data = {
                         GLink: Git.value,
                         PORT: port.value,
                         Domain: Domain.value,
                         Email: Email.value,
                         Name: Name.value,
-                        Modules: "ee",
-                        ENV: "ee"
+                        Modules: Modules.value,
+                        ENV: ENV.value
                     };
                     try {
                         const response = await fetch("/create/Server", {
