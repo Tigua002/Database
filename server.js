@@ -251,12 +251,6 @@ app.post('/update/settings', (req, res) => {
                     proxy_set_header Host $host;
                     proxy_cache_bypass $http_upgrade;
                 }
-
-                listen 443 ssl; # managed by Certbot
-                ssl_certificate /etc/letsencrypt/live/${req.body.Domain}/fullchain.pem; # managed by Certbot
-                ssl_certificate_key /etc/letsencrypt/live/${req.body.Domain}/privkey.pem; # managed by Certbot
-                include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
-                ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
                 }`;
 
                 fs.writeFile(`../../../etc/nginx/sites-available/${req.body.Domain}`, fileContents, (err) => {
@@ -264,7 +258,8 @@ app.post('/update/settings', (req, res) => {
                         console.error('Error writing new domain file:', err);
                         return res.status(500).send('Failed to write new domain file');
                     }
-
+                    exec('rm /etc/nginx/sites-enabled/' + req.body.OldDomain)
+                    exec(`ln -s /etc/nginx/sites-available/${req.body.Domain}.gusarov.site /etc/nginx/sites-enabled/`)
                     exec(`certbot --nginx -n --agree-tos --email ${req.body.Email} -d ${req.body.Domain}`, (err, stdout, stderr) => {
                         if (err) {
                             console.error('Error running Certbot:', err);
