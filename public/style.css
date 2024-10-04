@@ -1103,6 +1103,9 @@ dialog {
     font-size: 1vw;
     margin: 0%;
     margin-top: .5vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .projectIndicator{
     margin: 0%;
@@ -1116,4 +1119,8 @@ dialog {
 .project:hover .projectIndicator{
     color: #ffffff;
 
+}
+.newServerIcon{
+    width: 1.2vw;
+    height: 1.2vw;
 }

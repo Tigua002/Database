@@ -35,10 +35,16 @@ const loadProjects = async () => {
                 h1.innerHTML = process.DisplayName
                 indic.innerHTML = "&#x276C"
 
-                h1.addEventListener("click", () => {
+                div.addEventListener("click", (event) => {
                     fetch('/file/' + process.Name + "/" + process.DisplayName)
                         .then(response => response.json())
                         .then(body => {
+                            for (let x = 0; (x + 1) < document.getElementsByClassName("project").length; x++) {
+                                const element = documen.getElementsByClassName("project")[x];
+                                element.style.backgroundColor = "none"
+                            }
+                            event.target.style.background = "#1A1A1A"
+                            event.target.getElementsByClassName("projectIndicator")[0].style.color = "#ffffff"
                             state.processInUse = process.DisplayName
                             consoleDiv.innerHTML = ""
                             errorDiv.innerHTML = ""
@@ -74,6 +80,24 @@ const loadProjects = async () => {
                         });
                 })
             }
+            let div = document.createElement("div")
+            let h1 = document.createElement("h1")
+            h1.innerHTML = `
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="#66B2FF" class="newServerIcon">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+            </svg>
+`
+            h1.innerHTML += "New Server"
+            div.appendChild(h1)
+
+            div.setAttribute("class", "project")
+            h1.setAttribute("class", "projectTitle")
+            h1.style.margin = "0%"
+            document.getElementsByClassName("ConsoleHeader")[0].appendChild(div)
+            div.addEventListener("click", () => {
+
+            })
+
         })
         .catch(error => console.error('Error:', error));
 }
