@@ -307,7 +307,6 @@ document.getElementById("Settings").addEventListener("click", async () => {
 })
 document.getElementsByClassName("settingsSave")[0].addEventListener("click", async (event) => {
     let GithubLink = document.getElementById("GLink").value;
-    event.target.classList.add('loading')
     event.target.innerHTML = `
     <img class="loadingSVG" src="../pictures/icons8-loading-100.png" alt="">
 `
@@ -337,7 +336,6 @@ document.getElementsByClassName("settingsSave")[0].addEventListener("click", asy
         }
         console.log('Settings updated successfully:', data);
         state.OldDomain = document.getElementById("domain").value
-        event.target.classList.remove('loading')
         event.target.disable = false
         event.target.innerHTML = "SAVE"
     } catch (error) {
