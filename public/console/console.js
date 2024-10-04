@@ -197,6 +197,9 @@ const loadProjects = async () => {
                 });
                 ServerDiv.addEventListener("submit", async (event) => {
                     event.preventDefault()
+                    createServer.innerHTML = `
+                    <img class="loadingSVG" src="../pictures/icons8-loading-100.png" alt="">
+                `
                     const data = {
                         GLink: Git.value,
                         PORT: port.value,
@@ -218,6 +221,7 @@ const loadProjects = async () => {
                         if (!response.ok) {
                             throw new Error('Network response was not ok');
                         }
+                        closeButton.click()
                         console.log('Settings updated successfully:', data);
                     } catch (error) {
                         console.error('Error updating settings:', error);
