@@ -39,13 +39,13 @@ const wss = new WebSocket.Server({ server }, () => {
     console.log('WebSocket server listening on port 8080');
 });
 // const wss = new WebSocket.Server({ port:8080 })
-/* const state = {
+const state = {
     filePath: process.env.FILEPATH,
     errorPath: process.env.ERRORPATH,
     targetProcess: process.env.TARGET,
     bashPath: process.env.BASH
 
-} */
+}
 
 // Serve the index.html file
 app.get('/', (req, res) => {
@@ -60,6 +60,8 @@ app.get('/file/:a/:b/:c', (req, res) => {
     let error = "";
     let filePath = `../../.pm2/logs/${req.params.a}-out.log`
     let errorPath = `../../.pm2/logs/${req.params.a}-error.log`
+    state.filePath = filePath
+    state.errorPath = errorPath
     let targetProcess = req.params.b
     let bashPath = req.params.c
 
