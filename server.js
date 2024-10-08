@@ -283,7 +283,7 @@ app.post('/create/Server', (req, res) => {
 
     connection.execute(
         'INSERT INTO dataSpotUsers.processes (GithubLink, PORT, Domain, Email, DisplayName, Name, BashPath) VALUES (?, ?, ?, ?, ?, ?, ?)',
-        [req.body.GLink, req.body.PORT, req.body.Domain, req.body.Email, req.body.Name, req.body.Name, `../DataspotServers/${req.body.Name}.sh`],
+        [req.body.GLink, req.body.PORT, req.body.Domain, req.body.Email, req.body.Name, req.body.Name, `../DataspotServers/${req.body.Domain}/${req.body.Name}.sh`],
         (err, results) => {
             if (err) {
                 console.error('Database update error:', err);
@@ -596,7 +596,7 @@ app.get('/FetchDatabases', (req, res) => {
         }
 
         let data = JSON.parse(JSON.stringify(result));
-        let blackListedDBs = ["information_schema", "mysql", "performance_schema", "sys", "dataSpotUsers"];
+        let blackListedDBs = ["information_schema", "mysql", "performance_schema", "sys"];
         let sendData = [];
 
         for (let i = 0; i < data.length; i++) {

@@ -7,7 +7,7 @@ const state = {
     dbInUse: null,
     tableInUse: null,
     validIP: false,
-    blackListedDBs: ["information_schema", "mysql", "performance_schema", "sys", "dataSpotUsers"],
+    blackListedDBs: ["information_schema", "mysql", "performance_schema", "sys"],
 };
 
 const fetchDatabases = async () => {
