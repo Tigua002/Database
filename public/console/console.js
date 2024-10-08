@@ -352,7 +352,7 @@ const createOverlay = (element, buttonText, stateEvent, position, fullPosition, 
             });
 
             if (!response.ok) {
-                throw new Error('Network response was not ok');
+                throw new Error('Network response was not ok', response.statusText);
             }
 
             let number = document.getElementsByClassName(wiper).length
