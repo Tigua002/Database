@@ -1038,6 +1038,8 @@ dialog {
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: space-between;
+    transition: 300ms ease-in-out;
+
 }
 .settingsTitle, .settingsTitleHalf{
     width: 94%;
@@ -1070,12 +1072,27 @@ dialog {
     color: #1A1A1A;
     padding: .5vw;
     border-radius: .2vw;
-    margin-top: 2vw;
+    margin-top: .5vw;
     font-size: 1vw;
     cursor: pointer;
     transition: 100ms ease;
 }
 .settingsSave:hover{
+    transform: scale(99%);
+    opacity: .8;
+}
+
+.settingsDelete{
+    width: 100%;
+    background-color: #d32c2c;
+    color: #ffffff;
+    padding: .5vw;
+    border-radius: .2vw;
+    margin-top: 2vw;
+    font-size: 1vw;
+    cursor: pointer;
+}
+.settingsDelete:hover{
     transform: scale(99%);
     opacity: .8;
 }

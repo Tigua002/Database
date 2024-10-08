@@ -467,7 +467,12 @@ document.getElementById("restart").addEventListener("click", async () => {
     }, 6000)
 });
 document.getElementById("Settings").addEventListener("click", async () => {
-    document.getElementsByClassName("settingsDiv")[0].style.height = "auto"
+    console.log("click");
+    if (document.getElementsByClassName("settingsDiv")[0].style.height == "43vh") {
+        document.getElementsByClassName("settingsDiv")[0].style.height = "0vh"
+    } else {
+        document.getElementsByClassName("settingsDiv")[0].style.height = "43vh"
+    }
 })
 document.getElementsByClassName("settingsSave")[0].addEventListener("click", async (event) => {
     let GithubLink = document.getElementById("GLink").value;
@@ -507,6 +512,34 @@ document.getElementsByClassName("settingsSave")[0].addEventListener("click", asy
         alert('Failed to update settings. Please try again.');
     }
 });
+document.getElementsByClassName("settingsDelete")[0].addEventListener("click", async () => {
+    if (!confirm("Are you sure you want to delete this server?")) {
+        return;
+    }
+    try {
+        const data = {
+            processName: state.processInUse,
+            trueName: state.trueName,
+            GLink: state.BaskLink,
+            Domain: state.Domain,
+        };
+        const response = await fetch("/delete/server/", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        }); 
+        if (response.ok) {
+            console.log('Server deleted successfully');
+        } else {
+            console.error('Failed to delete server');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}); 
+
 
 const getServerStatus = async (serverName) => {
 

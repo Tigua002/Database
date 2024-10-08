@@ -369,6 +369,24 @@ app.post('/create/Server', (req, res) => {
     );
 });
 
+app.post('/delete/server/', (req, res) => {
+    console.log(req.body);
+    connection.query(`DELETE FROM dataSpotUsers.processes WHERE Name = ?`, [req.body.trueName], (err, result) => {
+        if (err) {
+            console.error('Database update error:', err);
+            return res.status(500).send('Database update failed');
+        }
+    });
+    exec(`pm2 stop ${req.body.processName}`)
+    exec(`pm2 delete ${req.body.processName}`)
+    exec(`rm -r ../DataspotServers/${req.body.Domain}`)
+    exec(`rm ../../../etc/nginx/sites-available/${req.body.Domain}`)
+    exec(`rm ../../../etc/nginx/sites-enabled/${req.body.Domain}`)
+    exec(`certbot delete -d ${req.body.Domain}`)
+    exec(`systemctl restart nginx`)
+    res.status(200).send('Server deleted successfully');
+});
+
 
 
 wss.on('connection', (ws) => {
