@@ -584,18 +584,23 @@ app.post('/delete/table', function (req, res) {
 
 app.get('/FetchDatabases', (req, res) => {
     connection.query('SHOW DATABASES', function (err, result, fields) {
+        if (err) {
+            console.error("Error fetching databases:", err);
+            return res.status(500).send("Error fetching databases");
+        }
+
         let data = JSON.parse(JSON.stringify(result));
-        let blackListedDBs = ["information_schema", "mysql", "performance_schema", "sys", "dataSpotUsers"]
-        let sendData = {}
+        let blackListedDBs = ["information_schema", "mysql", "performance_schema", "sys", "dataSpotUsers"];
+        let sendData = [];
+
         for (let i = 0; i < data.length; i++) {
             const element = data[i];
-            if (blackListedDBs.includes(element.Database)) {
-                continue;
+            if (!blackListedDBs.includes(element.Database)) {
+                sendData.push(element);
             }
-            // sendData.push(data[i])
-
         }
-        res.send(data, 200)
+
+        res.status(200).json(sendData);
     });
 });
 app.get('/get/Tables/:a', (req, res) => {
