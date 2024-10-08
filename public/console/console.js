@@ -40,7 +40,13 @@ const loadProjects = async () => {
                                 const element = document.getElementsByClassName("project")[x];
                                 element.style.background = "none"
                             }
-                            event.target.style.background = "#1A1A1A"
+                                                      
+                            if (event.target.classList.contains("projectTitle")) {
+                                event.target.parentElement.style.background = "#1A1A1A"
+                                
+                            } else {
+                                event.target.style.background = "#1A1A1A"
+                            }
                             state.processInUse = process.DisplayName
                             consoleDiv.innerHTML = ""
                             errorDiv.innerHTML = ""
