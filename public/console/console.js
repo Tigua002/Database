@@ -510,8 +510,6 @@ const getServerStatus = async (serverName) => {
         .then(response => response.text())
         .then(data => {
             let status = data
-            console.log(status);
-            console.log(data);
             if (status == "stopped") {
                 document.getElementsByClassName("statusIndic")[0].style.background = "#1A1A1A"
                 document.getElementsByClassName("statusIndic")[0].style.border = "#ffffff solid 1px"

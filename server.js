@@ -29,7 +29,6 @@ const https = require('https');
 const fs = require('fs');
 const WebSocket = require('ws');
 const pm2 = require('pm2');
-const { log } = require("console");
 const serverOptions = {
     cert: fs.readFileSync(process.env.FULLCHAIN),
     key: fs.readFileSync(process.env.PRIVKEY)
@@ -203,7 +202,6 @@ app.get('/status/server/:process', (req, res) => {
                 pm2.disconnect();
                 return;
             }
-            console.log(processDescription[0].pm2_env.status);
             res.send(processDescription[0].pm2_env.status);
             pm2.disconnect();
         });

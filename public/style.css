@@ -1116,10 +1116,6 @@ dialog {
 .project:hover {
     background: #333333;
 }
-.project:hover .projectIndicator{
-    color: #ffffff;
-
-}
 .newServerIcon{
     width: 1.2vw;
     height: 1.2vw;
