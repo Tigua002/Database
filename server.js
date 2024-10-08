@@ -85,20 +85,23 @@ app.get('/file/:a/:b/:c', (req, res) => {
 });
 app.get('/processes', (req, res) => {
     connection.query("SELECT * FROM dataSpotUsers.processes", (err, result) => {
-        let data = JSON.parse(JSON.stringify(result))
-        let blackListedProcesses = ["test", "Datatest"]
-        let sendData = {}
-        for (let i = 0; i < data.length; i++) {
-            const element = data[i];
-            if (blackListedProcesses.includes(data[i].Name)) {
-                continue;
-            }
-            // sendData.push(data[i])
-
+        if (err) {
+            console.error("Error fetching processes:", err);
+            return res.status(500).send("Error fetching processes");
         }
-        res.send(data)
 
-    })
+        let data = JSON.parse(JSON.stringify(result));
+        let blackListedProcesses = ["test", "Datatest"];
+        let sendData = [];
+
+        for (let i = 0; i < data.length; i++) {
+            if (!blackListedProcesses.includes(data[i].Name)) {
+                sendData.push(data[i]);
+            }
+        }
+
+        res.status(200).json(sendData);
+    });
 });
 
 app.post('/start/server', (req, res) => {
