@@ -314,6 +314,7 @@ app.post('/create/Server', (req, res) => {
                 certbot --nginx -n --agree-tos --email ${req.body.Email} -d ${req.body.Domain}
                 wait
                 cd ../DataspotServers
+                mkdir ${req.body.Domain}
                 git clone ${req.body.GLink}
                 wait
                 cd ${lastPart}
@@ -342,7 +343,7 @@ app.post('/create/Server', (req, res) => {
                                 return res.status(500).send('Failed to write .env file');
                             }
                             const gitBash = `
-                            cd ../DataspotServers 
+                            cd ../DataspotServers/${req.body.Domain} 
                             mv ${lastPart}/.env ./
                             wait
                             rm WebChat
@@ -351,7 +352,7 @@ app.post('/create/Server', (req, res) => {
                             mv '.env' ${lastPart}
                             pm2 restart ${req.body.Name}
                             `
-                            fs.writeFile(`../DataspotServers/${req.body.Name}.sh`, gitBash, () => {console.log("nigger");
+                            fs.writeFile(`../DataspotServers/${req.body.Domain}/${req.body.Name}.sh`, gitBash, () => {console.log("nigger");
                             })
                             res.status(200).send('Settings updated successfully');
                         });
