@@ -12,7 +12,8 @@ const state = {
     ErrorCache: null,
     blackListedProcesses: ["test", "Datatest"],
     processInUse: null,
-    oldDomain: null
+    oldDomain: null,
+    trueName: null
 }
 const loadProjects = async () => {
     await fetch('/processes')
@@ -48,6 +49,7 @@ const loadProjects = async () => {
                                 event.target.style.background = "#1A1A1A"
                             }
                             state.processInUse = process.DisplayName
+                            state.trueName = process.Name
                             consoleDiv.innerHTML = ""
                             errorDiv.innerHTML = ""
                             let lines = body.data.split("\n")
@@ -339,7 +341,7 @@ const createOverlay = (element, buttonText, stateEvent, position, fullPosition, 
 
         const data = {
             dataType: buttonText,
-            processName: state.processInUse
+            processName: state.trueName
         };
 
         try {
