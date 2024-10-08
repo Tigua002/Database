@@ -204,7 +204,7 @@ app.get('/status/server/:process', (req, res) => {
                 return;
             }
             console.log(processDescription[0].pm2_env.status);
-            res.send(processDescription);
+            res.send(processDescription[0].pm2_env.status);
             pm2.disconnect();
         });
     });
@@ -217,7 +217,6 @@ app.post('/clear/files', (req, res) => {
         secondPath = "out";
     }
     let path = `../../.pm2/logs/${req.body.processName}-${secondPath}.log`
-    console.log(path);
 
     fs.truncate(path, 0, (err) => {
         if (err) {
@@ -359,7 +358,7 @@ app.post('/create/Server', (req, res) => {
                             mv '.env' ${lastPart}
                             pm2 restart ${req.body.Name}
                             `
-                            fs.writeFile(`../DataspotServers/${req.body.Domain}/${req.body.Name}.sh`, gitBash, () => {console.log("nigger");
+                            fs.writeFile(`../DataspotServers/${req.body.Domain}/${req.body.Name}.sh`, gitBash, () => {console.log("Server Created");
                             })
                             res.status(200).send('Settings updated successfully');
                         });

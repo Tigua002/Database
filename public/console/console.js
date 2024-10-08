@@ -509,7 +509,9 @@ const getServerStatus = async (serverName) => {
     fetch(`/status/server/${serverName}`)
         .then(response => response.json())
         .then(data => {
-            let status = data[0].pm2_env.status
+            let status = data[0]
+            console.log(status);
+            console.log(data);
             if (status == "stopped") {
                 document.getElementsByClassName("statusIndic")[0].style.background = "#1A1A1A"
                 document.getElementsByClassName("statusIndic")[0].style.border = "#ffffff solid 1px"
