@@ -217,10 +217,11 @@ app.post('/clear/files', (req, res) => {
         secondPath = "out";
     }
     let path = `../../.pm2/logs/${req.body.processName}-${secondPath}.log`
+    console.log(path);
 
     fs.truncate(path, 0, (err) => {
         if (err) {
-            res.status(500).send('Error clearing the file');
+            res.status(500).send('Error clearing the file', err);
         } else {
             res.status(200).send('File contents cleared successfully!');
         }
