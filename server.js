@@ -327,7 +327,7 @@ app.post('/create/Server', (req, res) => {
                 npm i ${req.body.Modules}
                 wait
                 pm2 start ${req.body.appName} -n ${req.body.Name}
-                cd ../../Database
+                cd ../../../Database
 
                 `;
 
