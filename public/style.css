@@ -118,9 +118,14 @@ td {
 }
 
 .databaseDiv::-webkit-scrollbar {
-    display: none;
-    width: 0%;
-    height: 0%;
+    background: none;
+    height: 2vh;
+    cursor: pointer;
+}
+.databaseDiv::-webkit-scrollbar-thumb {
+    height: 2vh;
+    background-color: #1A1A1A;
+    border-radius: 1vw;
 }
 
 .tableHeader {
@@ -278,7 +283,7 @@ td {
     max-width: 30vw;
     background: none;
     color: #66B2FF;
-    font-size: .7vw;
+    font-size: .5vw;
     outline: none;
     font-family: RobotoLight;
     width: 10vw;
