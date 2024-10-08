@@ -503,7 +503,7 @@ document.getElementsByClassName("settingsSave")[0].addEventListener("click", asy
 
 const getServerStatus = async (serverName) => {
 
-    fetch(`/status/server?appName=${serverName}`)
+    fetch(`/status/server/${serverName}`)
         .then(response => response.json())
         .then(data => {
             let status = data[0].pm2_env.status
