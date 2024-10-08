@@ -40,11 +40,13 @@ const loadProjects = async () => {
                         .then(body => {
                             for (let x = 0; (x + 1) < document.getElementsByClassName("project").length; x++) {
                                 const element = document.getElementsByClassName("project")[x];
-                                element.style.background = "none"
+                                if (element.classList.contains("projectHover")) {
+                                    element.classList.remove("projectHover")
+                                }
                             }
                                                       
                             if (event.target.classList.contains("projectTitle")) {
-                                event.target.parentElement.style.background = "#1A1A1A"
+                                event.target.parentElement.classList.add("projectHover")
                                 
                             } else {
                                 event.target.style.background = "#1A1A1A"

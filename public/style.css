@@ -300,7 +300,7 @@ td {
 .tableTD {
     width: 10vw;
     border-bottom: solid 1px #B22222;
-    padding-left: .2vw;
+    padding-left: .3vw;
 }
 
 .tableID {
@@ -1130,6 +1130,9 @@ dialog {
 }
 .project:hover {
     background: #333333;
+}
+.projectHover{
+    background: #1A1A1A;
 }
 .newServerIcon{
     width: 1.2vw;
