@@ -379,7 +379,7 @@ document.getElementById("start").addEventListener("click", async () => {
     document.getElementsByClassName("statusIndic")[0].style.border = "#444444 solid 1px"
     document.getElementById("statusText").innerText = "Booting"
     try {
-        let response = await fetch('/start/server', {
+        let response = await fetch('/start/server/' + state.processInUse, {
             method: "POST"
         });
         if (response.ok) {
@@ -400,7 +400,7 @@ document.getElementById("stop").addEventListener("click", async () => {
     document.getElementsByClassName("statusIndic")[0].style.border = "#1A1A1A solid 1px"
     document.getElementById("statusText").innerText = "Shutting down"
     try {
-        let response = await fetch('/stop/server', {
+        let response = await fetch('/stop/server/' + state.processInUse, {
             method: "POST"
         });
         if (response.ok) {
@@ -421,7 +421,7 @@ document.getElementById("rerun").addEventListener("click", async () => {
     document.getElementsByClassName("statusIndic")[0].style.border = "#444444 solid 1px"
     document.getElementById("statusText").innerText = "Restarting"
     try {
-        let response = await fetch('/restart/server', {
+        let response = await fetch('/restart/server/' + state.processInUse, {
             method: "POST"
         });
         if (response.ok) {
@@ -443,7 +443,7 @@ document.getElementById("restart").addEventListener("click", async () => {
     document.getElementById("statusText").innerText = "Restarting"
 
     try {
-        let response = await fetch('/pull/server', {
+        let response = await fetch('/pull/server/' + state.processInUse, {
             method: "POST"
         });
         if (response.ok) {

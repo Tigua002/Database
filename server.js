@@ -40,13 +40,13 @@ const wss = new WebSocket.Server({ server }, () => {
     console.log('WebSocket server listening on port 8080');
 });
 // const wss = new WebSocket.Server({ port:8080 })
-const state = {
+/* const state = {
     filePath: process.env.FILEPATH,
     errorPath: process.env.ERRORPATH,
     targetProcess: process.env.TARGET,
     bashPath: process.env.BASH
 
-}
+} */
 
 // Serve the index.html file
 app.get('/', (req, res) => {
@@ -85,7 +85,6 @@ app.get('/file/:a/:b/:c', (req, res) => {
     });
 });
 app.get('/processes', (req, res) => {
-    console.log(state);
     connection.query("SELECT * FROM dataSpotUsers.processes", (err, result) => {
         if (err) {
             console.error("Error fetching processes:", err);
@@ -106,8 +105,8 @@ app.get('/processes', (req, res) => {
     });
 });
 
-app.post('/start/server', (req, res) => {
-    exec('pm2 start ' + state.targetProcess, (error, stdout, stderr) => {
+app.post('/start/server/:process', (req, res) => {
+    exec('pm2 start ' + req.params.process, (error, stdout, stderr) => {
         if (error) {
             console.error(`Error executing command: ${error.message}`);
             res.status(500).send('Error starting server');
@@ -121,8 +120,8 @@ app.post('/start/server', (req, res) => {
         res.status(200).send('Server started successfully');
     });
 });
-app.post('/restart/server', (req, res) => {
-    exec('pm2 restart ' + state.targetProcess, (error, stdout, stderr) => {
+app.post('/restart/server/:process', (req, res) => {
+    exec('pm2 restart ' + req.params.process, (error, stdout, stderr) => {
         if (error) {
             console.error(`Error executing command: ${error.message}`);
             res.status(500).send('Error starting server');
@@ -142,7 +141,7 @@ app.post('/restart/server', (req, res) => {
     });
 });
 
-app.post('/pull/server', (req, res) => {
+app.post('/pull/server/:process', (req, res) => {
     console.log(state.bashPath);
     
     exec('bash ' + state.bashPath, (error, stdout, stderr) => {
@@ -164,8 +163,8 @@ app.post('/pull/server', (req, res) => {
     });
     res.status(200).send('Server started successfully');
 });
-app.post('/stop/server', (req, res) => {
-    exec('pm2 stop ' + state.targetProcess, (error, stdout, stderr) => {
+app.post('/stop/server/:process', (req, res) => {
+    exec('pm2 stop ' + req.params.process, (error, stdout, stderr) => {
         if (error) {
             console.error(`Error executing command: ${error.message}`);
             res.status(500).send('Error stopping server');
@@ -184,8 +183,8 @@ app.post('/stop/server', (req, res) => {
         res.status(200).send('Server stopped successfully');
     });
 });
-app.get('/status/server', (req, res) => {
-    const appName = req.query.appName;
+app.get('/status/server/:process', (req, res) => {
+    const appName = req.params.process;
 
     if (!appName) {
         res.status(400).send({ error: 'App name is required' });
@@ -204,7 +203,7 @@ app.get('/status/server', (req, res) => {
                 pm2.disconnect();
                 return;
             }
-
+            console.log(processDescription);
             res.send(processDescription);
             pm2.disconnect();
         });
