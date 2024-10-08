@@ -320,7 +320,7 @@ app.post('/create/Server', (req, res) => {
                 wait
                 cd ../DataspotServers
                 mkdir ${req.body.Domain}
-                cd 
+                cd ${req.body.BashPath}
                 git clone ${req.body.GLink}
                 wait
                 cd ${lastPart}
