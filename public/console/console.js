@@ -13,6 +13,7 @@ const state = {
     blackListedProcesses: ["test", "Datatest"],
     processInUse: null,
     oldDomain: null,
+    BaskLink: null,
     trueName: null
 }
 const loadProjects = async () => {
@@ -50,6 +51,7 @@ const loadProjects = async () => {
                             }
                             state.processInUse = process.DisplayName
                             state.trueName = process.Name
+                            state.BaskLink = process.BashPath
                             consoleDiv.innerHTML = ""
                             errorDiv.innerHTML = ""
                             let lines = body.data.split("\n")
@@ -446,7 +448,7 @@ document.getElementById("restart").addEventListener("click", async () => {
     document.getElementById("statusText").innerText = "Restarting"
 
     try {
-        let response = await fetch('/pull/server/' + state.processInUse, {
+        let response = await fetch(`/pull/server/${state.processInUse}/${state.GLink}`, {
             method: "POST"
         });
         if (response.ok) {
