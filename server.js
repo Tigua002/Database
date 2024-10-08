@@ -59,18 +59,18 @@ app.get('/', (req, res) => {
 app.get('/file/:a/:b/:c', (req, res) => {
     let file = "";
     let error = "";
-    state.filePath = `../../.pm2/logs/${req.params.a}-out.log`
-    state.errorPath = `../../.pm2/logs/${req.params.a}-error.log`
-    state.targetProcess = req.params.b
-    state.bashPath = req.params.c
+    let filePath = `../../.pm2/logs/${req.params.a}-out.log`
+    let errorPath = `../../.pm2/logs/${req.params.a}-error.log`
+    let targetProcess = req.params.b
+    let bashPath = req.params.c
 
-    fs.readFile(state.filePath, 'utf8', (err, data) => {
+    fs.readFile(filePath, 'utf8', (err, data) => {
         if (err) {
             return res.status(500).send('Error reading file');
         }
         file = data;
 
-        fs.readFile(state.errorPath, 'utf8', (err, dataThing) => {
+        fs.readFile(errorPath, 'utf8', (err, dataThing) => {
             if (err) {
                 return res.status(500).send('Error reading file');
             }
