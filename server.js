@@ -350,10 +350,9 @@ app.post('/create/Server', (req, res) => {
                                 return res.status(500).send('Failed to write .env file');
                             }
                             const gitBash = `
-                            cd ../DataspotServers/${req.body.Domain} 
                             mv ${lastPart}/.env ./
                             wait
-                            rm ${lastPart}
+                            rm -r ${lastPart}
                             git clone ${req.body.GLink}
                             wait
                             mv '.env' ${lastPart}
@@ -361,7 +360,7 @@ app.post('/create/Server', (req, res) => {
                             `
                             fs.writeFile(`../DataspotServers/${req.body.Domain}/${req.body.Name}.sh`, gitBash, () => {console.log("Server Created");
                             })
-                            res.status(200).send('Settings updated successfully');
+                            res.status(200).send('Server created successfully');
                         });
                     });
                 });

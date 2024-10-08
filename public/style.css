@@ -211,10 +211,17 @@ td {
 
 .TableDisplay {
     margin-left: 1%;
+    margin-right: 2%;
     padding: .2vw;
     border-collapse: collapse;
     border-spacing: 0;
     color: #66B2FF;
+    overflow-x: scroll;
+}
+.TableDisplay::-webkit-scrollbar{
+    background-color: red;
+    width: 100%;
+    height: 100%;
 }
 
 .tableDesc {
@@ -222,9 +229,11 @@ td {
     align-items: center;
     font-size: 1vw;
     background-color: #444444;
-    width: 10vw;
+    min-width: 10vw;
+    height: 4vh;
+    width: auto;
     max-width: none;
-    padding: .5vw 0vw .5vw .5vw;
+    padding: .2vw 0vw .2vw .3vw;
 }
 
 .tableRow {
@@ -238,13 +247,14 @@ td {
 
 .tableData {
     padding-top: .4vw;
-    padding-bottom: .2vw;
-    padding-left: .5vw;
+    padding-bottom: .3vw;
+    padding-left: .25vw;
+    min-width: 10vw;
     width: 10vw;
-    min-height: 100%;
-    max-width: none;
-    height: 3vh;
-    font-size: .7vw;
+    max-width: 10vw;
+    min-height: 3vh;
+    max-height: none;
+    font-size: .5vw;
     font-family: RobotoLight;
     border-bottom: solid 1px #66B2FF;
     display: flex;
@@ -252,7 +262,7 @@ td {
     align-items: center;
     flex-direction: row;
     flex-wrap: wrap;
-    word-break: break-all;
+    line-break: strict;
     flex-basis: 100%;
 }
 
@@ -315,7 +325,7 @@ td {
     font-size: .8vw;
     cursor: pointer;
     min-width: 5vw;
-    margin: 1% 0% 1% 1vw;
+    margin: 0% 0% 0% 1vw;
     width: 5vw;
     height: 95%;
     border: none;
