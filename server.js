@@ -203,7 +203,7 @@ app.get('/status/server/:process', (req, res) => {
                 pm2.disconnect();
                 return;
             }
-            console.log(processDescription.pm2_env.status);
+            console.log(processDescription[0].pm2_env.status);
             res.send(processDescription);
             pm2.disconnect();
         });
