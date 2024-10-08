@@ -280,14 +280,14 @@ td {
     margin: 0%;
     border: none;
     min-height: 3vh + .6vw;
-    max-width: 10vw;
+    max-width: 100%;
     background: none;
     color: #66B2FF;
     font-size: .5vw;
     outline: none;
     font-family: RobotoLight;
-    width: 10vw;
-    min-width: 10vw;
+    width: 100%;
+    min-width: 100%;
 }
 
 .tableInput::-webkit-scrollbar{
