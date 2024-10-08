@@ -344,7 +344,7 @@ app.post('/create/Server', (req, res) => {
                             return res.status(500).send('Failed to execute bash script');
                         }
 
-                        fs.writeFile(`../DataspotServers/${lastPart}/.env`, req.body.ENV, (err) => {
+                        fs.writeFile(`../DataspotServers/${req.body.Domain}/${lastPart}/.env`, req.body.ENV, (err) => {
                             if (err) {
                                 console.error('Error writing .env file:', err);
                                 return res.status(500).send('Failed to write .env file');
