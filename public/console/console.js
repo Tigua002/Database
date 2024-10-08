@@ -25,15 +25,11 @@ const loadProjects = async () => {
                 }
                 let div = document.createElement("div")
                 let h1 = document.createElement("h1")
-                let indic = document.createElement("h1")
                 div.setAttribute("class", "project")
                 h1.setAttribute("class", "projectTitle")
-                indic.setAttribute("class", "projectIndicator")
                 div.appendChild(h1)
-                div.appendChild(indic)
                 document.getElementsByClassName("ConsoleHeader")[0].appendChild(div)
                 h1.innerHTML = process.DisplayName
-                indic.innerHTML = "&#x276C"
 
                 div.addEventListener("click", (event) => {
                     const bashPathEncoded = encodeURIComponent(process.BashPath);

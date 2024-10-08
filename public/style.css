@@ -1102,7 +1102,6 @@ dialog {
 .projectTitle{
     font-size: 1vw;
     margin: 0%;
-    margin-top: .5vw;
     display: flex;
     justify-content: center;
     align-items: center;

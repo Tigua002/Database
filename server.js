@@ -315,6 +315,7 @@ app.post('/create/Server', (req, res) => {
                 wait
                 cd ../DataspotServers
                 mkdir ${req.body.Domain}
+                cd 
                 git clone ${req.body.GLink}
                 wait
                 cd ${lastPart}
@@ -346,7 +347,7 @@ app.post('/create/Server', (req, res) => {
                             cd ../DataspotServers/${req.body.Domain} 
                             mv ${lastPart}/.env ./
                             wait
-                            rm WebChat
+                            rm ${lastPart}
                             git clone ${req.body.GLink}
                             wait
                             mv '.env' ${lastPart}
