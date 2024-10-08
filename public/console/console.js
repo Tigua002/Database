@@ -338,7 +338,8 @@ const createOverlay = (element, buttonText, stateEvent, position, fullPosition, 
         }
 
         const data = {
-            dataType: buttonText
+            dataType: buttonText,
+            processName: state.processInUse
         };
 
         try {

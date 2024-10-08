@@ -203,7 +203,7 @@ app.get('/status/server/:process', (req, res) => {
                 pm2.disconnect();
                 return;
             }
-            console.log(processDescription);
+            console.log(processDescription.pm2_env.status);
             res.send(processDescription);
             pm2.disconnect();
         });
@@ -212,12 +212,13 @@ app.get('/status/server/:process', (req, res) => {
 app.post('/clear/files', (req, res) => {
     let secondPath = "";
     if (req.body.dataType === "CLEAR ERRORS") {
-        secondPath = state.errorPath;
+        secondPath = "error";
     } else {
-        secondPath = state.filePath;
+        secondPath = "out";
     }
+    let path = `../../.pm2/logs/${req.body.processName}-${secondPath}.log`
 
-    fs.truncate(secondPath, 0, (err) => {
+    fs.truncate(path, 0, (err) => {
         if (err) {
             res.status(500).send('Error clearing the file');
         } else {
