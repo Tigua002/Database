@@ -28,7 +28,8 @@ connection.connect();
 const https = require('https');
 const fs = require('fs');
 const WebSocket = require('ws');
-const pm2 = require('pm2')
+const pm2 = require('pm2');
+const { log } = require("console");
 const serverOptions = {
     cert: fs.readFileSync(process.env.FULLCHAIN),
     key: fs.readFileSync(process.env.PRIVKEY)
@@ -84,6 +85,7 @@ app.get('/file/:a/:b/:c', (req, res) => {
     });
 });
 app.get('/processes', (req, res) => {
+    console.log(state);
     connection.query("SELECT * FROM dataSpotUsers.processes", (err, result) => {
         if (err) {
             console.error("Error fetching processes:", err);

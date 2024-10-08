@@ -10,7 +10,7 @@ const state = {
     logEvent: null,
     LogCache: null,
     ErrorCache: null,
-    blackListedProcesses: ["test"],
+    blackListedProcesses: ["test", "Datatest"],
     processInUse: null,
     oldDomain: null
 }
