@@ -512,10 +512,14 @@ document.getElementsByClassName("settingsSave")[0].addEventListener("click", asy
         alert('Failed to update settings. Please try again.');
     }
 });
-document.getElementsByClassName("settingsDelete")[0].addEventListener("click", async () => {
+document.getElementsByClassName("settingsDelete")[0].addEventListener("click", async (event) => {
     if (!confirm("Are you sure you want to delete this server?")) {
         return;
     }
+    event.target.innerHTML = `
+    <img class="loadingSVG" src="../pictures/icons8-loading-100.png" alt="">
+`
+    event.target.disable = true
     try {
         const data = {
             processName: state.processInUse,
@@ -532,6 +536,7 @@ document.getElementsByClassName("settingsDelete")[0].addEventListener("click", a
         }); 
         if (response.ok) {
             console.log('Server deleted successfully');
+            window.location.reload()
         } else {
             console.error('Failed to delete server');
         }
