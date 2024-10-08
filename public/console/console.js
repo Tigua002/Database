@@ -507,9 +507,9 @@ document.getElementsByClassName("settingsSave")[0].addEventListener("click", asy
 const getServerStatus = async (serverName) => {
 
     fetch(`/status/server/${serverName}`)
-        .then(response => response.json())
+        .then(response => response.text())
         .then(data => {
-            let status = data[0]
+            let status = data
             console.log(status);
             console.log(data);
             if (status == "stopped") {
