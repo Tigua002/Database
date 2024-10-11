@@ -13,8 +13,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 const mysql = require('mysql2');
-
-
 // Test database connection
 const connection = mysql.createConnection({
     host: process.env.HOST,
@@ -38,7 +36,7 @@ const server = https.createServer(serverOptions);
 const wss = new WebSocket.Server({ server }, () => {
     console.log('WebSocket server listening on port 8080');
 });
-// const wss = new WebSocket.Server({ port:8080 })
+
 const state = {
     filePath: process.env.FILEPATH,
     errorPath: process.env.ERRORPATH,

@@ -56,6 +56,7 @@ td {
     text-decoration: none;
     color: #ffffff;
     font-size: .8vw;
+    padding: .2vw;
     margin: 0vw;
     height: 6%;
     width: 70%;
@@ -68,8 +69,8 @@ td {
 }
 
 .navImg {
-    width: 2.2vw;
-    height: 2.2vw;
+    width: 2.5vw;
+    height: 2.5vw;
 
 }
 
@@ -1217,3 +1218,72 @@ dialog {
     transform: scale(99%);
     opacity: .8;
 }
+.loginDiv{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    padding: 0vw 3vw;
+    width: 100%;
+}
+.loginForm{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #333333;
+    height: 50vh;
+    padding: 2vw;
+    font-size: 1vw;
+    border-radius: 1vw;
+    box-shadow: 2px 2px 5px 1px rgba(0, 0, 0, 0.5);
+}
+.loginInput{
+    margin: .3vw;
+    width: 15vw;
+    padding: 1vw;
+    border-radius: .2vw;
+    padding-bottom: 1vw;
+    border: none;
+    outline: none;
+    background-color: #1A1A1A;
+    color: #66B2FF;
+    font-size: .7vw;
+}
+#login-button{
+    margin-top: 1vw;
+    width: 17vw;
+    background-color: #66B2FF;
+    padding: 1vw;
+    border-radius: .2vw;
+    border: none;
+    font-size: .7vw;
+    cursor: pointer;
+}
+#login-button:hover{
+    opacity: .8;
+    transform: scale(99%);
+}
+#google-login-button{
+    margin-top: 3vw;
+    width: 17vw;
+    padding: 1vw;
+    border-radius: .2vw;
+    border: none;
+    font-size: .7vw;
+    cursor: pointer;
+    background-color: #ffffff;  
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.loginImg{
+    width: 1.2vw;
+    height: 1.2vw;
+    margin-right: 1vw;
+}
+#google-login-button:hover{
+    opacity: .8;
+    transform: scale(99%);
+}
+
