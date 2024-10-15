@@ -1,3 +1,6 @@
+
+
+
 // Initialize Firebase
 const firebaseConfig = {
     apiKey: "AIzaSyBDc3t2xnsWZxT9GuHNGQzEnW0uw3jpdag",
@@ -16,7 +19,6 @@ const provider = new firebase.auth.GoogleAuthProvider();
 
 document.getElementById('google-button').addEventListener('click', async () => {
     var userCred = await firebase.auth().signInWithPopup(new firebase.auth.GoogleAuthProvider());
-    console.log(userCred);
 
     const data = {
         username: userCred.user.email,
@@ -31,5 +33,6 @@ document.getElementById('google-button').addEventListener('click', async () => {
         body: JSON.stringify(data)
     })
     const token = await response.text();
-    console.log(token);
+    localStorage.setItem('token', token);
+    window.location.href = '/';
 })
