@@ -17,23 +17,19 @@ const provider = new firebase.auth.GoogleAuthProvider();
 document.getElementById('google-button').addEventListener('click', async () => {
     var userCred = await firebase.auth().signInWithPopup(new firebase.auth.GoogleAuthProvider());
     console.log(userCred);
-    console.log(userCred.user);
-    console.log(userCred.user.email);
-    console.log(userCred.user.uid);
-    console.log(userCred.user.displayName);
-    console.log(userCred.user.photoURL);
-    console.log(userCred.user.phoneNumber);
-    console.log(userCred.user.providerData);
 
-    /*             const data = {
-                    username: result.user.email,
-                    password: result.user.uid,
-                    isNewUser: result.additionalUserInfo.isNewUser
-                }
-                const response = await fetch('/login/google', {
-                    method: 'POST',
-                    body: JSON.stringify(data)
-                })
-                .then(response => response.text())
-                .then(data => console.log(data)); */
+    const data = {
+        username: userCred.user.email,
+        password: userCred.user.uid,
+        isNewUser: userCred.additionalUserInfo.isNewUser
+    }
+    const response = await fetch('/login/google', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+    const token = await response.text();
+    console.log(token);
 })

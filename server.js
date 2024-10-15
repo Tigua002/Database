@@ -388,7 +388,8 @@ app.post('/delete/server/', (req, res) => {
 });
 
 app.post('/login/google', (req, res) => {
-
+    console.log(req.body);
+    console.log(!req.body.isNewUser);
     if (!req.body.isNewUser) {
         let date = new Date();
         let time = `${date.getMonth()}/${date.getDay()}/${date.getFullYear()}-${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}:${date.getMilliseconds()}`;
