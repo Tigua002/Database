@@ -15,7 +15,7 @@ const auth = firebase.auth();
 const provider = new firebase.auth.GoogleAuthProvider();
 
 document.getElementById('google-button').addEventListener('click', async () => {
-    const userCred = await signInWithPopup(auth, new GoogleAuthProvider());
+    var userCred = await firebase.auth().signInWithPopup(new firebase.auth.GoogleAuthProvider());
     console.log(userCred);
     console.log(userCred.user);
     console.log(userCred.user.email);
