@@ -1264,7 +1264,7 @@ dialog {
     opacity: .8;
     transform: scale(99%);
 }
-#google-login-button{
+#google-button{
     margin-top: 3vw;
     width: 17vw;
     padding: 1vw;
@@ -1282,7 +1282,7 @@ dialog {
     height: 1.2vw;
     margin-right: 1vw;
 }
-#google-login-button:hover{
+#google-button:hover{
     opacity: .8;
     transform: scale(99%);
 }
