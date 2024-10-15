@@ -26,9 +26,9 @@ document.getElementById('google-button').addEventListener('click', async () => {
             const response = await fetch('/login/google', {
                 method: 'POST',
                 body: JSON.stringify(data)
-            }) */
+            })
             .then(response => response.text())
-            .then(data => console.log(data));
+            .then(data => console.log(data)); */
         })
         .catch((error) => {
             console.error("Error during login:", error);
