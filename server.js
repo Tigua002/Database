@@ -104,6 +104,15 @@ app.get('/processes', (req, res) => {
         res.status(200).json(sendData);
     });
 });
+app.post('/checkToken', (req, res) => {
+    connection.execute("SELECT * FROM dataSpotUsers.sessions WHERE token = ?", [req.body.token], (err, result) => {
+        if (err) {
+            res.status(500).send('Error checking token');
+            return;
+        }
+        res.status(200).send(result.length > 0);
+    });
+}); 
 
 app.post('/start/server/:process', (req, res) => {
     exec('pm2 start ' + req.params.process, (error, stdout, stderr) => {
@@ -392,7 +401,7 @@ app.post('/login/google', (req, res) => {
         let date = new Date();
         let time = `${date.getMonth()}/${date.getDay()}/${date.getFullYear()}-${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}:${date.getMilliseconds()}`;
         let token = md5(time);
-        connection.execute("INSERT INTO dataSpotUsers.sessions (token, email) VALUES (?, ?)", [token, req.body.username]);
+        connection.execute("INSERT INTO dataSpotUsers.sessions (token, user) VALUES (?, ?)", [token, req.body.username]);
         setTimeout(() => {
             connection.execute("DELETE FROM dataSpotUsers.sessions WHERE token = ?", [token]);
         }, 10800000);
@@ -406,7 +415,7 @@ app.post('/login/google', (req, res) => {
             let date = new Date();
             let time = `${date.getMonth()}/${date.getDay()}/${date.getFullYear()}-${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}:${date.getMilliseconds()}`;
             let token = md5(time + req.body.password);
-            connection.execute("INSERT INTO dataSpotUsers.sessions (token, email) VALUES (?, ?)", [token, req.body.username]);
+            connection.execute("INSERT INTO dataSpotUsers.sessions (token, user) VALUES (?, ?)", [token, req.body.username]);
             setTimeout(() => {
                 connection.execute("DELETE FROM dataSpotUsers.sessions WHERE token = ?", [token]);
             }, 60000);

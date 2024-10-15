@@ -1,16 +1,24 @@
-fetch('../js/login.js')
-    .then(response => response.text())
-    .then(code => {
-        eval(code); // This will evaluate the script and make window.getToken available
-        console.log(code);
-        let token = window.getToken(localStorage.getItem('token'));
-        console.log(token);
-        if (token) {
-            window.location.assign('/');
-        }
-    })
-    .catch(error => console.error("Error fetching getToken:", error));
-
+const getToken = async (token) => {
+    if (!token) {
+        return false;
+    } else {
+        await fetch('/checkToken', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ token: token })
+        }).then(response => response.text())
+            .then(data => {
+                if (data == 'false') {
+                    return false;
+                } else {
+                    window.location.assign('/');
+                }
+            });
+    }
+}
+getToken(localStorage.getItem('token'));
 
 // Initialize Firebase
 const firebaseConfig = {
