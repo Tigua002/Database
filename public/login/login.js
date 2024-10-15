@@ -18,14 +18,15 @@ document.getElementById('google-button').addEventListener('click', async () => {
     auth.signInWithPopup(provider)
         .then(async (result) => {
             console.log(result);
-            const data = {
+/*             const data = {
                 username: result.user.email,
                 password: result.user.uid,
+                isNewUser: result.additionalUserInfo.isNewUser
             }
             const response = await fetch('/login/google', {
                 method: 'POST',
                 body: JSON.stringify(data)
-            })
+            }) */
             .then(response => response.text())
             .then(data => console.log(data));
         })

@@ -388,29 +388,26 @@ app.post('/delete/server/', (req, res) => {
 });
 
 app.post('/login/google', (req, res) => {
-    connection.execute("SELECT * FROM dataSpotUsers.DataspotUsers WHERE email = ?", [req.body.username], (err, result) => {
-        if (err) {
-            console.error('Database update error:', err);
-            return res.status(500).send('Database update failed');
-        }
-        if (result.length > 0) {
+
+    if (!req.body.isNewUser) {
+        let date = new Date();
+        let time = `${date.getMonth()}/${date.getDay()}/${date.getFullYear()}-${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}:${date.getMilliseconds()}`;
+        let token = md5(time);
+        res.status(200).send(token);
+    } else {
+        connection.execute("INSERT INTO dataSpotUsers.DataspotUsers (email, password, type) VALUES (?, ?, ?)", [req.body.username, md5(req.body.password), "google"], (err, result) => {
+            if (err) {
+                console.error('Database update error:', err);
+                return res.status(500).send('Database update failed');
+            }
+            let date = new Date();
             let time = `${date.getMonth()}/${date.getDay()}/${date.getFullYear()}-${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}:${date.getMilliseconds()}`;
             let token = md5(time);
             res.status(200).send(token);
-        } else {
-            connection.execute("INSERT INTO dataSpotUsers.DataspotUsers (email, password, type) VALUES (?, ?, ?)", [req.body.username, md5(req.body.password), "google"], (err, result) => {
-                if (err) {
-                    console.error('Database update error:', err);
-                    return res.status(500).send('Database update failed');
-                }
-                let date = new Date();
-                let time = `${date.getMonth()}/${date.getDay()}/${date.getFullYear()}-${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}:${date.getMilliseconds()}`;
-                let token = md5(time);
-                res.status(200).send(token);
-            });
-        }
-    })
-});
+        });
+    }
+})
+
 
 wss.on('connection', (ws) => {
     fs.watch(state.filePath, (eventType, filename) => {
