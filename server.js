@@ -28,7 +28,7 @@ const fs = require('fs');
 const WebSocket = require('ws');
 const pm2 = require('pm2');
 const md5 = require('md5');
-/* const serverOptions = {
+const serverOptions = {
     cert: fs.readFileSync(process.env.FULLCHAIN),
     key: fs.readFileSync(process.env.PRIVKEY)
 };
@@ -36,7 +36,7 @@ const server = https.createServer(serverOptions);
 
 const wss = new WebSocket.Server({ server }, () => {
     console.log('WebSocket server listening on port 8080');
-}); */
+});
 
 const state = {
     filePath: process.env.FILEPATH,
@@ -102,16 +102,6 @@ app.get('/processes', (req, res) => {
         }
 
         res.status(200).json(sendData);
-    });
-});
-
-app.post('/checkToken', (req, res) => {
-    connection.execute("SELECT * FROM dataSpotUsers.sessions WHERE token = ?", [req.body.token], (err, result) => {
-        if (err) {
-            res.status(500).send('Error checking token');
-            return;
-        }
-        res.status(200).send(result.length > 0);
     });
 });
 
@@ -402,10 +392,10 @@ app.post('/login/google', (req, res) => {
         let date = new Date();
         let time = `${date.getMonth()}/${date.getDay()}/${date.getFullYear()}-${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}:${date.getMilliseconds()}`;
         let token = md5(time);
-        connection.execute("INSERT INTO dataSpotUsers.sessions (token, user) VALUES (?, ?)", [token, req.body.username]);
+        connection.execute("INSERT INTO dataSpotUsers.sessions (token, email) VALUES (?, ?)", [token, req.body.username]);
         setTimeout(() => {
             connection.execute("DELETE FROM dataSpotUsers.sessions WHERE token = ?", [token]);
-        }, 60000);
+        }, 10800000);
         res.status(200).send(token);
     } else {
         connection.execute("INSERT INTO dataSpotUsers.DataspotUsers (email, password, type) VALUES (?, ?, ?)", [req.body.username, md5(req.body.password), "google"], (err, result) => {
@@ -416,7 +406,7 @@ app.post('/login/google', (req, res) => {
             let date = new Date();
             let time = `${date.getMonth()}/${date.getDay()}/${date.getFullYear()}-${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}:${date.getMilliseconds()}`;
             let token = md5(time + req.body.password);
-            connection.execute("INSERT INTO dataSpotUsers.sessions (token, user) VALUES (?, ?)", [token, req.body.username]);
+            connection.execute("INSERT INTO dataSpotUsers.sessions (token, email) VALUES (?, ?)", [token, req.body.username]);
             setTimeout(() => {
                 connection.execute("DELETE FROM dataSpotUsers.sessions WHERE token = ?", [token]);
             }, 60000);
@@ -426,7 +416,7 @@ app.post('/login/google', (req, res) => {
 })
 
 
-/* wss.on('connection', (ws) => {
+wss.on('connection', (ws) => {
     fs.watch(state.filePath, (eventType, filename) => {
         if (eventType === 'change') {
             fs.readFile(state.filePath, 'utf8', (err, data) => {
@@ -469,7 +459,7 @@ wss.on('error', (err) => {
 server.listen(8080, () => {
     console.log('WebSocket server listening on port 8080 (via HTTPS)');
 });
- */
+
 
 
 
