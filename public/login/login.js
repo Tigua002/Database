@@ -1,25 +1,3 @@
-const getToken = async (token) => {
-    if (!token) {
-        return false;
-    } else {
-        await fetch('/checkToken', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ token: token })
-        }).then(response => response.text())
-            .then(data => {
-                if (data == 'false') {
-                    return false;
-                } else {
-                    window.location.assign('/');
-                }
-            });
-    }
-}
-getToken(localStorage.getItem('token'));
-
 // Initialize Firebase
 const firebaseConfig = {
     apiKey: "AIzaSyBDc3t2xnsWZxT9GuHNGQzEnW0uw3jpdag",
@@ -55,3 +33,27 @@ document.getElementById('google-button').addEventListener('click', async () => {
     localStorage.setItem('token', token);
     window.location.href = '/';
 })
+
+
+
+const getToken = async (token) => {
+    if (!token) {
+        return false;
+    } else {
+        await fetch('/checkToken', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ token: token })
+        }).then(response => response.text())
+            .then(data => {
+                if (data == 'false') {
+                    return false;
+                } else {
+                    window.location.assign('/');
+                }
+            });
+    }
+}
+getToken(localStorage.getItem('token'));

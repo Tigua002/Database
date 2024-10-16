@@ -571,5 +571,25 @@ const getServerStatus = async (serverName) => {
 
 }
 
+const getToken = async (token) => {
+    if (!token) {
+        window.location.assign('/login')
+    } else {
+        await fetch('/checkToken', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ token: token })
+        }).then(response => response.text())
+            .then(data => {
+                if (data == 'false') {
+                    window.location.assign('/login')
+                } else {
+                    loadProjects()
+                }
+            });
+    }
+}
+getToken(localStorage.getItem('token'));
 
-loadProjects()
