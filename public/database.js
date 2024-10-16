@@ -19,7 +19,7 @@ const fetchDatabases = async () => {
             {
                 method: "GET",
                 headers: {
-                    'Authorization': 'Bearer YOUR_TOKEN_HERE'
+                    'Authorization': 'gfak1gsry3v8r43bgu25'
                 }
             });
         if (!response.ok) throw new Error("Failed to fetch databases");
@@ -76,9 +76,18 @@ const loadTables = async (database) => {
             <input type="text" class="RowCustom" placeholder="Column Type">
         </div>
         `;
+        const data = {
+            token: localStorage.getItem('token'),
+            db: database
+        }
 
-
-        const response = await fetch(`/get/Tables/${encodeURIComponent(database)}`, { method: "GET", headers: { 'Authorization': 'Bearer YOUR_TOKEN_HERE' } });
+        const response = await fetch(`/get/Tables/`, {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
         if (!response.ok) throw new Error("Failed to fetch tables");
 
         const tables = await response.json();
@@ -126,7 +135,19 @@ const loadData = async (database, table) => {
     document.getElementById("alterTable").removeAttribute("disabled");
     document.getElementsByClassName("TableDisplay")[0].innerHTML = "";
 
-    let response = await fetch(`/get/columns/${database}/${table}`, { method: "GET" });
+    const info = {
+        token: localStorage.getItem('token'),
+        db: database,
+        table: table
+    }
+
+    const response = await fetch(`/get/columns/`, {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(info)
+    });
     if (!response.ok) throw new Error("Failed to fetch columns");
 
     let columns = await response.json();
@@ -158,10 +179,22 @@ const loadData = async (database, table) => {
     addRowBtn.addEventListener("click", () => {
         openModal("AppendTableModal")
     })
-    response = await fetch(`/Select/data/${database}/${table}`, { method: "GET" });
-    if (!response.ok) throw new Error("Failed to fetch data");
+    const SelectData = {
+        token: localStorage.getItem('token'),
+        db: database,
+        table: table
+    }
 
-    let data = await response.json();
+    const ponse = await fetch(`/Select/data/`, {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(SelectData)
+    });
+    if (!ponse.ok) throw new Error("Failed to fetch data");
+
+    let data = await ponse.json();
     data.forEach(row => {
         let tableDataRow = document.createElement("tr");
         tableDataRow.setAttribute("class", "tableRow")
@@ -358,7 +391,7 @@ document.getElementsByClassName("BlueBlackBtn")[0].addEventListener("click", asy
         document.getElementsByClassName("dbUserValue")[1].innerHTML = data[0].password
         document.getElementsByClassName("dbUserValue")[2].innerHTML = "172.104.242.87"
         console.log(data[0].host);
-        
+
         if (data[0].host == "%") {
             document.getElementsByClassName("dbUserValue")[3].innerHTML = "all"
         }
