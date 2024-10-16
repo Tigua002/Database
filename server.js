@@ -469,7 +469,7 @@ wss.on('error', (err) => {
 });
 server.listen(8080, () => {
     console.log('WebSocket server listening on port 8080 (via HTTPS)');
-}); */
+}); 
 
 
 
@@ -678,8 +678,8 @@ app.post('/get/columns/', (req, res) => {
     });
 });
 app.post('/Select/data/', (req, res) => {
-    connection.query(`use ${req.body.db}`)
-    connection.query('SELECT * FROM ' + req.body.table, function (err, result, fields) {
+    connection.query(`use ${req.params.a}`)
+    connection.query('SELECT * FROM ' + req.params.b, function (err, result, fields) {
         let data = JSON.parse(JSON.stringify(result));
         res.send(data);
     });
