@@ -8,6 +8,27 @@
     <link rel="stylesheet" href="../style.css">
     <link rel="icon" type="image/svg+xml"
         href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' fill='%2366B2FF' viewBox='0 0 24 24' stroke-width='1.5' stroke='%23333333' class='size-6'><path stroke-linecap='round' stroke-linejoin='round' d='M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125'/></svg>">
+    <script>
+        const getToken = async (token) => {
+            if (!token) {
+                window.location.assign('/login')
+            } else {
+                await fetch('/checkToken', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ token: token })
+                }).then(response => response.text())
+                    .then(data => {
+                        if (data == 'false') {
+                            window.location.assign('/login')
+                        }
+                    });
+            }
+        }
+        getToken(localStorage.getItem('token'));
+    </script>
 </head>
 
 <body class="body2 flex">
@@ -56,18 +77,21 @@
                 <button type="button" class="consoleOpt" id="stop">Stop server</button>
                 <button type="button" class="consoleOpt" id="restart">Git Pull</button>
                 <div type="button" id="Settings" class="flex">
-                    
+
                     <p class="settingsText">Server Settings</p>
                 </div>
                 <div class="settingsDiv">
                     <h1 class="settingsTitle">GITHUB LINK:</h1>
-                    <input class="SettingsInputs" title="Github Link" id="GLink" type="text" value="https://github.com/Tigua002/WebChat">
+                    <input class="SettingsInputs" title="Github Link" id="GLink" type="text"
+                        value="https://github.com/Tigua002/WebChat">
                     <h1 class="settingsTitleHalf">PORT:</h1>
                     <h1 class="settingsTitleHalf">Domain:</h1>
                     <input class="SettingsInputsHalf" title="PORT" type="number" id="port" value="6000">
-                    <input class="SettingsInputsHalf" title="domain" type="text" id="domain" value="dataspot.gusarov.site">
+                    <input class="SettingsInputsHalf" title="domain" type="text" id="domain"
+                        value="dataspot.gusarov.site">
                     <h1 class="settingsTitle">EMAIL STATUS (recommended)</h1>
-                    <input class="SettingsInputs" title="email" id="email" type="text" value="dataspot.example@gmail.com">
+                    <input class="SettingsInputs" title="email" id="email" type="text"
+                        value="dataspot.example@gmail.com">
                     <button title="DELETE" class="settingsDelete" type="button">DELETE</button>
                     <button title="SAVE" class="settingsSave" type="button">SAVE</button>
                 </div>
@@ -79,4 +103,4 @@
 </body>
 <script src="console.js"></script>
 
-</html>
+</html >

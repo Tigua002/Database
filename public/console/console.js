@@ -44,10 +44,10 @@ const loadProjects = async () => {
                                     element.classList.remove("projectHover")
                                 }
                             }
-                                                      
+
                             if (event.target.classList.contains("projectTitle")) {
                                 event.target.parentElement.classList.add("projectHover")
-                                
+
                             } else {
                                 event.target.style.background = "#1A1A1A"
                             }
@@ -533,7 +533,7 @@ document.getElementsByClassName("settingsDelete")[0].addEventListener("click", a
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(data)
-        }); 
+        });
         if (response.ok) {
             console.log('Server deleted successfully');
             window.location.reload()
@@ -543,7 +543,7 @@ document.getElementsByClassName("settingsDelete")[0].addEventListener("click", a
     } catch (error) {
         console.error('Error:', error);
     }
-}); 
+});
 
 
 const getServerStatus = async (serverName) => {
@@ -571,25 +571,6 @@ const getServerStatus = async (serverName) => {
 
 }
 
-const getToken = async (token) => {
-    if (!token) {
-        window.location.assign('/login')
-    } else {
-        await fetch('/checkToken', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ token: token })
-        }).then(response => response.text())
-            .then(data => {
-                if (data == 'false') {
-                    window.location.assign('/login')
-                } else {
-                    loadProjects()
-                }
-            });
-    }
-}
-getToken(localStorage.getItem('token'));
 
+
+loadProjects()

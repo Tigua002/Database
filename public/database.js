@@ -737,10 +737,9 @@ const getToken = async (token) => {
             .then(data => {
                 if (data == 'false') {
                     window.location.assign('/login')
-                } else {
-                    fetchDatabases()
-                }
+                } 
             });
     }
 }
 getToken(localStorage.getItem('token'));
+fetchDatabases()
