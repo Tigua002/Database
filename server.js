@@ -28,7 +28,7 @@ const fs = require('fs');
 const WebSocket = require('ws');
 const pm2 = require('pm2');
 const md5 = require('md5');
-const serverOptions = {
+/* const serverOptions = {
     cert: fs.readFileSync(process.env.FULLCHAIN),
     key: fs.readFileSync(process.env.PRIVKEY)
 };
@@ -36,7 +36,7 @@ const server = https.createServer(serverOptions);
 
 const wss = new WebSocket.Server({ server }, () => {
     console.log('WebSocket server listening on port 8080');
-});
+}); */
 
 const state = {
     filePath: process.env.FILEPATH,
@@ -110,7 +110,11 @@ app.post('/checkToken', (req, res) => {
             res.status(500).send('Error checking token');
             return;
         }
-        res.status(200).send(result.length > 0);
+        if (result.length === 0) {
+            res.status(401).send('Unauthorized');
+            return;
+        }
+        res.status(200).send(result[0]);
     });
 }); 
 
@@ -427,7 +431,7 @@ app.post('/login/google', (req, res) => {
 })
 
 
-wss.on('connection', (ws) => {
+/* wss.on('connection', (ws) => {
     fs.watch(state.filePath, (eventType, filename) => {
         if (eventType === 'change') {
             fs.readFile(state.filePath, 'utf8', (err, data) => {
@@ -470,7 +474,7 @@ wss.on('error', (err) => {
 server.listen(8080, () => {
     console.log('WebSocket server listening on port 8080 (via HTTPS)');
 }); 
-
+ */
 
 
 
@@ -642,8 +646,8 @@ app.post('/delete/table', function (req, res) {
 })
 
 
-app.get('/FetchDatabases', (req, res) => {
-    connection.query('SHOW DATABASES', function (err, result, fields) {
+app.post('/FetchDatabases', (req, res) => {
+    connection.query('Select * FROM dataSpotUsers.dataspotDatabases WHERE owner = ?', [req.body.owner], function (err, result, fields) {
         if (err) {
             console.error("Error fetching databases:", err);
             return res.status(500).send("Error fetching databases");

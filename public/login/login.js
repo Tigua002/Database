@@ -31,6 +31,7 @@ document.getElementById('google-button').addEventListener('click', async () => {
     })
     const token = await response.text();
     localStorage.setItem('token', token);
+    localStorage.setItem('username', userCred.user.email);
     window.location.href = '/';
 })
 

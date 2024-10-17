@@ -1,26 +1,54 @@
-//Header styling
-document.getElementsByClassName("navItem")[1].style.background = "#66b2ff";
-document.getElementsByClassName("navImg")[1].setAttribute("stroke", "#333333");
-
-
 const state = {
     dbInUse: null,
     tableInUse: null,
     validIP: false,
     blackListedDBs: ["information_schema", "mysql", "performance_schema", "sys"],
+    user: null
 };
+
+const getToken = async (token) => {
+    if (!token) {
+        window.location.assign('/login')
+        localStorage.clear()
+    } else {
+        await fetch('/checkToken', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ token: token })
+        }).then(response => response.text())
+            .then(data => {
+                if (data == 'Unauthorized') {
+                    console.log("Unauthorized")
+                    window.location.assign('/login')
+                    localStorage.clear()
+                } else {
+                    state.user = JSON.parse(data).user
+
+                    fetchDatabases()
+                }
+            });
+    }
+}
+getToken(localStorage.getItem('token'));
+//Header styling
+document.getElementsByClassName("navItem")[1].style.background = "#66b2ff";
+document.getElementsByClassName("navImg")[1].setAttribute("stroke", "#333333");
+
+
 
 const fetchDatabases = async () => {
     try {
-        document.getElementsByClassName("databaseHeader")[0].innerHTML = '<h1 class="SmlBBBtn">New Database</h1>';
-        document.getElementsByClassName("SmlBBBtn")[0].addEventListener("click", () => openModal("NewDatabaseModal"));
-
+        document.getElementsByClassName("databaseHeader")[0].innerHTML = '<h1 class="SmlBBtn">New Database</h1>';
+        document.getElementsByClassName("SmlBBtn")[0].addEventListener("click", () => openModal("NewDatabaseModal"));
         const response = await fetch("/FetchDatabases",
             {
-                method: "GET",
+                method: "POST",
                 headers: {
-                    'Authorization': 'gfak1gsry3v8r43bgu25'
-                }
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ owner: state.user })
             });
         if (!response.ok) throw new Error("Failed to fetch databases");
 
@@ -28,25 +56,25 @@ const fetchDatabases = async () => {
         const fragment = document.createDocumentFragment();
 
         databases.forEach(db => {
-            if (state.blackListedDBs.includes(db.Database)) return;
+            if (state.blackListedDBs.includes(db.base)) return;
 
             let h1 = document.createElement("h1");
             h1.setAttribute("class", "databaseItem flex");
-            h1.textContent = sanitizeHTML(db.Database);
+            h1.textContent = sanitizeHTML(db.base);
             fragment.appendChild(h1);
 
             h1.addEventListener("click", () => {
                 resetStyles(document.getElementsByClassName("databaseItem"), "none", "#ffffff");
                 h1.style.background = "#ffffff";
                 h1.style.color = "#333333";
-                state.dbInUse = db.Database;
-                loadTables(db.Database);
+                state.dbInUse = db.base;
+                loadTables(db.base);
             });
         });
 
         document.getElementsByClassName("databaseHeader")[0].appendChild(fragment);
     } catch (error) {
-        console.error(error.message);
+        console.error(error);
         alert("An error occurred while fetching databases.");
     }
 };
@@ -756,5 +784,3 @@ function isValidMySQLDatabaseName(name, checkBlackList) {
 }
 
 
-
-fetchDatabases()

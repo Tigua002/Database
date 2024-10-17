@@ -175,11 +175,11 @@ td {
     transform: scale(102%);
 }
 
-.SmlBBBtn {
+.SmlBBtn {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #66B2FF;
+    background: #66b2ff;
     color: #333333;
     font-size: .8vw;
     cursor: pointer;
@@ -189,7 +189,7 @@ td {
     margin: 0%;
 }
 
-.SmlBBBtn:hover {
+.SmlBBtn:hover {
     opacity: .9;
 }
 
