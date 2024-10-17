@@ -49,7 +49,7 @@ const getToken = async (token) => {
             body: JSON.stringify({ token: token })
         }).then(response => response.text())
             .then(data => {
-                if (data == 'false') {
+                if (data == 'Unauthorized') {
                     return false;
                 } else {
                     window.location.assign('/');

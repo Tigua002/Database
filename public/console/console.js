@@ -14,10 +14,43 @@ const state = {
     processInUse: null,
     oldDomain: null,
     BaskLink: null,
-    trueName: null
+    trueName: null,
+    mail: null
+}
+
+const getToken = async (token) => {
+    if (!token) {
+        window.location.assign('/login')
+    } else {
+        await fetch('/checkToken', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ token: token })
+        }).then(response => response.text())
+            .then(data => {
+                if (data == 'Unauthorized') {
+                    window.location.assign('/login')
+                } else {
+                    console.log(JSON.parse(data).user);
+                    state.mail = JSON.parse(data).user
+                    loadProjects()
+
+                }
+            });
+    }
 }
 const loadProjects = async () => {
-    await fetch('/processes')
+    console.log(state.mail);
+
+    await fetch('/processes', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ mail: state.mail })
+    })
         .then(response => response.json())
         .then(data => {
             for (let i = 0; i < data.length; i++) {
@@ -569,5 +602,4 @@ const getServerStatus = async (serverName) => {
 }
 
 
-
-loadProjects()
+getToken(localStorage.getItem('token'));
