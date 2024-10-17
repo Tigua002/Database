@@ -185,16 +185,16 @@ const loadData = async (database, table) => {
         table: table
     }
 
-    const ponse = await fetch(`/Select/data/`, {
+    const dataResponse = await fetch(`/Select/data/`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(SelectData)
     });
-    if (!ponse.ok) throw new Error("Failed to fetch data");
+    if (!dataResponse.ok) throw new Error("Failed to fetch data");
 
-    let data = await ponse.json();
+    let data = await dataResponse.json();
     data.forEach(row => {
         let tableDataRow = document.createElement("tr");
         tableDataRow.setAttribute("class", "tableRow")

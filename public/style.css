@@ -1171,7 +1171,7 @@ dialog {
     top: 6%;
     color: #ffffff;
     padding-bottom: 1vw;
-    height: 85vh;
+    height: 100%;
 }
 .ServerDesc, .ServerDescHalf{
     width: 90%;

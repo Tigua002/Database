@@ -193,9 +193,6 @@ const loadProjects = async () => {
                 ServerDiv.appendChild(closeButton)
 
                 div.appendChild(ServerDiv)
-                ServerDiv.addEventListener("submit", () => {
-
-                })
 
                 closeButton.addEventListener("click", () => {
                     ServerDiv.remove()
