@@ -33,7 +33,6 @@ const getToken = async (token) => {
                 if (data == 'Unauthorized') {
                     window.location.assign('/login')
                 } else {
-                    console.log(JSON.parse(data).user);
                     state.mail = JSON.parse(data).user
                     loadProjects()
 
@@ -42,8 +41,6 @@ const getToken = async (token) => {
     }
 }
 const loadProjects = async () => {
-    console.log(state.mail);
-
     await fetch('/processes', {
         method: 'POST',
         headers: {
