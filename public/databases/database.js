@@ -31,7 +31,7 @@ const getToken = async (token) => {
     }
 }
 getToken(localStorage.getItem('token'));
-fetchDatabases()
+
 //Header styling
 document.getElementsByClassName("navItem")[1].style.background = "#66b2ff";
 document.getElementsByClassName("navImg")[1].setAttribute("stroke", "#333333");
@@ -790,3 +790,4 @@ function isValidMySQLDatabaseName(name, checkBlackList) {
 }
 
 
+fetchDatabases()
