@@ -71,7 +71,7 @@ const loadProjects = async () => {
                     fetch(`/file/${process.Name}/${process.DisplayName}/${bashPathEncoded}`)
                         .then(response => response.json())
                         .then(body => {
-                            for (let x = 0; (x + 1) < document.getElementsByClassName("projectHover").length; x++) {
+                            for (let x = 0; x < document.getElementsByClassName("projectHover").length; x++) {
                                 const element = document.getElementsByClassName("projectHover")[x];
                                 element.classList.remove("projectHover")
                             }
