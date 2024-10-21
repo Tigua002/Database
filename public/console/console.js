@@ -71,12 +71,10 @@ const loadProjects = async () => {
                     fetch(`/file/${process.Name}/${process.DisplayName}/${bashPathEncoded}`)
                         .then(response => response.json())
                         .then(body => {
-                            for (let x = 0; (x + 1) < document.getElementsByClassName("project").length; x++) {
-                                const element = document.getElementsByClassName("project")[x];
-                                if (element.classList.contains("projectHover")) {
-                                    element.classList.remove("projectHover")
+                            for (let x = 0; (x + 1) < document.getElementsByClassName("projectHover").length; x++) {
+                                const element = document.getElementsByClassName("projectHover")[x];
+                                element.classList.remove("projectHover")
                                 }
-                            }
 
                             if (event.target.classList.contains("projectTitle")) {
                                 event.target.parentElement.classList.add("projectHover")

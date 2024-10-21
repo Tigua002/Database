@@ -23,6 +23,8 @@ const connection = mysql.createConnection({
 
 // Connect to the database with error handling
 connection.connect();
+connection.query("DELETE FROM dataSpotUsers.sessions WHERE ID > 0")
+
 const https = require('https');
 const fs = require('fs');
 const WebSocket = require('ws');
