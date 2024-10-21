@@ -667,7 +667,9 @@ app.post('/FetchDatabases', (req, res) => {
                 sendData.push(element);
             }
         }
-
+        console.log(data);
+        console.log(sendData);
+        
         res.status(200).json(sendData);
     });
 });
