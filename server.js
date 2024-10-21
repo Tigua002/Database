@@ -651,7 +651,6 @@ app.post('/delete/table', function (req, res) {
 
 
 app.post('/FetchDatabases', (req, res) => {
-    console.log(req.body);
     
     connection.query('Select * FROM dataSpotUsers.dataspotDatabases WHERE owner = ?', [req.body.owner], function (err, result, fields) {
         if (err) {
@@ -669,8 +668,6 @@ app.post('/FetchDatabases', (req, res) => {
                 sendData.push(element);
             }
         }
-        console.log(data);
-        console.log(sendData);
         
         res.status(200).json(sendData);
     });

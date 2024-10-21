@@ -60,7 +60,6 @@ const fetchDatabases = async () => {
                 return true
             }
         });
-    console.log(getToken(localStorage.getItem('token')));
     try {
         document.getElementsByClassName("databaseHeader")[0].innerHTML = '<h1 class="SmlBBtn">New Database</h1>';
         document.getElementsByClassName("SmlBBtn")[0].addEventListener("click", () => openModal("NewDatabaseModal"));
@@ -73,10 +72,8 @@ const fetchDatabases = async () => {
                 body: JSON.stringify({ owner: state.user })
             });
         if (!response.ok) throw new Error("Failed to fetch databases");
-        console.log(response);
         
         const databases = await response.json();
-        console.log(databases);
         
         const fragment = document.createDocumentFragment();
 
