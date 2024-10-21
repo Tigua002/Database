@@ -479,7 +479,7 @@ document.getElementsByClassName("ModalBtn")[0].addEventListener("click", async (
     let dbName = document.getElementsByClassName("ModalInp")[0].value;
     const data = { 
         db: dbName,
-        user: state.mail
+        user: state.user
      };
     if (!isValidMySQLDatabaseName(dbName, true)) {
         alert("Invalid Name")
@@ -487,8 +487,6 @@ document.getElementsByClassName("ModalBtn")[0].addEventListener("click", async (
         return
     }
     try {
-        console.log(data);
-        
         await fetch("/create/database", {
             method: "POST",
             headers: { 'Content-Type': 'application/json' },

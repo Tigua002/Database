@@ -481,9 +481,7 @@ server.listen(8080, () => {
 
 
 // Database
-app.post("/create/database", function (req, res) {
-    console.log(req.body);
-    
+app.post("/create/database", function (req, res) {    
     // Use parameterized query to insert user
     connection.query('CREATE DATABASE ' + req.body.db, function (err, result) {
         if (err) {
@@ -491,8 +489,6 @@ app.post("/create/database", function (req, res) {
             res.status(500).send(err);
             return;
         }
-        console.log(req.body);
-        
         connection.execute("INSERT INTO dataSpotUsers.dataspotDatabases (base, owner) VALUES (?, ?)", [req.body.db, req.body.user])
         res.send(result)
     });
