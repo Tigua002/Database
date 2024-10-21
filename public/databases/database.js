@@ -454,7 +454,10 @@ document.getElementsByClassName("dataInsertBtn")[0].addEventListener("click", ()
 // creates a database
 document.getElementsByClassName("ModalBtn")[0].addEventListener("click", async () => {
     let dbName = document.getElementsByClassName("ModalInp")[0].value;
-    const data = { db: dbName };
+    const data = { 
+        db: dbName,
+        user: state.mail
+     };
     if (!isValidMySQLDatabaseName(dbName, true)) {
         alert("Invalid Name")
         document.getElementsByClassName("ModalInp")[0].value = ""
