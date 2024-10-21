@@ -58,6 +58,8 @@ const fetchDatabases = async () => {
         console.log(response);
         
         const databases = await response.json();
+        console.log(databases);
+        
         const fragment = document.createDocumentFragment();
 
         databases.forEach(db => {
