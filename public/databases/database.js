@@ -42,6 +42,24 @@ document.getElementsByClassName("navImg")[1].setAttribute("stroke", "#333333");
 
 
 const fetchDatabases = async () => {
+    await fetch('/checkToken', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ token: localStorage.getItem('token') })
+    }).then(response => response.text())
+        .then(data => {
+            if (data == 'Unauthorized') {
+                console.log("Unauthorized")
+                window.location.assign('/login')
+                localStorage.clear()
+                return false
+            } else {
+                state.user = JSON.parse(data).user
+                return true
+            }
+        });
     console.log(getToken(localStorage.getItem('token')));
     try {
         document.getElementsByClassName("databaseHeader")[0].innerHTML = '<h1 class="SmlBBtn">New Database</h1>';
