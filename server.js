@@ -482,7 +482,8 @@ server.listen(8080, () => {
 
 // Database
 app.post("/create/database", function (req, res) {
-
+    console.log(req.body);
+    
     // Use parameterized query to insert user
     connection.query('CREATE DATABASE ' + req.body.db, function (err, result) {
         if (err) {
