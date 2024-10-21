@@ -80,7 +80,7 @@ const loadProjects = async () => {
                                 event.target.parentElement.classList.add("projectHover")
 
                             } else {
-                                event.target.style.background = "#1A1A1A"
+                                /* event.target.style.background = "#1A1A1A" */
                             }
                             state.processInUse = process.DisplayName
                             state.trueName = process.Name
