@@ -31,6 +31,7 @@ const getToken = async (token) => {
                 }
             });
     }
+    return false
 }
 getToken(localStorage.getItem('token'));
 
