@@ -43,7 +43,6 @@ document.getElementsByClassName("navImg")[1].setAttribute("stroke", "#333333");
 
 const fetchDatabases = async () => {
     console.log(getToken(localStorage.getItem('token')));
-    if (!getToken(localStorage.getItem('token'))) return;
     try {
         document.getElementsByClassName("databaseHeader")[0].innerHTML = '<h1 class="SmlBBtn">New Database</h1>';
         document.getElementsByClassName("SmlBBtn")[0].addEventListener("click", () => openModal("NewDatabaseModal"));
