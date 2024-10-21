@@ -10,6 +10,7 @@ const getToken = async (token) => {
     if (!token) {
         window.location.assign('/login')
         localStorage.clear()
+        return false
     } else {
         await fetch('/checkToken', {
             method: 'POST',
@@ -23,9 +24,10 @@ const getToken = async (token) => {
                     console.log("Unauthorized")
                     window.location.assign('/login')
                     localStorage.clear()
+                    return false
                 } else {
                     state.user = JSON.parse(data).user
-
+                    return true
                 }
             });
     }
@@ -39,7 +41,8 @@ document.getElementsByClassName("navImg")[1].setAttribute("stroke", "#333333");
 
 
 const fetchDatabases = async () => {
-    getToken(localStorage.getItem('token'));
+    let tokenResponse = await getToken(localStorage.getItem('token'));
+    if (!tokenResponse) return;
     try {
         document.getElementsByClassName("databaseHeader")[0].innerHTML = '<h1 class="SmlBBtn">New Database</h1>';
         document.getElementsByClassName("SmlBBtn")[0].addEventListener("click", () => openModal("NewDatabaseModal"));
