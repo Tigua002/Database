@@ -490,6 +490,8 @@ app.post("/create/database", function (req, res) {
             res.status(500).send(err);
             return;
         }
+        console.log(req.body);
+        
         connection.execute("INSERT INTO dataSpotUsers.dataspotDatabases (base, owner) VALUES (?, ?)", [req.body.db, req.body.user])
         res.send(result)
     });
