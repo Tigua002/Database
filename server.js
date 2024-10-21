@@ -651,6 +651,8 @@ app.post('/delete/table', function (req, res) {
 
 
 app.post('/FetchDatabases', (req, res) => {
+    console.log(req.body);
+    
     connection.query('Select * FROM dataSpotUsers.dataspotDatabases WHERE owner = ?', [req.body.owner], function (err, result, fields) {
         if (err) {
             console.error("Error fetching databases:", err);
