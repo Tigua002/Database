@@ -25,12 +25,13 @@ const getToken = async (token) => {
                     localStorage.clear()
                 } else {
                     state.user = JSON.parse(data).user
-                    fetchDatabases()
+
                 }
             });
     }
 }
 getToken(localStorage.getItem('token'));
+fetchDatabases()
 //Header styling
 document.getElementsByClassName("navItem")[1].style.background = "#66b2ff";
 document.getElementsByClassName("navImg")[1].setAttribute("stroke", "#333333");
@@ -38,6 +39,7 @@ document.getElementsByClassName("navImg")[1].setAttribute("stroke", "#333333");
 
 
 const fetchDatabases = async () => {
+    getToken(localStorage.getItem('token'));
     try {
         document.getElementsByClassName("databaseHeader")[0].innerHTML = '<h1 class="SmlBBtn">New Database</h1>';
         document.getElementsByClassName("SmlBBtn")[0].addEventListener("click", () => openModal("NewDatabaseModal"));
