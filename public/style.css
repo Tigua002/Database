@@ -1087,6 +1087,7 @@ dialog {
     width: 100%;
     background-color: #d32c2c;
     color: #ffffff;
+    border: none;
     padding: .5vw;
     border-radius: .2vw;
     margin-top: 2vw;
