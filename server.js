@@ -59,7 +59,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/ip', (req, res) => {
-    var ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress || null;
+    var ip = req.socket.remoteAddress || null;
     res.send(ip)
 });
 
