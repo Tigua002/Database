@@ -59,7 +59,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/ip', (req, res) => {
-    var ip = req.socket.remoteAddress || null;
+    var ip = requestIp.getClientIp(req)
     res.send(ip)
 });
 
