@@ -4,8 +4,9 @@ const express = require('express');
 const requestIp = require('request-ip');
 const app = express();
 const { exec } = require('child_process');
-app.set('trust proxy', true);
-app.use(requestIp.mw());
+app.set('trust proxy', 'loopback');
+app.set('trust proxy', 1);
+
 const PORT = process.env.DataspotPORT;
 app.listen(PORT, () => console.log(`Dataspot port: ${PORT}`));
 
@@ -14,6 +15,7 @@ app.listen(PORT, () => console.log(`Dataspot port: ${PORT}`));
 const bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(requestIp.mw());
 
 const mysql = require('mysql2');
 // Test database connection
