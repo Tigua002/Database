@@ -425,10 +425,8 @@ app.post('/login/google', (req, res) => {
       resp.on('end', () => {
         try {
           // Check if the response is valid JSON
-          const isJson = data.startsWith('{') && data.endsWith('}');
-          if (!isJson) {
-            throw new Error('Invalid JSON response');
-          }
+        console.log(data);
+        
   
           const location = JSON.parse(data);
           const country = location.countryName || "unknown";
