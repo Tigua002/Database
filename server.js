@@ -4,6 +4,7 @@ const express = require('express');
 const requestIp = require('request-ip');
 const app = express();
 const { exec } = require('child_process');
+app.set('trust proxy', true);
 app.use(requestIp.mw());
 const PORT = process.env.DataspotPORT;
 app.listen(PORT, () => console.log(`Dataspot port: ${PORT}`));
@@ -32,7 +33,7 @@ const fs = require('fs');
 const WebSocket = require('ws');
 const pm2 = require('pm2');
 const md5 = require('md5');
-const serverOptions = {
+/* const serverOptions = {
     cert: fs.readFileSync(process.env.FULLCHAIN),
     key: fs.readFileSync(process.env.PRIVKEY)
 };
@@ -40,7 +41,7 @@ const server = https.createServer(serverOptions);
 
 const wss = new WebSocket.Server({ server }, () => {
     console.log('WebSocket server listening on port 8080');
-});
+}); */
 
 const state = {
     filePath: process.env.FILEPATH,
@@ -410,7 +411,7 @@ app.post('/delete/server/', (req, res) => {
 });
 
 app.post('/login/google', (req, res) => {
-    const ip = req.clientIp; // Replace with the IP address you want to look up
+    const ip = req.clientIp;
     console.log(req.clientIp);
     
     const url = `https://api.ip2country.info/ip?${ip}`;
@@ -425,8 +426,10 @@ app.post('/login/google', (req, res) => {
       resp.on('end', () => {
         try {
           // Check if the response is valid JSON
-        console.log(data);
-        
+          const isJson = data.startsWith('{') && data.endsWith('}');
+          if (!isJson) {
+            throw new Error('Invalid JSON response');
+          }
   
           const location = JSON.parse(data);
           const country = location.countryName || "unknown";
@@ -479,7 +482,7 @@ app.post('/login/google', (req, res) => {
 })
 
 
-wss.on('connection', (ws) => {
+/* wss.on('connection', (ws) => {
     fs.watch(state.filePath, (eventType, filename) => {
         if (eventType === 'change') {
             fs.readFile(state.filePath, 'utf8', (err, data) => {
@@ -522,7 +525,7 @@ wss.on('error', (err) => {
 server.listen(8080, () => {
     console.log('WebSocket server listening on port 8080 (via HTTPS)');
 }); 
-
+ */
 
 
 
