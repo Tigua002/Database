@@ -58,7 +58,9 @@ app.get('/', (req, res) => {
     res.sendFile(__dirname + "/public/index.html");
 });
 
-
+app.get('/ip', (req, res) => {
+    res.send(req.clientIp)
+});
 
 // Console
 app.get('/file/:a/:b/:c', (req, res) => {
@@ -414,7 +416,7 @@ app.post('/delete/server/', (req, res) => {
 
 app.post('/login/google', (req, res) => {
     const ip = req.clientIp;
-    console.log(req.clientIp);
+    console.log(req);
     
     const url = `https://api.ip2country.info/ip?${ip}`;
   
@@ -423,11 +425,15 @@ app.post('/login/google', (req, res) => {
   
       resp.on('data', (chunk) => {
         data += chunk;
+        console.log(data);
+        
       });
   
       resp.on('end', () => {
         try {
           // Check if the response is valid JSON
+          console.log(data);
+          
           const isJson = data.startsWith('{') && data.endsWith('}');
           if (!isJson) {
             throw new Error('Invalid JSON response');
