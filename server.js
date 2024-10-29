@@ -59,7 +59,7 @@ app.get('/', (req, res) => {
 });
 var get_ip = require('ipware')().get_ip;
 app.get('/ip', (req, res) => {
-    var ip = req.headers['cf-connecting-ip']  || req.headers['x-real-ip'] || req.headers['x-forwarded-for'] || 'error'
+    var ip = req.headers['cf-connecting-ip']  || req.headers['x-real-ip'] || req.headers['x-forwarded-for'] || get_ip(req).clientIp ||'error'
     return res.json({
         ip
     })
