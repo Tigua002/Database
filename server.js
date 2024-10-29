@@ -59,7 +59,7 @@ app.get('/', (req, res) => {
 });
 var get_ip = require('ipware')().get_ip;
 app.get('/ip', (req, res) => {
-    var ip = get_ip(req).clientIp
+    var ip = req.headers['x-real-ip']
     res.send(ip)
 });
 
