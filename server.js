@@ -6,6 +6,7 @@ const app = express();
 const { exec } = require('child_process');
 app.set('trust proxy', 'loopback');
 app.set('trust proxy', 1);
+const geoip = require('geoip-lite');
 
 const PORT = process.env.DataspotPORT;
 app.listen(PORT, () => console.log(`Dataspot port: ${PORT}`));
@@ -57,16 +58,14 @@ const state = {
 app.get('/', (req, res) => {
     res.sendFile(__dirname + "/public/index.html");
 });
-var get_ip = require('ipware')().get_ip;
 app.get('/ip', (req, res) => {
-    const ip = req.headers['cf-connecting-ip'] || 
-               req.headers['x-real-ip'] || 
-               req.headers['x-forwarded-for'] || 
-               'error';
-    
-    return res.json({ ip });
-  });
-  
+    const ip = req.headers['cf-connecting-ip'] ||
+        req.headers['x-real-ip'] ||
+        req.headers['x-forwarded-for'];
+    const location = geoip.lookup(ip).city ;  
+    return res.json({ ip, location });
+});
+
 // Console
 app.get('/file/:a/:b/:c', (req, res) => {
     let file = "";
@@ -130,7 +129,7 @@ app.post('/checkToken', (req, res) => {
         }
         res.status(200).send(result[0]);
     });
-}); 
+});
 
 app.post('/start/server/:process', (req, res) => {
     exec('pm2 start ' + req.params.process, (error, stdout, stderr) => {
@@ -420,55 +419,24 @@ app.post('/delete/server/', (req, res) => {
 });
 
 app.post('/login/google', (req, res) => {
-    const ip = req.headers['cf-connecting-ip'] || 
-               req.headers['x-real-ip'] || 
-               req.headers['x-forwarded-for'] || 
-               'error';
+    const ip = req.headers['cf-connecting-ip'] ||
+        req.headers['x-real-ip'] ||
+        req.headers['x-forwarded-for'] ||
+        '171.23.129.37';
     console.log(ip);
+
+
+
+    const location = geoip.lookup(ip).city;
+    console.log(location);
     
-    
-    const url = `https://api.ip2country.info/ip?${ip}`;
-  
-    https.get(url, (resp) => {
-      let data = '';
-  
-      resp.on('data', (chunk) => {
-        data += chunk;
-        console.log(data);
-        
-      });
-  
-      resp.on('end', () => {
-        try {
-          // Check if the response is valid JSON
-          console.log(data);
-          
-          const isJson = data.startsWith('{') && data.endsWith('}');
-          if (!isJson) {
-            throw new Error('Invalid JSON response');
-          }
-  
-          const location = JSON.parse(data);
-          const country = location.countryName || "unknown";
-          console.log(location);
-          
-          // Insert into database or use the country variable as needed
-          connection.execute("INSERT INTO dataSpotUsers.analytics (user, ip, country, page, dato) VALUES (?, ?, ?, ?, ?)", 
-            [req.body.username, ip, country, "login", date], (err) => {
-              if (err) {
+    connection.execute("INSERT INTO dataSpotUsers.analytics (user, ip, country, page, dato) VALUES (?, ?, ?, ?, ?)",
+        [req.body.username, ip, location, "login", date], (err) => {
+            if (err) {
                 console.error('Database error:', err);
                 return res.status(500).send('Database error');
-              }
-            });
-        } catch (error) {
-          console.error('Error parsing JSON:', error);
-        }
-      });
-  
-    }).on("error", (err) => {
-      console.error('Error with HTTP request:', err);
-      res.status(500).send("Error fetching location");
-    });
+            }
+        });
     if (!req.body.isNewUser) {
         let date = new Date();
         let time = `${date.getMonth()}/${date.getDay()}/${date.getFullYear()}-${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}:${date.getMilliseconds()}`;
@@ -541,12 +509,12 @@ wss.on('error', (err) => {
 });
 server.listen(8080, () => {
     console.log('WebSocket server listening on port 8080 (via HTTPS)');
-}); 
+});
 
 
 
 // Database
-app.post("/create/database", function (req, res) {    
+app.post("/create/database", function (req, res) {
     // Use parameterized query to insert user
     connection.query('CREATE DATABASE ' + req.body.db, function (err, result) {
         if (err) {
@@ -713,7 +681,7 @@ app.post('/delete/table', function (req, res) {
 
 
 app.post('/FetchDatabases', (req, res) => {
-    
+
     connection.query('Select * FROM dataSpotUsers.dataspotDatabases WHERE owner = ?', [req.body.owner], function (err, result, fields) {
         if (err) {
             console.error("Error fetching databases:", err);
@@ -730,7 +698,7 @@ app.post('/FetchDatabases', (req, res) => {
                 sendData.push(element);
             }
         }
-        
+
         res.status(200).json(sendData);
     });
 });
