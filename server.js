@@ -59,12 +59,14 @@ app.get('/', (req, res) => {
 });
 var get_ip = require('ipware')().get_ip;
 app.get('/ip', (req, res) => {
-    var ip = req.headers['cf-connecting-ip']  || req.headers['x-real-ip'] || req.headers['x-forwarded-for'] || get_ip(req).clientIp ||'error'
-    return res.json({
-        ip
-    })
-});
-
+    const ip = req.headers['cf-connecting-ip'] || 
+               req.headers['x-real-ip'] || 
+               req.headers['x-forwarded-for'] || 
+               'error';
+    
+    return res.json({ ip });
+  });
+  
 // Console
 app.get('/file/:a/:b/:c', (req, res) => {
     let file = "";
@@ -418,8 +420,12 @@ app.post('/delete/server/', (req, res) => {
 });
 
 app.post('/login/google', (req, res) => {
-    const ip = req.clientIp;
-    console.log(req);
+    const ip = req.headers['cf-connecting-ip'] || 
+               req.headers['x-real-ip'] || 
+               req.headers['x-forwarded-for'] || 
+               'error';
+    console.log(ip);
+    
     
     const url = `https://api.ip2country.info/ip?${ip}`;
   
