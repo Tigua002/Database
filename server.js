@@ -424,13 +424,11 @@ app.post('/login/google', (req, res) => {
         req.headers['x-real-ip'] ||
         req.headers['x-forwarded-for'] ||
         '171.23.129.37';
-    console.log(ip);
 
 
     const source = req.headers['user-agent'];
     const ua = useragent.parse(source); 
     const location = geoip.lookup(ip).city;
-    console.log(location);
     
 
     if (!req.body.isNewUser) {
