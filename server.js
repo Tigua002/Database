@@ -433,10 +433,11 @@ app.post('/login/google', (req, res) => {
 
     if (!req.body.isNewUser) {
         let date = new Date();
+        let dateMonthYear = `${date.getMonth()}/${date.getDay()}/${date.getFullYear()}`
         let time = `${date.getMonth()}/${date.getDay()}/${date.getFullYear()}-${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}:${date.getMilliseconds()}`;
         let token = md5(time);
         connection.execute("DELETE FROM dataSpotUsers.sessions WHERE user = ?", [req.body.username]);
-        connection.execute("INSERT INTO dataSpotUsers.analytics (user, ip, country, page, dato) VALUES (?, ?, ?, ?, ?)", [req.body.username, ip, location, "login", date]);
+        connection.execute("INSERT INTO dataSpotUsers.analytics (user, ip, country, page, dato) VALUES (?, ?, ?, ?, ?)", [req.body.username, ip, location, "login", dateMonthYear]);
         connection.execute("INSERT INTO dataSpotUsers.sessions (token, user) VALUES (?, ?)", [token, req.body.username]);
         setTimeout(() => {
             connection.execute("DELETE FROM dataSpotUsers.sessions WHERE token = ?", [token]);
