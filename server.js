@@ -1,7 +1,7 @@
 // Load all necessary Node.js modules
 require("dotenv").config()
 const express = require('express');
-const requestIp = require('request-ip');
+const useragent = require('express-useragent');
 const app = express();
 const { exec } = require('child_process');
 app.set('trust proxy', 'loopback');
@@ -16,8 +16,7 @@ app.listen(PORT, () => console.log(`Dataspot port: ${PORT}`));
 const bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(requestIp.mw());
-
+app.use(useragent.express());
 const mysql = require('mysql2');
 // Test database connection
 const connection = mysql.createConnection({
@@ -36,7 +35,7 @@ const fs = require('fs');
 const WebSocket = require('ws');
 const pm2 = require('pm2');
 const md5 = require('md5');
-const serverOptions = {
+/* const serverOptions = {
     cert: fs.readFileSync(process.env.FULLCHAIN),
     key: fs.readFileSync(process.env.PRIVKEY)
 };
@@ -44,7 +43,7 @@ const server = https.createServer(serverOptions);
 
 const wss = new WebSocket.Server({ server }, () => {
     console.log('WebSocket server listening on port 8080');
-});
+}); */
 
 const state = {
     filePath: process.env.FILEPATH,
@@ -61,9 +60,11 @@ app.get('/', (req, res) => {
 app.get('/ip', (req, res) => {
     const ip = req.headers['cf-connecting-ip'] ||
         req.headers['x-real-ip'] ||
-        req.headers['x-forwarded-for'];
-    const location = geoip.lookup(ip).city ;  
-    return res.json({ ip, location });
+        req.headers['x-forwarded-for'] || "171.23.129.37"
+    const location = geoip.lookup(ip).city ; 
+    const source = req.headers['user-agent'];
+    const ua = useragent.parse(source); 
+    return res.json({ ip, location, ua });
 });
 
 // Console
@@ -463,7 +464,7 @@ app.post('/login/google', (req, res) => {
 })
 
 
-wss.on('connection', (ws) => {
+/* wss.on('connection', (ws) => {
     fs.watch(state.filePath, (eventType, filename) => {
         if (eventType === 'change') {
             fs.readFile(state.filePath, 'utf8', (err, data) => {
@@ -505,7 +506,7 @@ wss.on('error', (err) => {
 });
 server.listen(8080, () => {
     console.log('WebSocket server listening on port 8080 (via HTTPS)');
-});
+}); */
 
 
 
