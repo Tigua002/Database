@@ -35,7 +35,7 @@ const fs = require('fs');
 const WebSocket = require('ws');
 const pm2 = require('pm2');
 const md5 = require('md5');
-const serverOptions = {
+/* const serverOptions = {
     cert: fs.readFileSync(process.env.FULLCHAIN),
     key: fs.readFileSync(process.env.PRIVKEY)
 };
@@ -43,7 +43,7 @@ const server = https.createServer(serverOptions);
 
 const wss = new WebSocket.Server({ server }, () => {
     console.log('WebSocket server listening on port 8080');
-});
+}); */
 
 const state = {
     filePath: process.env.FILEPATH,
@@ -57,9 +57,9 @@ const state = {
 app.get('/', (req, res) => {
     res.sendFile(__dirname + "/public/index.html");
 });
-
+var get_ip = require('ipware')().get_ip;
 app.get('/ip', (req, res) => {
-    var ip = requestIp.getClientIp(req)
+    var ip = get_ip(req).clientIp
     res.send(ip)
 });
 
@@ -491,7 +491,7 @@ app.post('/login/google', (req, res) => {
 })
 
 
-wss.on('connection', (ws) => {
+/* wss.on('connection', (ws) => {
     fs.watch(state.filePath, (eventType, filename) => {
         if (eventType === 'change') {
             fs.readFile(state.filePath, 'utf8', (err, data) => {
@@ -533,7 +533,7 @@ wss.on('error', (err) => {
 });
 server.listen(8080, () => {
     console.log('WebSocket server listening on port 8080 (via HTTPS)');
-}); 
+});  */
 
 
 
