@@ -1,8 +1,10 @@
 // Load all necessary Node.js modules
 require("dotenv").config()
 const express = require('express');
+const requestIp = require('request-ip');
 const app = express();
 const { exec } = require('child_process');
+app.use(requestIp.mw());
 const PORT = process.env.DataspotPORT;
 app.listen(PORT, () => console.log(`Dataspot port: ${PORT}`));
 
@@ -30,7 +32,7 @@ const fs = require('fs');
 const WebSocket = require('ws');
 const pm2 = require('pm2');
 const md5 = require('md5');
-const serverOptions = {
+/* const serverOptions = {
     cert: fs.readFileSync(process.env.FULLCHAIN),
     key: fs.readFileSync(process.env.PRIVKEY)
 };
@@ -38,7 +40,7 @@ const server = https.createServer(serverOptions);
 
 const wss = new WebSocket.Server({ server }, () => {
     console.log('WebSocket server listening on port 8080');
-});
+}); */
 
 const state = {
     filePath: process.env.FILEPATH,
@@ -157,26 +159,31 @@ app.post('/restart/server/:process', (req, res) => {
 });
 
 app.post('/pull/server/:process', (req, res) => {
-    console.log(state.bashPath);
-
-    exec('bash ' + state.bashPath, (error, stdout, stderr) => {
-        if (error) {
-            console.error(`Error executing command: ${error.message}`);
-            res.send('Error starting server', 500);
-            return;
-        }
-        if (stderr) {
-            console.error(`Error output: ${stderr}`);
-            res.status(500).send('Error starting server');
-            return;
-        }
-        fs.appendFile(state.filePath, "Server shut down  \n", (err) => {
-            if (err) {
-                console.error('Failed to write to file', err);
+    connection.execute(`SELECT BashPath FROM dataSpotUsers.processes WHERE Name = ${req.params.a} `, (err, result) => {
+        let data = JSON.parse(JSON.stringify(result));
+        let bashPath = data[0]
+        console.log(bashPath);
+        exec(`cd ${bashPath}`)
+        exec('bash ' + bashPath, (error, stdout, stderr) => {
+            if (error) {
+                console.error(`Error executing command: ${error.message}`);
+                res.send('Error starting server', 500);
+                return;
             }
-        })
-    });
-    res.status(200).send('Server started successfully');
+            if (stderr) {
+                console.error(`Error output: ${stderr}`);
+                res.status(500).send('Error starting server');
+                return;
+            }
+            fs.appendFile(state.filePath, "Server shut down  \n", (err) => {
+                if (err) {
+                    console.error('Failed to write to file', err);
+                }
+            })
+        });
+        res.status(200).send('Server started successfully');
+
+    })
 });
 app.post('/stop/server/:process', (req, res) => {
     exec('pm2 stop ' + req.params.process, (error, stdout, stderr) => {
@@ -403,6 +410,47 @@ app.post('/delete/server/', (req, res) => {
 });
 
 app.post('/login/google', (req, res) => {
+    const ip = req.clientIp; // Replace with the IP address you want to look up
+    console.log(req.clientIp);
+    
+    const url = `https://api.ip2country.info/ip?${ip}`;
+  
+    https.get(url, (resp) => {
+      let data = '';
+  
+      resp.on('data', (chunk) => {
+        data += chunk;
+      });
+  
+      resp.on('end', () => {
+        try {
+          // Check if the response is valid JSON
+          const isJson = data.startsWith('{') && data.endsWith('}');
+          if (!isJson) {
+            throw new Error('Invalid JSON response');
+          }
+  
+          const location = JSON.parse(data);
+          const country = location.countryName || "unknown";
+          console.log(location);
+          
+          // Insert into database or use the country variable as needed
+          connection.execute("INSERT INTO dataSpotUsers.analytics (user, ip, country, page, dato) VALUES (?, ?, ?, ?, ?)", 
+            [req.body.username, ip, country, "login", date], (err) => {
+              if (err) {
+                console.error('Database error:', err);
+                return res.status(500).send('Database error');
+              }
+            });
+        } catch (error) {
+          console.error('Error parsing JSON:', error);
+        }
+      });
+  
+    }).on("error", (err) => {
+      console.error('Error with HTTP request:', err);
+      res.status(500).send("Error fetching location");
+    });
     if (!req.body.isNewUser) {
         let date = new Date();
         let time = `${date.getMonth()}/${date.getDay()}/${date.getFullYear()}-${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}:${date.getMilliseconds()}`;
@@ -433,7 +481,7 @@ app.post('/login/google', (req, res) => {
 })
 
 
-wss.on('connection', (ws) => {
+/* wss.on('connection', (ws) => {
     fs.watch(state.filePath, (eventType, filename) => {
         if (eventType === 'change') {
             fs.readFile(state.filePath, 'utf8', (err, data) => {
@@ -476,7 +524,7 @@ wss.on('error', (err) => {
 server.listen(8080, () => {
     console.log('WebSocket server listening on port 8080 (via HTTPS)');
 }); 
-
+ */
 
 
 
