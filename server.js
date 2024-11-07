@@ -427,7 +427,7 @@ app.post('/delete/server/', (req, res) => {
 });
 
 app.post('/login/google', (req, res) => {
-    if (!testing) {
+    if (testing) {
 
         const ip = req.headers['cf-connecting-ip'] ||
             req.headers['x-real-ip'] ||
@@ -472,7 +472,7 @@ app.post('/login/google', (req, res) => {
     }
 })
 
-if (!testing) {
+if (testing) {
 
     wss.on('connection', (ws) => {
         fs.watch(state.filePath, (eventType, filename) => {
