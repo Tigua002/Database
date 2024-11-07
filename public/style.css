@@ -209,6 +209,22 @@ td {
 .dataInsertBtn:hover {
     opacity: .8;
 }
+.bulkInsert {
+    color: #333333;
+    background-color: #66B2FF;
+    padding: .4vw;
+    margin: 1vw;
+    border-radius: 1.5vw;
+    font-size: .6vw;
+    cursor: pointer;
+    border: none;
+    outline: none;
+    font-family: RobotoBold;
+}
+
+.bulkInsert:hover {
+    opacity: .8;
+}
 
 .SVG {
     width: 1.2vw;
@@ -451,7 +467,20 @@ dialog {
 .ModalBtn:hover {
     border: #ffffff 1px solid;
 }
-
+.ModalCommit{
+    background-color: #66B2FF;
+    color: #444444;
+    width: 10vw;
+    padding: 1vw;
+    font-size: .8vw;
+    border-radius: 1vw;
+    border: none;
+    margin: 1vw;
+}
+.ModalCommit:hover{
+    transform: scale(.99);
+    opacity: .9;
+}
 .NewTableModal {
     width: 30%;
     min-height: 35%;
@@ -572,12 +601,70 @@ dialog {
     flex-direction: column;
     display: none;
 }
-
 .InsertDataModal::backdrop {
     background: #1A1A1A;
     opacity: .3;
 }
 
+.BulkDataModal {
+    width: 30%;
+    border: solid 2px #1A1A1A;
+    outline: none;
+    background-color: #444444;
+    border-radius: 1vw;
+    margin: auto;
+    align-items: center;
+    justify-content: start;
+    flex-direction: column;
+    display: none;
+}
+
+.BulkDataModal::backdrop {
+    background: #1A1A1A;
+    opacity: .3;
+}
+.BulkArea{
+    background-color: #333333;
+    border: #1A1A1A 1px solid;
+    border-radius: .5vw;
+    height: 40vh;
+    width: 20vw;
+    margin-bottom: 2vh;
+    padding: .3vw;
+    color: white;
+}
+.bulkDiv{
+    margin-bottom: 1vw;
+}
+.Bulks{
+    display: flex;
+    width: 20vw;
+    justify-content: space-between;
+    align-items: center;
+    padding: .2vw;
+}
+.bulkTable{
+    font-size: .8vw;
+    color: #66B2FF;
+    margin: 0%;
+}
+.bulkArrow{
+    color: #66B2FF;
+    font-size: .8vw;
+    margin: 0%;
+}
+.bulkInput{
+    background-color: #1A1A1A;
+    border: none;
+    font-size: .8vw;
+    border-radius: .2vw;
+    padding: .3vw;
+    color: #66B2FF;
+}
+.bulkTitle{
+    color: #ffffff;
+    font-size: 1vw;
+}
 .dataInsertDiv {
     flex-direction: column;
     width: 90%;

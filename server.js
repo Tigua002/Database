@@ -7,6 +7,7 @@ const { exec } = require('child_process');
 app.set('trust proxy', 'loopback');
 app.set('trust proxy', 1);
 const geoip = require('geoip-lite');
+const testing = false
 
 const PORT = process.env.DataspotPORT;
 app.listen(PORT, () => console.log(`Dataspot port: ${PORT}`));
@@ -35,15 +36,20 @@ const fs = require('fs');
 const WebSocket = require('ws');
 const pm2 = require('pm2');
 const md5 = require('md5');
-const serverOptions = {
-    cert: fs.readFileSync(process.env.FULLCHAIN),
-    key: fs.readFileSync(process.env.PRIVKEY)
-};
-const server = https.createServer(serverOptions);
+const { database } = require("firebase-admin");
+const { table } = require("console");
+if (!testing) {
+    const serverOptions = {
+        cert: fs.readFileSync(process.env.FULLCHAIN),
+        key: fs.readFileSync(process.env.PRIVKEY)
+    };
+    const server = https.createServer(serverOptions);
 
-const wss = new WebSocket.Server({ server }, () => {
-    console.log('WebSocket server listening on port 8080');
-});
+    const wss = new WebSocket.Server({ server }, () => {
+        console.log('WebSocket server listening on port 8080');
+    });
+
+}
 
 const state = {
     filePath: process.env.FILEPATH,
@@ -61,10 +67,11 @@ app.get('/ip', (req, res) => {
     const ip = req.headers['cf-connecting-ip'] ||
         req.headers['x-real-ip'] ||
         req.headers['x-forwarded-for'] || "171.23.129.37"
-    const location = geoip.lookup(ip).city ; 
+    const location = geoip.lookup(ip);
     const source = req.headers['user-agent'];
-    const ua = useragent.parse(source); 
+    const ua = useragent.parse(source);
     return res.json({ ip, location, ua });
+    
 });
 
 // Console
@@ -420,16 +427,19 @@ app.post('/delete/server/', (req, res) => {
 });
 
 app.post('/login/google', (req, res) => {
-    const ip = req.headers['cf-connecting-ip'] ||
-        req.headers['x-real-ip'] ||
-        req.headers['x-forwarded-for'] ||
-        '171.23.129.37';
+    if (!testing) {
+
+        const ip = req.headers['cf-connecting-ip'] ||
+            req.headers['x-real-ip'] ||
+            req.headers['x-forwarded-for'] ||
+            '171.23.129.37';
 
 
-    const source = req.headers['user-agent'];
-    const ua = useragent.parse(source); 
-    const location = geoip.lookup(ip).city;
-    
+        const source = req.headers['user-agent'];
+        const ua = useragent.parse(source);
+        const location = geoip.lookup(ip);
+    }
+
 
     if (!req.body.isNewUser) {
         let date = new Date();
@@ -437,7 +447,7 @@ app.post('/login/google', (req, res) => {
         let time = `${date.getMonth()}/${date.getDay()}/${date.getFullYear()}-${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}:${date.getMilliseconds()}`;
         let token = md5(time);
         connection.execute("DELETE FROM dataSpotUsers.sessions WHERE user = ?", [req.body.username]);
-        connection.execute("INSERT INTO dataSpotUsers.analytics (user, ip, country, page, dato, platform, browser, os) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", [req.body.username, ip, location, "login", dateMonthYear, ua.platform, ua.browser, ua.os]);
+        /* connection.execute("INSERT INTO dataSpotUsers.analytics (user, ip, country, page, dato, platform, browser, os) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", [req.body.username, ip, location, "login", dateMonthYear, ua.platform, ua.browser, ua.os]); */
         connection.execute("INSERT INTO dataSpotUsers.sessions (token, user) VALUES (?, ?)", [token, req.body.username]);
         setTimeout(() => {
             connection.execute("DELETE FROM dataSpotUsers.sessions WHERE token = ?", [token]);
@@ -462,50 +472,52 @@ app.post('/login/google', (req, res) => {
     }
 })
 
+if (!testing) {
 
-wss.on('connection', (ws) => {
-    fs.watch(state.filePath, (eventType, filename) => {
-        if (eventType === 'change') {
-            fs.readFile(state.filePath, 'utf8', (err, data) => {
-                if (err) {
-                    console.error('Error reading file');
-                    return;
-                }
-                const body = {
-                    dt: data,
-                    error: false,
-                    serverName: state.targetProcess
-                };
-                ws.send(JSON.stringify(body)); // Convert body to string
-            });
-        }
+    wss.on('connection', (ws) => {
+        fs.watch(state.filePath, (eventType, filename) => {
+            if (eventType === 'change') {
+                fs.readFile(state.filePath, 'utf8', (err, data) => {
+                    if (err) {
+                        console.error('Error reading file');
+                        return;
+                    }
+                    const body = {
+                        dt: data,
+                        error: false,
+                        serverName: state.targetProcess
+                    };
+                    ws.send(JSON.stringify(body)); // Convert body to string
+                });
+            }
+        });
+        fs.watch(state.errorPath, (eventType, filename) => {
+            if (eventType === 'change') {
+                fs.readFile(state.filePath, 'utf8', (err, data) => {
+                    if (err) {
+                        console.error('Error reading file');
+                        return;
+                    }
+                    const body = {
+                        dt: data,
+                        error: true,
+                        serverName: state.targetProcess
+                    };
+                    ws.send(JSON.stringify(body)); // Convert body to string
+                });
+            }
+        });
     });
-    fs.watch(state.errorPath, (eventType, filename) => {
-        if (eventType === 'change') {
-            fs.readFile(state.filePath, 'utf8', (err, data) => {
-                if (err) {
-                    console.error('Error reading file');
-                    return;
-                }
-                const body = {
-                    dt: data,
-                    error: true,
-                    serverName: state.targetProcess
-                };
-                ws.send(JSON.stringify(body)); // Convert body to string
-            });
-        }
+    wss.on('close', () => {
+        console.log('Client disconnected');
     });
-});
-wss.on('close', () => {
-    console.log('Client disconnected');
-});
-wss.on('error', (err) => {
-    console.error('WebSocket error:', err);
-});
-server.listen(8080, () => {
-    console.log('WebSocket server listening on port 8080 (via HTTPS)');
-});
+    wss.on('error', (err) => {
+        console.error('WebSocket error:', err);
+    });
+    server.listen(8080, () => {
+        console.log('WebSocket server listening on port 8080 (via HTTPS)');
+    });
+}
 
 
 
@@ -725,7 +737,12 @@ app.get('/get/users/:a', (req, res) => {
         res.send(data);
     });
 });
-
+app.get('/describe/Table/:database/:table', (req, res) => {
+    connection.query(`describe ${req.params.database}.${req.params.table}`, function (err, result, fields) {
+        let data = JSON.parse(JSON.stringify(result));
+        res.send(data);
+    });
+})
 
 
 

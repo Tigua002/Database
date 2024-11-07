@@ -362,17 +362,53 @@ const closeModal = (name) => {
     modal.close();
     modal.style.display = "none";
 };
+document.getElementsByClassName("bulkInsert")[0].addEventListener("click", async () => {
+    openModal("BulkDataModal")
+    let div = document.getElementsByClassName("bulkDiv")[0]
+    div.innerHTML = `<h1 class='bulkTitle'>What is the JSON variable names?</h1>`
+    console.log(state);
+    
+    let response = await fetch(`/describe/Table/${state.dbInUse}/${state.tableInUse}`)
+    let data = await response.json()
+    console.log(data);
+    for (let i = 0; i < data.length; i++) {
+        let row = data[i];
+        if (row.Field == "ID") {
+            continue;
+        }
+        let holder = document.createElement("div")
+        let input = document.createElement("input")
+        let arrow = document.createElement("h1")
+        let h1 = document.createElement("h1")
+        
+        holder.setAttribute("class", "Bulks")
+        input.setAttribute("class", "bulkInput")
+        arrow.setAttribute("class", "bulkArrow")
+        h1.setAttribute("class", "bulkTable")
 
+        div.appendChild(holder)
+        holder.appendChild(input)
+        holder.appendChild(arrow)
+        holder.appendChild(h1)
+        
+        input.placeholder = "..."
+        arrow.innerHTML = '→'
+        h1.innerHTML = row.Field
+        
+    }
+
+})
 document.getElementsByClassName("ModalClose")[0].addEventListener("click", () => closeModal("NewDatabaseModal"));
 document.getElementsByClassName("ModalClose")[1].addEventListener("click", async () => { closeModal("DatabaseUserModal"); });
 document.getElementsByClassName("ModalClose")[2].addEventListener("click", () => closeModal("InsertDataModal"));
 document.getElementsByClassName("ModalClose")[3].addEventListener("click", () => closeModal("NewTableModal"));
-document.getElementsByClassName("ModalClose")[4].addEventListener("click", () => closeModal("AppendTableModal"));
+document.getElementsByClassName("ModalClose")[5].addEventListener("click", () => closeModal("AppendTableModal"));
 document.getElementsByClassName("BlueBlackBtn")[1].addEventListener("click", () => openModal("NewTableModal"));
-document.getElementsByClassName("ModalClose")[5].addEventListener("click", () => {
+document.getElementById("closeModify").addEventListener("click", () => {
     closeModal("ModifyTable")
     loadData(state.dbInUse, state.tableInUse)
 });
+document.getElementById("closeBulk").addEventListener("click", () => closeModal("BulkDataModal"))
 
 // opens the alterTable menu
 document.getElementById("alterTable").addEventListener("click", async () => {
@@ -731,6 +767,17 @@ document.getElementsByClassName("removeTbl")[0].addEventListener("click", async 
         loadTables(state.dbInUse);
     } catch (error) {
         console.error('There was a problem with the fetch operation:', error);
+    }
+});
+
+// bulk insert
+document.getElementById("bulkInsert").addEventListener("click", () => {
+    let info = document.getElementsByClassName("BulkArea")[0].value;
+    try {
+        let parsedInfo = JSON.parse(info); // Directly parse the string
+        console.log('Parsed data:', parsedInfo);
+    } catch (e) {
+        console.error('Parsing error:', e);
     }
 });
 
