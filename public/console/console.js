@@ -494,10 +494,14 @@ document.getElementById("Settings").addEventListener("click", () => {
     let divHeight 
     console.log("click");
     if (document.getElementsByClassName("settingsDiv")[0].style.height == "0vh") {
+        console.log(divHeight);
+        
         document.getElementsByClassName("settingsDiv")[0].style.height = divHeight
 
     } else {
         divHeight = document.getElementsByClassName("settingsDiv")[0].offsetHeight + "px"
+        console.log(divHeight);
+        
         document.getElementsByClassName("settingsDiv")[0].style.height = "0vh"
     }
 })
