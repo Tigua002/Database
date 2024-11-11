@@ -492,10 +492,10 @@ document.getElementById("restart").addEventListener("click", async () => {
 });
 document.getElementById("Settings").addEventListener("click", () => {
     console.log("click");
-    if (document.getElementsByClassName("settingsDiv")[0].style.height == "auto") {
+    if (document.getElementsByClassName("settingsDiv")[0].style.height == "80vh") {
         document.getElementsByClassName("settingsDiv")[0].style.height = "0vh"
     } else {
-        document.getElementsByClassName("settingsDiv")[0].style.height = "auto"
+        document.getElementsByClassName("settingsDiv")[0].style.height = "80vh"
     }
 })
 document.getElementsByClassName("settingsSave")[0].addEventListener("click", async (event) => {
