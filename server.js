@@ -37,7 +37,7 @@ const WebSocket = require('ws');
 const pm2 = require('pm2');
 const md5 = require('md5');
 const { database } = require("firebase-admin");
-const { table } = require("console");
+let wss;
 if (!testing) {
     const serverOptions = {
         cert: fs.readFileSync(process.env.FULLCHAIN),
@@ -45,7 +45,7 @@ if (!testing) {
     };
     const server = https.createServer(serverOptions);
 
-    const wss = new WebSocket.Server({ server }, () => {
+    wss = new WebSocket.Server({ server }, () => {
         console.log('WebSocket server listening on port 8080');
     });
 
