@@ -437,7 +437,7 @@ app.post('/login/google', (req, res) => {
 
     const source = req.headers['user-agent'];
     const ua = useragent.parse(source);
-    const location = geoip.lookup(ip);
+    const location = geoip.lookup(ip).country;
 
 
 
