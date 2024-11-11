@@ -1120,7 +1120,7 @@ dialog {
     border: none;
     outline: none;
     border-radius: .2vw;
-    height: 0vh;
+    height: auto;
     overflow: hidden;
     display: flex;
     flex-direction: row;
