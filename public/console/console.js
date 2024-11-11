@@ -495,6 +495,8 @@ document.getElementById("Settings").addEventListener("click", () => {
     if (document.getElementsByClassName("settingsDiv")[0].style.height == "0vh") {
         document.getElementsByClassName("settingsDiv")[0].style.height = "auto"
         let divHeight = document.getElementsByClassName("settingsDiv")[0].offsetHeight
+        console.log(divHeight);
+        
         document.getElementsByClassName("settingsDiv")[0].style.height = divHeight
     } else {
         document.getElementsByClassName("settingsDiv")[0].style.height = "0vh"
