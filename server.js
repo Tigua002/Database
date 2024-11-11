@@ -71,7 +71,7 @@ app.get('/ip', (req, res) => {
     const source = req.headers['user-agent'];
     const ua = useragent.parse(source);
     return res.json({ ip, location, ua });
-    
+
 });
 
 // Console
@@ -427,18 +427,17 @@ app.post('/delete/server/', (req, res) => {
 });
 
 app.post('/login/google', (req, res) => {
-    if (testing) {
 
-        const ip = req.headers['cf-connecting-ip'] ||
-            req.headers['x-real-ip'] ||
-            req.headers['x-forwarded-for'] ||
-            '171.23.129.37';
+    const ip = req.headers['cf-connecting-ip'] ||
+        req.headers['x-real-ip'] ||
+        req.headers['x-forwarded-for'] ||
+        '171.23.129.37';
 
 
-        const source = req.headers['user-agent'];
-        const ua = useragent.parse(source);
-        const location = geoip.lookup(ip);
-    }
+    const source = req.headers['user-agent'];
+    const ua = useragent.parse(source);
+    const location = geoip.lookup(ip);
+
 
 
     if (!req.body.isNewUser) {
@@ -472,7 +471,7 @@ app.post('/login/google', (req, res) => {
     }
 })
 
-if (testing) {
+if (!testing) {
 
     wss.on('connection', (ws) => {
         fs.watch(state.filePath, (eventType, filename) => {
@@ -686,6 +685,8 @@ app.post('/delete/table', function (req, res) {
     connection.query(`DROP TABLE ${db}.${table}`)
     res.send(200)
 })
+
+app.post('')
 
 
 app.post('/FetchDatabases', (req, res) => {

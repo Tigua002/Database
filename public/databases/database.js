@@ -777,7 +777,7 @@ document.getElementById("bulkInsert").addEventListener("click", () => {
         let parsedInfo = JSON.parse(info); // Directly parse the string
         console.log('Parsed data:', parsedInfo);
     } catch (e) {
-        console.error('Parsing error:', e);
+        alert('Parsing error: \n', e);
     }
 });
 

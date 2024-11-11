@@ -1126,7 +1126,7 @@ dialog {
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: space-between;
-    transition: 300ms ease-in-out;
+    transition: 300ms ease-out;
 
 }
 .settingsTitle, .settingsTitleHalf{
