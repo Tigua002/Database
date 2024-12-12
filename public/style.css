@@ -78,6 +78,22 @@ td {
     background-color: #1A1A1A;
 }
 
+.databaseDisplays{
+    justify-content: space-around;
+    width: 100%;
+    flex-wrap: wrap;
+    padding-top: 5vh;
+}
+.database{
+    width: 25vw;
+    height: 10vw;
+    background-color: #333333;
+    margin: 1vw;
+    padding-left: 1vw;
+    border-radius: 1vw;
+    flex-direction: column;
+    align-items: start;
+}
 .databaseBody {
     background-color: #333333;
     width: 100%;
@@ -159,15 +175,15 @@ td {
 }
 
 .BlueBlackBtn {
-    background-color: #66B2FF;
-    color: #333333;
+    color: #66B2FF;
+    background-color: #444444;
     border: none;
     padding: .7vw;
     border-radius: 1vw;
     font-size: .8vw;
-    margin: 0vw .5vw;
+    margin: .5vw .5vw;
     cursor: pointer;
-    box-shadow: 2px 2px 8px 2px rgba(27, 27, 27, 1);
+    box-shadow: 2px 2px 8px 2px rgba(27, 27, 27, .2);
     font-family: RobotoBold;
 }
 
@@ -194,8 +210,8 @@ td {
 }
 
 .dataInsertBtn {
-    color: #333333;
-    background-color: #66B2FF;
+    color: #66B2FF;
+    background-color: #444444;
     padding: .4vw;
     margin: 1vw;
     border-radius: 1.5vw;
@@ -204,14 +220,15 @@ td {
     border: none;
     outline: none;
     font-family: RobotoBold;
+    box-shadow: 2px 2px 8px 2px rgba(27, 27, 27, .2);
 }
 
 .dataInsertBtn:hover {
     opacity: .8;
 }
 .bulkInsert {
-    color: #333333;
-    background-color: #66B2FF;
+    color: #66B2FF;
+    background-color: #444444;
     padding: .4vw;
     margin: 1vw;
     border-radius: 1.5vw;
@@ -220,6 +237,7 @@ td {
     border: none;
     outline: none;
     font-family: RobotoBold;
+    box-shadow: 2px 2px 8px 2px rgba(27, 27, 27, .2);
 }
 
 .bulkInsert:hover {
@@ -341,15 +359,15 @@ td {
 }
 
 .addRowBtn {
-    color: #333333;
-    background-color: #ffffff;
+    color: #66B2FF;
+    background-color: #444444;
     padding: .4vw .4vw;
     font-size: .8vw;
     cursor: pointer;
-    min-width: 5vw;
+    min-width: 6vw;
     margin: 0% 0% 0% 1vw;
     width: 5vw;
-    height: 95%;
+    height: 4vh;
     border: none;
     outline: none;
     border-radius: .1vw;
@@ -816,8 +834,8 @@ dialog {
 }
 
 .styleBlueBlack {
-    color: #333333;
-    background-color: #66B2FF;
+    color: #66B2FF;
+    background-color: #444444;
     padding: .4vw;
     margin: 1vw;
     border-radius: 1.5vw;
@@ -826,6 +844,7 @@ dialog {
     border: none;
     outline: none;
     font-family: RobotoBold;
+    box-shadow: 2px 2px 8px 2px rgba(27, 27, 27, .2);
 }
 
 .styleBlueBlack:hover {

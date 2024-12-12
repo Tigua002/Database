@@ -36,8 +36,8 @@ const getToken = async (token) => {
 getToken(localStorage.getItem('token'));
 
 //Header styling
-document.getElementsByClassName("navItem")[1].style.background = "#66b2ff";
-document.getElementsByClassName("navImg")[1].setAttribute("stroke", "#333333");
+document.getElementsByClassName("navItem")[1].style.background = "#333333";
+
 
 
 
@@ -224,7 +224,7 @@ const loadData = async (database, table) => {
     }
     let addRowBtn = document.createElement("button")
     addRowBtn.setAttribute("class", "addRowBtn")
-    addRowBtn.innerHTML = "New Row"
+    addRowBtn.innerHTML = "New column"
     tableRow.appendChild(addRowBtn)
     addRowBtn.addEventListener("click", () => {
         openModal("AppendTableModal")
@@ -771,13 +771,53 @@ document.getElementsByClassName("removeTbl")[0].addEventListener("click", async 
 });
 
 // bulk insert
-document.getElementById("bulkInsert").addEventListener("click", () => {
+document.getElementById("bulkInsert").addEventListener("click", async () => {
     let info = document.getElementsByClassName("BulkArea")[0].value;
     try {
         let parsedInfo = JSON.parse(info); // Directly parse the string
         console.log('Parsed data:', parsedInfo);
+        let response = await fetch(`/describe/Table/${state.dbInUse}/${state.tableInUse}`, {
+            method: "GET"
+        })
+        let tableData = await response.json()
+        console.log(tableData);
+        
+/*         let tableRows = ''
+        for (let i = 0; i < tableData.length; i++) {
+            if (tableData[i].Field == "ID") {
+                continue;
+            }
+            tableRows += tableData[i].Field + " "
+            
+        }
+
+ */
+        let dataConversion = [];
+        for (let i = 0; i < document.getElementsByClassName("bulkTable").length; i++) {
+            const element = document.getElementsByClassName("bulkTable")[i];
+            let desiredValue = element.parentElement.getElementsByClassName("bulkInput")[0].value;
+
+            
+            let arr = { [desiredValue]: element.innerHTML }; // Use computed property name
+            dataConversion.push(arr)
+        }
+        console.log(dataConversion);
+        console.log(dataConversion[0]);
+        
+
+        
+        
+/*         for (let i = 0; i < parsedInfo.length; i++) {
+
+            
+            let row = parsedInfo[i]
+            let string = `INSERT INTO ${state.dbInUse}.${state.tableInUse} (${tableRows}) VALUES (${valueString}); `
+
+            
+        } */
     } catch (e) {
-        alert('Parsing error: \n', e);
+        console.log(e);
+        alert('Faulty data, paste this inn to ChatGPT: \n i am trying to JSON.parse a string but it does not work, here is the string:');
     }
 });
 

@@ -1,5 +1,4 @@
-document.getElementsByClassName("navItem")[2].style.background = "#66B2FF"
-document.getElementsByClassName("navImg")[2].setAttribute("stroke", "#333333")
+document.getElementsByClassName("navItem")[2].style.background = "#333333";
 
 const consoleDiv = document.getElementById('consoleOutput');
 const errorDiv = document.getElementById('consoleError');

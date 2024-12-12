@@ -20,8 +20,7 @@ const getToken = async (token) => {
     }
 }
 
-document.getElementsByClassName("navItem")[0].style.background = "#66B2FF"
-document.getElementsByClassName("navImg")[0].setAttribute("stroke", "#333333")
+document.getElementsByClassName("navItem")[0].style.background = "#333333";
 
 
 
