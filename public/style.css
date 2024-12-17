@@ -79,20 +79,51 @@ td {
 }
 
 .databaseDisplays{
-    justify-content: space-around;
+    justify-content: space-between;
+    align-items: start;
     width: 100%;
     flex-wrap: wrap;
-    padding-top: 5vh;
+    padding: 5vh;
+
 }
 .database{
     width: 25vw;
-    height: 10vw;
+    height: 9vw;
     background-color: #333333;
     margin: 1vw;
     padding-left: 1vw;
     border-radius: 1vw;
     flex-direction: column;
     align-items: start;
+    justify-content: start;
+    color: #66B2FF;
+    box-shadow: 2px 2px 8px 2px #66B2FF;
+}
+.databaseTitle{
+    font-size: 1.5vw;
+    font-family: 'Roboto light';
+    font-weight: 200;
+    cursor: pointer;
+}
+.databaseTitle:hover{
+    text-decoration: underline;
+}
+.databaseOther{
+    justify-content: space-between;
+    width: 90%;
+    margin-top: .7vw;
+    font-size: .5vw;
+    opacity: .8;
+    font-weight: 100;
+}
+.databaseImage{
+    width: 3vw;
+    height: 3vw;
+    border-radius: 50%;
+}
+.databaseOwner{
+    font-weight: 100;
+    font-family: 'RobotoLightItalic';
 }
 .databaseBody {
     background-color: #333333;
@@ -130,8 +161,15 @@ td {
 }
 
 .databaseDiv {
-    width: 100%;
+    width: 95%;
     overflow-x: scroll;
+    position: fixed;
+    background-color: #333333;
+    right: 0%;
+    height: 0%;
+    flex-direction: column;
+    align-items: start;
+    justify-content: start;
 }
 
 .databaseDiv::-webkit-scrollbar {
@@ -144,6 +182,13 @@ td {
     background-color: #1A1A1A;
     border-radius: 1vw;
 }
+.dataHeader{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    border-bottom: solid 1px #333333;
+}
 
 .tableHeader {
     height: auto;
@@ -154,20 +199,40 @@ td {
 
 }
 
+.tableHolder{
+    width: 90%;
+}
 .tableHeader::-webkit-scrollbar {
     display: none;
     width: 0%;
     height: 0%;
 }
+.BackButton{
+    color: #ffffff;
+    font-size: 1.2vw;
+    cursor: pointer;
+    margin: 0%;
+}
 
+.BackButton:hover{
+    opacity: .8;
+}
+.BackButtonSVG{
+    width: 2vw;
+    height: 2vw;
+}
+.BackButtonSVG:hover{
+    opacity: .8;
+}
 .table {
     padding: 1vw;
     font-size: 1vw;
     color: #66B2FF;
+    background-color: transparent;
     cursor: pointer;
     opacity: .9;
-    border-bottom: solid 1px #66B2FF;
     font-family: RobotoLightItalic;
+    background: transparent;
 }
 
 .table:hover {
@@ -250,6 +315,7 @@ td {
 }
 
 .TableDisplay {
+    margin-top: 8vh;
     margin-left: 1%;
     margin-right: 2%;
     padding: .2vw;
@@ -274,6 +340,7 @@ td {
     width: auto;
     max-width: none;
     padding: .2vw 0vw .2vw .3vw;
+    
 }
 
 .tableRow {
@@ -296,7 +363,7 @@ td {
     max-height: none;
     font-size: .5vw;
     font-family: RobotoLight;
-    border-bottom: solid 1px #66B2FF;
+    border-bottom: solid 1px #444444;
     display: flex;
     justify-content: start;
     align-items: center;
@@ -304,11 +371,12 @@ td {
     flex-wrap: wrap;
     line-break: strict;
     flex-basis: 100%;
+    
 }
 
 
 .tableData:hover {
-    background-color: #1A1A1A;
+    background-color: #444444;
 }
 
 .tableInput {
