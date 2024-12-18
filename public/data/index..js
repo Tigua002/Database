@@ -73,6 +73,19 @@ const loadDatabases = async () => {
         const databases = await response.json();
 
         const fragment = document.createDocumentFragment();
+        document.getElementsByClassName("databaseDisplays")[0].innerHTML += `            
+        <div class="databaseCreation flex">
+                <h1 class="databaseTitle">New Database</h1>
+                <div class="databaseOther flex">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1"
+                    stroke="#444444" class="databaseImage">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                </svg>
+                    <h1 class="databaseOwner">-Timur</h1>
+                </div>
+            </div> `
+        document.getElementsByClassName("databaseCreation")[0].addEventListener("click", () => openModal("NewDatabaseModal"));
 
         databases.forEach(db => {
             console.log(db);
@@ -111,11 +124,14 @@ const loadDatabases = async () => {
             div.addEventListener("click", () => {
                 state.dbInUse = db.base
                 loadTables(db.base)
+                console.log("click");
+                
             })
 
         });
 
         document.getElementsByClassName("databaseDisplays")[0].appendChild(fragment);
+
     } catch (error) {
         console.error(error);
         alert("An error occurred while fetching databases.");
@@ -135,22 +151,7 @@ const loadTables = async (database) => {
        document.getElementsByClassName("BlueBlackBtn")[1].removeAttribute("disabled");
        document.getElementById("createUser").style.display = "flex";
        document.getElementsByClassName("dbUserInfo")[0].style.display = "flex";
-       
-       document.getElementsByClassName("TableDisplay")[0].innerHTML = "";
-       document.getElementsByClassName("tableRows")[0].innerHTML = `
-       <input type="text" class="TableName" required placeholder="Table Name" maxlength="50">
-       <h1 class="ModalH1">ROWS:</h1>
-       <div class="newRow">
-           <input type="text" class="RowName" required value="ID" maxlength="50" disabled>
-           <select class="TableType" disabled>
-               <option class="typeOptions" value="int">Number</option>
-               <option class="typeOptions" value="varchar(255)">Short Text</option>
-               <option class="typeOptions" value="LONGTEXT">Multiple Lines of Text</option>
-               <option class="typeOptions" value="custom">Custom</option>
-           </select>
-           <input type="text" class="RowCustom" placeholder="Column Type">
-       </div>
-       `; */
+       */
         const data = {
             token: localStorage.getItem('token'),
             db: database
@@ -184,6 +185,13 @@ const loadTables = async (database) => {
         });
 
         document.getElementsByClassName("tableHolder")[0].appendChild(fragment);
+        let newTable = document.createElement("h1")
+        newTable.setAttribute("class", "newTable")
+        newTable.textContent = "New Table"
+        newTable.addEventListener("click", () => openModal("NewTableModal"));
+
+        document.getElementsByClassName("dataHeader")[0].appendChild(newTable);
+
     } catch (error) {
         console.log(error.message);
         alert("An error occurred while fetching tables.");
@@ -385,24 +393,72 @@ const closeModal = (name) => {
     modal.style.display = "none";
 };
 
+function isValidMySQLDatabaseName(name, checkBlackList) {
+    let value = checkBlackList || false
+    // Check length
+    if (name.length > 64) {
+        alert("LENGTH")
+        return false;
+    }
+    if (state.blackListedDBs[name] && value) {
+        alert("BLACKLIST")
+        return false;
+    }
+
+    // Check for invalid characters
+    const invalidChars = /[^a-zA-Z0-9_$]/;
+    if (invalidChars.test(name)) {
+        alert("Characters")
+        return false;
+    }
+
+    // Check if name starts with a dollar sign (deprecated in MySQL 8.0.32 and later)
+    if (name.startsWith('$')) {
+        alert("dollar")
+        return false;
+    }
+
+    // Check for reserved words (simplified example, not exhaustive)
+    const reservedWords = ["SELECT", "INSERT", "UPDATE", "DELETE", "CREATE", "DROP", "ALTER"];
+    if (reservedWords.includes(name.toUpperCase())) {
+        alert("Reserved")
+        return false;
+    }
+
+    // Check for trailing spaces
+    if (name.endsWith(' ')) {
+        alert("SPACING")
+        return false;
+    }
+
+    // Check for ASCII NUL and supplementary characters
+    if (name.includes('\0') || /[\u{10000}-\u{10FFFF}]/u.test(name)) {
+        alert("SOME BULLSHIT")
+        return false;
+    }
+
+    return true;
+}
+
 
 
 document.getElementsByClassName("BackButton")[0].addEventListener("click", () => {
     document.getElementsByClassName("databaseDiv")[0].style.height = '0%';
     document.getElementsByClassName("TableDisplay")[0].innerHTML = "";
+    document.getElementsByClassName("newTable")[0].remove()
 })
 document.getElementsByClassName("BackButtonSVG")[0].addEventListener("click", () => {
     document.getElementsByClassName("databaseDiv")[0].style.height = '0%';
     document.getElementsByClassName("TableDisplay")[0].innerHTML = "";
+    document.getElementsByClassName("newTable")[0].remove()
 })
 
 
 document.getElementsByClassName("ModalClose")[0].addEventListener("click", () => closeModal("NewDatabaseModal"));
-document.getElementsByClassName("ModalClose")[1].addEventListener("click", async () => { closeModal("DatabaseUserModal"); });
+/* document.getElementsByClassName("ModalClose")[1].addEventListener("click", async () => { closeModal("DatabaseUserModal"); }); */
 document.getElementsByClassName("ModalClose")[2].addEventListener("click", () => closeModal("InsertDataModal"));
 document.getElementsByClassName("ModalClose")[3].addEventListener("click", () => closeModal("NewTableModal"));
 document.getElementsByClassName("ModalClose")[5].addEventListener("click", () => closeModal("AppendTableModal"));
-
 
 document.getElementById("closeModify").addEventListener("click", () => {
     closeModal("ModifyTable")
@@ -410,13 +466,49 @@ document.getElementById("closeModify").addEventListener("click", () => {
 });
 document.getElementById("closeBulk").addEventListener("click", () => closeModal("BulkDataModal"))
 
+
+// creates a database
+document.getElementsByClassName("ModalBtn")[0].addEventListener("click", async () => {
+    let dbName = document.getElementsByClassName("ModalInp")[0].value;
+    const data = { 
+        db: dbName,
+        user: state.user
+     };
+    if (!isValidMySQLDatabaseName(dbName, true)) {
+        alert("Invalid Name")
+        document.getElementsByClassName("ModalInp")[0].value = ""
+        return
+    }
+    try {
+        await fetch("/create/database", {
+            method: "POST",
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        });
+        closeModal("NewDatabaseModal");
+        loadDatabases();
+    } catch (error) {
+        console.error("Failed to create database", error);
+    }
+});
+
 // opens the alterTable menu
 document.getElementById("alterTable").addEventListener("click", async () => {
     document.getElementsByClassName("ModifyHolder")[0].innerHTML = ""
     openModal("ModifyTable")
-    let response = await fetch(`/get/columns/${state.dbInUse}/${state.tableInUse}`, {
-        method: "GET"
-    })
+    const info = {
+        token: localStorage.getItem('token'),
+        db: state.dbInUse,
+        table: state.tableInUse
+    }
+
+    const response = await fetch(`/get/columns/`, {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(info)
+    });
     let data = await response.json()
 
     for (let i = 1; i < data.length; i++) {
@@ -626,6 +718,97 @@ document.getElementsByClassName("removeTbl")[0].addEventListener("click", async 
     }
 });
 
+// inreases the number of rows in a new table
+document.getElementsByClassName("newTableRow")[0].addEventListener("click", () => {
+    let div = document.createElement("div");
+    let Nameinput = document.createElement("input");
+    let DropDown = document.createElement("select");
+    let varchar = document.createElement("option");
+    let longtext = document.createElement("option");
+    let int = document.createElement("option");
+    let Custom = document.createElement("option");
+
+    div.appendChild(Nameinput);
+    div.appendChild(DropDown);
+    DropDown.appendChild(varchar);
+    DropDown.appendChild(longtext);
+    DropDown.appendChild(int);
+    DropDown.appendChild(Custom);
+
+    div.setAttribute("class", "newRow");
+    Nameinput.setAttribute("class", "RowName");
+    Nameinput.setAttribute("required", "true");
+    Nameinput.setAttribute("placeholder", "Column Name");
+    Nameinput.setAttribute("maxlength", "50");
+    Nameinput.setAttribute("type", "text");
+    DropDown.setAttribute("class", "TableType");
+    varchar.setAttribute("value", "varchar(255)");
+    longtext.setAttribute("value", "longtext");
+    int.setAttribute("value", "int");
+    Custom.setAttribute("value", "custom");
+    varchar.innerHTML = "Short Text";
+    longtext.innerHTML = "Multiple Lines of Text";
+    int.innerHTML = "Number";
+    Custom.innerHTML = "Custom";
+    let customInp = document.createElement("input")
+    customInp.setAttribute("class", "RowCustom")
+    customInp.setAttribute("placeholder", "Column Type")
+
+    div.appendChild(customInp)
+
+    document.getElementsByClassName("tableRows")[0].appendChild(div);
+    DropDown.addEventListener("change", () => {
+        if (DropDown.value == "custom") {
+            customInp.style.display = "block"
+        } else {
+            customInp.style.display = "none"
+
+        }
+    })
+});
+// creates a new table
+document.getElementsByClassName("TableForm")[0].addEventListener("submit", async (event) => {
+    event.preventDefault();
+    let tableName = document.getElementsByClassName("TableName")[0].value;
+    let tableArray = [];
+    if (!isValidMySQLDatabaseName(tableName, false)) {
+        alert("invalid table name")
+        return;
+    }
+
+    for (let i = 1; i < document.getElementsByClassName("newRow").length; i++) {
+        let name = document.getElementsByClassName("RowName")[i].value;
+        let type = document.getElementsByClassName("TableType")[i].value
+        if (type == "custom") {
+            type = document.getElementsByClassName("RowCustom")[i].value
+        }
+
+
+
+        tableArray.push({ name, type });
+    }
+
+    const data = {
+        db: state.dbInUse,
+        name: tableName,
+        tableArray
+    };
+
+    try {
+        const response = await fetch("/create/table", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
+        if (!response.ok) throw new Error("Failed to create table");
+        closeModal("NewTableModal");
+        loadTables(state.dbInUse);
+    } catch (error) {
+        console.error(error.message);
+    }
+});
 // bulk insert
 document.getElementById("bulkInsert").addEventListener("click", async () => {
     let info = document.getElementsByClassName("BulkArea")[0].value;
@@ -676,5 +859,7 @@ document.getElementById("bulkInsert").addEventListener("click", async () => {
         alert('Faulty data, paste this inn to ChatGPT: \n i am trying to JSON.parse a string but it does not work, here is the string:');
     }
 });
+
+
 
 loadDatabases()

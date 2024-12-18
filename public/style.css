@@ -79,18 +79,23 @@ td {
 }
 
 .databaseDisplays{
-    justify-content: space-between;
+    justify-content: start;
     align-items: start;
     width: 100%;
     flex-wrap: wrap;
     padding: 5vh;
-
+    overflow-y: scroll;
+    max-height: 90vh;
+}
+.databaseDisplays::-webkit-scrollbar{
+    display: none;
+    width: 0%;
 }
 .database{
-    width: 25vw;
+    width: 22vw;
     height: 9vw;
     background-color: #333333;
-    margin: 1vw;
+    margin: 1vw 2vw;
     padding-left: 1vw;
     border-radius: 1vw;
     flex-direction: column;
@@ -98,6 +103,19 @@ td {
     justify-content: start;
     color: #66B2FF;
     box-shadow: 2px 2px 8px 2px #66B2FF;
+}
+.databaseCreation{
+    width: 22vw;
+    height: 9vw;
+    background-color: #ffffff;
+    margin: 1vw 2vw;
+    padding-left: 1vw;
+    border-radius: 1vw;
+    flex-direction: column;
+    align-items: start;
+    justify-content: start;
+    color: #444444;
+    box-shadow: 2px 2px 8px 2px #333333;
 }
 .databaseTitle{
     font-size: 1.5vw;
@@ -120,6 +138,7 @@ td {
     width: 3vw;
     height: 3vw;
     border-radius: 50%;
+    cursor: pointer;
 }
 .databaseOwner{
     font-weight: 100;
@@ -566,6 +585,23 @@ dialog {
 .ModalCommit:hover{
     transform: scale(.99);
     opacity: .9;
+}
+.newTable{
+    font-size: 1vw;
+    width: 6%;
+    padding: .8% 1%;
+    text-align: center;
+    color: #66B2FF;
+    background-color: #444444;
+    box-shadow: 2px 2px 8px 2px rgba(27, 27, 27, .2);
+    margin: 1%;
+    margin-top: 0.4%;
+    border-radius: 1vw;
+    cursor: pointer;
+}
+.newTable:hover{
+    opacity: .9;
+    transform: scale(.95);
 }
 .NewTableModal {
     width: 30%;
