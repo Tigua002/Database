@@ -7,7 +7,7 @@ const { exec } = require('child_process');
 app.set('trust proxy', 'loopback');
 app.set('trust proxy', 1);
 const geoip = require('geoip-lite');
-const testing = true
+const testing = process.env.TEST
 
 const PORT = process.env.DataspotPORT;
 app.listen(PORT, () => console.log(`Dataspot port: ${PORT}`));
