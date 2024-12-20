@@ -98,11 +98,13 @@ td {
     margin: 1vw 2vw;
     padding-left: 1vw;
     border-radius: 1vw;
-    flex-direction: column;
+    flex-direction: row;
     align-items: start;
     justify-content: start;
     color: #66B2FF;
     box-shadow: 2px 2px 8px 2px #66B2FF;
+    flex-wrap: wrap;
+    justify-content: space-between;
 }
 .databaseCreation{
     width: 22vw;
@@ -122,9 +124,20 @@ td {
     font-family: 'Roboto light';
     font-weight: 200;
     cursor: pointer;
+    margin: 1vw 0vw;
+    height: 2.5vw;
+    display: flex;
+    align-items: center;
 }
 .databaseTitle:hover{
     text-decoration: underline;
+}
+.databaseIcon{
+    width: 2.5vw;
+    height: 2.5vw;
+    margin: 1vw;
+    cursor: pointer;
+
 }
 .databaseOther{
     justify-content: space-between;
@@ -231,6 +244,7 @@ td {
     font-size: 1.2vw;
     cursor: pointer;
     margin: 0%;
+    margin-left: .3vw;
 }
 
 .BackButton:hover{

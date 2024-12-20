@@ -733,8 +733,8 @@ app.post('/Select/data/', (req, res) => {
         res.send(data);
     });
 });
-app.get('/get/users/:a', (req, res) => {
-    connection.query(`SELECT * FROM dataSpotUsers.users WHERE database= '${req.params.a}'`, function (err, result, fields) {
+app.post('/get/users/', (req, res) => {  
+    connection.query(`SELECT * FROM dataSpotUsers.users WHERE database= '${req.body.database}'`, function (err, result, fields) {
         let data = JSON.parse(JSON.stringify(result));
         res.send(data);
     });

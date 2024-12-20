@@ -88,8 +88,6 @@ const loadDatabases = async () => {
         document.getElementsByClassName("databaseCreation")[0].addEventListener("click", () => openModal("NewDatabaseModal"));
 
         databases.forEach(db => {
-            console.log(db);
-
             if (state.blackListedDBs.includes(db.base)) return;
             let div = document.createElement("div")
             div.setAttribute("class", "database flex")
@@ -97,6 +95,7 @@ const loadDatabases = async () => {
             let h1 = document.createElement("h1");
             h1.setAttribute("class", "databaseTitle");
             h1.textContent = sanitizeHTML(db.base);
+
 
             let other = document.createElement("div")
             other.setAttribute("class", "databaseOther flex")
@@ -118,14 +117,53 @@ const loadDatabases = async () => {
             other.appendChild(owner)
 
             div.appendChild(h1)
+            div.innerHTML += `
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="#66B2FF" class="databaseIcon">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+            </svg>`
+            div.getElementsByClassName("databaseIcon")[0].addEventListener("click", async () => {
+                openModal("DatabaseUserModal")
+                let resopnse = await fetch("/get/users/", {
+                    method: "POST",
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        database: db.base
+                    })
+                })
+                let data = await resopnse.json()
+                if (data.length == 0) {
+                    console.log(data);
+                    document.getElementById("createUser").style.display = "flex"
+                    document.getElementsByClassName("dbUserInfo")[0].style.display = "none"
+            
+            
+                } else {
+                    document.getElementById("createUser").style.display = "none"
+                    document.getElementsByClassName("dbUserInfo")[0].style.display = "flex"
+                    document.getElementsByClassName("dbUserValue")[0].innerHTML = data[0].username
+                    document.getElementsByClassName("dbUserValue")[1].innerHTML = data[0].password
+                    document.getElementsByClassName("dbUserValue")[2].innerHTML = "172.104.242.87"
+                    console.log(data[0].host);
+            
+                    if (data[0].host == "%") {
+                        document.getElementsByClassName("dbUserValue")[3].innerHTML = "all"
+                    }
+                    else {
+                        document.getElementsByClassName("dbUserValue")[3].innerHTML = data[0].host
+            
+                    }
+                }
+            })
             div.append(other)
             fragment.appendChild(div);
 
-            div.addEventListener("click", () => {
+            div.getElementsByClassName("databaseTitle")[0].addEventListener("click", () => {
                 state.dbInUse = db.base
                 loadTables(db.base)
                 console.log("click");
-                
+
             })
 
         });
@@ -455,10 +493,10 @@ document.getElementsByClassName("BackButtonSVG")[0].addEventListener("click", ()
 
 
 document.getElementsByClassName("ModalClose")[0].addEventListener("click", () => closeModal("NewDatabaseModal"));
-/* document.getElementsByClassName("ModalClose")[1].addEventListener("click", async () => { closeModal("DatabaseUserModal"); }); */
+document.getElementsByClassName("ModalClose")[1].addEventListener("click", async () => { closeModal("DatabaseUserModal"); }); 
 document.getElementsByClassName("ModalClose")[2].addEventListener("click", () => closeModal("InsertDataModal"));
-document.getElementsByClassName("ModalClose")[3].addEventListener("click", () => closeModal("NewTableModal"));
-document.getElementsByClassName("ModalClose")[5].addEventListener("click", () => closeModal("AppendTableModal"));
+document.getElementsByClassName("ModalClose")[4].addEventListener("click", () => closeModal("NewTableModal"));
+document.getElementsByClassName("ModalClose")[6].addEventListener("click", () => closeModal("AppendTableModal"));
 
 document.getElementById("closeModify").addEventListener("click", () => {
     closeModal("ModifyTable")
@@ -470,10 +508,10 @@ document.getElementById("closeBulk").addEventListener("click", () => closeModal(
 // creates a database
 document.getElementsByClassName("ModalBtn")[0].addEventListener("click", async () => {
     let dbName = document.getElementsByClassName("ModalInp")[0].value;
-    const data = { 
+    const data = {
         db: dbName,
         user: state.user
-     };
+    };
     if (!isValidMySQLDatabaseName(dbName, true)) {
         alert("Invalid Name")
         document.getElementsByClassName("ModalInp")[0].value = ""
@@ -685,6 +723,7 @@ document.getElementById("createUser").addEventListener("click", (event) => {
     })
 
 })
+
 
 // delete a table
 document.getElementsByClassName("removeTbl")[0].addEventListener("click", async () => {
