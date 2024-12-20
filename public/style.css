@@ -2,15 +2,27 @@
     font-family: 'RobotoBold';
     src: url('fonts/roboto/Roboto-Bold.ttf') format('truetype');
 }
+@font-face {
+    font-family: 'LemonBold';
+    src: url('fonts/lemon_milk/LEMONMILK-Bold.otf');
+}
 
 @font-face {
     font-family: 'RobotoLightItalic';
     src: url('fonts/roboto/Roboto-LightItalic.ttf') format('truetype');
 }
+@font-face {
+    font-family: 'LemonLightItalic';
+    src: url('fonts/lemon_milk/LEMONMILK-LightItalic.otf');
+}
 
 @font-face {
     font-family: 'RobotoLight';
     src: url('fonts/roboto/Roboto-Light.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'LemonLight';
+    src: url('fonts/lemon_milk/LEMONMILK-Light.otf');
 }
 
 
@@ -21,7 +33,7 @@ body {
     border: none;
     overflow: hidden;
     background-color: #444444;
-    font-family: RobotoBold;
+    font-family: 'RobotoBold', 'LemonBold';
 }
 
 td {
@@ -121,7 +133,7 @@ td {
 }
 .databaseTitle{
     font-size: 1.5vw;
-    font-family: 'Roboto light';
+    font-family: 'Roboto light', 'Cleon';
     font-weight: 200;
     cursor: pointer;
     margin: 1vw 0vw;
@@ -155,7 +167,7 @@ td {
 }
 .databaseOwner{
     font-weight: 100;
-    font-family: 'RobotoLightItalic';
+    font-family: 'RobotoLightItalic', 'LemonLightItalic';
 }
 .databaseBody {
     background-color: #333333;
@@ -264,7 +276,7 @@ td {
     background-color: transparent;
     cursor: pointer;
     opacity: .9;
-    font-family: RobotoLightItalic;
+    font-family: 'RobotoLightItalic', 'LemonLightItalic';
     background: transparent;
 }
 
@@ -282,7 +294,7 @@ td {
     margin: .5vw .5vw;
     cursor: pointer;
     box-shadow: 2px 2px 8px 2px rgba(27, 27, 27, .2);
-    font-family: RobotoBold;
+    font-family: 'RobotoBold', 'LemonBold';
 }
 
 .BlueBlackBtn:hover {
@@ -317,7 +329,7 @@ td {
     cursor: pointer;
     border: none;
     outline: none;
-    font-family: RobotoBold;
+    font-family: 'RobotoBold','LemonBold';
     box-shadow: 2px 2px 8px 2px rgba(27, 27, 27, .2);
 }
 
@@ -334,7 +346,7 @@ td {
     cursor: pointer;
     border: none;
     outline: none;
-    font-family: RobotoBold;
+    font-family: 'RobotoBold', 'LemonBold';
     box-shadow: 2px 2px 8px 2px rgba(27, 27, 27, .2);
 }
 
@@ -395,7 +407,7 @@ td {
     min-height: 3vh;
     max-height: none;
     font-size: .5vw;
-    font-family: RobotoLight;
+    font-family: 'RobotoLight', 'LemonLight';
     border-bottom: solid 1px #444444;
     display: flex;
     justify-content: start;
@@ -421,7 +433,7 @@ td {
     color: #66B2FF;
     font-size: .5vw;
     outline: none;
-    font-family: RobotoLight;
+    font-family: 'RobotoLight', 'LemonLight';
     width: 100%;
     min-width: 100%;
 }
@@ -961,7 +973,7 @@ dialog {
     cursor: pointer;
     border: none;
     outline: none;
-    font-family: RobotoBold;
+    font-family: 'RobotoBold', 'LemonBold';
     box-shadow: 2px 2px 8px 2px rgba(27, 27, 27, .2);
 }
 
@@ -1203,7 +1215,7 @@ dialog {
     border-radius: .2vw;
     margin: .5vw;
     padding: .5vw;
-    font-family: RobotoBold;
+    font-family: 'RobotoBold', 'LemonBold';
     height: 4vh;
     cursor: pointer;
     width: 45%;
