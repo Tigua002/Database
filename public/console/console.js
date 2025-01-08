@@ -473,7 +473,7 @@ document.getElementById("restart").addEventListener("click", async () => {
     document.getElementById("statusText").innerText = "Restarting"
 
     try {
-        let response = await fetch(`/pull/server/${state.processInUse}/${state.GLink}`, {
+        let response = await fetch(`/pull/server/${state.processInUse}`, {
             method: "POST"
         });
         if (response.ok) {
