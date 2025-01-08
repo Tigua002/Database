@@ -177,7 +177,11 @@ app.post('/restart/server/:process', (req, res) => {
 });
 
 app.post('/pull/server/:process', (req, res) => {
-    connection.execute(`SELECT * FROM dataSpotUsers.processes WHERE Name = ${req.params.a} `, (err, result) => {
+    connection.execute(`SELECT * FROM dataSpotUsers.processes WHERE Name = ${req.params.process} `, (err, result) => {
+        console.log(req.params.process);
+        console.log(result);
+        
+        
         let data = JSON.parse(JSON.stringify(result));
         let bashPath = data[0]
         console.log(bashPath);
