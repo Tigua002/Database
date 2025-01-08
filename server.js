@@ -177,12 +177,12 @@ app.post('/restart/server/:process', (req, res) => {
 });
 
 app.post('/pull/server/:process', (req, res) => {
-    connection.execute(`SELECT BashPath FROM dataSpotUsers.processes WHERE Name = ${req.params.a} `, (err, result) => {
+    connection.execute(`SELECT * FROM dataSpotUsers.processes WHERE Name = ${req.params.a} `, (err, result) => {
         let data = JSON.parse(JSON.stringify(result));
         let bashPath = data[0]
         console.log(bashPath);
-        exec(`cd ${bashPath}`)
-        exec('bash ' + bashPath, (error, stdout, stderr) => {
+        exec(`cd ${bashPath.BashPath}`)
+        exec(`bash ${bashPath.Name}.sh`, (error, stdout, stderr) => {
             if (error) {
                 console.error(`Error executing command: ${error.message}`);
                 res.send('Error starting server', 500);
@@ -322,7 +322,7 @@ app.post('/create/Server', (req, res) => {
 
     connection.execute(
         'INSERT INTO dataSpotUsers.processes (GithubLink, PORT, Domain, Email, DisplayName, Name, BashPath) VALUES (?, ?, ?, ?, ?, ?, ?)',
-        [req.body.GLink, req.body.PORT, req.body.Domain, req.body.Email, req.body.Name, req.body.Name, `../DataspotServers/${req.body.Domain}/${req.body.Name}.sh`],
+        [req.body.GLink, req.body.PORT, req.body.Domain, req.body.Email, req.body.Name, req.body.Name, `../DataspotServers/${req.body.Domain}`],
         (err, results) => {
             if (err) {
                 console.error('Database update error:', err);
