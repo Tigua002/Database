@@ -178,14 +178,20 @@ app.post('/restart/server/:process', (req, res) => {
 
 app.post('/pull/server/:process', (req, res) => {
     connection.execute(`SELECT * FROM dataSpotUsers.processes WHERE Name = '${req.params.process}' `, (err, result) => {
+        if (err) {
+            console.error(`Database error: ${err.message}`);
+            res.status(500).send('Database error');
+            return;
+        }
+
         console.log(req.params.process);
         console.log(result);
 
-
         let data = JSON.parse(JSON.stringify(result));
-        let bashPath = data[0]
+        let bashPath = data[0];
         console.log(bashPath.BashPath);
         console.log(bashPath.Name);
+
         exec(`cd ${bashPath.BashPath} \n bash ${bashPath.Name}.sh`, (error, stdout, stderr) => {
             if (error) {
                 console.error(`Error executing command: ${error.message}`);
@@ -197,16 +203,19 @@ app.post('/pull/server/:process', (req, res) => {
                 res.status(500).send('Error starting server');
                 return;
             }
+
             fs.appendFile(state.filePath, "Server shut down  \n", (err) => {
                 if (err) {
                     console.error('Failed to write to file', err);
                 }
-            })
-        });
-        res.status(200).send('Server started successfully');
+            });
 
-    })
+            res.status(200).send('Server started successfully');
+        });
+    });
 });
+
+
 app.post('/stop/server/:process', (req, res) => {
     exec('pm2 stop ' + req.params.process, (error, stdout, stderr) => {
         if (error) {
