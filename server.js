@@ -180,8 +180,8 @@ app.post('/pull/server/:process', (req, res) => {
     connection.execute(`SELECT * FROM dataSpotUsers.processes WHERE Name = ${req.params.process} `, (err, result) => {
         console.log(req.params.process);
         console.log(result);
-        
-        
+
+
         let data = JSON.parse(JSON.stringify(result));
         let bashPath = data[0]
         console.log(bashPath);
@@ -446,12 +446,12 @@ app.post('/login/google', (req, res) => {
 
 
     if (!req.body.isNewUser) {
-        let date = new Date();
-        let dateMonthYear = `${date.getMonth()}/${date.getDay()}/${date.getFullYear()}`
+        let date = new Date()
+        let dateString = `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}`
         let time = `${date.getMonth()}/${date.getDay()}/${date.getFullYear()}-${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}:${date.getMilliseconds()}`;
         let token = md5(time);
         connection.execute("DELETE FROM dataSpotUsers.sessions WHERE user = ?", [req.body.username]);
-        connection.execute("INSERT INTO dataSpotUsers.analytics (user, ip, country, page, dato, platform, browser, os) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", [req.body.username, ip, location, "login", dateMonthYear, ua.platform, ua.browser, ua.os]);
+        connection.execute("INSERT INTO dataSpotUsers.analytics (user, ip, country, page, dato, platform, browser, os) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", [req.body.username, ip, location, "login", dateString, ua.platform, ua.browser, ua.os]);
         connection.execute("INSERT INTO dataSpotUsers.sessions (token, user) VALUES (?, ?)", [token, req.body.username]);
         setTimeout(() => {
             connection.execute("DELETE FROM dataSpotUsers.sessions WHERE token = ?", [token]);
@@ -737,7 +737,7 @@ app.post('/Select/data/', (req, res) => {
         res.send(data);
     });
 });
-app.post('/get/users/', (req, res) => {  
+app.post('/get/users/', (req, res) => {
     connection.query(`SELECT * FROM dataSpotUsers.users WHERE database= '${req.body.database}'`, function (err, result, fields) {
         let data = JSON.parse(JSON.stringify(result));
         res.send(data);
