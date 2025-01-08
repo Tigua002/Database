@@ -186,11 +186,10 @@ app.post('/pull/server/:process', (req, res) => {
         let bashPath = data[0]
         console.log(bashPath.BashPath);
         console.log(bashPath.Name);
-        exec(`cd ${bashPath.BashPath}`)
-        exec(`bash ${bashPath.Name}.sh`, (error, stdout, stderr) => {
+        exec(`cd ${bashPath.BashPath} \n bash ${bashPath.Name}.sh`, (error, stdout, stderr) => {
             if (error) {
                 console.error(`Error executing command: ${error.message}`);
-                res.send('Error starting server', 500);
+                res.status(500).send('Error starting server');
                 return;
             }
             if (stderr) {
