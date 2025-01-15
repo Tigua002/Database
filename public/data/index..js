@@ -179,6 +179,31 @@ const loadTables = async (database) => {
     console.log(database);
 
     try {
+        const dbResponse = await fetch("/FetchDatabases",
+            {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ owner: state.user })
+            });
+        if (!dbResponse.ok) throw new Error("Failed to fetch databases");
+
+        const databases = await dbResponse.json();
+        console.log(databases);
+        
+        for (let i = 0; i < databases.length; i++) {
+            const element = databases[i];
+            console.log(element);
+            if (element.base == database) {
+                break
+            }
+
+            if (i + 1 == databases.length) {
+                window.location.reload()                
+            }
+            
+        }
         document.getElementsByClassName("BackButton")[0].textContent = database
         document.getElementsByClassName("tableHolder")[0].innerHTML = '';
         document.getElementsByClassName("databaseDiv")[0].style.height = '100%';
@@ -254,6 +279,31 @@ const resetStyles = (elements, background, color) => {
 };
 
 const loadData = async (database, table) => {
+    const dbResponse = await fetch("/FetchDatabases",
+        {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ owner: state.user })
+        });
+    if (!dbResponse.ok) throw new Error("Failed to fetch databases");
+
+    const databases = await dbResponse.json();
+    console.log(databases);
+    
+    for (let i = 0; i < databases.length; i++) {
+        const element = databases[i];
+        console.log(element);
+        if (element.base == database) {
+            break
+        }
+
+        if (i + 1 == databases.length) {
+            window.location.reload()                
+        }
+        
+    }
     document.getElementsByClassName("dataInsertBtn")[0].removeAttribute("disabled");
     document.getElementById("alterTable").removeAttribute("disabled");
     state.tableInUse = table;

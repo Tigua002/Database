@@ -739,10 +739,15 @@ app.post('/get/Tables/', (req, res) => {
     });
 });
 app.post('/get/columns/', (req, res) => {
-    connection.query(`use ${req.body.db}`)
-    connection.query('DESCRIBE ' + req.body.table, function (err, result, fields) {
-        let data = JSON.parse(JSON.stringify(result));
-        res.send(data);
+
+    connection.query(`DESCRIBE ${req.body.db}.${req.body.table}`, function (err, result, fields) {
+        if (result) {
+            let data = JSON.parse(JSON.stringify(result));
+            res.send(data);
+            
+        } else {
+            res.send("No hacking please :)")
+        }
     });
 });
 app.post('/Select/data/', (req, res) => {
