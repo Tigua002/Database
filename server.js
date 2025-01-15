@@ -184,13 +184,9 @@ app.post('/pull/server/:process', (req, res) => {
             return;
         }
 
-        console.log(req.params.process);
-        console.log(result);
 
         let data = JSON.parse(JSON.stringify(result));
         let bashPath = data[0];
-        console.log(bashPath.BashPath);
-        console.log(bashPath.Name);
 
         exec(`cd ${bashPath.BashPath} \n bash ${bashPath.Name}.sh`, (error, stdout, stderr) => {
             if (error) {
@@ -429,7 +425,6 @@ server {
 });
 
 app.post('/delete/server/', (req, res) => {
-    console.log(req.body);
     connection.query(`DELETE FROM dataSpotUsers.processes WHERE Name = ?`, [req.body.trueName], (err, result) => {
         if (err) {
             console.error('Database update error:', err);
