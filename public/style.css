@@ -1091,7 +1091,7 @@ dialog {
 }
 #consoleOutput, #consoleError{
     margin: 1vw;
-    background-color: #1A1A1A;
+    background-color: #333333;
     width: 30vw;
     height: 80vh;
     color: #ffffff;
@@ -1175,7 +1175,7 @@ dialog {
     width: 22vw;
     flex-wrap: wrap;
     flex-direction: row;
-    background-color: #1A1A1A;
+    background-color: #333333;
     border-radius: .2vw;
     min-height: 10vh;
     justify-content: space-between;
@@ -1400,7 +1400,7 @@ dialog {
     width: 22vw;
     flex-wrap: wrap;
     flex-direction: row;
-    background-color: #1A1A1A;
+    background-color: #333333;
     border-radius: .2vw;
     min-height: 10vh;
     justify-content: center;
@@ -1408,7 +1408,7 @@ dialog {
     top: 6%;
     color: #ffffff;
     padding-bottom: 1vw;
-    height: 100%;
+    height: 85%;
 }
 .ServerDesc, .ServerDescHalf{
     width: 90%;
@@ -1424,8 +1424,8 @@ dialog {
 }
 .ServerInput, .ServerInputHalf{
     width: 88%;
-    background-color: #333333;
-    color: #1A1A1A;
+    background-color: #444444;
+    color: #66B2FF;
     padding: 3%;
     padding-left: 2%;
     padding-right: 2%;
@@ -1433,7 +1433,6 @@ dialog {
     border: none;
     outline: none;
     border-radius: .2vw;
-    color: #ffffff;
 }
 .ServerInputHalf{
     width: 40%;
@@ -1444,7 +1443,7 @@ dialog {
 .ServerCreate{
     margin-top: 1vw;
     width: 90%;
-    background-color: #ffffff;
+    background-color: #66B2FF;
     color: #1A1A1A;
     padding: .5vw;
     border-radius: .2vw;
