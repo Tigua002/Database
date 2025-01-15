@@ -2,8 +2,8 @@ document.getElementsByClassName("navItem")[2].style.background = "#333333";
 
 const consoleDiv = document.getElementById('consoleOutput');
 const errorDiv = document.getElementById('consoleError');
-// const ws = new WebSocket('ws://localhost:8080');
-const ws = new WebSocket('wss://dataspot.gusarov.site:8080');
+const ws = new WebSocket('ws://localhost:8080');
+// const ws = new WebSocket('wss://dataspot.gusarov.site:8080');
 const state = {
     errEvent: null,
     logEvent: null,
