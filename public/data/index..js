@@ -224,7 +224,8 @@ const loadTables = async (database) => {
 
         document.getElementsByClassName("tableHolder")[0].appendChild(fragment);
         if(document.getElementsByClassName("newTable")){
-            document.getElementsByClassName("newTable").remove()
+        
+            document.getElementsByClassName("newTable")[0].remove()
         }
         let newTable = document.createElement("h1")
         newTable.setAttribute("class", "newTable")
