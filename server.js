@@ -343,19 +343,25 @@ app.post('/create/Server', (req, res) => {
             }
 
             let fileContents = `
-                server {
-                    listen 80;
-                    server_name ${req.body.Domain};
+server {
+    listen 80;
+    server_name ${req.body.Domain};
+    location / {
+        proxy_pass http://localhost:${req.body.PORT};
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+    }
+    error_page 500 502 503 504 /custom_502.html;
+    location = /custom_502.html {
+        root /usr/share/nginx/html;
+        internal;
 
-                    location / {
-                        proxy_pass http://localhost:${req.body.PORT};
-                        proxy_http_version 1.1;
-                        proxy_set_header Upgrade $http_upgrade;
-                        proxy_set_header Connection 'upgrade';
-                        proxy_set_header Host $host;
-                        proxy_cache_bypass $http_upgrade;
-                    }
-                }`;
+    }
+}
+            `;
 
             fs.writeFile(`../../../etc/nginx/sites-available/${req.body.Domain}`, fileContents, (err) => {
                 if (err) {
