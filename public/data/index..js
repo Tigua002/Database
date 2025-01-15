@@ -223,7 +223,7 @@ const loadTables = async (database) => {
         });
 
         document.getElementsByClassName("tableHolder")[0].appendChild(fragment);
-        if(document.getElementsByClassName("newTable")){
+        if(document.getElementsByClassName("newTable")[0]){
         
             document.getElementsByClassName("newTable")[0].remove()
         }
