@@ -12,8 +12,8 @@ document.getElementsByClassName("navItem")[1].style.background = "#333333";
 
 const getToken = async (token) => {
     if (!token) {
-        window.location.assign('/login')
         localStorage.clear()
+        window.location.assign('/login')
         return false
     } else {
         await fetch('/checkToken', {
@@ -26,8 +26,8 @@ const getToken = async (token) => {
             .then(data => {
                 if (data == 'Unauthorized') {
                     console.log("Unauthorized")
-                    window.location.assign('/login')
                     localStorage.clear()
+                    window.location.assign('/login')
                     return false
                 } else {
                     state.user = JSON.parse(data).user

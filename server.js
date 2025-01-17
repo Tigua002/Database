@@ -701,8 +701,6 @@ app.post('/delete/table', function (req, res) {
     res.send(200)
 })
 
-app.post('')
-
 
 app.post('/FetchDatabases', (req, res) => {
 
