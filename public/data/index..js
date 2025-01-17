@@ -123,7 +123,7 @@ const loadDatabases = async () => {
             </svg>`
             div.getElementsByClassName("databaseIcon")[0].addEventListener("click", async () => {
                 openModal("DatabaseUserModal")
-                state.dbInUse = db
+                state.dbInUse = db.base
                 let resopnse = await fetch("/get/users/", {
                     method: "POST",
                     headers: {
