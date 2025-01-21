@@ -1228,10 +1228,28 @@ dialog {
 }
 #rerun{
     color: #ffffff;
+    background-color: #1A1A1A;
 }
 #restart{
     background-color: #444444;
     color: #ffffff;
+}
+#visitSite{
+    width: 100%;
+    background-color: #66B2FF;
+    color: white;
+    font-size: 1vw;
+    margin: .5vw;
+    margin-top: 1vw;
+    padding: .5vw;
+    cursor: pointer;
+    border: none;
+    outline: none;
+    border-radius: .2vw;    
+}
+#visitSite:hover{
+    transform: scale(99%);
+    opacity: .8;
 }
 #Settings{
     width: 100%;
@@ -1239,7 +1257,6 @@ dialog {
     color: white;
     font-size: 1vw;
     margin: .5vw;
-    margin-top: 1vw;
     padding: .5vw;
     cursor: pointer;
     border: none;

@@ -643,14 +643,15 @@ app.post("/create/user", function (req, res) {
     let username = ""
     let password = ""
 
-    if (host == "0.0.0.0") {
-        host = "%"
-    }
-
     for (let i = 0; i < 12; i++) {
         username += chars.charAt(Math.floor(Math.random() * chars.length));
         password += chars.charAt(Math.floor(Math.random() * chars.length));
     }
+
+    if (host == "0.0.0.0") {
+        host = "%"
+    }
+
 
 
 

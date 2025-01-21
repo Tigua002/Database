@@ -76,7 +76,7 @@ const loadProjects = async () => {
                             } else {
                                 event.target.classList.add("projectHover")
                             }
-
+                            state.oldDomain = process.Domain
                             state.processInUse = process.DisplayName
                             state.trueName = process.Name
                             state.BaskLink = process.BashPath
