@@ -1247,6 +1247,7 @@ dialog {
     outline: none;
     border-radius: .2vw;    
     text-align: center;
+    text-decoration: none;
 }
 #visitSite:hover{
     transform: scale(99%);
