@@ -76,7 +76,7 @@ const loadProjects = async () => {
                             } else {
                                 event.target.classList.add("projectHover")
                             }
-                            document.getElementById("visitSite").setAttribute("href", process.Domain)
+                            document.getElementById("visitSite").setAttribute("href", "https://" +process.Domain)
                             state.processInUse = process.DisplayName
                             state.trueName = process.Name
                             state.BaskLink = process.BashPath
