@@ -370,7 +370,7 @@ server {
                 let bashFile = `
                 ln -s /etc/nginx/sites-available/${req.body.Domain} /etc/nginx/sites-enabled/
                 wait
-                certbot --nginx -n --agree-tos --email ${req.body.Email} -d ${req.body.Domain}
+                certbot --nginx -n --agree-tos --email gusarov.timur@gmail.com -d ${req.body.Domain}
                 wait
                 cd ../DataspotServers
                 mkdir ${req.body.Domain}
@@ -703,6 +703,55 @@ app.post('/delete/table', function (req, res) {
 })
 
 
+
+app.post('/FavDB', (req, res) => {
+    connection.execute("SELECT * FROM dataSpotUsers.sessions WHERE token = ?", [req.body.token], (err, result) => {
+        if (err) {
+            res.status(500).send('Error checking token');
+            return;
+        }
+        if (result.length === 0) {
+            res.status(401).send('Unauthorized');
+            return;
+        }
+        let username = result[0].user
+
+        connection.execute("SELECT * FROM dataSpotUsers.DataspotUsers WHERE email = ?", [username], (error, result) => {
+            console.log(`${req.body.Database}.${req.body.table}`);
+            console.log(result[0].FavDB);
+            
+            if(result[0].FavDB == `${req.body.Database}.${req.body.table}`) {
+                res.status(200).send({Message: true});
+            } else {
+                res.status(200).send({Message: false})
+            }
+        })
+    });
+
+});
+app.post('/setFavDB', (req, res) => {
+    connection.execute("SELECT * FROM dataSpotUsers.sessions WHERE token = ?", [req.body.token], (err, result) => {
+        if (err) {
+            res.status(500).send('Error checking token');
+            return;
+        }
+        if (result.length === 0) {
+            res.status(401).send('Unauthorized');
+            return;
+        }
+        let username = result[0].user
+
+        connection.execute("UPDATE dataSpotUsers.DataspotUsers SET FavDB = ? WHERE email = ?", [`${req.body.db}.${req.body.tbl}`, username], (error, result) => {
+            
+            if(error){
+                res.status(500).send(error)
+            } else {
+                res.status(200).send({message: "Successfully updated favorite db"})
+            }
+        })
+    });
+
+});
 app.post('/FetchDatabases', (req, res) => {
 
     connection.query('Select * FROM dataSpotUsers.dataspotDatabases WHERE owner = ?', [req.body.owner], function (err, result, fields) {

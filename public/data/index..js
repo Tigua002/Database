@@ -295,7 +295,6 @@ const loadData = async (database, table) => {
     
     for (let i = 0; i < databases.length; i++) {
         const element = databases[i];
-        console.log(element);
         if (element.base == database) {
             break
         }
@@ -354,6 +353,30 @@ const loadData = async (database, table) => {
     addRowBtn.addEventListener("click", () => {
         openModal("AppendTableModal")
     })
+
+    const FavDBreq = await fetch('/FavDB', {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            token: localStorage.getItem("token"),
+            Database: database,
+            table: table
+        })
+    })
+    let FavDB = await FavDBreq.json()
+    console.log(FavDB)
+    if(FavDB.Message){
+        document.getElementById("FavDB").style.backgroundColor = "#36C936"
+        document.getElementById("FavDB").style.color = "#333333"
+        document.getElementById("FavDB").innerText = "Favorited"
+    } else {
+        document.getElementById("FavDB").style.backgroundColor = "#B22222"
+        document.getElementById("FavDB").style.color = "#ffffff"
+        document.getElementById("FavDB").innerText = "Favorite this table"
+    }
+    
     const SelectData = {
         token: localStorage.getItem('token'),
         db: database,
@@ -979,6 +1002,30 @@ document.getElementById("bulkInsert").addEventListener("click", async () => {
         alert('Faulty data, paste this inn to ChatGPT: \n i am trying to JSON.parse a string but it does not work, here is the string:');
     }
 });
+document.getElementById("FavDB").addEventListener("click", async () => {
+    let response = await fetch('/setFavDB', {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            token: localStorage.getItem("token"),
+            db: state.dbInUse,
+            tbl: state.tableInUse
+        })
+    })
+    let answer = await response.json()
+    console.log(answer);
+    if (answer.message = "Successfully updated favorite db") {
+        document.getElementById("FavDB").style.backgroundColor = "#36C936"
+        document.getElementById("FavDB").style.color = "#333333"
+        document.getElementById("FavDB").innerText = "Favorited"
+        
+    } else {
+        console.error("Stinky occurance");
+    }
+})
+
 
 
 
