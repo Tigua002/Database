@@ -717,8 +717,6 @@ app.post('/FavDB', (req, res) => {
         let username = result[0].user
 
         connection.execute("SELECT * FROM dataSpotUsers.DataspotUsers WHERE email = ?", [username], (error, result) => {
-            console.log(`${req.body.Database}.${req.body.table}`);
-            console.log(result[0].FavDB);
             
             if(result[0].FavDB == `${req.body.Database}.${req.body.table}`) {
                 res.status(200).send({Message: true});
@@ -813,6 +811,39 @@ app.get('/describe/Table/:database/:table', (req, res) => {
     });
 })
 
+
+app.post('/dashDB', (req, res) => {
+    connection.execute("SELECT * FROM dataSpotUsers.sessions WHERE token = ?", [req.body.token], (err, result) => {
+        if (err) {
+            res.status(500).send('Error checking token');
+            return;
+        }
+        if (result.length === 0) {
+            res.status(401).send('Unauthorized');
+            return;
+        }
+        let username = result[0].user
+
+        connection.execute("SELECT * FROM dataSpotUsers.DataspotUsers WHERE email = ?", [username], (error, result) => {
+            
+            let favDB =  result[0].FavDB
+            connection.execute(`SELECT * FROM ${favDB}`, [username], (mistakes, answer) => {
+                let tableData = answer
+                
+                
+                connection.execute(`Describe ${favDB}`, [username], (mistakes, answer) => {
+                    res.status(200).send({db: favDB, tableData: tableData, columns: answer})
+                    
+                    
+            
+                })
+        
+            })
+    
+        })
+    });
+
+});
 
 
 

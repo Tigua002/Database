@@ -1555,8 +1555,8 @@ dialog {
 .dashboard{
     height: 100vh;
     width: 100%;
-    
-
+    background-color: #333333;
+    overflow-y: scroll;
 }
 .DashTitle{
     margin: 0%;
@@ -1599,19 +1599,29 @@ dialog {
     font-size: 1.5vw;
 }
 .DashDatabaseContainer{
-    width: 55vw;
+    width: 50vw;
     display: flex;
     align-items: start;
     flex-direction: column;
-    background-color: #1A1A1A;
+    background-color: none;
+    margin-left: 1vw;
+    margin-right: 3vw;
     justify-content: start;
-    height: 39%;
+    height: 100%;
     border-radius: 1vw;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    transform: rotateX(180deg);
+    margin-bottom: 5vw;
+    padding: .5vw;
+
+
 }
 .DashDatabases{
     display: flex;
     align-items: center;
     flex-direction: column;
+    
 }
 .DashDatabase{
     border-collapse: collapse;
@@ -1619,9 +1629,20 @@ dialog {
     color: #66B2FF;
     overflow-x: scroll;
     border-radius: 1vw;
+    transform: rotateX(180deg);
+    width: 100%;
+    height: 100%;
+}
+.DashDatabaseContainer::-webkit-scrollbar{
+    background: none;
+}
+.DashDatabaseContainer::-webkit-scrollbar-thumb{
+    background: #66B2FF;
+    border-radius: 1vw;
 }
 .DashDatabase::-webkit-scrollbar{
     background: none;
+    border-radius: 1vw;
     border-radius: 1vw;
 }
 .DashDatabase::-webkit-scrollbar-thumb{
