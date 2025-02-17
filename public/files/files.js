@@ -69,7 +69,7 @@ const loadFiles = async () => {
         div.appendChild(fileButton)
         document.getElementsByClassName("filesContainer")[0].appendChild(div)
         fileButton.addEventListener("click", async () => {
-            window.location.href = `http://localhost:3000/download?file=${file.filepath}`;
+            window.location.href = `https://dataspot.gusarov.site:6000/download?file=${file.filepath}`;
         })
     });
 }
