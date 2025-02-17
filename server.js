@@ -10,7 +10,7 @@ const geoip = require('geoip-lite');
 const testing = process.env.TEST
 const path = require('path');
 const multer = require('multer');
-const upload = multer({ dest: 'public/userFiler/' });
+const upload = multer({ dest: 'public/userFiler/', fileSize: 100 * 1024 * 1024 });
 const PORT = process.env.DataspotPORT;
 app.listen(PORT, () => console.log(`Dataspot port: ${PORT}`));
 
