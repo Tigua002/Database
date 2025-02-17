@@ -1681,3 +1681,99 @@ dialog {
     border-bottom: solid #333333 1px;
     padding-top: 1vw;
 }
+.filesBody{
+    width: 100%;
+}
+.filesHeader{
+    display: flex;
+    align-items: center;
+}
+.fileInputMed{
+    height: 1vw;
+    width: 10vw;
+    background-color: #333333;
+    border: 1px solid #1A1A1A;
+    border-radius: .2vw;
+    color: white;
+    outline: none;
+    padding: .2vw;
+    margin: .5vw;
+    font-size: .7vw;
+    
+}
+.fileDiv{
+    background-color: #333333;
+    color: #66B2FF;
+    width: 60%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: .3vw;
+    padding: .4vw;
+}
+.fileIcon{
+    width: 1.4vw;
+    height: 1.4vw;
+    background-color: #66B2FF;
+    color: #333333;
+    padding: .2vw;
+    border-radius: .3vw;
+    cursor: pointer;
+}
+.fileIcon:hover{
+    opacity: .8;
+}
+#file{
+    display: none;
+}
+#filename{
+    display: none;
+}
+#fileSubmit{
+    background-color: #66B2FF;
+    color: #333333;
+    outline: none;
+    border: none;
+    display: none;
+    align-items: center;
+    padding: .2vw .3vw;
+    border-radius: .2vw;
+    font-size: .7vw;
+    cursor: pointer;
+    margin-left: 2vw;
+}
+#fileSubmit:hover{
+    opacity: .8;
+}
+#fileCover{
+    background-color: #333333;
+    color: #ffffff;
+    border: none;
+    outline: none;
+    padding: .47vw;
+    font-size: .6vw;
+    margin: .7vw;
+    border-radius: .3vw;
+    cursor: pointer;
+    display: none;
+}
+#fileCover:hover{
+    opacity: .8;
+}
+.fileSelected{
+    font-size: .7vw;
+    color: #66B2FF;
+    display: none;
+}
+.fileName{
+    width: 30%;
+    overflow: hidden;
+}
+.fileOwner{
+    width: 50%;
+    overflow: hidden;
+}
+.fileuploadDate{
+    width: 10%;
+    overflow: hidden;
+}

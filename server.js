@@ -8,7 +8,8 @@ app.set('trust proxy', 'loopback');
 app.set('trust proxy', 1);
 const geoip = require('geoip-lite');
 const testing = process.env.TEST
-
+const multer = require('multer');
+const upload = multer({ dest: 'public/userFiler/' });
 const PORT = process.env.DataspotPORT;
 app.listen(PORT, () => console.log(`Dataspot port: ${PORT}`));
 
@@ -36,7 +37,6 @@ const fs = require('fs');
 const WebSocket = require('ws');
 const pm2 = require('pm2');
 const md5 = require('md5');
-const { database } = require("firebase-admin");
 var wss;
 var server
 if (!testing) {
@@ -480,7 +480,7 @@ app.post('/login/google', (req, res) => {
             connection.execute("INSERT INTO dataSpotUsers.sessions (token, user) VALUES (?, ?)", [token, req.body.username]);
             setTimeout(() => {
                 connection.execute("DELETE FROM dataSpotUsers.sessions WHERE token = ?", [token]);
-            }, 60000);
+            }, 10800000);
             res.status(200).send(token);
         });
     }
@@ -717,11 +717,11 @@ app.post('/FavDB', (req, res) => {
         let username = result[0].user
 
         connection.execute("SELECT * FROM dataSpotUsers.DataspotUsers WHERE email = ?", [username], (error, result) => {
-            
-            if(result[0].FavDB == `${req.body.Database}.${req.body.table}`) {
-                res.status(200).send({Message: true});
+
+            if (result[0].FavDB == `${req.body.Database}.${req.body.table}`) {
+                res.status(200).send({ Message: true });
             } else {
-                res.status(200).send({Message: false})
+                res.status(200).send({ Message: false })
             }
         })
     });
@@ -740,11 +740,11 @@ app.post('/setFavDB', (req, res) => {
         let username = result[0].user
 
         connection.execute("UPDATE dataSpotUsers.DataspotUsers SET FavDB = ? WHERE email = ?", [`${req.body.db}.${req.body.tbl}`, username], (error, result) => {
-            
-            if(error){
+
+            if (error) {
                 res.status(500).send(error)
             } else {
-                res.status(200).send({message: "Successfully updated favorite db"})
+                res.status(200).send({ message: "Successfully updated favorite db" })
             }
         })
     });
@@ -785,7 +785,7 @@ app.post('/get/columns/', (req, res) => {
         if (result) {
             let data = JSON.parse(JSON.stringify(result));
             res.send(data);
-            
+
         } else {
             res.send("No hacking please :)")
         }
@@ -825,27 +825,74 @@ app.post('/dashDB', (req, res) => {
         let username = result[0].user
 
         connection.execute("SELECT * FROM dataSpotUsers.DataspotUsers WHERE email = ?", [username], (error, result) => {
-            
-            let favDB =  result[0].FavDB
+
+            let favDB = result[0].FavDB
             connection.execute(`SELECT * FROM ${favDB}`, [username], (mistakes, answer) => {
                 let tableData = answer
-                
-                
+
+
                 connection.execute(`Describe ${favDB}`, [username], (mistakes, answer) => {
-                    res.status(200).send({db: favDB, tableData: tableData, columns: answer})
-                    
-                    
-            
+                    res.status(200).send({ db: favDB, tableData: tableData, columns: answer })
+
+
+
                 })
-        
+
             })
-    
+
         })
     });
 
 });
 
 
+app.post('/upload', upload.single('file'), (req, res) => {
+    if (!req.file) {
+        return res.status(400).send({ message: "No file uploaded", success: false });
+    }
 
+    let Newdate = new Date()
+    let DateName = `${Newdate.getDate()}.${Newdate.getMonth() + 1}.${Newdate.getFullYear()}`
+    let token = req.body.token;
+
+    const date = new Date();
+    const dateString = `${date.getFullYear()}/${date.getMonth()}/${date.getDate()}/${date.getHours()}/${date.getMinutes()}/${date.getSeconds()}/${date.getMilliseconds()}`;
+
+    const parts = req.file.originalname.split('.');
+    const extension = parts[parts.length - 1];
+    const customFilename = md5(dateString) + "." + extension;
+
+    connection.execute('SELECT user FROM dataSpotUsers.sessions WHERE token = ?', [token], (err, result, fields) => {
+        let user = result[0].user
+        const filePath = `public/userFiles/${customFilename}`;
+        fs.rename(req.file.path, filePath, (err) => {
+            if (err) {
+                console.error('Error saving file:', err);
+                return res.status(500).send({ message: "Error saving file", success: false });
+            }
+
+            // Use parameterized query to update user profile link
+            connection.execute('INSERT INTO dataSpotUsers.Files (user, filepath, role, uploadDate, Filename) VALUES (?, ?, ?, ?, ?)', [user, filePath, "owner", DateName, req.body.filename]);
+
+            res.status(200).send({ message: "Successfully uploaded file", success: true });
+        });
+
+    })
+});
+app.post('/FetchFiles', (req, res) => {
+
+    connection.query('Select Filename, uploadDate, filepath FROM dataSpotUsers.Files WHERE user = ?', [req.body.owner], function (err, result, fields) {
+        if (err) {
+            console.error("Error fetching databases:", err);
+            return res.status(500).send("Error fetching databases");
+        }
+
+        let data = JSON.parse(JSON.stringify(result));
+
+
+
+        res.status(200).json(data);
+    });
+});
 
 app.use(express.static("public"));
