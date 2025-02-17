@@ -8,6 +8,7 @@ app.set('trust proxy', 'loopback');
 app.set('trust proxy', 1);
 const geoip = require('geoip-lite');
 const testing = process.env.TEST
+const path = require('path');
 const multer = require('multer');
 const upload = multer({ dest: 'public/userFiler/' });
 const PORT = process.env.DataspotPORT;
@@ -880,19 +881,21 @@ app.post('/upload', upload.single('file'), (req, res) => {
     })
 });
 app.post('/FetchFiles', (req, res) => {
-
     connection.query('Select Filename, uploadDate, filepath FROM dataSpotUsers.Files WHERE user = ?', [req.body.owner], function (err, result, fields) {
         if (err) {
             console.error("Error fetching databases:", err);
             return res.status(500).send("Error fetching databases");
         }
-
         let data = JSON.parse(JSON.stringify(result));
-
-
-
         res.status(200).json(data);
     });
 });
+
+app.get('/download', (req, res) => {
+    const fileName = req.query.file;
+    const file = path.join(__dirname, fileName);
+    res.download(file); // Set the file to be downloaded
+});
+
 
 app.use(express.static("public"));

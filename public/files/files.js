@@ -68,6 +68,9 @@ const loadFiles = async () => {
         div.appendChild(fileUpload)
         div.appendChild(fileButton)
         document.getElementsByClassName("filesContainer")[0].appendChild(div)
+        fileButton.addEventListener("click", async () => {
+            window.location.href = `http://localhost:3000/download?file=${file.filepath}`;
+        })
     });
 }
 
