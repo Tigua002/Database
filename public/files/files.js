@@ -1,3 +1,31 @@
+const getToken = async (token) => {
+    if (!token) {
+        localStorage.clear()
+        window.location.assign('/login')
+        return false
+    } else {
+        await fetch('/checkToken', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ token: token })
+        }).then(response => response.text())
+            .then(data => {
+                if (data == 'Unauthorized') {
+                    console.log("Unauthorized")
+                    localStorage.clear()
+                    window.location.assign('/login')
+                    return false
+                } else {
+                    return true
+                }
+            });
+    }
+    return false
+}
+getToken(localStorage.getItem('token'));
+
 document.getElementsByClassName("navItem")[3].style.background = "#333333";
 const state = {
     NewFile: false
