@@ -873,7 +873,7 @@ app.post('/upload', upload.single('file'), (req, res) => {
             }
 
             // Use parameterized query to update user profile link
-            connection.execute('INSERT INTO dataSpotUsers.Files (user, filepath, role, uploadDate, Filename) VALUES (?, ?, ?, ?, ?)', [user, filePath, "owner", DateName, req.body.filename]);
+            connection.execute('INSERT INTO dataSpotUsers.Files (user, filepath, role, uploadDate, Filename) VALUES (?, ?, ?, ?, ?)', [user, customFilename, "owner", DateName, req.body.filename]);
 
             res.status(200).send({ message: "Successfully uploaded file", success: true });
         });
@@ -893,7 +893,10 @@ app.post('/FetchFiles', (req, res) => {
 
 app.get('/download', (req, res) => {
     const fileName = req.query.file;
-    const file = path.join(__dirname, fileName);
+    if (fileName.includes('../')) {
+        res.status(404).send("File not found nigger")
+    }
+    const file = path.join(__dirname, 'public/userFiles/' + fileName);
     res.download(file); // Set the file to be downloaded
 });
 
