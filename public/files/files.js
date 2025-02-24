@@ -157,6 +157,10 @@ document.getElementById("fileShare").addEventListener("click", () => {
 document.getElementsByClassName("sendBtn")[0].addEventListener("click", async () => {
     let user = document.getElementById("user").value
     let file = document.getElementById("fileOptions").value
+    if (user == "") {
+        alert("fill in the 'user' area")
+        return
+    }
     console.log(user, file);
     let response = await fetch("/share/file", {
         method: "POST",
