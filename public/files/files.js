@@ -83,8 +83,7 @@ const loadFiles = async () => {
 }
 
 document.getElementById("fileUpload").addEventListener("click", (event) => {
-    document.getElementById("fileSubmit").innerHTML =
-        `<img class="loadingSVG" src="../pictures/icons8-loading-100.png" alt="">`
+
     if (!state.NewFile) {
         document.getElementById("filename").style.display = "flex"
         document.getElementById("fileCover").style.display = "flex"
@@ -119,12 +118,27 @@ document.getElementById("file").addEventListener("change", (e) => {
 })
 
 document.getElementById("fileSubmit").addEventListener("click", async () => {
-
+    document.getElementById("fileSubmit").innerHTML =
+        `<img class="loadingSVG" src="../pictures/icons8-loading-100.png" alt="">`
     if (document.getElementById("filename").value == "") {
         alert("File name is empty")
+        document.getElementById("fileSubmit").innerHTML =
+            `                    UPLOAD
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="#333333" class="SVG">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5" />
+                    </svg>`
         return;
     } else if (!document.getElementById("file").files[0]) {
         alert("Select a file")
+        document.getElementById("fileSubmit").innerHTML =
+            `                    UPLOAD
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="#333333" class="SVG">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5" />
+                    </svg>`
         return
     }
 
