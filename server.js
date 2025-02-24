@@ -873,7 +873,7 @@ app.post('/upload', upload.single('file'), (req, res) => {
             }
 
             // Use parameterized query to update user profile link
-            connection.execute('INSERT INTO dataSpotUsers.Files (user, filepath, role, uploadDate, Filename) VALUES (?, ?, ?, ?, ?)', [user, customFilename, "owner", DateName, req.body.filename]);
+            connection.execute('INSERT INTO dataSpotUsers.Files (user, filepath, role, uploadDate, Filename, owner) VALUES (?, ?, ?, ?, ?, ?)', [user, customFilename, "owner", DateName, req.body.filename, user]);
 
             res.status(200).send({ message: "Successfully uploaded file", success: true });
         });
@@ -881,7 +881,7 @@ app.post('/upload', upload.single('file'), (req, res) => {
     })
 });
 app.post('/FetchFiles', (req, res) => {
-    connection.query('Select Filename, uploadDate, filepath FROM dataSpotUsers.Files WHERE user = ?', [req.body.owner], function (err, result, fields) {
+    connection.query('Select Filename, uploadDate, filepath, owner FROM dataSpotUsers.Files WHERE user = ?', [req.body.owner], function (err, result, fields) {
         if (err) {
             console.error("Error fetching databases:", err);
             return res.status(500).send("Error fetching databases");
@@ -894,10 +894,33 @@ app.post('/FetchFiles', (req, res) => {
 app.get('/download', (req, res) => {
     const fileName = req.query.file;
     if (fileName.includes('../')) {
-        res.status(404).send("File not found nigger")
+        res.status(404).send("File not found :(")
     }
     const file = path.join(__dirname, 'public/userFiles/' + fileName);
     res.download(file); // Set the file to be downloaded
+});
+app.post('/share/file', (req, res) => {
+    const filePath = req.body.file;
+    const user = req.body.user
+    connection.execute('SELECT owner, uploadDate, Filename FROM dataSpotUsers.Files WHERE filepath = ?', [filePath], (err, result, fields) => {
+        if (err) {
+            res.status(500).send({message: "Unknown server error"})
+            console.log(err)
+        } else if (result.length > 1) {
+            console.log(result);
+            res.status(500).send({message: "Suspicious server error"})
+           
+        }
+        let file = result[0]
+        connection.execute('INSERT INTO dataSpotUsers.Files (user, filepath, role, uploadDate, Filename, owner) VALUES (?, ?, ?, ?, ?, ?)', [user, filePath, "user", file.uploadDate, file.Filename, file.owner], (error, resp, fiel) => {
+            if (error) {
+                res.status(500).send({message: "Unknown server error"})
+                console.log(error)
+            }
+            res.status(200).send({message: "Successfully shared file"})
+        });
+    });
+
 });
 
 

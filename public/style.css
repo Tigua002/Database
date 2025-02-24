@@ -569,6 +569,7 @@ dialog {
     right: 2%;
     z-index: 10;
     transition: 100ms ease-in-out;
+    border: solid 1px blue;
 
 }
 .ModalClose:hover{
@@ -1690,7 +1691,7 @@ dialog {
 }
 .fileInputMed{
     height: 1vw;
-    width: 10vw;
+    width: 13vw;
     background-color: #333333;
     border: 1px solid #1A1A1A;
     border-radius: .2vw;
@@ -1776,4 +1777,88 @@ dialog {
 .fileuploadDate{
     width: 10%;
     overflow: hidden;
+}
+.shareHeader{
+    position: absolute;
+    top: 0%;
+    padding-top: 1vw;
+    padding-bottom: 2vw;
+    height: 3.5vh;
+    color: #66B2FF;
+}
+.fileShareModal{
+    display: none;
+    margin: auto;
+    flex-direction: column;
+    background-color: #444444;
+    outline: none;
+    border: solid 1px #66B2FF;
+    border-radius: 1vw;
+    height: 33vh;
+    width: 20vw;
+}
+.shareHeader{
+    width: 100%;
+}
+.shareTitle{
+    margin: auto;
+    font-size: 1.2vw;
+}
+.shareClose{
+    font-size: 2vw;
+    font-weight: 100;
+    position: absolute;
+    right: 5%;
+    cursor: pointer;
+}
+.shareFileTitle{
+    color: white;
+    font-size: .8vw;
+    width: 14vw;
+}
+.shareDropdown{
+    height: 1.5vw;
+    width: 15vw;
+    background-color: #333333;
+    border: 1px solid #1A1A1A;
+    border-radius: .2vw;
+    color: white;
+    outline: none;
+    padding: .2vw;
+    margin: .5vw;
+    font-size: .7vw;
+}
+#shareButtons{
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    width: 15vw;
+    padding-top: 1vh;
+}
+#user{
+    width: 14.5vw;
+}
+.sendBtn{
+    color: white;
+    background-color: #66B2FF;
+    outline: none;
+    border: none;
+    padding: .3vw;
+    font-size: 1vw;
+    border-radius: .5vw;
+    width: 7vw;
+}
+.shareManage{
+    color: #1A1A1A;
+    background: none;
+    outline: none;
+    border: none;
+    font-size: .5vw;
+    cursor: pointer;
+}
+.smallSVG{
+    width: 1.2vw;
+    height: 1.2vw;
+    margin-left: .2vw;
+    cursor: pointer;
 }
