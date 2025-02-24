@@ -75,7 +75,7 @@ const loadFiles = async () => {
             let option = document.createElement("option")
             option.setAttribute("value", file.filepath)
             option.innerHTML = file.Filename
-    
+
             document.getElementById("fileOptions").appendChild(option)
 
         }
@@ -83,6 +83,8 @@ const loadFiles = async () => {
 }
 
 document.getElementById("fileUpload").addEventListener("click", (event) => {
+    document.getElementById("fileSubmit").innerHTML =
+        `<img class="loadingSVG" src="../pictures/icons8-loading-100.png" alt="">`
     if (!state.NewFile) {
         document.getElementById("filename").style.display = "flex"
         document.getElementById("fileCover").style.display = "flex"
@@ -100,11 +102,18 @@ document.getElementById("fileUpload").addEventListener("click", (event) => {
         document.getElementsByClassName("fileSelected")[0].style.display = "none"
         event.target.innerHTML = `
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="#66B2FF" class="SVG">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m3.75 9v6m3-3H9m1.5-12H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
+        <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m3.75 9v6m3-3H9m1.5-12H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
         </svg>
         NEW FILE`
     }
     state.NewFile = !state.NewFile
+    document.getElementById("fileSubmit").innerHTML =
+        `                    UPLOAD
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="#333333" class="SVG">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5" />
+                    </svg>`
 })
 
 document.getElementById("fileCover").addEventListener("click", () => {
@@ -155,9 +164,8 @@ document.getElementById("fileShare").addEventListener("click", () => {
 })
 
 document.getElementsByClassName("sendBtn")[0].addEventListener("click", async () => {
-    document.getElementsByClassName("sendBtn")[0].innerHTML = 
-    `<img class="loadingSVG" src="../pictures/icons8-loading-100.png" alt="">`
-    
+
+
     let user = document.getElementById("user").value
     let file = document.getElementById("fileOptions").value
     if (user == "") {
