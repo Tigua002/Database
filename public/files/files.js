@@ -71,7 +71,7 @@ const loadFiles = async () => {
         fileButton.addEventListener("click", async () => {
             window.location.href = `https://dataspot.gusarov.site/download?file=${file.filepath}`;
         })
-        if (file.owner = localStorage.getItem("username")) {
+        if (file.owner == localStorage.getItem("username")) {
             let option = document.createElement("option")
             option.setAttribute("value", file.filepath)
             option.innerHTML = file.Filename
