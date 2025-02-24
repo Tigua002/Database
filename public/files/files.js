@@ -155,6 +155,9 @@ document.getElementById("fileShare").addEventListener("click", () => {
 })
 
 document.getElementsByClassName("sendBtn")[0].addEventListener("click", async () => {
+    document.getElementsByClassName("sendBtn")[0].innerHTML = 
+    `<img class="loadingSVG" src="../pictures/icons8-loading-100.png" alt="">`
+    
     let user = document.getElementById("user").value
     let file = document.getElementById("fileOptions").value
     if (user == "") {
