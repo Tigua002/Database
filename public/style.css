@@ -569,8 +569,6 @@ dialog {
     right: 2%;
     z-index: 10;
     transition: 100ms ease-in-out;
-    border: solid 1px blue;
-
 }
 .ModalClose:hover{
     transform: scale(1.05)

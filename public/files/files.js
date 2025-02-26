@@ -154,7 +154,7 @@ document.getElementById("fileSubmit").addEventListener("click", async () => {
     const data = await response.json();
     if (response.ok) {
         alert("Success");
-        sessionStorage.setItem("PFP", data.filename);
+
         window.location.reload()
     } else {
         console.error('Failed to upload file');
