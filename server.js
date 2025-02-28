@@ -331,8 +331,8 @@ app.post('/update/settings', (req, res) => {
 app.post('/create/Server', (req, res) => {
 
     connection.execute(
-        'INSERT INTO dataSpotUsers.processes (GithubLink, PORT, Domain, Email, DisplayName, Name, BashPath) VALUES (?, ?, ?, ?, ?, ?, ?)',
-        [req.body.GLink, req.body.PORT, req.body.Domain, req.body.Email, req.body.Name, req.body.Name, `../DataspotServers/${req.body.Domain}`],
+        'INSERT INTO dataSpotUsers.processes (GithubLink, PORT, Domain, Email, DisplayName, Name, BashPath, owner) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+        [req.body.GLink, req.body.PORT, req.body.Domain, req.body.Email, req.body.Name, req.body.Name, `../DataspotServers/${req.body.Domain}`, req.body.Owner],
         (err, results) => {
             if (err) {
                 console.error('Database update error:', err);

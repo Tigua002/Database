@@ -237,7 +237,8 @@ const loadProjects = async () => {
                         Name: Name.value,
                         Modules: Modules.value,
                         ENV: ENV.value,
-                        appName: appName.value
+                        appName: appName.value,
+                        Owner: localStorage.getItem("username")
                     };
                     try {
                         const response = await fetch("/create/Server", {
