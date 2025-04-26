@@ -213,6 +213,7 @@ document.getElementById("fileSubmit").addEventListener("click", async () => {
     formData.append('file', fileInput);
     formData.append('filename', document.getElementById("filename").value);
     formData.append("token", localStorage.getItem("token"));
+    formData.append("folder", state.folder);
     const response = await fetch('/upload', {
         method: 'POST',
         body: formData

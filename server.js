@@ -872,7 +872,7 @@ app.post('/upload', upload.single('file'), (req, res) => {
             }
 
             // Use parameterized query to update user profile link
-            connection.execute('INSERT INTO dataSpotUsers.Files (user, filepath, role, uploadDate, Filename, owner, parent) VALUES (?, ?, ?, ?, ?, ?)', [user, customFilename, "owner", DateName, req.body.filename, user, req.body.folder]);
+            connection.execute('INSERT INTO dataSpotUsers.Files (user, filepath, role, uploadDate, Filename, owner, parent) VALUES (?, ?, ?, ?, ?, ?, ?)', [user, customFilename, "owner", DateName, req.body.filename, user, req.body.folder]);
             res.status(200).send({ message: "Successfully uploaded file", success: true });
         });
 
