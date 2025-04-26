@@ -205,7 +205,7 @@ const loadTables = async (database) => {
             }
             
         }
-        document.getElementsByClassName("BackButton")[0].textContent = database
+        /* document.getElementsByClassName("BackButton")[0].textContent = database */
         document.getElementsByClassName("tableHolder")[0].innerHTML = '';
         document.getElementsByClassName("databaseDiv")[0].style.height = '100%';
         document.getElementsByClassName("dataInsertBtn")[0].setAttribute("disabled", "false");
@@ -242,8 +242,8 @@ const loadTables = async (database) => {
 
             h1.addEventListener("click", () => {
                 resetStyles(document.getElementsByClassName("table"), "#333333", "#66B2FF");
-                h1.style.background = "#444444";
-                h1.style.color = "#66b2ff";
+                h1.style.background = "#66b2ff";
+                h1.style.color = "#333333";
                 loadData(database, table[`Tables_in_${database}`]);
             });
         });
@@ -368,12 +368,12 @@ const loadData = async (database, table) => {
     let FavDB = await FavDBreq.json()
     console.log(FavDB)
     if(FavDB.Message){
-        document.getElementById("FavDB").style.backgroundColor = "#36C936"
+        document.getElementById("FavDB").style.backgroundColor = "#66b2ff"
         document.getElementById("FavDB").style.color = "#333333"
-        document.getElementById("FavDB").innerText = "Favorited"
+        document.getElementById("FavDB").innerText = "FAVOURITED"
     } else {
-        document.getElementById("FavDB").style.backgroundColor = "#B22222"
-        document.getElementById("FavDB").style.color = "#ffffff"
+        document.getElementById("FavDB").style.backgroundColor = "#444444"
+        document.getElementById("FavDB").style.color = "#66b2ff"
         document.getElementById("FavDB").innerText = "Favorite this table"
     }
     
@@ -584,7 +584,7 @@ for (let i = 0; i < document.getElementsByClassName("dbUserRow").length; i++) {
     })
 }
 
-document.getElementsByClassName("BackButton")[0].addEventListener("click", () => {
+/* document.getElementsByClassName("BackButton")[0].addEventListener("click", () => {
     document.getElementsByClassName("databaseDiv")[0].style.height = '0%';
     document.getElementsByClassName("TableDisplay")[0].innerHTML = "";
     document.getElementsByClassName("newTable")[0].remove()
@@ -593,7 +593,7 @@ document.getElementsByClassName("BackButtonSVG")[0].addEventListener("click", ()
     document.getElementsByClassName("databaseDiv")[0].style.height = '0%';
     document.getElementsByClassName("TableDisplay")[0].innerHTML = "";
     document.getElementsByClassName("newTable")[0].remove()
-})
+}) */
 
 
 document.getElementsByClassName("ModalClose")[0].addEventListener("click", () => closeModal("NewDatabaseModal"));
@@ -1019,7 +1019,7 @@ document.getElementById("FavDB").addEventListener("click", async () => {
     if (answer.message = "Successfully updated favorite db") {
         document.getElementById("FavDB").style.backgroundColor = "#36C936"
         document.getElementById("FavDB").style.color = "#333333"
-        document.getElementById("FavDB").innerText = "Favorited"
+        document.getElementById("FavDB").innerText = "FAVOURITED"
         
     } else {
         console.error("Stinky occurance");

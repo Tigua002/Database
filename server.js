@@ -31,7 +31,10 @@ const connection = mysql.createConnection({
 
 // Connect to the database with error handling
 connection.connect();
-connection.query("DELETE FROM dataSpotUsers.sessions WHERE ID > 0")
+if (!testing) {
+    connection.query("DELETE FROM dataSpotUsers.sessions WHERE ID > 0")
+
+}
 
 const https = require('https');
 const fs = require('fs');
@@ -824,26 +827,16 @@ app.post('/dashDB', (req, res) => {
             return;
         }
         let username = result[0].user
-
         connection.execute("SELECT * FROM dataSpotUsers.DataspotUsers WHERE email = ?", [username], (error, result) => {
-
             let favDB = result[0].FavDB
             connection.execute(`SELECT * FROM ${favDB}`, [username], (mistakes, answer) => {
                 let tableData = answer
-
-
                 connection.execute(`Describe ${favDB}`, [username], (mistakes, answer) => {
                     res.status(200).send({ db: favDB, tableData: tableData, columns: answer })
-
-
-
                 })
-
             })
-
         })
     });
-
 });
 
 
@@ -862,9 +855,15 @@ app.post('/upload', upload.single('file'), (req, res) => {
     const parts = req.file.originalname.split('.');
     const extension = parts[parts.length - 1];
     const customFilename = md5(dateString) + "." + extension;
-
+    console.log(customFilename);
+    
     connection.execute('SELECT user FROM dataSpotUsers.sessions WHERE token = ?', [token], (err, result, fields) => {
         let user = result[0].user
+        console.log(user);
+        if (err) {
+            console.error('Error saving file:', err);
+            return res.status(500).send({ message: "Error saving file", success: false });
+        }
         const filePath = `public/userFiles/${customFilename}`;
         fs.rename(req.file.path, filePath, (err) => {
             if (err) {
@@ -873,22 +872,38 @@ app.post('/upload', upload.single('file'), (req, res) => {
             }
 
             // Use parameterized query to update user profile link
-            connection.execute('INSERT INTO dataSpotUsers.Files (user, filepath, role, uploadDate, Filename, owner) VALUES (?, ?, ?, ?, ?, ?)', [user, customFilename, "owner", DateName, req.body.filename, user]);
-
+            connection.execute('INSERT INTO dataSpotUsers.Files (user, filepath, role, uploadDate, Filename, owner, parent) VALUES (?, ?, ?, ?, ?, ?)', [user, customFilename, "owner", DateName, req.body.filename, user, req.body.folder]);
             res.status(200).send({ message: "Successfully uploaded file", success: true });
         });
 
     })
 });
+app.post('/uploadFolder', (req, res) => {
+    console.log(req.body);
+    let token = req.body.token;
+    connection.execute('SELECT user FROM dataSpotUsers.sessions WHERE token = ?', [token], (err, result, fields) => {
+        let user = result[0].user
+        connection.execute('INSERT INTO dataSpotUsers.Files (user, filepath, role, uploadDate, Filename, owner, parent, type) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', [user, null, "owner", null, req.body.folderName, user, req.body.folder, "folder"], (error, resultNr2, fieldsnr2) => {
+            if (error) {
+                console.log(error);
+                res.status(500).send({ message: "Something went wrong :(", success: false });
+            }
+            res.status(200).send({ message: "Successfully created file", success: true });
+        });
+    })
+});
 app.post('/FetchFiles', (req, res) => {
-    connection.query('Select Filename, uploadDate, filepath, owner FROM dataSpotUsers.Files WHERE user = ?', [req.body.owner], function (err, result, fields) {
-        if (err) {
-            console.error("Error fetching databases:", err);
-            return res.status(500).send("Error fetching databases");
-        }
-        let data = JSON.parse(JSON.stringify(result));
-        res.status(200).json(data);
-    });
+    connection.execute('SELECT user FROM dataSpotUsers.sessions WHERE token = ?', [req.body.token], (error, result1, fields1) => {
+        let user = result1[0].user
+        connection.query('Select Filename, uploadDate, filepath, type, owner FROM dataSpotUsers.Files WHERE user = ? AND parent = ?', [user, req.body.location], function (err, result, fields) {
+            if (err) {
+                console.error("Error fetching databases:", err);
+                return res.status(500).send("Error fetching databases");
+            }
+            let data = JSON.parse(JSON.stringify(result));
+            res.status(200).json(data);
+        });
+    })
 });
 
 app.get('/download', (req, res) => {
@@ -904,20 +919,20 @@ app.post('/share/file', (req, res) => {
     const user = req.body.user
     connection.execute('SELECT owner, uploadDate, Filename FROM dataSpotUsers.Files WHERE filepath = ?', [filePath], (err, result, fields) => {
         if (err) {
-            res.status(500).send({message: "Unknown server error"})
+            res.status(500).send({ message: "Unknown server error" })
             console.log(err)
         } else if (result.length > 1) {
             console.log(result);
-            res.status(500).send({message: "Suspicious server error"})
-           
+            res.status(500).send({ message: "Suspicious server error" })
+
         }
         let file = result[0]
         connection.execute('INSERT INTO dataSpotUsers.Files (user, filepath, role, uploadDate, Filename, owner) VALUES (?, ?, ?, ?, ?, ?)', [user, filePath, "user", file.uploadDate, file.Filename, file.owner], (error, resp, fiel) => {
             if (error) {
-                res.status(500).send({message: "Unknown server error"})
+                res.status(500).send({ message: "Unknown server error" })
                 console.log(error)
             }
-            res.status(200).send({message: "Successfully shared file"})
+            res.status(200).send({ message: "Successfully shared file" })
         });
     });
 

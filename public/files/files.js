@@ -28,62 +28,106 @@ getToken(localStorage.getItem('token'));
 
 document.getElementsByClassName("navItem")[3].style.background = "#333333";
 const state = {
-    NewFile: false
+    NewFile: false,
+    NewFolder: false,
+    folder: "root"
 };
 
-const loadFiles = async () => {
+const loadFiles = async (location) => {
+    document.getElementsByClassName("filesContainer")[0].innerHTML = ""
     const response = await fetch("/FetchFiles",
         {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ owner: localStorage.getItem("username") })
+            body: JSON.stringify({ token: localStorage.getItem("token"), location: location })
         });
     if (!response.ok) throw new Error("Failed to fetch databases");
     let files = await response.json()
     console.log(files);
     document.getElementsByClassName("filesContainer")[0].innerHTML = ""
     files.forEach(file => {
-        let div = document.createElement("div")
-        div.setAttribute("class", "fileDiv")
-        let fileName = document.createElement("h1")
-        fileName.setAttribute("class", "fileName")
-        fileName.innerHTML = file.Filename
-        let filePath = document.createElement("h1")
-        filePath.setAttribute("class", "fileOwner")
-        filePath.innerHTML = file.owner
-        let fileUpload = document.createElement("h1")
-        fileUpload.setAttribute("class", "fileuploadDate")
-        fileUpload.innerHTML = file.uploadDate
-        let fileButton = document.createElement("div")
-        fileButton.setAttribute("class", "fileButton")
-        fileButton.innerHTML = `
+        console.log(file);
+        
+        if (file.type == "file") {
+
+            let div = document.createElement("div")
+            div.setAttribute("class", "fileDiv")
+            let fileName = document.createElement("h1")
+            fileName.setAttribute("class", "fileName")
+            fileName.innerHTML = file.Filename
+            let filePath = document.createElement("h1")
+            filePath.setAttribute("class", "fileOwner")
+            filePath.innerHTML = file.owner
+            let fileUpload = document.createElement("h1")
+            fileUpload.setAttribute("class", "fileuploadDate")
+            fileUpload.innerHTML = file.uploadDate
+            let fileButton = document.createElement("div")
+            fileButton.setAttribute("class", "fileButton")
+            fileButton.innerHTML = `
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="fileIcon">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
                         </svg>
         `
-        div.appendChild(fileName)
-        div.appendChild(filePath)
-        div.appendChild(fileUpload)
-        div.appendChild(fileButton)
-        document.getElementsByClassName("filesContainer")[0].appendChild(div)
-        fileButton.addEventListener("click", async () => {
-            window.location.href = `https://dataspot.gusarov.site/download?file=${file.filepath}`;
-        })
-        if (file.owner == localStorage.getItem("username")) {
-            let option = document.createElement("option")
-            option.setAttribute("value", file.filepath)
-            option.innerHTML = file.Filename
+            div.appendChild(fileName)
+            div.appendChild(filePath)
+            div.appendChild(fileUpload)
+            div.appendChild(fileButton)
+            document.getElementsByClassName("filesContainer")[0].appendChild(div)
+            fileButton.addEventListener("click", async () => {
+                window.location.href = `https://dataspot.gusarov.site/download?file=${file.filepath}`;
+            })
+            if (file.owner == localStorage.getItem("username")) {
+                let option = document.createElement("option")
+                option.setAttribute("value", file.filepath)
+                option.innerHTML = file.Filename
 
-            document.getElementById("fileOptions").appendChild(option)
+                document.getElementById("fileOptions").appendChild(option)
 
+            }
+        } else if (file.type == "folder") {
+            let div = document.createElement("div")
+            div.setAttribute("class", "fileDiv")
+            let fileName = document.createElement("h1")
+            fileName.setAttribute("class", "fileName")
+            fileName.innerHTML = file.Filename
+            let filePath = document.createElement("h1")
+            filePath.setAttribute("class", "fileOwner")
+            filePath.innerHTML = file.owner
+            let fileUpload = document.createElement("h1")
+            fileUpload.setAttribute("class", "fileuploadDate")
+            fileUpload.innerHTML = file.uploadDate
+            let fileButton = document.createElement("div")
+            fileButton.setAttribute("class", "fileButton")
+            fileButton.innerHTML = `
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="folderIcon">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 9.776c.112-.017.227-.026.344-.026h15.812c.117 0 .232.009.344.026m-16.5 0a2.25 2.25 0 0 0-1.883 2.542l.857 6a2.25 2.25 0 0 0 2.227 1.932H19.05a2.25 2.25 0 0 0 2.227-1.932l.857-6a2.25 2.25 0 0 0-1.883-2.542m-16.5 0V6A2.25 2.25 0 0 1 6 3.75h3.879a1.5 1.5 0 0 1 1.06.44l2.122 2.12a1.5 1.5 0 0 0 1.06.44H18A2.25 2.25 0 0 1 20.25 9v.776" />
+</svg>
+
+        `
+            div.appendChild(fileName)
+            div.appendChild(filePath)
+            div.appendChild(fileUpload)
+            div.appendChild(fileButton)
+            document.getElementsByClassName("filesContainer")[0].appendChild(div)
+            div.addEventListener("mouseover", () => {
+                div.style.textDecoration = "underline"
+            })
+            div.addEventListener("mouseout", () => {
+                div.style.textDecoration = "none"
+            })
+            fileButton.addEventListener("click", () => {
+                state.folder += `/${file.Filename}`
+                loadFiles(state.folder)
+            })
         }
+
     });
 }
 
+// Opens the new file form
 document.getElementById("fileUpload").addEventListener("click", (event) => {
-
     if (!state.NewFile) {
         document.getElementById("filename").style.display = "flex"
         document.getElementById("fileCover").style.display = "flex"
@@ -106,7 +150,29 @@ document.getElementById("fileUpload").addEventListener("click", (event) => {
         UPLOAD FILE`
     }
     state.NewFile = !state.NewFile
-
+})
+// Opens the new FOLDER form
+document.getElementById("folderCreate").addEventListener("click", (event) => {
+    if (!state.NewFolder) {
+        document.getElementById("folderSubmit").style.display = "flex"
+        document.getElementById("folderName").style.display = "flex"
+        event.target.innerHTML = `
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="#66B2FF" class="SVG">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+        </svg>
+        CANCEL`
+    } else {
+        document.getElementById("folderSubmit").style.display = "none"
+        document.getElementById("folderName").style.display = "none"
+        event.target.innerHTML = `
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+            stroke="#66B2FF" class="SVG">
+            <path stroke-linecap="round" stroke-linejoin="round"
+                d="M12 10.5v6m3-3H9m4.06-7.19-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.379a1.5 1.5 0 0 1-1.06-.44Z" />
+        </svg>
+        CREATE FOLDER`
+    }
+    state.NewFolder = !state.NewFolder
 })
 
 document.getElementById("fileCover").addEventListener("click", () => {
@@ -161,6 +227,41 @@ document.getElementById("fileSubmit").addEventListener("click", async () => {
     }
 })
 
+document.getElementById("folderSubmit").addEventListener("click", async () => {
+    document.getElementById("folderSubmit").innerHTML =
+        `<img class="loadingSVG" src="../pictures/icons8-loading-100.png" alt="">`
+    if (document.getElementById("folderName").value == "") {
+        alert("File name is empty")
+        document.getElementById("folderSubmit").innerHTML =
+            `UPLOAD
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                stroke="#333333" class="SVG">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5" />
+            </svg>`
+        return;
+    }
+    const formdata = {
+        folder: state.folder,
+        folderName: document.getElementById("folderName").value,
+        token: localStorage.getItem("token")
+    }
+    const response = await fetch('/uploadFolder', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formdata)
+    });
+    if (response.ok) {
+        alert("Success");
+
+        window.location.reload()
+    } else {
+        console.error('Failed to upload file');
+    }
+})
+
 document.getElementsByClassName("shareClose")[0].addEventListener("click", () => {
     document.getElementsByClassName("fileShareModal")[0].close();
     document.getElementsByClassName("fileShareModal")[0].style.display = "none";
@@ -199,4 +300,4 @@ document.getElementsByClassName("sendBtn")[0].addEventListener("click", async ()
 
 })
 
-loadFiles()
+loadFiles("root")

@@ -244,7 +244,11 @@ td {
 }
 
 .tableHolder{
-    width: 90%;
+    width: 99%;
+    padding: 0%;
+    justify-content: start;
+    height: 100%;
+    align-items: start;
 }
 .tableHeader::-webkit-scrollbar {
     display: none;
@@ -270,7 +274,7 @@ td {
     opacity: .8;
 }
 .table {
-    padding: 1vw;
+    padding: 0vw 1vw;
     font-size: 1vw;
     color: #66B2FF;
     background-color: transparent;
@@ -278,6 +282,8 @@ td {
     opacity: .9;
     font-family: 'RobotoLightItalic', 'LemonLightItalic';
     background: transparent;
+    height: 75%;
+    border-radius: 0.1%;
 }
 
 .table:hover {
@@ -354,8 +360,8 @@ td {
     margin: 1vw;
     border-radius: 1.5vw;
     font-size: .6vw;
-    background-color: #B22222;
-    color: #ffffff;
+    background-color: #444444;
+    color: #66b2ff;
     border: none;
     cursor: pointer;
 }
@@ -1722,13 +1728,25 @@ dialog {
 .fileIcon:hover{
     opacity: .8;
 }
+.folderIcon{
+    width: 1.4vw;
+    height: 1.4vw;
+    background-color: #333333;
+    color: #66b2ff;
+    padding: .2vw;
+    border-radius: .3vw;
+    cursor: pointer;
+}
+.folderIcon:hover{
+    opacity: .8;
+}
 #file{
     display: none;
 }
-#filename{
+#filename, #folderName{
     display: none;
 }
-#fileSubmit{
+.uploadButton{
     background-color: #66B2FF;
     color: #333333;
     outline: none;
@@ -1741,9 +1759,10 @@ dialog {
     cursor: pointer;
     margin-left: 2vw;
 }
-#fileSubmit:hover{
+.uploadButton:hover{
     opacity: .8;
 }
+
 #fileCover{
     background-color: #333333;
     color: #ffffff;
