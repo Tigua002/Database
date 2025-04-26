@@ -856,7 +856,7 @@ app.post('/upload', upload.single('file'), (req, res) => {
     const extension = parts[parts.length - 1];
     const customFilename = md5(dateString) + "." + extension;
     console.log(customFilename);
-    
+
     connection.execute('SELECT user FROM dataSpotUsers.sessions WHERE token = ?', [token], (err, result, fields) => {
         let user = result[0].user
         console.log(user);
@@ -872,7 +872,7 @@ app.post('/upload', upload.single('file'), (req, res) => {
             }
 
             // Use parameterized query to update user profile link
-            connection.execute('INSERT INTO dataSpotUsers.Files (user, filepath, role, uploadDate, Filename, owner, parent) VALUES (?, ?, ?, ?, ?, ?, ?)', [user, customFilename, "owner", DateName, req.body.filename, user, req.body.folder]);
+            connection.execute('INSERT INTO dataSpotUsers.Files (user, filepath, role, uploadDate, Filename, owner, parent, type) VALUES (?, ?, ?, ?, ?, ?, ?)', [user, customFilename, "owner", DateName, req.body.filename, user, req.body.folder, "file"]);
             res.status(200).send({ message: "Successfully uploaded file", success: true });
         });
 
@@ -881,9 +881,12 @@ app.post('/upload', upload.single('file'), (req, res) => {
 app.post('/uploadFolder', (req, res) => {
     console.log(req.body);
     let token = req.body.token;
+
+    let Newdate = new Date()
+    let DateName = `${Newdate.getDate()}.${Newdate.getMonth() + 1}.${Newdate.getFullYear()}`
     connection.execute('SELECT user FROM dataSpotUsers.sessions WHERE token = ?', [token], (err, result, fields) => {
         let user = result[0].user
-        connection.execute('INSERT INTO dataSpotUsers.Files (user, filepath, role, uploadDate, Filename, owner, parent, type) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', [user, null, "owner", null, req.body.folderName, user, req.body.folder, "folder"], (error, resultNr2, fieldsnr2) => {
+        connection.execute('INSERT INTO dataSpotUsers.Files (user, role, uploadDate, Filename, owner, parent, type) VALUES (?,  ?, ?, ?, ?, ?, ?)', [user,  "owner", DateName, req.body.folderName, user, req.body.folder, "folder"], (error, resultNr2, fieldsnr2) => {
             if (error) {
                 console.log(error);
                 res.status(500).send({ message: "Something went wrong :(", success: false });
