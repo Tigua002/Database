@@ -121,6 +121,10 @@ const loadFiles = async (location) => {
                 state.folder += `/${file.Filename}`
                 loadFiles(state.folder)
             })
+            div.addEventListener("dblclick", () => {
+                state.folder += `/${file.Filename}`
+                loadFiles(state.folder)
+            })
         }
 
     });
