@@ -34,6 +34,8 @@ const state = {
 };
 
 const loadFiles = async (location) => {
+    console.log("LOAD FILES RUN: " + location);
+    
     document.getElementsByClassName("filesContainer")[0].innerHTML = ""
     const response = await fetch("/FetchFiles",
         {
@@ -45,11 +47,38 @@ const loadFiles = async (location) => {
         });
     if (!response.ok) throw new Error("Failed to fetch databases");
     let files = await response.json()
-    console.log(files);
+
+    document.getElementsByClassName("fileNavigation")[0].innerHTML = ``
+    let testString = state.folder.split("/")
+    let totalFolder = "";
+    testString.forEach((folderName, index) => {
+        if (index === 0) {
+            totalFolder = folderName; // Initialize without appending
+        } else {
+            totalFolder += "/" + folderName; // Append for subsequent folders
+        }
+        console.log(totalFolder);
+    
+        let element = document.createElement("p");
+        element.setAttribute("class", "fileNavItem");
+        element.textContent = index === 0 ? folderName : "/" + folderName;
+    
+        // Capture the current totalFolder value in a local variable
+        const currentPath = totalFolder;
+    
+        element.addEventListener("click", () => {
+            state.folder = currentPath; // Use the captured path
+            loadFiles(state.folder);
+            document.getElementsByClassName("fileNavigation")[0].innerHTML = state.folder;
+        });
+    
+        document.getElementsByClassName("fileNavigation")[0].appendChild(element);
+    });
+
     document.getElementsByClassName("filesContainer")[0].innerHTML = ""
     files.forEach(file => {
-        console.log(file);
-        
+
+
         if (file.type == "file") {
 
             let div = document.createElement("div")
