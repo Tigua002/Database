@@ -1907,13 +1907,13 @@ dialog {
 }
 .customMenu{
     width: 8vw;
-    height: 20vh;
+    height: max-content;
     position: absolute;
     border: none;
     outline: none;
     margin: 0%;
-    padding: 0%;
-    border-radius: 2%;
+    padding: .1% .1% .1% .1%;
+    border-radius: 2% 2% 5% 2%;
 }
 .customMenu::backdrop{
     background: rgba(0, 0, 0, .01);

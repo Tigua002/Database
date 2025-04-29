@@ -35,8 +35,6 @@ const state = {
 };
 
 const loadFiles = async (location) => {
-    console.log("LOAD FILES RUN: " + location);
-
     document.getElementsByClassName("filesContainer")[0].innerHTML = ""
     const response = await fetch("/FetchFiles",
         {
@@ -58,7 +56,6 @@ const loadFiles = async (location) => {
         } else {
             totalFolder += "/" + folderName; // Append for subsequent folders
         }
-        console.log(totalFolder);
 
         let element = document.createElement("p");
         element.setAttribute("class", "fileNavItem");
@@ -81,8 +78,6 @@ const loadFiles = async (location) => {
 
 
         if (file.type == "file") {
-            console.log(file);
-
             let div = document.createElement("div")
             div.setAttribute("class", "fileDiv")
             let fileName = document.createElement("h1")
@@ -127,14 +122,29 @@ const loadFiles = async (location) => {
                 window.location.href = `https://dataspot.gusarov.site/download?file=${file.filepath}`;
             })
             div.addEventListener("mouseover", () => {
+                if (div.style.backgroundColor != "rgb(122, 198, 255)") {
+                    div.style.color = "#333333"
+                    div.style.backgroundColor = "#66b2ff"
+                }
                 div.style.textDecoration = "underline"
-                div.style.color = "#333333"
-                div.style.backgroundColor = "#66b2ff"
             })
             div.addEventListener("mouseout", () => {
+                if (div.style.backgroundColor != "rgb(122, 198, 255)") {
+                    div.style.color = "#66b2ff"
+                    div.style.backgroundColor = "#333333"
+                }
                 div.style.textDecoration = "none"
-                div.style.color = "#66b2ff"
-                div.style.backgroundColor = "#333333"
+            })
+            div.addEventListener("click", (event) => {
+                let divs = document.getElementsByClassName("fileDiv")
+                for (let i = 0; i < divs.length; i++) {
+                    const element = divs[i];
+                    element.style.textDecoration = "none"
+                    element.style.color = "#66B2FF"
+                    element.style.backgroundColor = "#333333"
+                }
+                div.style.color = "#333333"
+                div.style.backgroundColor = "rgb(122, 198, 255)"
             })
             filenameInput.addEventListener("focusout", () => {
                 let allInputs = document.getElementsByClassName("secretFilePath")
@@ -195,7 +205,6 @@ const loadFiles = async (location) => {
                     state.change = file.filepath
                     document.getElementsByClassName("customMenu")[0].style.top = e.clientY + "px"
                     document.getElementsByClassName("customMenu")[0].style.left = e.clientX + "px"
-                    console.log(e.clientY);
                     openModal("customMenu")
 
                 })
@@ -204,9 +213,17 @@ const loadFiles = async (location) => {
                     state.change = file.filepath
                     document.getElementsByClassName("customMenu")[0].style.top = event.clientY + "px"
                     document.getElementsByClassName("customMenu")[0].style.left = event.clientX + "px"
-                    console.log(event.clientY);
                     openModal("customMenu")
-                    
+                    let divs = document.getElementsByClassName("fileDiv")
+                    for (let i = 0; i < divs.length; i++) {
+                        const element = divs[i];
+                        element.style.textDecoration = "none"
+                        element.style.color = "#66B2FF"
+                        element.style.backgroundColor = "#333333"
+                    }
+                    div.style.color = "#333333"
+                    div.style.backgroundColor = "rgb(122, 198, 255)"
+
                 })
             }
         } else if (file.type == "folder") {
@@ -242,14 +259,30 @@ const loadFiles = async (location) => {
             div.appendChild(fileButton)
             document.getElementsByClassName("filesContainer")[0].appendChild(div)
             div.addEventListener("mouseover", () => {
+                if (div.style.backgroundColor != "rgb(122, 198, 255)") {
+                    div.style.color = "#333333"
+                    div.style.backgroundColor = "#66b2ff"
+                }
                 div.style.textDecoration = "underline"
-                div.style.color = "#333333"
-                div.style.backgroundColor = "#66b2ff"
             })
             div.addEventListener("mouseout", () => {
+                if (div.style.backgroundColor != "rgb(122, 198, 255)") {
+                    div.style.color = "#66b2ff"
+                    div.style.backgroundColor = "#333333"
+                }
                 div.style.textDecoration = "none"
-                div.style.color = "#66b2ff"
-                div.style.backgroundColor = "#333333"
+            })
+            div.addEventListener("click", (event) => {
+                let divs = document.getElementsByClassName("fileDiv")
+                for (let i = 0; i < divs.length; i++) {
+                    const element = divs[i];
+                    element.style.textDecoration = "none"
+                    element.style.color = "#66B2FF"
+                    element.style.backgroundColor = "#333333"
+                    
+                }
+                div.style.color = "#333333"
+                div.style.backgroundColor = "rgb(122, 198, 255)"
             })
             fileButton.addEventListener("click", () => {
                 state.folder += `/${file.Filename}`
@@ -412,15 +445,12 @@ document.getElementById("fileShare").addEventListener("click", () => {
 })
 
 document.getElementsByClassName("sendBtn")[0].addEventListener("click", async () => {
-
-
     let user = document.getElementById("user").value
     let file = document.getElementById("fileOptions").value
     if (user == "") {
         alert("fill in the 'user' area")
         return
     }
-    console.log(user, file);
     let response = await fetch("/share/file", {
         method: "POST",
         headers: {
@@ -435,8 +465,6 @@ document.getElementsByClassName("sendBtn")[0].addEventListener("click", async ()
     })
     let answer = await response.json()
     alert(answer.message)
-
-
 })
 
 loadFiles("root")
@@ -455,6 +483,15 @@ customMenu.addEventListener("click", (e) => {
 })
 customMenu.addEventListener("contextmenu", (e) => {
     e.preventDefault()
+    const dialogDimensions = customMenu.getBoundingClientRect()
+    if (
+        e.clientX < dialogDimensions.left ||
+        e.clientX > dialogDimensions.right ||
+        e.clientY < dialogDimensions.top ||
+        e.clientY > dialogDimensions.bottom
+    ) {
+        closeModal("customMenu")
+    }
 })
 
 const openModal = (name) => {
@@ -473,14 +510,29 @@ document.getElementById("CMRename").addEventListener("click", (e) => {
     let allInputs = document.getElementsByClassName("secretFilePath")
     for (let i = 0; i < allInputs.length; i++) {
         const filepath = allInputs[i];
-        console.log(filepath);
         if (filepath.value == state.change) {
-            console.log("Found: " + filepath.value);
             filepath.parentElement.getElementsByClassName("fileName")[0].style.display = "none"
             filepath.parentElement.getElementsByClassName("filenameInput")[0].style.display = "block"
             closeModal("customMenu")
             filepath.parentElement.getElementsByClassName("filenameInput")[0].focus()
         }
     }
-
+})
+document.getElementById("CMDelete").addEventListener("click", (e) => {
+    let allInputs = document.getElementsByClassName("secretFilePath")
+    for (let i = 0; i < allInputs.length; i++) {
+        const filepath = allInputs[i];
+        if (filepath.value == state.change) {
+            const data = {
+                file: state.change,
+            }
+            fetch("/changefile/delete", {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+        }
+    }
 })

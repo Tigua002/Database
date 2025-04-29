@@ -922,6 +922,18 @@ app.get('/download', (req, res) => {
 app.post('/changefile/rename', (req, res) => {
     connection.execute(`UPDATE dataSpotUsers.Files SET Filename = ? WHERE filepath = ?`, [req.body.name, req.body.file], )
 })
+app.post('/changefile/delete', (req, res) => {
+    connection.execute(`DELETE FROM dataSpotUsers.Files WHERE filepath = ?`, [req.body.file], )
+    exec(`rm -r ${file}`, (error, stdout, stderr) => {
+        if (error) {
+            
+            res.status(500).send('Error deleting file');
+            console.log('Error deleting file: \n' + error);
+            
+        }
+        res.status(200).send('File deleted successfully');
+    });
+})
 app.post('/share/file', (req, res) => {
     const filePath = req.body.file;
     const user = req.body.user
