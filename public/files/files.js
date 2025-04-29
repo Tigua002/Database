@@ -140,7 +140,6 @@ const loadFiles = async (location) => {
                 let allInputs = document.getElementsByClassName("secretFilePath")
                 for (let i = 0; i < allInputs.length; i++) {
                     const filepath = allInputs[i];
-                    console.log(filepath);
                     if (filepath.value == state.change) {
                         const data = {
                             file: state.change,
@@ -160,11 +159,9 @@ const loadFiles = async (location) => {
                 }
             })
             filenameInput.addEventListener("keypress", (event) => {
-                console.log(event);
                 let allInputs = document.getElementsByClassName("secretFilePath")
                 for (let i = 0; i < allInputs.length; i++) {
                     const filepath = allInputs[i];
-                    console.log(filepath);
                     if (filepath.value == state.change) {
                         if (event.key == "Enter") {
                             const data = {
@@ -201,6 +198,15 @@ const loadFiles = async (location) => {
                     console.log(e.clientY);
                     openModal("customMenu")
 
+                })
+                div.addEventListener("contextmenu", (event) => {
+                    event.preventDefault()
+                    state.change = file.filepath
+                    document.getElementsByClassName("customMenu")[0].style.top = event.clientY + "px"
+                    document.getElementsByClassName("customMenu")[0].style.left = event.clientX + "px"
+                    console.log(event.clientY);
+                    openModal("customMenu")
+                    
                 })
             }
         } else if (file.type == "folder") {
@@ -446,6 +452,9 @@ customMenu.addEventListener("click", (e) => {
     ) {
         closeModal("customMenu")
     }
+})
+customMenu.addEventListener("contextmenu", (e) => {
+    e.preventDefault()
 })
 
 const openModal = (name) => {

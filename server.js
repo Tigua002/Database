@@ -206,6 +206,8 @@ app.post('/pull/server/:process', (req, res) => {
 
             fs.appendFile(state.filePath, "Server shut down  \n", (err) => {
                 if (err) {
+                    console.log(err);
+                    
                     console.error('Failed to write to file', err);
                 }
             });
@@ -830,7 +832,7 @@ app.post('/dashDB', (req, res) => {
         connection.execute("SELECT * FROM dataSpotUsers.DataspotUsers WHERE email = ?", [username], (error, result) => {
             let favDB = result[0].FavDB
             connection.execute(`SELECT * FROM ${favDB}`, [username], (mistakes, answer) => {
-                let tableData = answer
+                let tableData = answer|
                 connection.execute(`Describe ${favDB}`, [username], (mistakes, answer) => {
                     res.status(200).send({ db: favDB, tableData: tableData, columns: answer })
                 })
@@ -929,7 +931,7 @@ app.post('/share/file', (req, res) => {
             console.log(err)
         } else if (result.length > 1) {
             console.log(result);
-            res.status(500).send({ message: "Suspicious server error" })
+            res.status(500).send({ message: "Suspicious server error, contact admin" })
 
         }
         let file = result[0]
