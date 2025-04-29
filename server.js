@@ -924,7 +924,7 @@ app.post('/changefile/rename', (req, res) => {
 })
 app.post('/changefile/delete', (req, res) => {
     connection.execute(`DELETE FROM dataSpotUsers.Files WHERE filepath = ?`, [req.body.file], )
-    exec(`rm -r ${file}`, (error, stdout, stderr) => {
+    exec(`rm -r ${req.body.file}`, (error, stdout, stderr) => {
         if (error) {
             
             res.status(500).send('Error deleting file');
