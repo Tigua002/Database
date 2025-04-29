@@ -30,12 +30,13 @@ document.getElementsByClassName("navItem")[3].style.background = "#333333";
 const state = {
     NewFile: false,
     NewFolder: false,
-    folder: "root"
+    folder: "root",
+    change: null
 };
 
 const loadFiles = async (location) => {
     console.log("LOAD FILES RUN: " + location);
-    
+
     document.getElementsByClassName("filesContainer")[0].innerHTML = ""
     const response = await fetch("/FetchFiles",
         {
@@ -58,20 +59,20 @@ const loadFiles = async (location) => {
             totalFolder += "/" + folderName; // Append for subsequent folders
         }
         console.log(totalFolder);
-    
+
         let element = document.createElement("p");
         element.setAttribute("class", "fileNavItem");
         element.textContent = index === 0 ? folderName : "/" + folderName;
-    
+
         // Capture the current totalFolder value in a local variable
         const currentPath = totalFolder;
-    
+
         element.addEventListener("click", () => {
             state.folder = currentPath; // Use the captured path
             loadFiles(state.folder);
             document.getElementsByClassName("fileNavigation")[0].innerHTML = state.folder;
         });
-    
+
         document.getElementsByClassName("fileNavigation")[0].appendChild(element);
     });
 
@@ -80,18 +81,33 @@ const loadFiles = async (location) => {
 
 
         if (file.type == "file") {
+            console.log(file);
 
             let div = document.createElement("div")
             div.setAttribute("class", "fileDiv")
             let fileName = document.createElement("h1")
             fileName.setAttribute("class", "fileName")
             fileName.innerHTML = file.Filename
+            let filenameInput = document.createElement("input")
+            filenameInput.setAttribute("class", "filenameInput")
+            filenameInput.value = file.Filename
+            let secret = document.createElement("input")
+            secret.setAttribute("class", "secretFilePath")
+            secret.value = file.filepath
+
             let filePath = document.createElement("h1")
             filePath.setAttribute("class", "fileOwner")
             filePath.innerHTML = file.owner
             let fileUpload = document.createElement("h1")
             fileUpload.setAttribute("class", "fileuploadDate")
             fileUpload.innerHTML = file.uploadDate
+
+            let fileOptions = document.createElement("div")
+            fileOptions.setAttribute("class", "fileButton")
+            fileOptions.innerHTML = `
+<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="folderIcon">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM12.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM18.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
+</svg>`
             let fileButton = document.createElement("div")
             fileButton.setAttribute("class", "fileButton")
             fileButton.innerHTML = `
@@ -100,12 +116,76 @@ const loadFiles = async (location) => {
                         </svg>
         `
             div.appendChild(fileName)
+            div.appendChild(filenameInput)
+            div.appendChild(secret)
             div.appendChild(filePath)
             div.appendChild(fileUpload)
+            div.appendChild(fileOptions)
             div.appendChild(fileButton)
             document.getElementsByClassName("filesContainer")[0].appendChild(div)
             fileButton.addEventListener("click", async () => {
                 window.location.href = `https://dataspot.gusarov.site/download?file=${file.filepath}`;
+            })
+            div.addEventListener("mouseover", () => {
+                div.style.textDecoration = "underline"
+                div.style.color = "#333333"
+                div.style.backgroundColor = "#66b2ff"
+            })
+            div.addEventListener("mouseout", () => {
+                div.style.textDecoration = "none"
+                div.style.color = "#66b2ff"
+                div.style.backgroundColor = "#333333"
+            })
+            filenameInput.addEventListener("focusout", () => {
+                let allInputs = document.getElementsByClassName("secretFilePath")
+                for (let i = 0; i < allInputs.length; i++) {
+                    const filepath = allInputs[i];
+                    console.log(filepath);
+                    if (filepath.value == state.change) {
+                        const data = {
+                            file: state.change,
+                            name: filepath.parentElement.getElementsByClassName("filenameInput")[0].value
+                        }
+                        fetch("/changefile/rename", {
+                            method: "POST",
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(data)
+                        })
+                        filepath.parentElement.getElementsByClassName("fileName")[0].style.display = "block"
+                        filepath.parentElement.getElementsByClassName("filenameInput")[0].style.display = "none"
+                        filepath.parentElement.getElementsByClassName("fileName")[0].textContent = filepath.parentElement.getElementsByClassName("filenameInput")[0].value
+                    }
+                }
+            })
+            filenameInput.addEventListener("keypress", (event) => {
+                console.log(event);
+                let allInputs = document.getElementsByClassName("secretFilePath")
+                for (let i = 0; i < allInputs.length; i++) {
+                    const filepath = allInputs[i];
+                    console.log(filepath);
+                    if (filepath.value == state.change) {
+                        if (event.key == "Enter") {
+                            const data = {
+                                file: state.change,
+                                name: filepath.parentElement.getElementsByClassName("filenameInput")[0].value
+                            }
+                            fetch("/changefile/rename", {
+                                method: "POST",
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify(data)
+                            })
+                            filepath.parentElement.getElementsByClassName("fileName")[0].style.display = "block"
+                            filepath.parentElement.getElementsByClassName("filenameInput")[0].style.display = "none"
+                            filepath.parentElement.getElementsByClassName("fileName")[0].textContent = filepath.parentElement.getElementsByClassName("filenameInput")[0].value
+                        }
+                    }
+                }
+
+
             })
             if (file.owner == localStorage.getItem("username")) {
                 let option = document.createElement("option")
@@ -114,6 +194,14 @@ const loadFiles = async (location) => {
 
                 document.getElementById("fileOptions").appendChild(option)
 
+                fileOptions.addEventListener("click", (e) => {
+                    state.change = file.filepath
+                    document.getElementsByClassName("customMenu")[0].style.top = e.clientY + "px"
+                    document.getElementsByClassName("customMenu")[0].style.left = e.clientX + "px"
+                    console.log(e.clientY);
+                    openModal("customMenu")
+
+                })
             }
         } else if (file.type == "folder") {
             let div = document.createElement("div")
@@ -127,6 +215,12 @@ const loadFiles = async (location) => {
             let fileUpload = document.createElement("h1")
             fileUpload.setAttribute("class", "fileuploadDate")
             fileUpload.innerHTML = file.uploadDate
+            let fileOptions = document.createElement("div")
+            fileOptions.setAttribute("class", "fileButton")
+            fileOptions.innerHTML = `
+<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="folderIcon">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM12.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM18.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
+</svg>`
             let fileButton = document.createElement("div")
             fileButton.setAttribute("class", "fileButton")
             fileButton.innerHTML = `
@@ -138,13 +232,18 @@ const loadFiles = async (location) => {
             div.appendChild(fileName)
             div.appendChild(filePath)
             div.appendChild(fileUpload)
+            div.appendChild(fileOptions)
             div.appendChild(fileButton)
             document.getElementsByClassName("filesContainer")[0].appendChild(div)
             div.addEventListener("mouseover", () => {
                 div.style.textDecoration = "underline"
+                div.style.color = "#333333"
+                div.style.backgroundColor = "#66b2ff"
             })
             div.addEventListener("mouseout", () => {
                 div.style.textDecoration = "none"
+                div.style.color = "#66b2ff"
+                div.style.backgroundColor = "#333333"
             })
             fileButton.addEventListener("click", () => {
                 state.folder += `/${file.Filename}`
@@ -335,3 +434,44 @@ document.getElementsByClassName("sendBtn")[0].addEventListener("click", async ()
 })
 
 loadFiles("root")
+
+let customMenu = document.getElementsByClassName("customMenu")[0]
+customMenu.addEventListener("click", (e) => {
+    const dialogDimensions = customMenu.getBoundingClientRect()
+    if (
+        e.clientX < dialogDimensions.left ||
+        e.clientX > dialogDimensions.right ||
+        e.clientY < dialogDimensions.top ||
+        e.clientY > dialogDimensions.bottom
+    ) {
+        closeModal("customMenu")
+    }
+})
+
+const openModal = (name) => {
+    let modal = document.getElementsByClassName(name)[0];
+    modal.style.display = "flex";
+    modal.showModal();
+};
+
+const closeModal = (name) => {
+    let modal = document.getElementsByClassName(name)[0];
+    modal.close();
+    modal.style.display = "none";
+};
+
+document.getElementById("CMRename").addEventListener("click", (e) => {
+    let allInputs = document.getElementsByClassName("secretFilePath")
+    for (let i = 0; i < allInputs.length; i++) {
+        const filepath = allInputs[i];
+        console.log(filepath);
+        if (filepath.value == state.change) {
+            console.log("Found: " + filepath.value);
+            filepath.parentElement.getElementsByClassName("fileName")[0].style.display = "none"
+            filepath.parentElement.getElementsByClassName("filenameInput")[0].style.display = "block"
+            closeModal("customMenu")
+            filepath.parentElement.getElementsByClassName("filenameInput")[0].focus()
+        }
+    }
+
+})

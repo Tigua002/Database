@@ -1743,8 +1743,6 @@ dialog {
 .folderIcon{
     width: 1.4vw;
     height: 1.4vw;
-    background-color: #333333;
-    color: #66b2ff;
     padding: .2vw;
     border-radius: .3vw;
     cursor: pointer;
@@ -1798,6 +1796,22 @@ dialog {
 .fileName{
     width: 30%;
     overflow: hidden;
+}
+.filenameInput{
+    width: 30%;
+    overflow: hidden;
+    border: solid 1px #66B2FF;
+    background-color: #444444;
+    padding: .3vw;
+    color: #66B2FF;
+    margin-right: 10%;
+    display: none;
+}
+.filenameInput:focus{
+    outline: none;
+}
+.secretFilePath{
+    display: none;
 }
 .fileOwner{
     width: 50%;
@@ -1890,4 +1904,43 @@ dialog {
     height: 1.2vw;
     margin-left: .2vw;
     cursor: pointer;
+}
+.customMenu{
+    width: 8vw;
+    height: 20vh;
+    position: absolute;
+    border: none;
+    outline: none;
+    margin: 0%;
+    padding: 0%;
+    border-radius: 2%;
+}
+.customMenu::backdrop{
+    background: rgba(0, 0, 0, .01);
+}
+.customeMenuAlign{
+    width: 100%;
+}
+.CMitem{
+    width: 88%;
+    justify-content: space-between;
+    padding: 4% 4%;
+    margin: 2% 2% 0% 2%;
+}
+.CMitem:hover{
+    background-color: #eeeeee;
+}
+.CMText{
+    font-size: .7vw;
+    font-weight: lighter;
+    margin: 0%;
+    padding: 0%;
+    color: #444444;
+    opacity: .8;
+}
+.CMSVG{
+    width: .8vw;
+    height: .8vw;
+    opacity: .8;
+    color: #444444;
 }

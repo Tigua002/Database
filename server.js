@@ -917,6 +917,9 @@ app.get('/download', (req, res) => {
     const file = path.join(__dirname, 'public/userFiles/' + fileName);
     res.download(file); // Set the file to be downloaded
 });
+app.post('/changefile/rename', (req, res) => {
+    connection.execute(`UPDATE dataSpotUsers.Files SET Filename = ? WHERE filepath = ?`, [req.body.name, req.body.file], )
+})
 app.post('/share/file', (req, res) => {
     const filePath = req.body.file;
     const user = req.body.user
