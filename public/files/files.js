@@ -533,6 +533,8 @@ document.getElementById("CMDelete").addEventListener("click", (e) => {
                 },
                 body: JSON.stringify(data)
             })
+            closeModal("customMenu")
+            loadFiles(state.folder)
         }
     }
 })
