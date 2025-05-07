@@ -874,7 +874,7 @@ app.post('/upload', upload.single('file'), (req, res) => {
             }
 
             // Use parameterized query to update user profile link
-            connection.execute('INSERT INTO dataSpotUsers.Files (user, filepath, role, uploadDate, Filename, owner, parent, type) VALUES (?, ?, ?, ?, ?, ?, ?)', [user, customFilename, "owner", DateName, req.body.filename, user, req.body.folder, "file"]);
+            connection.execute('INSERT INTO dataSpotUsers.Files (user, filepath, role, uploadDate, Filename, owner, parent, type) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', [user, customFilename, "owner", DateName, req.body.filename, user, req.body.folder, "file"]);
             res.status(200).send({ message: "Successfully uploaded file", success: true });
         });
 
@@ -899,6 +899,7 @@ app.post('/uploadFolder', (req, res) => {
 });
 app.post('/FetchFiles', (req, res) => {
     connection.execute('SELECT user FROM dataSpotUsers.sessions WHERE token = ?', [req.body.token], (error, result1, fields1) => {
+        if (result1.length < 1) {res.status(500).send("Shady shi goin on"); return;}
         let user = result1[0].user
         connection.query('Select Filename, uploadDate, filepath, type, owner FROM dataSpotUsers.Files WHERE user = ? AND parent = ?', [user, req.body.location], function (err, result, fields) {
             if (err) {
