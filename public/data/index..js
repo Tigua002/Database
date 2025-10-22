@@ -94,7 +94,7 @@ const loadDatabases = async () => {
 
             let h1 = document.createElement("h1");
             h1.setAttribute("class", "databaseTitle");
-            h1.textContent = sanitizeHTML(db.base);
+            h1.textContent = sanitizeHTML(db.Name || db.base);
 
 
             let other = document.createElement("div")

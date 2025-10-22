@@ -207,7 +207,7 @@ app.post('/pull/server/:process', (req, res) => {
             fs.appendFile(state.filePath, "Server shut down  \n", (err) => {
                 if (err) {
                     console.log(err);
-                    
+
                     console.error('Failed to write to file', err);
                 }
             });
@@ -544,13 +544,19 @@ if (!testing) {
 // Database
 app.post("/create/database", function (req, res) {
     // Use parameterized query to insert user
-    connection.query('CREATE DATABASE ' + req.body.db, function (err, result) {
+    let chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    let dbName = ""
+
+    for (let i = 0; i < 18; i++) {
+        dbName += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    connection.query('CREATE DATABASE ' + dbName, function (err, result) {
         if (err) {
             console.error("Error creating user:", err);
             res.status(500).send(err);
             return;
         }
-        connection.execute("INSERT INTO dataSpotUsers.dataspotDatabases (base, owner) VALUES (?, ?)", [req.body.db, req.body.user])
+        connection.execute("INSERT INTO dataSpotUsers.dataspotDatabases (base, owner, Name) VALUES (?, ?, ?)", [dbName, req.body.user, req.body.db])
         res.send(result)
     });
 });
@@ -832,10 +838,10 @@ app.post('/dashDB', (req, res) => {
         connection.execute("SELECT * FROM dataSpotUsers.DataspotUsers WHERE email = ?", [username], (error, result) => {
             let favDB = result[0].FavDB
             connection.execute(`SELECT * FROM ${favDB}`, [username], (mistakes, answer) => {
-                let tableData = answer|
-                connection.execute(`Describe ${favDB}`, [username], (mistakes, answer) => {
-                    res.status(200).send({ db: favDB, tableData: tableData, columns: answer })
-                })
+                let tableData = answer |
+                    connection.execute(`Describe ${favDB}`, [username], (mistakes, answer) => {
+                        res.status(200).send({ db: favDB, tableData: tableData, columns: answer })
+                    })
             })
         })
     });
@@ -880,6 +886,7 @@ app.post('/upload', upload.single('file'), (req, res) => {
 
     })
 });
+
 app.post('/uploadFolder', (req, res) => {
     console.log(req.body);
     let token = req.body.token;
@@ -888,7 +895,7 @@ app.post('/uploadFolder', (req, res) => {
     let DateName = `${Newdate.getDate()}.${Newdate.getMonth() + 1}.${Newdate.getFullYear()}`
     connection.execute('SELECT user FROM dataSpotUsers.sessions WHERE token = ?', [token], (err, result, fields) => {
         let user = result[0].user
-        connection.execute('INSERT INTO dataSpotUsers.Files (user, role, uploadDate, Filename, owner, parent, type) VALUES (?,  ?, ?, ?, ?, ?, ?)', [user,  "owner", DateName, req.body.folderName, user, req.body.folder, "folder"], (error, resultNr2, fieldsnr2) => {
+        connection.execute('INSERT INTO dataSpotUsers.Files (user, role, uploadDate, Filename, owner, parent, type) VALUES (?,  ?, ?, ?, ?, ?, ?)', [user, "owner", DateName, req.body.folderName, user, req.body.folder, "folder"], (error, resultNr2, fieldsnr2) => {
             if (error) {
                 console.log(error);
                 res.status(500).send({ message: "Something went wrong :(", success: false });
@@ -899,7 +906,7 @@ app.post('/uploadFolder', (req, res) => {
 });
 app.post('/FetchFiles', (req, res) => {
     connection.execute('SELECT user FROM dataSpotUsers.sessions WHERE token = ?', [req.body.token], (error, result1, fields1) => {
-        if (result1.length < 1) {res.status(500).send("Shady shi goin on"); return;}
+        if (result1.length < 1) { res.status(500).send("Shady shi goin on"); return; }
         let user = result1[0].user
         connection.query('Select Filename, uploadDate, filepath, type, owner FROM dataSpotUsers.Files WHERE user = ? AND parent = ?', [user, req.body.location], function (err, result, fields) {
             if (err) {
@@ -921,16 +928,16 @@ app.get('/download', (req, res) => {
     res.download(file); // Set the file to be downloaded
 });
 app.post('/changefile/rename', (req, res) => {
-    connection.execute(`UPDATE dataSpotUsers.Files SET Filename = ? WHERE filepath = ?`, [req.body.name, req.body.file], )
+    connection.execute(`UPDATE dataSpotUsers.Files SET Filename = ? WHERE filepath = ?`, [req.body.name, req.body.file],)
 })
 app.post('/changefile/delete', (req, res) => {
-    connection.execute(`DELETE FROM dataSpotUsers.Files WHERE filepath = ?`, [req.body.file], )
+    connection.execute(`DELETE FROM dataSpotUsers.Files WHERE filepath = ?`, [req.body.file],)
     exec(`rm -r ${req.body.file}`, (error, stdout, stderr) => {
         if (error) {
-            
+
             res.status(500).send('Error deleting file');
             console.log('Error deleting file: \n' + error);
-            
+
         }
         res.status(200).send('File deleted successfully');
     });

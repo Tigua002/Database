@@ -88,6 +88,7 @@ const loadFiles = async (location) => {
             filenameInput.value = file.Filename
             let secret = document.createElement("input")
             secret.setAttribute("class", "secretFilePath")
+            secret.setAttribute("data", file.type)
             secret.value = file.filepath
 
             let filePath = document.createElement("h1")
@@ -535,6 +536,29 @@ document.getElementById("CMDelete").addEventListener("click", (e) => {
             })
             closeModal("customMenu")
             loadFiles(state.folder)
+        }
+    }
+})
+
+document.getElementById("CMMove").addEventListener("click", () => {
+    let allInputs = document.getElementsByClassName("secretFilePath")
+    for (let i = 0; i < allInputs.length; i++) {
+        const filepath = allInputs[i];
+        console.log(filepath.parentElement);
+        console.log(filepath.getAttribute("data"));
+        
+        
+        if (filepath.getAttribute("data") == "file"){
+            filepath.parentElement.style.opacity = "0.5"
+            filepath.parentElement.setAttribute("disabled", "true")
+            console.log(filepath.parentElement.getElementsByClassName("fileButton")[0]);
+            filepath.parentElement.getElementsByClassName("fileButton")[0].setAttribute("disabled", "true")
+            // filepath.parentElement.getElementsByClassName("folderIcon")[0].setAttribute("disabled", "true")
+        }
+        if (filepath.value == state.change) {
+            return;
+        } else {
+            
         }
     }
 })
