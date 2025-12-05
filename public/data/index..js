@@ -146,15 +146,18 @@ const loadDatabases = async () => {
                     document.getElementsByClassName("dbUserValue")[0].innerHTML = data[0].username
                     document.getElementsByClassName("dbUserValue")[1].innerHTML = data[0].password
                     document.getElementsByClassName("dbUserValue")[2].innerHTML = "172.104.242.87"
+                    document.getElementsByClassName("dbUserValue")[3].textContent = data[0].database
                     console.log(data[0].host);
             
                     if (data[0].host == "%") {
-                        document.getElementsByClassName("dbUserValue")[3].innerHTML = "all"
+                        document.getElementsByClassName("dbUserValue")[4].innerHTML = "all"
                     }
                     else {
-                        document.getElementsByClassName("dbUserValue")[3].innerHTML = data[0].host
+                        document.getElementsByClassName("dbUserValue")[4].innerHTML = data[0].host
             
                     }
+                    console.log(data);
+                    
                 }
             })
             div.append(other)
