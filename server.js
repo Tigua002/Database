@@ -334,10 +334,18 @@ app.post('/update/settings', (req, res) => {
 });
 
 app.post('/create/Server', (req, res) => {
+    let chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    let date = new Date()
+    let time = `${date.getMonth()}/${date.getDay()}/${date.getFullYear()}-${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}:${date.getMilliseconds()}`;
+    let servName = md5(time);
 
+
+    for (let i = 0; i < 18; i++) {
+        servName += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
     connection.execute(
         'INSERT INTO dataSpotUsers.processes (GithubLink, PORT, Domain, Email, DisplayName, Name, BashPath, owner) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
-        [req.body.GLink, req.body.PORT, req.body.Domain, req.body.Email, req.body.Name, req.body.Name, `../DataspotServers/${req.body.Domain}`, req.body.Owner],
+        [req.body.GLink, req.body.PORT, req.body.Domain, req.body.Email, req.body.Name, servName, `../DataspotServers/${req.body.Domain}`, req.body.Owner],
         (err, results) => {
             if (err) {
                 console.error('Database update error:', err);
