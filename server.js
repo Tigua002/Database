@@ -283,7 +283,7 @@ app.post('/clear/files', (req, res) => {
 app.post('/update/settings', (req, res) => {
 
     connection.execute(
-        'UPDATE dataSpotUsers.processes SET GithubLink = ?, PORT = ?, Domain = ?, Email = ? WHERE DisplayName = ?',
+        'UPDATE dataSpotUsers.processes SET GithubLink = ?, PORT = ?, Domain = ?, Email = ? WHERE Name = ?',
         [req.body.GLink, req.body.PORT, req.body.Domain, req.body.Email, req.body.Name],
         (err, results) => {
             if (err) {
@@ -445,8 +445,8 @@ app.post('/delete/server/', (req, res) => {
             return res.status(500).send('Database update failed');
         }
     });
-    exec(`pm2 stop ${req.body.processName}`)
-    exec(`pm2 delete ${req.body.processName}`)
+    exec(`pm2 stop ${req.body.trueName}`)
+    exec(`pm2 delete ${req.body.trueName}`)
     exec(`rm -r ../DataspotServers/${req.body.Domain}`)
     exec(`rm ../../../etc/nginx/sites-available/${req.body.Domain}`)
     exec(`rm ../../../etc/nginx/sites-enabled/${req.body.Domain}`)

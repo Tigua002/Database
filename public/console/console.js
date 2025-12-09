@@ -108,7 +108,7 @@ const loadProjects = async () => {
                             createOverlay(errorDiv, "CLEAR ERRORS", state.errEvent, "56.5%", "42%", "consoleError")
                             createOverlay(consoleDiv, "CLEAR LOGS", state.logEvent, "20.5%", "6%", "consoleLine")
 
-                            getServerStatus(state.processInUse)
+                            getServerStatus(state.trueName)
 
                         });
                 })
@@ -410,7 +410,7 @@ document.getElementById("start").addEventListener("click", async () => {
     document.getElementsByClassName("statusIndic")[0].style.border = "#444444 solid 1px"
     document.getElementById("statusText").innerText = "Booting"
     try {
-        let response = await fetch('/start/server/' + state.processInUse, {
+        let response = await fetch('/start/server/' + state.trueName, {
             method: "POST"
         });
         if (response.ok) {
@@ -422,7 +422,7 @@ document.getElementById("start").addEventListener("click", async () => {
         console.error('Error:', error);
     }
     setTimeout(() => {
-        getServerStatus(state.processInUse)
+        getServerStatus(state.trueName)
 
     }, 5000)
 });
@@ -431,7 +431,7 @@ document.getElementById("stop").addEventListener("click", async () => {
     document.getElementsByClassName("statusIndic")[0].style.border = "#1A1A1A solid 1px"
     document.getElementById("statusText").innerText = "Shutting down"
     try {
-        let response = await fetch('/stop/server/' + state.processInUse, {
+        let response = await fetch('/stop/server/' + state.trueName, {
             method: "POST"
         });
         if (response.ok) {
@@ -443,7 +443,7 @@ document.getElementById("stop").addEventListener("click", async () => {
         console.error('Error:', error);
     }
     setTimeout(() => {
-        getServerStatus(state.processInUse)
+        getServerStatus(state.trueName)
 
     }, 1000)
 });
@@ -452,7 +452,7 @@ document.getElementById("rerun").addEventListener("click", async () => {
     document.getElementsByClassName("statusIndic")[0].style.border = "#444444 solid 1px"
     document.getElementById("statusText").innerText = "Restarting"
     try {
-        let response = await fetch('/restart/server/' + state.processInUse, {
+        let response = await fetch('/restart/server/' + state.trueName, {
             method: "POST"
         });
         if (response.ok) {
@@ -464,7 +464,7 @@ document.getElementById("rerun").addEventListener("click", async () => {
         console.error('Error:', error);
     }
     setTimeout(() => {
-        getServerStatus(state.processInUse)
+        getServerStatus(state.trueName)
 
     }, 6000)
 });
@@ -474,7 +474,7 @@ document.getElementById("restart").addEventListener("click", async () => {
     document.getElementById("statusText").innerText = "Restarting"
 
     try {
-        let response = await fetch(`/pull/server/${state.processInUse}`, {
+        let response = await fetch(`/pull/server/${state.trueName}`, {
             method: "POST"
         });
         if (response.ok) {
@@ -486,7 +486,7 @@ document.getElementById("restart").addEventListener("click", async () => {
         console.error('Error:', error);
     }
     setTimeout(() => {
-        getServerStatus(state.processInUse)
+        getServerStatus(state.trueName)
 
     }, 6000)
 });
@@ -521,7 +521,7 @@ document.getElementsByClassName("settingsSave")[0].addEventListener("click", asy
         Domain: document.getElementById("domain").value,
         OldDomain: state.oldDomain,
         Email: document.getElementById("email").value,
-        Name: state.processInUse
+        Name: state.trueName
     };
     try {
         const response = await fetch("/update/settings", {
