@@ -395,7 +395,7 @@ server {
                 cd ${lastPart}
                 npm i ${req.body.Modules}
                 wait
-                pm2 start ${req.body.appName} -n ${req.body.Name}
+                pm2 start ${req.body.appName} -n ${servName}
                 cd ../../../Database
 
                 `;

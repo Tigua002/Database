@@ -234,7 +234,7 @@ const loadProjects = async () => {
                         PORT: port.value,
                         Domain: Domain.value,
                         Email: Email.value,
-                        Name: state.trueName,
+                        Name: Name.value,
                         Modules: Modules.value,
                         ENV: ENV.value,
                         appName: appName.value,
