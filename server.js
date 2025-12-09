@@ -447,9 +447,9 @@ app.post('/delete/server/', (req, res) => {
     });
     exec(`pm2 stop ${req.body.trueName}`)
     exec(`pm2 delete ${req.body.trueName}`)
-    exec(`rm -r ../DataspotServers/${req.body.Domain}`)
-    exec(`rm ../../../etc/nginx/sites-available/${req.body.Domain}`)
-    exec(`rm ../../../etc/nginx/sites-enabled/${req.body.Domain}`)
+    exec(`rm -r ~/testing/DataspotServers/${req.body.Domain}`)
+    exec(`rm ~/../etc/nginx/sites-available/${req.body.Domain}`)
+    exec(`rm ~/../etc/nginx/sites-enabled/${req.body.Domain}`)
     exec(`certbot delete -d ${req.body.Domain}`)
     exec(`systemctl restart nginx`)
     res.status(200).send('Server deleted successfully');
