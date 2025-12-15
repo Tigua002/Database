@@ -683,6 +683,63 @@ app.post("/create/user", function (req, res) {
     connection.query("FLUSH PRIVILEGES;")
     res.send(200)
 });
+
+app.post("/delete/row/", async function (req, res) {
+    let data = req.body
+    const getUser = (token) => new Promise((resolve, reject) => {
+        connection.execute("SELECT user FROM dataSpotUsers.sessions WHERE token = ?",
+            [token],
+            (err, result) => {
+                if (err) { return reject(err) };
+                if (!result || result.length === 0) { return reject(new Error("Unauthorized")) }
+                resolve(result[0].user)
+            })
+    })
+    let user
+    try {
+        user = await getUser(data.sessionID)
+    } catch (err) {
+        if (err.message === "Unauthorized") { return res.status(401).send("Unauthorized") }
+        return res.status(500).send("Server error")
+    }
+
+    connection.execute("SELECT base FROM dataSpotUsers.dataspotDatabases WHERE owner = ?", [user], (err, result) => {
+        if (err) {
+            res.status(500).send('Error checking token');
+            console.error(err)
+            return;
+        }
+        let dbs = JSON.parse(JSON.stringify(result));
+        let HasAccess = false
+        dbs.forEach(db => {
+            if(db = data.db){
+                HasAccess = true
+            }
+        });
+        if (result.length === 0 || !HasAccess)  {
+            res.status(401).send('Unauthorized');
+            return;
+        }
+        console.log(data);
+        let query
+        connection.execute(`DELETE FROM ${data.db}.${data.table} WHERE ID = ?`, [data.ID], (error, results) => {
+            if(error){
+                res.status(500).send("Internal server error")
+                console.log(err)
+                console.log(results);
+                
+                return
+            }
+            res.status(200).send('Success')
+            return
+        })
+    })
+
+    
+
+
+})
+
 app.post("/update/row", function (req, res) {
     const { array, fieldArr, db, tbl, id } = req.body;
     let updates = [];

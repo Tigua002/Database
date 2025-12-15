@@ -138,8 +138,8 @@ const loadDatabases = async () => {
                     console.log(data);
                     document.getElementById("createUser").style.display = "flex"
                     document.getElementsByClassName("dbUserInfo")[0].style.display = "none"
-            
-            
+
+
                 } else {
                     document.getElementById("createUser").style.display = "none"
                     document.getElementsByClassName("dbUserInfo")[0].style.display = "flex"
@@ -148,16 +148,16 @@ const loadDatabases = async () => {
                     document.getElementsByClassName("dbUserValue")[2].innerHTML = "172.104.242.87"
                     document.getElementsByClassName("dbUserValue")[3].textContent = data[0].database
                     console.log(data[0].host);
-            
+
                     if (data[0].host == "%") {
                         document.getElementsByClassName("dbUserValue")[4].innerHTML = "all"
                     }
                     else {
                         document.getElementsByClassName("dbUserValue")[4].innerHTML = data[0].host
-            
+
                     }
                     console.log(data);
-                    
+
                 }
             })
             div.append(other)
@@ -180,7 +180,7 @@ const loadDatabases = async () => {
     }
 }
 const loadTables = async (database) => {
-    console.log(database);
+
 
     try {
         const dbResponse = await fetch("/FetchDatabases",
@@ -192,21 +192,19 @@ const loadTables = async (database) => {
                 body: JSON.stringify({ owner: state.user })
             });
         if (!dbResponse.ok) throw new Error("Failed to fetch databases");
-
         const databases = await dbResponse.json();
-        console.log(databases);
-        
+
         for (let i = 0; i < databases.length; i++) {
             const element = databases[i];
-            console.log(element);
+
             if (element.base == database) {
                 break
             }
 
             if (i + 1 == databases.length) {
-                window.location.reload()                
+                window.location.reload()
             }
-            
+
         }
         /* document.getElementsByClassName("BackButton")[0].textContent = database */
         document.getElementsByClassName("tableHolder")[0].innerHTML = '';
@@ -235,7 +233,7 @@ const loadTables = async (database) => {
 
         const tables = await response.json();
         const fragment = document.createDocumentFragment();
-        console.log(tables);
+
 
         tables.forEach(table => {
             let h1 = document.createElement("h1");
@@ -252,8 +250,8 @@ const loadTables = async (database) => {
         });
 
         document.getElementsByClassName("tableHolder")[0].appendChild(fragment);
-        if(document.getElementsByClassName("newTable")[0]){
-        
+        if (document.getElementsByClassName("newTable")[0]) {
+
             document.getElementsByClassName("newTable")[0].remove()
         }
         let newTable = document.createElement("h1")
@@ -294,8 +292,8 @@ const loadData = async (database, table) => {
     if (!dbResponse.ok) throw new Error("Failed to fetch databases");
 
     const databases = await dbResponse.json();
-    console.log(databases);
-    
+
+
     for (let i = 0; i < databases.length; i++) {
         const element = databases[i];
         if (element.base == database) {
@@ -303,9 +301,9 @@ const loadData = async (database, table) => {
         }
 
         if (i + 1 == databases.length) {
-            window.location.reload()                
+            window.location.reload()
         }
-        
+
     }
     document.getElementsByClassName("dataInsertBtn")[0].removeAttribute("disabled");
     document.getElementById("alterTable").removeAttribute("disabled");
@@ -369,8 +367,7 @@ const loadData = async (database, table) => {
         })
     })
     let FavDB = await FavDBreq.json()
-    console.log(FavDB)
-    if(FavDB.Message){
+    if (FavDB.Message) {
         document.getElementById("FavDB").style.backgroundColor = "#66b2ff"
         document.getElementById("FavDB").style.color = "#333333"
         document.getElementById("FavDB").innerText = "FAVOURITED"
@@ -379,7 +376,7 @@ const loadData = async (database, table) => {
         document.getElementById("FavDB").style.color = "#66b2ff"
         document.getElementById("FavDB").innerText = "Favorite this table"
     }
-    
+
     const SelectData = {
         token: localStorage.getItem('token'),
         db: database,
@@ -418,13 +415,53 @@ const loadData = async (database, table) => {
         }
 
         let editDiv = document.createElement("td")
+        let delDiv = document.createElement("td")
         editDiv.setAttribute("class", "tableEdit")
+        delDiv.setAttribute("class", "tableEdit")
         let editBtn = document.createElement("button")
+        let delBtn = document.createElement("button")
         editBtn.setAttribute("class", "editRowBtn")
-        editBtn.innerHTML = "EDIT"
+        editBtn.innerHTML = "Edit"
         editDiv.appendChild(editBtn)
+        delBtn.setAttribute("class", "editRowBtn")
+        delBtn.innerHTML = "Delete"
+        delDiv.appendChild(delBtn)
         tableDataRow.appendChild(editDiv)
+        tableDataRow.appendChild(delDiv)
         editBtn.style.background = "#B22222"
+
+
+
+        delBtn.addEventListener("click", async (event) => {
+            let parent = event.target.parentElement.parentElement;
+            let collection = Array.from(parent.getElementsByClassName("tableData")); // Convert to array
+            let id = collection[0].innerHTML;
+
+            try {
+                
+                let response = await fetch('/delete/row/', {
+                    method: "POST",
+                    headers: {
+                        'Content-Type': "application/json"
+                    },
+                    body: JSON.stringify({
+                        sessionID: localStorage.getItem("token"),
+                        db: state.dbInUse,
+                        table: state.tableInUse,
+                        ID: id
+                    })
+                })
+                if(response.status = 200) {
+                    loadData(state.dbInUse, state.tableInUse)
+                }
+                
+            } catch (err) {
+                console.log(err);
+                
+            }
+
+
+        })
         editBtn.addEventListener("click", async (event) => {
             let parent = event.target.parentElement.parentElement;
             let collection = Array.from(parent.getElementsByClassName("tableData")); // Convert to array
@@ -497,9 +534,10 @@ const loadData = async (database, table) => {
                 event.target.style.color = "#ffffff"
             }
         });
-    });
+    })
+};
 
-}
+
 const openModal = (name) => {
     let modal = document.getElementsByClassName(name)[0];
     modal.showModal();
@@ -600,7 +638,7 @@ document.getElementsByClassName("BackButtonSVG")[0].addEventListener("click", ()
 
 
 document.getElementsByClassName("ModalClose")[0].addEventListener("click", () => closeModal("NewDatabaseModal"));
-document.getElementsByClassName("ModalClose")[1].addEventListener("click", async () => { closeModal("DatabaseUserModal"); }); 
+document.getElementsByClassName("ModalClose")[1].addEventListener("click", async () => { closeModal("DatabaseUserModal"); });
 document.getElementsByClassName("ModalClose")[2].addEventListener("click", () => closeModal("InsertDataModal"));
 document.getElementsByClassName("ModalClose")[4].addEventListener("click", () => closeModal("NewTableModal"));
 document.getElementsByClassName("ModalClose")[6].addEventListener("click", () => closeModal("AppendTableModal"));
@@ -1023,7 +1061,7 @@ document.getElementById("FavDB").addEventListener("click", async () => {
         document.getElementById("FavDB").style.backgroundColor = "#36C936"
         document.getElementById("FavDB").style.color = "#333333"
         document.getElementById("FavDB").innerText = "FAVOURITED"
-        
+
     } else {
         console.error("Stinky occurance");
     }
