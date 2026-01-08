@@ -911,7 +911,11 @@ document.getElementsByClassName("newTableRow")[0].addEventListener("click", () =
     let longtext = document.createElement("option");
     let int = document.createElement("option");
     let Custom = document.createElement("option");
-
+    div.innerHTML += `                    <svg xmlns="http://www.w3.org/2000/svg" class="svgColumn" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="#ffffff" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M15 12H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                    </svg>`
     div.appendChild(Nameinput);
     div.appendChild(DropDown);
     DropDown.appendChild(varchar);
@@ -919,7 +923,7 @@ document.getElementsByClassName("newTableRow")[0].addEventListener("click", () =
     DropDown.appendChild(int);
     DropDown.appendChild(Custom);
 
-    div.setAttribute("class", "newRow");
+    div.setAttribute("class", "newColumn flex");
     Nameinput.setAttribute("class", "RowName");
     Nameinput.setAttribute("required", "true");
     Nameinput.setAttribute("placeholder", "Column Name");
