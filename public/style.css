@@ -556,7 +556,7 @@ dialog {
 
 .ModalH1 {
     color: #66B2FF;
-    font-size: 1.7rem;
+    font-size: 1.4rem;
     font-weight: 100;
     width: 80%;
     text-align: left;
@@ -647,7 +647,7 @@ dialog {
     transform: scale(.95);
 }
 .NewTableModal {
-    width: 30%;
+    width: 40%;
     min-height: 60%;
     border: solid 2px #1A1A1A;
     outline: none;
@@ -666,7 +666,7 @@ dialog {
     opacity: .3;
 }
 .newTableColumn{
-    font-size: 1.5rem;
+    font-size: 1rem;
     font-weight: 100;
     width: 80%;
     text-align: left;
@@ -720,7 +720,7 @@ dialog {
     margin-top: 2rem;
     border-radius: 4px;
     cursor: pointer;
-    width: 60%;
+    width: 35%;
     border: none;
     outline: none;
 
@@ -752,7 +752,7 @@ dialog {
     border-bottom: solid 2px #ffffff77;   
 }
 .newTableTitle{
-    font-size: 1.2rem;
+    font-size: 1rem;
     color: #ffffff;
     margin: 0rem 0rem 1rem 0rem;
 }
