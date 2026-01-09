@@ -192,7 +192,7 @@ app.post('/pull/server/:process', (req, res) => {
         let data = JSON.parse(JSON.stringify(result));
         let bashPath = data[0];
 
-        exec(`cd ${bashPath.BashPath} \n bash ${bashPath.Name}.sh`, (error, stdout, stderr) => {
+        exec(`cd ${bashPath.BashPath} \n bash ${bashPath.DisplayName}.sh`, (error, stdout, stderr) => {
             if (error) {
                 console.error(`Error executing command: ${error.message}`);
                 res.status(500).send('Error starting server');
