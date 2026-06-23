@@ -549,14 +549,12 @@ dialog {
 .ModalDiv {
     width: 100%;
     justify-content: space-between;
-    padding-top: 1rem;
-    margin-bottom: 2vw;
-    padding-left: 4rem;
+    align-items: center;
 }
 
 .ModalH1 {
     color: #66B2FF;
-    font-size: 1.4rem;
+    font-size: clamp(1rem, 2vw, 2rem);
     font-weight: 100;
     width: 80%;
     text-align: left;
@@ -567,16 +565,12 @@ dialog {
 
 .ModalClose {
     color: #66B2FF;
-    height: 3.5vh;
-    font-size: 3vw;
+    font-size: clamp(1.5rem, 3vw, 3rem);
     font-weight: 100;
     cursor: pointer;
-    padding: 1vw;
-    position: absolute;
-    top: 2%;
-    right: 2%;
     z-index: 10;
     transition: 100ms ease-in-out;
+    vertical-align: top;
 }
 .ModalClose:hover{
     transform: scale(1.05)
@@ -658,6 +652,7 @@ dialog {
     justify-content: start;
     flex-direction: column;
     display: none;
+    max-height: 80%;
 }
 
 .NewTableModal::backdrop {
@@ -766,7 +761,7 @@ dialog {
     justify-content: start;
     align-items: start;
     width: 90%;
-
+    padding-top: 2vh;
 }
 
 .TableName {
@@ -785,8 +780,8 @@ dialog {
 
 
 .typeOptions {
-    background-color: #333333;
-    color: #66B2FF;
+    background: #333333;
+    color: #fff;
 
 }
 

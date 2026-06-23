@@ -1,0 +1,19 @@
+{
+  "dependencies": {
+    "body-parser": "^2.2.2",
+    "child_process": "^1.0.2",
+    "dotenv": "^17.2.3",
+    "expres": "^0.0.5",
+    "express": "^5.2.1",
+    "express-useragent": "^2.0.2",
+    "fs": "^0.0.1-security",
+    "geoip-lite": "^1.4.10",
+    "https": "^1.0.0",
+    "md5": "^2.3.0",
+    "multer": "^2.0.2",
+    "mysql2": "^3.16.0",
+    "path": "^0.12.7",
+    "pm2": "^6.0.14",
+    "ws": "^8.19.0"
+  }
+}

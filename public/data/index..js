@@ -934,6 +934,10 @@ document.getElementsByClassName("newTableRow")[0].addEventListener("click", () =
     longtext.setAttribute("value", "longtext");
     int.setAttribute("value", "int");
     Custom.setAttribute("value", "custom");
+    varchar.setAttribute("class", "typeOptions")
+    longtext.setAttribute("class", "typeOptions")
+    int.setAttribute("class", "typeOptions")
+    Custom.setAttribute("class", "typeOptions")
     varchar.innerHTML = "Short Text";
     longtext.innerHTML = "Multiple Lines of Text";
     int.innerHTML = "Number";
@@ -964,7 +968,7 @@ document.getElementsByClassName("TableForm")[0].addEventListener("submit", async
         return;
     }
 
-    for (let i = 1; i < document.getElementsByClassName("newRow").length; i++) {
+    for (let i = 1; i < document.getElementsByClassName("RowName").length - 1; i++) {
         let name = document.getElementsByClassName("RowName")[i].value;
         let type = document.getElementsByClassName("TableType")[i].value
         if (type == "custom") {
@@ -975,7 +979,7 @@ document.getElementsByClassName("TableForm")[0].addEventListener("submit", async
 
         tableArray.push({ name, type });
     }
-
+    
     const data = {
         db: state.dbInUse,
         name: tableName,
