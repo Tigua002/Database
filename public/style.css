@@ -1060,7 +1060,7 @@ dialog {
     justify-content: start;
     flex-direction: column;
     display: none;
-    padding-bottom: 1vw;
+    padding: 1vw;
 }
 
 .ModifyHolder {
