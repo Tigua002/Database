@@ -534,6 +534,7 @@ td {
     justify-content: start;
     flex-direction: column;
     display: none;
+    padding: .4vw .8vw .4vw .8vw;
 }
 
 .NewDatabaseModal::backdrop {
@@ -925,6 +926,7 @@ dialog {
     justify-content: start;
     flex-direction: column;
     display: none;
+    padding: .4vw .8vw .4vw .8vw;
 }
 
 .dbUserInfo {

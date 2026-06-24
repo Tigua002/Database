@@ -879,7 +879,6 @@ app.post("/delete/row/", async function (req, res) {
                 res.status(401).send("Unauthorized");
                 return;
             }
-            console.log(data);
             let query;
             connection.execute(
                 `DELETE FROM ${data.db}.${data.table} WHERE ID = ?`,

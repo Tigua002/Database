@@ -491,17 +491,10 @@ document.getElementById("restart").addEventListener("click", async () => {
     }, 6000)
 });
 document.getElementById("Settings").addEventListener("click", () => {
-    
-    console.log("click");
     if (document.getElementsByClassName("settingsDiv")[0].style.height == "0vh") {
-        console.log(divHeight);
-        
         document.getElementsByClassName("settingsDiv")[0].style.height = divHeight
 
     } else {
-        
-        console.log(divHeight);
-        
         document.getElementsByClassName("settingsDiv")[0].style.height = "0vh"
     }
 })

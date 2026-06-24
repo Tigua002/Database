@@ -77,6 +77,7 @@ const loadDatabases = async () => {
         const databases = await response.json();
 
         const fragment = document.createDocumentFragment();
+        document.getElementsByClassName("databaseDisplays")[0].innerHTML = ""
         document.getElementsByClassName("databaseDisplays")[0].innerHTML +=
             `            
         <div class="databaseCreation flex">
