@@ -29,6 +29,7 @@ const connection = mysql.createConnection({
     user: process.env.DBUSER,
     password: process.env.DBPASS,
     database: process.env.DB,
+    dateStrings: true,
 });
 
 // Connect to the database with error handling
@@ -131,7 +132,7 @@ app.post("/processes", (req, res) => {
             }
 
             res.status(200).json(sendData);
-        }
+        },
     );
 });
 app.post("/checkToken", (req, res) => {
@@ -148,7 +149,7 @@ app.post("/checkToken", (req, res) => {
                 return;
             }
             res.status(200).send(result[0]);
-        }
+        },
     );
 });
 
@@ -206,7 +207,7 @@ app.post("/pull/server/:process", (req, res) => {
                 (error, stdout, stderr) => {
                     if (error) {
                         console.error(
-                            `Error executing command: ${error.message}`
+                            `Error executing command: ${error.message}`,
                         );
                         res.status(500).send("Error starting server");
                         return;
@@ -226,13 +227,13 @@ app.post("/pull/server/:process", (req, res) => {
 
                                 console.error("Failed to write to file", err);
                             }
-                        }
+                        },
                     );
 
                     res.status(200).send("Server started successfully");
-                }
+                },
             );
-        }
+        },
     );
 });
 
@@ -348,7 +349,7 @@ app.post("/update/settings", (req, res) => {
                             if (err) {
                                 console.error(
                                     "Error writing new domain file:",
-                                    err
+                                    err,
                                 );
                                 return res
                                     .status(500)
@@ -356,10 +357,10 @@ app.post("/update/settings", (req, res) => {
                             }
                             exec(
                                 "rm /etc/nginx/sites-enabled/" +
-                                    req.body.OldDomain
+                                    req.body.OldDomain,
                             );
                             exec(
-                                `ln -s /etc/nginx/sites-available/${req.body.Domain} /etc/nginx/sites-enabled/`
+                                `ln -s /etc/nginx/sites-available/${req.body.Domain} /etc/nginx/sites-enabled/`,
                             );
                             exec(
                                 `certbot --nginx -n --agree-tos --email ${req.body.Email} -d ${req.body.Domain}`,
@@ -367,7 +368,7 @@ app.post("/update/settings", (req, res) => {
                                     if (err) {
                                         console.error(
                                             "Error running Certbot:",
-                                            err
+                                            err,
                                         );
                                         return res
                                             .status(500)
@@ -375,15 +376,15 @@ app.post("/update/settings", (req, res) => {
                                     }
                                     exec("systemctl restart nginx");
                                     res.status(200).send(
-                                        "Settings updated successfully"
+                                        "Settings updated successfully",
                                     );
-                                }
+                                },
                             );
-                        }
+                        },
                     );
-                }
+                },
             );
-        }
+        },
     );
 });
 
@@ -480,7 +481,7 @@ server {
                             if (err) {
                                 console.error(
                                     "Error executing bash script:",
-                                    err
+                                    err,
                                 );
                                 return res
                                     .status(500)
@@ -494,7 +495,7 @@ server {
                                     if (err) {
                                         console.error(
                                             "Error writing .env file:",
-                                            err
+                                            err,
                                         );
                                         return res
                                             .status(500)
@@ -514,18 +515,18 @@ server {
                                         gitBash,
                                         () => {
                                             console.log("Server Created");
-                                        }
+                                        },
                                     );
                                     res.status(200).send(
-                                        "Server created successfully"
+                                        "Server created successfully",
                                     );
-                                }
+                                },
                             );
                         });
                     });
-                }
+                },
             );
-        }
+        },
     );
 });
 
@@ -538,7 +539,7 @@ app.post("/delete/server/", (req, res) => {
                 console.error("Database update error:", err);
                 return res.status(500).send("Database update failed");
             }
-        }
+        },
     );
     exec(`pm2 stop ${req.body.trueName}`);
     exec(`pm2 delete ${req.body.trueName}`);
@@ -551,7 +552,7 @@ app.post("/delete/server/", (req, res) => {
 });
 
 app.post("/login/google", (req, res) => {
-    let source
+    let source;
     try {
         const ip =
             req.headers["cf-connecting-ip"] ||
@@ -573,7 +574,7 @@ app.post("/login/google", (req, res) => {
             let token = md5(time);
             connection.execute(
                 "DELETE FROM dataSpotUsers.sessions WHERE user = ?",
-                [req.body.username]
+                [req.body.username],
             );
             connection.execute(
                 "INSERT INTO dataSpotUsers.analytics (user, ip, country, page, dato, platform, browser, os) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
@@ -586,16 +587,16 @@ app.post("/login/google", (req, res) => {
                     ua.platform,
                     ua.browser,
                     ua.os,
-                ]
+                ],
             );
             connection.execute(
                 "INSERT INTO dataSpotUsers.sessions (token, user) VALUES (?, ?)",
-                [token, req.body.username]
+                [token, req.body.username],
             );
             setTimeout(() => {
                 connection.execute(
                     "DELETE FROM dataSpotUsers.sessions WHERE token = ?",
-                    [token]
+                    [token],
                 );
             }, 10800000);
             res.status(200).send(token);
@@ -613,25 +614,27 @@ app.post("/login/google", (req, res) => {
                     let token = md5(time + req.body.password);
                     connection.execute(
                         "DELETE FROM dataSpotUsers.sessions WHERE user = ?",
-                        [req.body.username]
+                        [req.body.username],
                     );
                     connection.execute(
                         "INSERT INTO dataSpotUsers.sessions (token, user) VALUES (?, ?)",
-                        [token, req.body.username]
+                        [token, req.body.username],
                     );
                     setTimeout(() => {
                         connection.execute(
                             "DELETE FROM dataSpotUsers.sessions WHERE token = ?",
-                            [token]
+                            [token],
                         );
                     }, 10800000);
                     res.status(200).send(token);
-                }
+                },
             );
         }
     } catch (error) {
-        res.status(500).send({message: "There was on oppsie doopsie, server is shit"})
-        throw(error)
+        res.status(500).send({
+            message: "There was on oppsie doopsie, server is shit",
+        });
+        throw error;
     }
 });
 
@@ -699,7 +702,7 @@ app.post("/create/database", function (req, res) {
         }
         connection.execute(
             "INSERT INTO dataSpotUsers.dataspotDatabases (base, owner, Name) VALUES (?, ?, ?)",
-            [dbName, req.body.user, req.body.db]
+            [dbName, req.body.user, req.body.db],
         );
         res.send(result);
     });
@@ -724,7 +727,7 @@ app.post("/create/table", function (req, res) {
                 return;
             }
             res.send(result);
-        }
+        },
     );
 });
 
@@ -742,7 +745,7 @@ app.post("/create/column", function (req, res) {
                 return;
             }
             res.send(result);
-        }
+        },
     );
 });
 app.post("/drop/column", function (req, res) {
@@ -760,7 +763,7 @@ app.post("/drop/column", function (req, res) {
                 return;
             }
             res.send(result);
-        }
+        },
     );
 });
 app.post("/insert/data", function (req, res) {
@@ -819,13 +822,13 @@ app.post("/create/user", function (req, res) {
     connection.query(`use dataSpotUsers`);
     // Use parameterized query to insert user
     connection.query(
-        `INSERT INTO users(username, password, host, database) VALUES ('${username}', '${password}', '${host}', '${db}')`
+        `INSERT INTO users(username, password, host, database) VALUES ('${username}', '${password}', '${host}', '${db}')`,
     );
     connection.query(
-        `CREATE USER '${username}'@'${host}' IDENTIFIED BY '${password}'`
+        `CREATE USER '${username}'@'${host}' IDENTIFIED BY '${password}'`,
     );
     connection.query(
-        `GRANT ALL PRIVILEGES ON ${db}.* TO '${username}'@'${host}'`
+        `GRANT ALL PRIVILEGES ON ${db}.* TO '${username}'@'${host}'`,
     );
     connection.query("FLUSH PRIVILEGES;");
     res.send(200);
@@ -846,7 +849,7 @@ app.post("/delete/row/", async function (req, res) {
                         return reject(new Error("Unauthorized"));
                     }
                     resolve(result[0].user);
-                }
+                },
             );
         });
     let user;
@@ -893,18 +896,21 @@ app.post("/delete/row/", async function (req, res) {
                     }
                     res.status(200).send("Success");
                     return;
-                }
+                },
             );
-        }
+        },
     );
 });
 
 app.post("/update/row", function (req, res) {
     const { array, fieldArr, db, tbl, id } = req.body;
     let updates = [];
+    console.log(array);
 
     array.forEach((value, index) => {
-        if (value !== "") {
+        console.log(value !== "" || value !== "NULL");
+
+        if (!(value == "" || value == "NULL")) {
             updates.push(`${fieldArr[index]} = ?`);
         }
     });
@@ -915,26 +921,20 @@ app.post("/update/row", function (req, res) {
 
     const updateString = updates.join(", ");
 
-    connection.query(`USE ??`, [db], (err) => {
-        if (err) {
-            console.error("Error selecting database:", err);
-            return res.status(500).send(err);
-        }
-
-        const query = `UPDATE ?? SET ${updateString} WHERE ID = ?`;
-        connection.query(
-            query,
-            [tbl, ...array.filter((value) => value !== ""), id],
-            (err, result) => {
-                if (err) {
-                    console.error("Error updating data:", err);
-                    return res.status(500).send(err);
-                }
-                res.send(result);
+    const query = `UPDATE ??.?? SET ${updateString} WHERE ID = ?`;
+    connection.query(
+        query,
+        [db, tbl, ...array.filter((value) => !(value == "" || value == "NULL")), id],
+        (err, result) => {
+            if (err) {
+                console.error("Error updating data:", err);
+                return res.status(500).send(err);
             }
-        );
-    });
+            res.send(result);
+        },
+    );
 });
+
 app.post("/delete/table", function (req, res) {
     let db = req.body.db;
     let table = req.body.table;
@@ -969,9 +969,9 @@ app.post("/FavDB", (req, res) => {
                     } else {
                         res.status(200).send({ Message: false });
                     }
-                }
+                },
             );
-        }
+        },
     );
 });
 app.post("/setFavDB", (req, res) => {
@@ -997,12 +997,12 @@ app.post("/setFavDB", (req, res) => {
                         res.status(500).send(error);
                     } else {
                         res.status(200).send({
-                            message: "Successfully updated favorite db"
+                            message: "Successfully updated favorite db",
                         });
                     }
-                }
+                },
             );
-        }
+        },
     );
 });
 app.post("/FetchDatabases", (req, res) => {
@@ -1032,7 +1032,7 @@ app.post("/FetchDatabases", (req, res) => {
             }
 
             res.status(200).json(sendData);
-        }
+        },
     );
 });
 app.post("/get/Tables/", (req, res) => {
@@ -1052,17 +1052,16 @@ app.post("/get/columns/", (req, res) => {
             } else {
                 res.send("No hacking please :)");
             }
-        }
+        },
     );
 });
 app.post("/Select/data/", (req, res) => {
-    connection.query(`use ${req.body.db}`);
     connection.query(
-        "SELECT * FROM " + req.body.table,
+        `SELECT * FROM ${req.body.db}.${req.body.table}`,
         function (err, result, fields) {
             let data = JSON.parse(JSON.stringify(result));
             res.send(data);
-        }
+        },
     );
 });
 app.post("/get/users/", (req, res) => {
@@ -1071,7 +1070,7 @@ app.post("/get/users/", (req, res) => {
         function (err, result, fields) {
             let data = JSON.parse(JSON.stringify(result));
             res.send(data);
-        }
+        },
     );
 });
 app.get("/describe/Table/:database/:table", (req, res) => {
@@ -1080,7 +1079,7 @@ app.get("/describe/Table/:database/:table", (req, res) => {
         function (err, result, fields) {
             let data = JSON.parse(JSON.stringify(result));
             res.send(data);
-        }
+        },
     );
 });
 
@@ -1118,13 +1117,13 @@ app.post("/dashDB", (req, res) => {
                                             tableData: tableData,
                                             columns: answer,
                                         });
-                                    }
+                                    },
                                 );
-                        }
+                        },
                     );
-                }
+                },
             );
-        }
+        },
     );
 });
 
@@ -1182,14 +1181,14 @@ app.post("/upload", upload.single("file"), (req, res) => {
                         user,
                         req.body.folder,
                         "file",
-                    ]
+                    ],
                 );
                 res.status(200).send({
                     message: "Successfully uploaded file",
                     success: true,
                 });
             });
-        }
+        },
     );
 });
 
@@ -1229,9 +1228,9 @@ app.post("/uploadFolder", (req, res) => {
                         message: "Successfully created file",
                         success: true,
                     });
-                }
+                },
             );
-        }
+        },
     );
 });
 app.post("/FetchFiles", (req, res) => {
@@ -1254,9 +1253,9 @@ app.post("/FetchFiles", (req, res) => {
                     }
                     let data = JSON.parse(JSON.stringify(result));
                     res.status(200).json(data);
-                }
+                },
             );
-        }
+        },
     );
 });
 
@@ -1271,7 +1270,7 @@ app.get("/download", (req, res) => {
 app.post("/changefile/rename", (req, res) => {
     connection.execute(
         `UPDATE dataSpotUsers.Files SET Filename = ? WHERE filepath = ?`,
-        [req.body.name, req.body.file]
+        [req.body.name, req.body.file],
     );
 });
 app.post("/changefile/delete", (req, res) => {
@@ -1323,9 +1322,9 @@ app.post("/share/file", (req, res) => {
                     res.status(200).send({
                         message: "Successfully shared file",
                     });
-                }
+                },
             );
-        }
+        },
     );
 });
 

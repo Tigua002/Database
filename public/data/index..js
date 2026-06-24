@@ -416,6 +416,8 @@ const loadData = async (database, table) => {
     if (!dataResponse.ok) throw new Error("Failed to fetch data");
 
     let data = await dataResponse.json();
+    console.log(data);
+    
     data.forEach((row) => {
         let tableDataRow = document.createElement("tr");
         tableDataRow.setAttribute("class", "tableRow");
@@ -972,7 +974,7 @@ document
         }
     });
 
-// inreases the number of rows in a new table
+// inreases the number of columns in a new table
 document
     .getElementsByClassName("newTableRow")[0]
     .addEventListener("click", () => {
@@ -982,6 +984,7 @@ document
         let varchar = document.createElement("option");
         let longtext = document.createElement("option");
         let int = document.createElement("option");
+        let dateOpt = document.createElement("option");
         let Custom = document.createElement("option");
         let svgDiv = document.createElement("div")
         svgDiv.innerHTML += `<svg
@@ -1007,6 +1010,7 @@ document
         DropDown.appendChild(varchar);
         DropDown.appendChild(longtext);
         DropDown.appendChild(int);
+        DropDown.appendChild(dateOpt);
         DropDown.appendChild(Custom);
 
         div.setAttribute("class", "newColumn flex");
@@ -1019,14 +1023,17 @@ document
         varchar.setAttribute("value", "varchar(255)");
         longtext.setAttribute("value", "longtext");
         int.setAttribute("value", "int");
+        dateOpt.setAttribute("value", "date");
         Custom.setAttribute("value", "custom");
         varchar.setAttribute("class", "typeOptions");
         longtext.setAttribute("class", "typeOptions");
         int.setAttribute("class", "typeOptions");
+        dateOpt.setAttribute("class", "typeOptions");
         Custom.setAttribute("class", "typeOptions");
         varchar.innerHTML = "Short Text";
         longtext.innerHTML = "Multiple Lines of Text";
         int.innerHTML = "Number";
+        dateOpt.innerHTML = "Date";
         Custom.innerHTML = "Custom";
         let customInp = document.createElement("input");
         customInp.setAttribute("class", "RowCustom");
