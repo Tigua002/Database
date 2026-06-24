@@ -998,7 +998,7 @@ app.post("/setFavDB", (req, res) => {
                         res.status(500).send(error);
                     } else {
                         res.status(200).send({
-                            message: "Successfully updated favorite db",
+                            message: "Successfully updated favorite db"
                         });
                     }
                 }

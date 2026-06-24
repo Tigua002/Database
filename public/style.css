@@ -682,9 +682,11 @@ dialog {
     flex-direction: column;
     background-color: #333333;
     margin-bottom: .5rem;
+    padding: .4vw;
 }
 .svgColumn{
     height: 2rem;
+    cursor: pointer;
 }
 .RowName {
     background-color: #333333;
@@ -769,7 +771,7 @@ dialog {
     border: none;
     outline: none;
     font-size: 1.2rem;
-    padding: .4vw;
+    padding: .4vw .8vw .4vw .8vw;
     border-radius: .1vw;
     color: #66B2FF;
     margin: 0vw 0vw 2vw 0vw;
