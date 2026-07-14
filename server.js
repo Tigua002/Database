@@ -64,6 +64,68 @@ const state = {
     bashPath: process.env.BASH,
 };
 
+const authorizeUser = (token) => {
+    return new Promise((resolve, reject) => {
+        connection.execute(
+            "SELECT user FROM dataSpotUsers.sessions WHERE token = ?",
+            [token],
+            (err, result) => {
+                if (err) {
+                    return reject(err);
+                }
+                if (!result || result.length === 0) {
+                    return reject();
+                }
+                resolve(result[0].user);
+            }
+        );
+    });
+};
+
+const returnBaseAccess = async (token) => {
+    try {
+        const user = await authorizeUser(token);
+
+        return await new Promise((resolve, reject) => {
+            connection.execute(
+                "SELECT * FROM dataSpotUsers.dataspotDatabases WHERE owner = ?",
+                [user],
+                (err, result) => {
+                    if (err) {
+                        return reject(err);
+                    }
+                    if (!result || result.length === 0) {
+                        return reject();
+                    }
+                    resolve(result);
+                }
+            );
+        });
+
+    } catch (err) {
+        return false
+    }
+};
+const checkBaseAccess = async (token, database) => {
+    if (token == "" || token == null) {
+        console.log("1. Attempted autorization without token");
+        return {code: 401, message: "Unauthorized, who are you?"}
+    }
+    let dbs = await returnBaseAccess(token)
+    if (dbs == false) {
+        console.log("2. Attempted autorization without account");
+        return {code: 401, message: "Forbidden, no access"}
+    }
+    const exists = dbs.some(db => db.base == database)
+    if (!exists) {
+        console.log("3. Attempted autorization with access");
+        return {code: 403, message: "Forbidden, no access"}
+    }
+    
+    console.log("4. Attempted autorization with success");
+    return {code: 200, message: "Great success"}
+}
+
 // Serve the index.html file
 app.get("/", (req, res) => {
     res.sendFile(__dirname + "/public/index.html");
@@ -701,8 +763,8 @@ app.post("/create/database", function (req, res) {
             return;
         }
         connection.execute(
-            "INSERT INTO dataSpotUsers.dataspotDatabases (base, owner, Name) VALUES (?, ?, ?)",
-            [dbName, req.body.user, req.body.db],
+            "INSERT INTO dataSpotUsers.dataspotDatabases (base, owner, Name, status) VALUES (?, ?, ?, ?)",
+            [dbName, req.body.user, req.body.db, "owner"],
         );
         res.send(result);
     });
@@ -836,25 +898,9 @@ app.post("/create/user", function (req, res) {
 
 app.post("/delete/row/", async function (req, res) {
     let data = req.body;
-    const getUser = (token) =>
-        new Promise((resolve, reject) => {
-            connection.execute(
-                "SELECT user FROM dataSpotUsers.sessions WHERE token = ?",
-                [token],
-                (err, result) => {
-                    if (err) {
-                        return reject(err);
-                    }
-                    if (!result || result.length === 0) {
-                        return reject(new Error("Unauthorized"));
-                    }
-                    resolve(result[0].user);
-                },
-            );
-        });
     let user;
     try {
-        user = await getUser(data.sessionID);
+        user = await authorizeUser(data.sessionID);
     } catch (err) {
         if (err.message === "Unauthorized") {
             return res.status(401).send("Unauthorized");
@@ -918,7 +964,12 @@ app.post("/update/row", function (req, res) {
     const query = `UPDATE ??.?? SET ${updateString} WHERE ID = ?`;
     connection.query(
         query,
-        [db, tbl, ...array.filter((value) => !(value == "" || value == "NULL")), id],
+        [
+            db,
+            tbl,
+            ...array.filter((value) => !(value == "" || value == "NULL")),
+            id,
+        ],
         (err, result) => {
             if (err) {
                 console.error("Error updating data:", err);
@@ -1029,45 +1080,63 @@ app.post("/FetchDatabases", (req, res) => {
         },
     );
 });
-app.post("/get/Tables/", (req, res) => {
+app.post("/get/Tables/", async (req, res) => {
+    let check = await checkBaseAccess(req.body.token, req.body.db)
+    if (check.code != 200) {
+        return res.send(check)
+    }
+    
     connection.query(`use ${req.body.db}`);
     connection.query("SHOW TABLES", function (err, result, fields) {
         let data = JSON.parse(JSON.stringify(result));
-        res.send(data);
+        res.status(200).send({code: 200, data, message: check.message});
     });
 });
-app.post("/get/columns/", (req, res) => {
+app.post("/get/columns/", async (req, res) => {
+    let check = await checkBaseAccess(req.body.token, req.body.db)
+    if (check.code != 200) {
+        return res.send(check)
+    }
     connection.query(
         `DESCRIBE ${req.body.db}.${req.body.table}`,
         function (err, result, fields) {
             if (result) {
                 let data = JSON.parse(JSON.stringify(result));
-                res.send(data);
+                res.send({code: 200, message: check.message, data});
             } else {
-                res.send("No hacking please :)");
+                res.send({code: 400, message: "Bad request"});
             }
         },
     );
 });
-app.post("/Select/data/", (req, res) => {
+app.post("/Select/data/", async(req, res) => {
+    let check = await checkBaseAccess(req.body.token, req.body.db)
+    if (check.code != 200) {
+        return res.send(check)
+    }
     connection.query(
         `SELECT * FROM ${req.body.db}.${req.body.table}`,
         function (err, result, fields) {
             let data = JSON.parse(JSON.stringify(result));
-            res.send(data);
+            res.send({code: 200, message: "success", data: data});
         },
     );
 });
-app.post("/get/users/", (req, res) => {
+app.post("/get/users/", async (req, res) => {
+    let check = await checkBaseAccess(req.body.token, req.body.database)
+    if (check.code != 200) {
+        return res.send(check)
+    }
     connection.query(
         `SELECT * FROM dataSpotUsers.users WHERE database= '${req.body.database}'`,
         function (err, result, fields) {
             let data = JSON.parse(JSON.stringify(result));
-            res.send(data);
+            res.send({code: 200, message: "success", data});
         },
     );
 });
 app.get("/describe/Table/:database/:table", (req, res) => {
+    
     connection.query(
         `describe ${req.params.database}.${req.params.table}`,
         function (err, result, fields) {

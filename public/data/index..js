@@ -135,18 +135,25 @@ const loadDatabases = async () => {
                 async () => {
                     openModal("DatabaseUserModal");
                     state.dbInUse = db.base;
-                    let resopnse = await fetch("/get/users/", {
+                    let dbresponse = await fetch("/get/users/", {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json",
                         },
                         body: JSON.stringify({
                             database: db.base,
+                            token: localStorage.getItem("token"),
                         }),
                     });
-                    let data = await resopnse.json();
+                    const response = await dbresponse.json();
+
+                    if (response.code != 200) {
+                        localStorage.clear();
+                        alert(response.message);
+                        window.location.assign("/login");
+                    }
+                    let data = response.data;
                     if (data.length == 0) {
-                        console.log(data);
                         document.getElementById("createUser").style.display =
                             "flex";
                         document.getElementsByClassName(
@@ -170,7 +177,6 @@ const loadDatabases = async () => {
                         document.getElementsByClassName(
                             "dbUserValue",
                         )[3].textContent = data[0].database;
-                        console.log(data[0].host);
 
                         if (data[0].host == "%") {
                             document.getElementsByClassName(
@@ -181,7 +187,6 @@ const loadDatabases = async () => {
                                 "dbUserValue",
                             )[4].innerHTML = data[0].host;
                         }
-                        console.log(data);
                     }
                 },
             );
@@ -193,7 +198,6 @@ const loadDatabases = async () => {
                 () => {
                     state.dbInUse = db.base;
                     loadTables(db.base);
-                    console.log("click");
                 },
             );
         });
@@ -207,90 +211,88 @@ const loadDatabases = async () => {
     }
 };
 const loadTables = async (database) => {
-    try {
-        const dbResponse = await fetch("/FetchDatabases", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ owner: state.user }),
-        });
-        if (!dbResponse.ok) throw new Error("Failed to fetch databases");
-        const databases = await dbResponse.json();
+    const dbResponse = await fetch("/FetchDatabases", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ owner: state.user }),
+    });
+    if (!dbResponse.ok) throw new Error("Failed to fetch databases");
+    const databases = await dbResponse.json();
 
-        for (let i = 0; i < databases.length; i++) {
-            const element = databases[i];
+    for (let i = 0; i < databases.length; i++) {
+        const element = databases[i];
 
-            if (element.base == database) {
-                break;
-            }
-
-            if (i + 1 == databases.length) {
-                window.location.reload();
-            }
+        if (element.base == database) {
+            break;
         }
-        /* document.getElementsByClassName("BackButton")[0].textContent = database */
-        document.getElementsByClassName("tableHolder")[0].innerHTML = "";
-        document.getElementsByClassName("databaseDiv")[0].style.height = "100%";
-        document
-            .getElementsByClassName("dataInsertBtn")[0]
-            .setAttribute("disabled", "false");
-        document.getElementById("alterTable").setAttribute("disabled", "false");
-        /*        
-       document.getElementsByClassName("BlueBlackBtn")[0].removeAttribute("disabled");
-       document.getElementsByClassName("BlueBlackBtn")[1].removeAttribute("disabled");
-       document.getElementById("createUser").style.display = "flex";
-       document.getElementsByClassName("dbUserInfo")[0].style.display = "flex";
-       */
-        const data = {
-            token: localStorage.getItem("token"),
-            db: database,
-        };
 
-        const response = await fetch(`/get/Tables/`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(data),
-        });
-        if (!response.ok) throw new Error("Failed to fetch tables");
-
-        const tables = await response.json();
-        const fragment = document.createDocumentFragment();
-
-        tables.forEach((table) => {
-            let h1 = document.createElement("h1");
-            h1.setAttribute("class", "table flex");
-            h1.textContent = sanitizeHTML(table[`Tables_in_${database}`]);
-            fragment.appendChild(h1);
-
-            h1.addEventListener("click", () => {
-                resetStyles(
-                    document.getElementsByClassName("table"),
-                    "#333333",
-                    "#66B2FF",
-                );
-                h1.style.background = "#66b2ff";
-                h1.style.color = "#333333";
-                loadData(database, table[`Tables_in_${database}`]);
-            });
-        });
-
-        document.getElementsByClassName("tableHolder")[0].appendChild(fragment);
-        if (document.getElementsByClassName("newTable")[0]) {
-            document.getElementsByClassName("newTable")[0].remove();
+        if (i + 1 == databases.length) {
+            window.location.reload();
         }
-        let newTable = document.createElement("h1");
-        newTable.setAttribute("class", "newTable");
-        newTable.textContent = "New Table";
-        newTable.addEventListener("click", () => openModal("NewTableModal"));
-
-        document.getElementsByClassName("dataHeader")[0].appendChild(newTable);
-    } catch (error) {
-        console.log(error.message);
-        alert("An error occurred while fetching tables.");
     }
+    document.getElementsByClassName("tableHolder")[0].innerHTML = "";
+    document.getElementsByClassName("databaseDiv")[0].style.height = "100%";
+    document
+        .getElementsByClassName("dataInsertBtn")[0]
+        .setAttribute("disabled", "false");
+    document.getElementById("alterTable").setAttribute("disabled", "false");
+
+    const data = {
+        token: localStorage.getItem("token"),
+        db: database,
+    };
+
+    const dbresponse = await fetch(`/get/Tables/`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+    });
+
+    const response = await dbresponse.json();
+
+    if (response.code != 200) {
+        localStorage.clear();
+        alert(response.message);
+        window.location.assign("/login");
+    }
+
+    console.log(response);
+    const tables = response.data;
+
+    const fragment = document.createDocumentFragment();
+
+    tables.forEach((table) => {
+        let h1 = document.createElement("h1");
+        h1.setAttribute("class", "table flex");
+        h1.textContent = sanitizeHTML(table[`Tables_in_${database}`]);
+        fragment.appendChild(h1);
+
+        h1.addEventListener("click", () => {
+            resetStyles(
+                document.getElementsByClassName("table"),
+                "#333333",
+                "#66B2FF",
+            );
+            h1.style.background = "#66b2ff";
+            h1.style.color = "#333333";
+            loadData(database, table[`Tables_in_${database}`]);
+        });
+    });
+
+    document.getElementsByClassName("tableHolder")[0].appendChild(fragment);
+    if (document.getElementsByClassName("newTable")[0]) {
+        document.getElementsByClassName("newTable")[0].remove();
+    }
+    let newTable = document.createElement("h1");
+    newTable.setAttribute("class", "newTable");
+    newTable.textContent = "New Table";
+    newTable.addEventListener("click", () => openModal("NewTableModal"));
+
+    document.getElementsByClassName("dataHeader")[0].appendChild(newTable);
 };
 
 const sanitizeHTML = (str) => {
@@ -340,17 +342,22 @@ const loadData = async (database, table) => {
         table: table,
     };
 
-    const response = await fetch(`/get/columns/`, {
+    const dbresponsea = await fetch(`/get/columns/`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
         },
         body: JSON.stringify(info),
     });
-    if (!response.ok) throw new Error("Failed to fetch columns");
+    const responsea = await dbresponsea.json();
 
-    let columns = await response.json();
-    console.log(columns);
+    if (responsea.code != 200) {
+        localStorage.clear();
+        alert(responsea.message);
+        window.location.assign("/login");
+    }
+
+    let columns = responsea.data;
 
     let tableRow = document.createElement("tr");
     tableRow.setAttribute("class", "tableRow");
@@ -415,13 +422,18 @@ const loadData = async (database, table) => {
         },
         body: JSON.stringify(SelectData),
     });
-    if (!dataResponse.ok) throw new Error("Failed to fetch data");
+    
+    const datadbresponse = await dataResponse.json();
 
-    let data = await dataResponse.json();
-
+    if (datadbresponse.code != 200) {
+        localStorage.clear();
+        alert(datadbresponse.message);
+        window.location.assign("/login");
+    }
+    
+    let data = datadbresponse.data;
+    
     data.forEach((row) => {
-        console.log(row);
-
         let tableDataRow = document.createElement("tr");
         tableDataRow.setAttribute("class", "tableRow");
         document
@@ -439,7 +451,6 @@ const loadData = async (database, table) => {
             }
 
             let value = "text";
-            console.log(column.Type);
 
             if (column.Type == "int(11)") {
                 value = "number";
@@ -515,7 +526,6 @@ const loadData = async (database, table) => {
                         let tempValue = new Date(element.dataset.value);
                         input.value = `${tempValue.getFullYear()}-${String(tempValue.getMonth() + 1).padStart(2, "0")}-${String(tempValue.getDate()).padStart(2, "0")}`;
                     }
-                    console.log(input.value);
 
                     input.type = element.dataset.type;
                     input.setAttribute("class", "tableInput");
@@ -540,8 +550,6 @@ const loadData = async (database, table) => {
                 ); // Convert to array
 
                 inputs.forEach((element) => {
-                    console.log(element.getAttribute("type"));
-
                     itemArray.push(element.value);
                     let h1 = document.createElement("td");
                     h1.setAttribute("class", "tableData");
@@ -766,14 +774,22 @@ document.getElementById("alterTable").addEventListener("click", async () => {
         table: state.tableInUse,
     };
 
-    const response = await fetch(`/get/columns/`, {
+    const dbresponse = await fetch(`/get/columns/`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
         },
         body: JSON.stringify(info),
     });
-    let data = await response.json();
+
+    const response = await dbresponse.json();
+
+    if (response.code != 200) {
+        localStorage.clear();
+        alert(response.message);
+        window.location.assign("/login");
+    }
+    let data = response.data;
 
     for (let i = 1; i < data.length; i++) {
         let div = document.createElement("div");
@@ -865,7 +881,6 @@ document
             type: option,
             name: tableName,
         };
-        console.log(data);
 
         await fetch("/create/column", {
             method: "POST",
@@ -1080,7 +1095,6 @@ document
 
         // remove column
         svgDiv.addEventListener("click", (e) => {
-            console.log(e.target.dataset);
             if (e.target.dataset.type == "path") {
                 e.target.parentElement.parentElement.parentElement.remove();
             } else {
@@ -1140,7 +1154,6 @@ document.getElementById("bulkInsert").addEventListener("click", async () => {
     let info = document.getElementsByClassName("BulkArea")[0].value;
     try {
         let parsedInfo = JSON.parse(info); // Directly parse the string
-        console.log("Parsed data:", parsedInfo);
         let response = await fetch(
             `/describe/Table/${state.dbInUse}/${state.tableInUse}`,
             {
@@ -1148,18 +1161,6 @@ document.getElementById("bulkInsert").addEventListener("click", async () => {
             },
         );
         let tableData = await response.json();
-        console.log(tableData);
-
-        /*         let tableRows = ''
-                for (let i = 0; i < tableData.length; i++) {
-                    if (tableData[i].Field == "ID") {
-                        continue;
-                    }
-                    tableRows += tableData[i].Field + " "
-                    
-                }
-        
-         */
         let dataConversion = [];
         for (
             let i = 0;
@@ -1174,17 +1175,6 @@ document.getElementById("bulkInsert").addEventListener("click", async () => {
             let arr = { [desiredValue]: element.innerHTML }; // Use computed property name
             dataConversion.push(arr);
         }
-        console.log(dataConversion);
-        console.log(dataConversion[0]);
-
-        /*         for (let i = 0; i < parsedInfo.length; i++) {
-        
-                    
-                    let row = parsedInfo[i]
-                    let string = `INSERT INTO ${state.dbInUse}.${state.tableInUse} (${tableRows}) VALUES (${valueString}); `
-        
-                    
-                } */
     } catch (e) {
         console.log(e);
         alert(
@@ -1205,7 +1195,6 @@ document.getElementById("FavDB").addEventListener("click", async () => {
         }),
     });
     let answer = await response.json();
-    console.log(answer);
     if ((answer.message = "Successfully updated favorite db")) {
         document.getElementById("FavDB").style.backgroundColor = "#36C936";
         document.getElementById("FavDB").style.color = "#333333";
