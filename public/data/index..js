@@ -77,7 +77,7 @@ const loadDatabases = async () => {
         const databases = await response.json();
 
         const fragment = document.createDocumentFragment();
-        document.getElementsByClassName("databaseDisplays")[0].innerHTML = ""
+        document.getElementsByClassName("databaseDisplays")[0].innerHTML = "";
         document.getElementsByClassName("databaseDisplays")[0].innerHTML +=
             `            
         <div class="databaseCreation flex">
@@ -350,6 +350,8 @@ const loadData = async (database, table) => {
     if (!response.ok) throw new Error("Failed to fetch columns");
 
     let columns = await response.json();
+    console.log(columns);
+
     let tableRow = document.createElement("tr");
     tableRow.setAttribute("class", "tableRow");
     document.getElementsByClassName("TableDisplay")[0].appendChild(tableRow);
@@ -416,9 +418,10 @@ const loadData = async (database, table) => {
     if (!dataResponse.ok) throw new Error("Failed to fetch data");
 
     let data = await dataResponse.json();
-    console.log(data);
-    
+
     data.forEach((row) => {
+        console.log(row);
+
         let tableDataRow = document.createElement("tr");
         tableDataRow.setAttribute("class", "tableRow");
         document
@@ -427,18 +430,29 @@ const loadData = async (database, table) => {
 
         for (let i = 0; i < columns.length; i++) {
             const column = columns[i];
+            let rowValue = row[column.Field];
             let tableData = document.createElement("td");
             tableData.setAttribute("class", "tableData");
-            tableData.innerHTML = row[column.Field] || "NULL";
+            tableData.innerHTML = rowValue || "NULL";
             if (tableData.innerHTML == "NULL") {
                 tableData.style.opacity = ".5";
             }
+
+            let value = "text";
+            console.log(column.Type);
+
+            if (column.Type == "int(11)") {
+                value = "number";
+            } else if (column.Type == "date") {
+                value = "date";
+                rowValue = new Date(rowValue);
+                tableData.innerHTML = `${String(rowValue.getDate()).padStart(2, "0")}.${String(rowValue.getMonth() + 1).padStart(2, "0")}.${rowValue.getFullYear()}`;
+            } else if (column.Type == "varchar(255)") {
+                tableData.setAttribute("maxlength", "254");
+            }
+            tableData.setAttribute("data-type", value);
+            tableData.setAttribute("data-value", rowValue);
             tableDataRow.appendChild(tableData);
-            // if (i == 0) {
-            //     tableData.style.borderLeft = "solid #444444 2px"
-            // } else if ((i + 1) == columns.length) {
-            //     tableData.style.borderRight = "solid #444444 2px"
-            // }
         }
 
         let editDiv = document.createElement("td");
@@ -495,9 +509,15 @@ const loadData = async (database, table) => {
                 for (let i = 1; i < collection.length; i++) {
                     let element = collection[i];
 
-                    let input = document.createElement("textarea");
-                    input.value = element.textContent;
-                    input.type = "text";
+                    let input = document.createElement("input");
+                    input.value = element.dataset.value;
+                    if (element.dataset.type == "date") {
+                        let tempValue = new Date(element.dataset.value);
+                        input.value = `${tempValue.getFullYear()}-${String(tempValue.getMonth() + 1).padStart(2, "0")}-${String(tempValue.getDate()).padStart(2, "0")}`;
+                    }
+                    console.log(input.value);
+
+                    input.type = element.dataset.type;
                     input.setAttribute("class", "tableInput");
                     input.focus();
                     input.select();
@@ -520,10 +540,18 @@ const loadData = async (database, table) => {
                 ); // Convert to array
 
                 inputs.forEach((element) => {
+                    console.log(element.getAttribute("type"));
+
                     itemArray.push(element.value);
                     let h1 = document.createElement("td");
                     h1.setAttribute("class", "tableData");
+                    h1.setAttribute("data-type", element.getAttribute("type"));
+                    h1.setAttribute("data-value", element.value);
                     h1.innerHTML = element.value;
+                    if (element.getAttribute("type") == "date") {
+                        rowValue = new Date(element.value);
+                        h1.innerHTML = `${String(rowValue.getDate()).padStart(2, "0")}.${String(rowValue.getMonth() + 1).padStart(2, "0")}.${rowValue.getFullYear()}`;
+                    }
                     let parentElm = element.parentElement;
                     parentElm.parentNode.replaceChild(h1, parentElm);
                 });
@@ -986,7 +1014,7 @@ document
         let int = document.createElement("option");
         let dateOpt = document.createElement("option");
         let Custom = document.createElement("option");
-        let svgDiv = document.createElement("div")
+        let svgDiv = document.createElement("div");
         svgDiv.innerHTML += `<svg
                             xmlns="http://www.w3.org/2000/svg"
                             class="svgColumn"
@@ -1003,7 +1031,7 @@ document
                                 stroke-linejoin="round"
                                 d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0"
                             />
-                        </svg>`;    
+                        </svg>`;
         div.appendChild(svgDiv);
         div.appendChild(Nameinput);
         div.appendChild(DropDown);
@@ -1054,11 +1082,11 @@ document
         svgDiv.addEventListener("click", (e) => {
             console.log(e.target.dataset);
             if (e.target.dataset.type == "path") {
-                e.target.parentElement.parentElement.parentElement.remove()
+                e.target.parentElement.parentElement.parentElement.remove();
             } else {
-                e.target.parentElement.parentElement.remove()
+                e.target.parentElement.parentElement.remove();
             }
-        })
+        });
     });
 // creates a new table
 document

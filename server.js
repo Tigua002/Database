@@ -905,20 +905,14 @@ app.post("/delete/row/", async function (req, res) {
 app.post("/update/row", function (req, res) {
     const { array, fieldArr, db, tbl, id } = req.body;
     let updates = [];
-    console.log(array);
-
     array.forEach((value, index) => {
-        console.log(value !== "" || value !== "NULL");
-
         if (!(value == "" || value == "NULL")) {
             updates.push(`${fieldArr[index]} = ?`);
         }
     });
-
     if (updates.length === 0) {
         return res.status(400).send("No valid data provided.");
     }
-
     const updateString = updates.join(", ");
 
     const query = `UPDATE ??.?? SET ${updateString} WHERE ID = ?`;

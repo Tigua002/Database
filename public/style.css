@@ -452,6 +452,7 @@ td {
     font-family: 'RobotoLight', 'LemonLight';
     width: 100%;
     min-width: 100%;
+    height: 100%;
 }
 
 .tableInput::-webkit-scrollbar{
